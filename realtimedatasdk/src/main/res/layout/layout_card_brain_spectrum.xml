@@ -2,16 +2,17 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:app="http://schemas.android.com/apk/res-auto"
              android:layout_width="match_parent"
-             android:layout_height="match_parent"
+             android:layout_height="wrap_content"
         >
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  xmlns:app="http://schemas.android.com/apk/res-auto"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:orientation="vertical"
-                  android:background="@color/white"
-                  android:elevation="0dp"
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:elevation="0dp"
+            android:paddingBottom="@dimen/activity_margin"
+            android:id="@+id/ll_bg"
             >
 
 
@@ -27,7 +28,7 @@
                 >
 
             <cn.entertech.realtimedatasdk.widget.ChartLegendView
-
+                    android:id="@+id/legend_gamma"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
@@ -38,6 +39,7 @@
             </cn.entertech.realtimedatasdk.widget.ChartLegendView>
 
             <cn.entertech.realtimedatasdk.widget.ChartLegendView
+                    android:id="@+id/legend_beta"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
@@ -48,6 +50,7 @@
             </cn.entertech.realtimedatasdk.widget.ChartLegendView>
 
             <cn.entertech.realtimedatasdk.widget.ChartLegendView
+                    android:id="@+id/legend_alpha"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
@@ -58,6 +61,7 @@
             </cn.entertech.realtimedatasdk.widget.ChartLegendView>
 
             <cn.entertech.realtimedatasdk.widget.ChartLegendView
+                    android:id="@+id/legend_theta"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
@@ -68,6 +72,7 @@
             </cn.entertech.realtimedatasdk.widget.ChartLegendView>
 
             <cn.entertech.realtimedatasdk.widget.ChartLegendView
+                    android:id="@+id/legend_delta"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
@@ -90,6 +95,7 @@
                 >
 
             <cn.entertech.realtimedatasdk.widget.CustomVerticalTextView
+                    android:id="@+id/tv_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -109,18 +115,19 @@
         </LinearLayout>
 
         <TextView
+                android:id="@+id/tv_unit"
+                android:visibility="visible"
                 android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Time(min)"
-                android:layout_marginBottom="@dimen/activity_margin"
                 />
 
     </LinearLayout>
 
 
     <RelativeLayout
-
+            android:visibility="gone"
             android:id="@+id/rl_no_data_cover"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -267,8 +267,6 @@ class AffectiveChart @JvmOverloads constructor(
         for (i in 0 until mTimeStampLsit.size) {
             if (i == 0) {
                 mTimestampPaint.textAlign = Paint.Align.LEFT
-            } else if (i == mTimeStampLsit.size - 1) {
-                mTimestampPaint.textAlign = Paint.Align.RIGHT
             } else {
                 mTimestampPaint.textAlign = Paint.Align.CENTER
             }

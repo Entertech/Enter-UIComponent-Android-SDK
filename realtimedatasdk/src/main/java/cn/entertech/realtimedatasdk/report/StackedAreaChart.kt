@@ -9,10 +9,13 @@ import android.util.Log
 import android.view.View
 import cn.entertech.realtimedatasdk.R
 import cn.entertech.realtimedatasdk.utils.ScreenUtil
+import cn.entertech.realtimedatasdk.utils.getChartAbsoluteTime
 
 class StackedAreaChart @JvmOverloads constructor(context: Context, attributeSet: AttributeSet? = null, def: Int = 0) :
     View(context, attributeSet, def) {
 
+    private var mStartTime: Long? = null
+    private var mIsAbsoluteTime: Boolean = false
     var mStackItems: ArrayList<StackItem>? = null
     var mStackPaints: ArrayList<Paint> = ArrayList()
     var mTimeStampLsit: ArrayList<String> = ArrayList()
@@ -62,7 +65,7 @@ class StackedAreaChart @JvmOverloads constructor(context: Context, attributeSet:
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        Log.d("StackAreaChart","onSizeChanged")
+        Log.d("StackAreaChart", "onSizeChanged")
         mWidth = w
         mHeight = h
         setPaintStrokeWidth(mWidth)
@@ -106,13 +109,20 @@ class StackedAreaChart @JvmOverloads constructor(context: Context, attributeSet:
                 for (i in 0 until timestampCount.toInt()) {
                     mTimeStampLsit.add("${i * minOffset}")
                 }
+                if (mIsAbsoluteTime && mStartTime != null) {
+                    mTimeStampLsit.clear()
+                    for (i in 0 until timestampCount.toInt()) {
+                        var time = mStartTime!! + i * minOffset * 60
+                        mTimeStampLsit.add(getChartAbsoluteTime(time))
+                    }
+                }
             }
         }
     }
 
 
     override fun onDraw(canvas: Canvas?) {
-        Log.d("StackAreaChart","onDraw")
+        Log.d("StackAreaChart", "onDraw")
         if (!checkNotNull()) {
             return
         }
@@ -127,7 +137,7 @@ class StackedAreaChart @JvmOverloads constructor(context: Context, attributeSet:
 
     fun onDrawData(canvas: Canvas?) {
         setPaintStrokeWidth(width)
-        var lastData = doubleArrayOf(0.0,0.0,0.0,0.0,0.0)
+        var lastData = doubleArrayOf(0.0, 0.0, 0.0, 0.0, 0.0)
         for (i in 0 until mStackItems!![0].stackData!!.size) {
             var startY = 0.0
             for (j in 0 until mStackPaints.size) {
@@ -182,4 +192,21 @@ class StackedAreaChart @JvmOverloads constructor(context: Context, attributeSet:
         var stackData: List<Double>? = null
         var stackColor: Int = Color.parseColor("#5167f8")
     }
+
+    fun setXAxisTextColor(color: Int) {
+        this.mTimeStampTextColor = color
+        invalidate()
+    }
+
+    fun setGridLineColor(color: Int) {
+        this.mGridPait.color = color
+        invalidate()
+    }
+
+    fun isAbsoluteTime(flag: Boolean, startTime: Long?) {
+        this.mIsAbsoluteTime = flag
+        this.mStartTime = startTime
+        invalidate()
+    }
+
 }

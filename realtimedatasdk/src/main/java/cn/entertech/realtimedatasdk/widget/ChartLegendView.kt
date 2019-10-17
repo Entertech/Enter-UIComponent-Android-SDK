@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import cn.entertech.realtimedatasdk.R
+import kotlinx.android.synthetic.main.layout_chart_legend.view.*
 
 
 class ChartLegendView @JvmOverloads constructor(context: Context, attributeSet: AttributeSet? = null, def: Int = 0) :
@@ -34,5 +35,14 @@ class ChartLegendView @JvmOverloads constructor(context: Context, attributeSet: 
         val gradientDrawable = self.findViewById<TextView>(R.id.tv_icon).background as GradientDrawable
         gradientDrawable.setColor(mColor)
         self.findViewById<TextView>(R.id.tv_icon).background = gradientDrawable
+    }
+
+    fun setTextColor(color: Int) {
+        tv_text.setTextColor(color)
+    }
+
+    fun setLegendIconColor(color: Int) {
+        mColor = color
+        initView()
     }
 }
