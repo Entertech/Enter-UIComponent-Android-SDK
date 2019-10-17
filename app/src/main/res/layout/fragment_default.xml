@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              tools:context=".RealtimeDefaultFragment"
+              android:orientation="vertical"
+        >
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+
+
+            <TextView
+                    android:layout_marginTop="@dimen/margin_vertical"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="心率"
+                    android:textSize="32dp"
+                    android:textColor="@color/colorDefaultBlack"
+                    />
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="心率——大"
+                    android:textColor="@color/colorDefaultBlack"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    />
+
+            <cn.entertech.realtimedatasdk.realtime.RealtimeHeartRateView
+                    android:layout_marginTop="@dimen/activity_margin_half"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    >
+
+            </cn.entertech.realtimedatasdk.realtime.RealtimeHeartRateView>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        >
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="心率——最小"
+                            android:textColor="@color/colorDefaultBlack"
+                            android:layout_marginLeft="@dimen/activity_margin"
+                            android:layout_marginTop="@dimen/activity_margin"
+                            />
+
+                    <cn.entertech.realtimedatasdk.realtime.RealtimeHeartRateView
+                            android:layout_marginTop="@dimen/activity_margin_half"
+                            android:layout_width="160dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/activity_margin"
+                            android:layout_marginRight="@dimen/activity_margin"
+                            app:rhrv_isShowExtremeValue="false"
+
+                            >
+
+                    </cn.entertech.realtimedatasdk.realtime.RealtimeHeartRateView>
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        >
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="心率——无数据"
+                            android:textColor="@color/colorDefaultBlack"
+                            android:layout_marginLeft="@dimen/activity_margin"
+                            android:layout_marginTop="@dimen/activity_margin"
+                            />
+
+                    <cn.entertech.realtimedatasdk.realtime.RealtimeHeartRateView
+                            android:layout_marginTop="@dimen/activity_margin_half"
+                            android:layout_width="160dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/activity_margin"
+                            android:layout_marginRight="@dimen/activity_margin"
+                            app:rhrv_isShowExtremeValue="false"
+                            >
+
+                    </cn.entertech.realtimedatasdk.realtime.RealtimeHeartRateView>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                    android:layout_marginTop="32dp"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="情感数字面板"
+                    android:textSize="32dp"
+                    android:textColor="@color/colorDefaultBlack"
+                    />
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="情感数字面板"
+                    android:textColor="@color/colorDefaultBlack"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    />
+
+            <cn.entertech.realtimedatasdk.realtime.RealtimeAttentionView
+                    android:layout_marginTop="@dimen/activity_margin_half"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+            </cn.entertech.realtimedatasdk.realtime.RealtimeAttentionView>
+
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                <cn.entertech.realtimedatasdk.realtime.RealtimeAttentionView
+                        android:layout_marginTop="@dimen/activity_margin_half"
+                        android:layout_marginLeft="@dimen/activity_margin"
+                        android:layout_marginRight="@dimen/activity_margin"
+                        android:layout_width="160dp"
+                        android:layout_height="wrap_content"
+                        >
+
+                </cn.entertech.realtimedatasdk.realtime.RealtimeAttentionView>
+
+
+                <cn.entertech.realtimedatasdk.realtime.RealtimeRelaxationView
+                        android:layout_marginTop="@dimen/activity_margin_half"
+                        android:layout_marginLeft="@dimen/activity_margin"
+                        android:layout_marginRight="@dimen/activity_margin"
+                        android:layout_width="160dp"
+                        android:layout_height="wrap_content"
+                        >
+
+                </cn.entertech.realtimedatasdk.realtime.RealtimeRelaxationView>
+
+
+            </LinearLayout>
+
+            <cn.entertech.realtimedatasdk.realtime.RealtimePressureView
+                    android:layout_marginTop="@dimen/activity_margin_half"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    >
+
+            </cn.entertech.realtimedatasdk.realtime.RealtimePressureView>
+
+
+            <TextView
+                    android:layout_marginTop="32dp"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="脑波频谱"
+                    android:textSize="32dp"
+                    android:textColor="@color/colorDefaultBlack"
+                    />
+
+            <cn.entertech.realtimedatasdk.realtime.RealtimeBrainwaveSpectrumView
+                    android:layout_marginTop="@dimen/activity_margin_half"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+            </cn.entertech.realtimedatasdk.realtime.RealtimeBrainwaveSpectrumView>
+
+            <TextView
+                    android:layout_marginTop="32dp"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="实时脑波"
+                    android:textSize="32dp"
+                    android:textColor="@color/colorDefaultBlack"
+                    />
+
+            <cn.entertech.realtimedatasdk.realtime.RealtimeBrainwaveView
+                    android:layout_marginTop="@dimen/activity_margin_half"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+            </cn.entertech.realtimedatasdk.realtime.RealtimeBrainwaveView>
+
+            <TextView
+                    android:layout_marginTop="32dp"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="状态"
+                    android:textSize="32dp"
+                    android:textColor="@color/colorDefaultBlack"
+                    />
+            <cn.entertech.realtimedatasdk.realtime.RealtimeAttentionView
+                    android:id="@+id/attention_tip1"
+                    android:layout_marginTop="@dimen/activity_margin_half"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+            </cn.entertech.realtimedatasdk.realtime.RealtimeAttentionView>
+            <cn.entertech.realtimedatasdk.realtime.RealtimeAttentionView
+                    android:layout_marginBottom="@dimen/margin_vertical"
+                    android:id="@+id/attention_tip2"
+                    android:layout_marginTop="@dimen/activity_margin_half"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+            </cn.entertech.realtimedatasdk.realtime.RealtimeAttentionView>
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

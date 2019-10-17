@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              tools:context=".ReportDefaultFragment"
+              android:orientation="vertical"
+        >
+
+    <cn.entertech.realtimedatasdk.report.ReportAffectiveView
+            android:id="@+id/report_attention"
+            app:ra_isAbsoluteTimeAxis="true"
+            app:ra_sample="10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+    </cn.entertech.realtimedatasdk.report.ReportAffectiveView>
+
+
+</LinearLayout>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#ffffff</color>
+    <color name="transparent">#00000000</color>
+    <color name="waveLoadingStrokeColor">#4756b0</color>
+    <color name="brainwaveLegendLeft">#ff6682</color>
+    <color name="brainwaveLegendRight">#4b5dcc</color>
+    <color name="emotionAttention">#c7ffe4</color>
+    <color name="emotionRelaxation">#e5eaf7</color>
+    <color name="emotionStressLevel">#ffe7e6</color>
+    <color name="emotionMood">#fdf1ea</color>
+    <color name="colorBrainwaveCardBg">#f2f4fb</color>
+    <color name="colorAttentionIndicator">#5fc594</color>
+    <color name="colorRelaxationIndicator">#5e75fe</color>
+    <color name="colorStressIndicator">#ff6682</color>
+    <color name="colorMoodIndicator">#ffc56f</color>
+    <color name="colorMeditationErrorText">#7f5960</color>
+    <color name="colorGammaWave">#ffc56f</color>
+    <color name="colorBetaWave">#fb9c98</color>
+    <color name="colorAlphaWave">#5fc695</color>
+    <color name="colorThetaWave">#5e75ff</color>
+    <color name="colorDeltaWave">#555b7f</color>
+    <color name="colorDialogTitle">#de000000</color>
+    <color name="colorDialogContent">#8a000000</color>
+    <color name="colorDialogCancel">#6665ff</color>
+    <color name="colorDialogExit">#ff8891</color>
+
+    <color name="colorStatisticsGammaWave">#0921dd</color>
+    <color name="colorStatisticsBetaWave">#5167f8</color>
+    <color name="colorStatisticsAlphaWave">#8392fb</color>
+    <color name="colorStatisticsThetaWave">#9ca7fb</color>
+    <color name="colorStatisticsDeltaWave">#ccd4fc</color>
+    <color name="colorStatisticsHeartLow">#ffe4bb</color>
+    <color name="colorStatisticsHeartNeutral">#ffb952</color>
+    <color name="colorStatisticsHeartHigh">#f88883</color>
+    <color name="colorLoadingCoverBg">#99000000</color>
+</resources>

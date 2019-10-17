@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity"
+        android:orientation="vertical"
+        >
+
+    <FrameLayout
+            android:id="@+id/fl_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            >
+
+    </FrameLayout>
+
+    <LinearLayout
+            android:translationZ="10dp"
+            android:background="#ffffff"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            >
+
+        <LinearLayout
+                android:id="@+id/ll_default"
+                android:layout_gravity="center_vertical"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                >
+
+            <ImageView
+                    android:id="@+id/iv_base"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@mipmap/ic_base_select"
+                    />
+
+            <TextView
+                    android:id="@+id/tv_base"
+                    android:layout_marginTop="4dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="基础控件"
+                    android:textSize="10sp"
+                    android:textColor="@color/colorPrimary"
+                    />
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/ll_custom"
+                android:layout_gravity="center_vertical"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                >
+
+            <ImageView
+                    android:id="@+id/iv_custom"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@mipmap/ic_custom_unselect"
+                    />
+
+            <TextView
+                    android:id="@+id/tv_custom"
+                    android:layout_marginTop="4dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="自定义"
+                    android:textSize="10sp"
+                    android:textColor="@color/colorPrimaryDark"
+                    />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
