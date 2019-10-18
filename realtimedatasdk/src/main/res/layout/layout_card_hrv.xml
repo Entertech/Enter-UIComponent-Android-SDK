@@ -32,7 +32,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    app:cvtv_text="HRV Value(ms)"
+                    app:cvtv_text="HRV (ms)"
                     app:cvtv_textSize="12sp"
                     />
 
@@ -55,7 +55,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Time(min)"
+                android:text="@string/time_unit"
                 />
 
 
@@ -85,7 +85,7 @@
                         android:fontFamily="sans-serif"
                         android:textStyle="normal"
                         android:textColor="#333333"
-                        android:text="AVG: 78"
+                        android:text="平均: 78"
                         />
 
                 <TextView
@@ -118,11 +118,10 @@
                         android:fontFamily="sans-serif"
                         android:textStyle="normal"
                         android:textColor="#333333"
-                        android:text="MAX: 78"
+                        android:text="最大: 78"
                         />
 
                 <TextView
-
                         android:id="@+id/tv_max_unit"
                         android:layout_marginLeft="@dimen/activity_margin_half"
                         android:layout_width="wrap_content"
@@ -152,7 +151,7 @@
                         android:fontFamily="sans-serif"
                         android:textStyle="normal"
                         android:textColor="#333333"
-                        android:text="MIN: 78"
+                        android:text="最小: 78"
                         />
 
                 <TextView

@@ -209,4 +209,9 @@ class StackedAreaChart @JvmOverloads constructor(context: Context, attributeSet:
         invalidate()
     }
 
+    override fun setBackgroundColor(color:Int){
+        this.mBackgroundColor = color
+        invalidate()
+    }
+
 }

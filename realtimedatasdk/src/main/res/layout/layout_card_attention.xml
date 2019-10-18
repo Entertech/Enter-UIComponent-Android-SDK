@@ -53,7 +53,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="时间(分钟)"
+                android:text="@string/time_unit"
                 android:layout_marginBottom="@dimen/activity_margin"
                 />
 
@@ -83,7 +83,7 @@
                         android:fontFamily="sans-serif"
                         android:textStyle="normal"
                         android:textColor="#333333"
-                        android:text="AVG: 78"
+                        android:text="平均: 78"
                         />
 
                 <TextView
@@ -115,7 +115,7 @@
                         android:fontFamily="sans-serif"
                         android:textStyle="normal"
                         android:textColor="#333333"
-                        android:text="MAX: 78"
+                        android:text="最大: 78"
                         />
 
                 <TextView
@@ -147,7 +147,7 @@
                         android:fontFamily="sans-serif"
                         android:textStyle="normal"
                         android:textColor="#333333"
-                        android:text="MIN: 78"
+                        android:text="最小: 78"
                         />
 
                 <TextView

@@ -81,7 +81,6 @@ class RealtimeBrainwaveView @JvmOverloads constructor(
         var bgColor = Color.WHITE
         if (mBg != null) {
             rl_bg.background = mBg
-
         } else {
             mBg = rl_bg.background
         }

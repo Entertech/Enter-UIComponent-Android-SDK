@@ -313,4 +313,8 @@ class AffectiveChart @JvmOverloads constructor(
         this.mStartTime = startTime
         invalidate()
     }
+    override fun setBackgroundColor(color:Int){
+        this.mBackgroundColor = color
+        invalidate()
+    }
 }

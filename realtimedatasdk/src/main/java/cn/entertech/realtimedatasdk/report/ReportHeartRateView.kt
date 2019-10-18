@@ -3,8 +3,11 @@ package cn.entertech.realtimedatasdk.report
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.net.Uri
+import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -73,11 +76,23 @@ class ReportHeartRateView @JvmOverloads constructor(
     }
 
     fun initView() {
-        tv_title.text = "Heart Rate"
+        tv_title.text = "心率"
         tv_title.setTextColor(mMainColor)
+
+        var bgColor = Color.WHITE
         if (mBg != null) {
             ll_bg.background = mBg
+        } else {
+            mBg = ll_bg.background
         }
+        if (mBg is ColorDrawable) {
+            bgColor = (mBg as ColorDrawable).color
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                bgColor = (mBg as GradientDrawable).color.defaultColor
+            }
+        }
+        sac_brain_chart.setBackgroundColor(bgColor)
         if (mIsShowInfoIcon) {
             iv_info.visibility = View.VISIBLE
         } else {
@@ -131,11 +146,14 @@ class ReportHeartRateView @JvmOverloads constructor(
         legend_high.setTextColor(mTextColor)
     }
 
-    fun setData(startTime: Long, values: List<Double>, max: Float, min: Float, avg: Float) {
+    fun setData(startTime: Long?, values: List<Double>?, max: Double?, min: Double?, avg: Double?) {
+        if (values == null){
+            return
+        }
         sac_brain_chart.setValues(values)
-        tv_heart_avg.text = "AVG:${avg.toInt()}"
-        tv_heart_max.text = "MAX:${max.toInt()}"
-        tv_heart_min.text = "MIN:${min.toInt()}"
+        tv_heart_avg.text = "${context.getString(R.string.avg)}${avg?.toInt()}"
+        tv_heart_max.text = "${context.getString(R.string.max)}${max?.toInt()}"
+        tv_heart_min.text = "${context.getString(R.string.min)}${min?.toInt()}"
         if (mIsAbsoluteTime) {
             sac_brain_chart.isAbsoluteTime(true, startTime)
         }

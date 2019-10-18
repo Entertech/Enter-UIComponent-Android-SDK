@@ -271,4 +271,10 @@ class HeartRateVariabilityChart @JvmOverloads constructor(
         invalidate()
     }
 
+    override fun setBackgroundColor(color:Int){
+        this.mBackgroundColor = color
+        invalidate()
+    }
+
+
 }

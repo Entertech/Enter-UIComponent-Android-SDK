@@ -3,8 +3,11 @@ package cn.entertech.realtimedatasdk.report
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.net.Uri
+import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -92,9 +95,21 @@ class ReportAffectiveView @JvmOverloads constructor(
         chart_attention.setYAxisTextColor(getOpacityColor(mTextColor, 0.7f))
         chart_attention.setXAxisTextColor(getOpacityColor(mTextColor, 0.7f))
         chart_attention.setGridLineColor(getOpacityColor(mTextColor, 0.1f))
+
+        var bgColor = Color.WHITE
         if (mBg != null) {
             ll_bg.background = mBg
+        } else {
+            mBg = ll_bg.background
         }
+        if (mBg is ColorDrawable) {
+            bgColor = (mBg as ColorDrawable).color
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                bgColor = (mBg as GradientDrawable).color.defaultColor
+            }
+        }
+        chart_attention.setBackgroundColor(bgColor)
         if (mIsShowInfoIcon) {
             iv_info.visibility = View.VISIBLE
         } else {
@@ -124,7 +139,10 @@ class ReportAffectiveView @JvmOverloads constructor(
         chart_attention.setColors(fillColors)
     }
 
-    fun setData(startTime: Long, data: List<Double>) {
+    fun setData(startTime: Long, data: List<Double>?) {
+        if (startTime == null || data == null){
+            return
+        }
         chart_attention.setValues(data)
         var removeZeroAttentionRec = removeZeroData(data)
         var attentionMax =
@@ -136,9 +154,9 @@ class ReportAffectiveView @JvmOverloads constructor(
             sum += value
         }
         var avg = sum / removeZeroAttentionRec.size
-        tv_avg.text = "AVG:${avg.toInt()}"
-        tv_max.text = "MAX:${attentionMax.toInt()}"
-        tv_min.text = "MIN:${attentionMin.toInt()}"
+        tv_avg.text = "${context.getString(R.string.avg)}${avg.toInt()}"
+        tv_max.text = "${context.getString(R.string.max)}${attentionMax.toInt()}"
+        tv_min.text = "${context.getString(R.string.min)}${attentionMin.toInt()}"
         if (mIsAbsoluteTime){
             chart_attention.isAbsoluteTime(true,startTime)
         }

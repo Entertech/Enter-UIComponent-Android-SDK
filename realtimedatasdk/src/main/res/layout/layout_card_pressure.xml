@@ -2,10 +2,11 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:app="http://schemas.android.com/apk/res-auto"
              android:layout_width="match_parent"
-             android:layout_height="match_parent"
+             android:layout_height="wrap_content"
         >
 
     <LinearLayout
+            android:id="@+id/ll_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -30,7 +31,7 @@
                     android:textStyle="normal"
                     android:textColor="#666666"
                     android:gravity="center_horizontal"
-                    android:text="Low"
+                    android:text="低"
                     />
 
             <TextView
@@ -50,13 +51,14 @@
                     android:textStyle="normal"
                     android:textColor="#666666"
                     android:gravity="center_horizontal"
-                    android:text="High"
+                    android:text="高"
                     />
 
 
         </LinearLayout>
 
         <LinearLayout
+                android:layout_marginBottom="@dimen/activity_margin"
                 android:layout_marginTop="@dimen/activity_margin_half"
                 android:layout_marginLeft="@dimen/activity_margin"
                 android:layout_marginRight="@dimen/activity_margin"
@@ -66,7 +68,7 @@
                 android:orientation="horizontal"
                 >
 
-            <cn.entertech.flowtime.ui.view.PressureChart
+            <cn.entertech.realtimedatasdk.report.PressureChart
                     android:id="@+id/chart_pressure"
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
@@ -78,18 +80,19 @@
         </LinearLayout>
 
         <TextView
-                android:layout_marginTop="@dimen/activity_margin"
+                android:visibility="visible"
+                android:id="@+id/tv_time_unit"
                 android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Time(min)"
+                android:text="@string/time_unit"
                 android:layout_marginBottom="@dimen/activity_margin"
                 />
 
     </LinearLayout>
 
     <RelativeLayout
-
+            android:visibility="gone"
             android:id="@+id/rl_no_data_cover"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

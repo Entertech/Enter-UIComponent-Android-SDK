@@ -3,8 +3,11 @@ package cn.entertech.realtimedatasdk.report
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.net.Uri
+import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +19,8 @@ import cn.entertech.realtimedatasdk.R
 import cn.entertech.realtimedatasdk.utils.getOpacityColor
 import kotlinx.android.synthetic.main.layout_card_hrv.view.*
 import kotlinx.android.synthetic.main.layout_common_card_title.view.*
+import kotlinx.android.synthetic.main.layout_common_card_title.view.tv_title
+import kotlinx.android.synthetic.main.view_meditation_brainwave.view.*
 
 class ReportHeartRateVariabilityView @JvmOverloads constructor(
     context: Context,
@@ -68,11 +73,22 @@ class ReportHeartRateVariabilityView @JvmOverloads constructor(
     }
 
     fun initView() {
-        tv_title.text = "Heart Rate"
+        tv_title.text = "心率变异性"
         tv_title.setTextColor(mMainColor)
+        var bgColor = Color.WHITE
         if (mBg != null) {
             ll_bg.background = mBg
+        } else {
+            mBg = ll_bg.background
         }
+        if (mBg is ColorDrawable) {
+            bgColor = (mBg as ColorDrawable).color
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                bgColor = (mBg as GradientDrawable).color.defaultColor
+            }
+        }
+        hrv_chart.setBackgroundColor(bgColor)
         if (mIsShowInfoIcon) {
             iv_info.visibility = View.VISIBLE
         } else {
@@ -117,9 +133,12 @@ class ReportHeartRateVariabilityView @JvmOverloads constructor(
         hrv_chart.setLineColor(mLineColor)
     }
 
-    fun setData(startTime: Long, data: List<Double>, avg: Float) {
+    fun setData(startTime: Long, data: List<Double>?, avg: Double?) {
+        if (data == null){
+            return
+        }
         hrv_chart.setValues(data)
-        tv_heart_avg.text = "AVG:${avg.toInt()}"
+        tv_heart_avg.text = "${context.getString(R.string.avg)}${avg?.toInt()}"
         if (mIsAbsoluteTime) {
             hrv_chart.isAbsoluteTime(true, startTime)
         }

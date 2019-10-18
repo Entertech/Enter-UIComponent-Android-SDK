@@ -17,13 +17,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
+                android:background="@color/colorDefaultBlack"
                 >
 
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="脑电波频谱占比"
-                    android:textColor="@color/colorDefaultBlack"
+                    android:textColor="@color/white"
                     android:textSize="32sp"
                     android:layout_marginTop="@dimen/margin_vertical"
                     android:layout_marginLeft="@dimen/activity_margin"
@@ -31,13 +32,14 @@
 
 
             <cn.entertech.realtimedatasdk.report.ReportBrainwaveSpectrumView
-                    app:rbs_background="@drawable/shape_basic_widget_bg"
+                    app:rbs_background="@drawable/shape_custom_widget_bg"
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
                     android:id="@+id/report_brainwave_spectrum"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:rbs_isAbsoluteTimeAxis="false"
+                    app:rbs_isAbsoluteTimeAxis="true"
+                    app:rbs_textColor="@color/white"
                     >
 
             </cn.entertech.realtimedatasdk.report.ReportBrainwaveSpectrumView>
@@ -46,7 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="心率"
-                    android:textColor="@color/colorDefaultBlack"
+                    android:textColor="@color/white"
                     android:textSize="32sp"
                     android:layout_marginTop="@dimen/margin_vertical"
                     android:layout_marginLeft="@dimen/activity_margin"
@@ -55,11 +57,12 @@
             <cn.entertech.realtimedatasdk.report.ReportHeartRateView
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
-                    app:rhr_isAbsoluteTimeAxis="false"
+                    app:rhr_isAbsoluteTimeAxis="true"
                     android:id="@+id/report_heart_rate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:rhr_background="@drawable/shape_basic_widget_bg"
+                    app:rhr_background="@drawable/shape_custom_widget_bg"
+                    app:rhr_textColor="@color/white"
                     >
 
             </cn.entertech.realtimedatasdk.report.ReportHeartRateView>
@@ -68,11 +71,13 @@
             <cn.entertech.realtimedatasdk.report.ReportHeartRateVariabilityView
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:id="@+id/report_hrv"
+                    app:hrv_isAbsoluteTimeAxis="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
-                    app:hrv_background="@drawable/shape_basic_widget_bg"
+                    app:hrv_textColor="@color/white"
+                    app:hrv_background="@drawable/shape_custom_widget_bg"
                     >
 
             </cn.entertech.realtimedatasdk.report.ReportHeartRateVariabilityView>
@@ -81,7 +86,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="情绪"
-                    android:textColor="@color/colorDefaultBlack"
+                    android:textColor="@color/white"
                     android:textSize="32sp"
                     android:layout_marginTop="@dimen/margin_vertical"
                     android:layout_marginLeft="@dimen/activity_margin"
@@ -90,15 +95,16 @@
 
             <cn.entertech.realtimedatasdk.report.ReportAffectiveView
                     android:id="@+id/report_attention"
-                    app:ra_isAbsoluteTimeAxis="false"
+                    app:ra_isAbsoluteTimeAxis="true"
                     app:ra_sample="10"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:ra_emotionType="attention"
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
-                    app:ra_background="@drawable/shape_basic_widget_bg"
+                    app:ra_background="@drawable/shape_custom_widget_bg"
                     app:ra_fillColor="#00d993"
+                    app:ra_textColor="@color/white"
                     >
 
             </cn.entertech.realtimedatasdk.report.ReportAffectiveView>
@@ -106,15 +112,16 @@
             <cn.entertech.realtimedatasdk.report.ReportAffectiveView
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:id="@+id/report_relaxation"
-                    app:ra_isAbsoluteTimeAxis="false"
+                    app:ra_isAbsoluteTimeAxis="true"
                     app:ra_sample="10"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:ra_emotionType="relaxation"
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
-                    app:ra_background="@drawable/shape_basic_widget_bg"
+                    app:ra_background="@drawable/shape_custom_widget_bg"
                     app:ra_fillColor="#0064ff"
+                    app:ra_textColor="@color/white"
                     >
 
             </cn.entertech.realtimedatasdk.report.ReportAffectiveView>
@@ -124,12 +131,13 @@
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
-                    app:rp_background="@drawable/shape_basic_widget_bg"
+                    app:rp_background="@drawable/shape_custom_widget_bg"
                     app:rp_isAbsoluteTimeAxis="true"
                     android:id="@+id/report_pressure"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/margin_vertical"
+                    app:rp_textColor="@color/white"
                     >
 
             </cn.entertech.realtimedatasdk.report.ReportPressureView>

@@ -9,6 +9,7 @@ import android.view.View
 import cn.entertech.realtimedatasdk.R
 import cn.entertech.realtimedatasdk.utils.ScreenUtil
 import cn.entertech.realtimedatasdk.utils.convertTransparentToHex
+import cn.entertech.realtimedatasdk.utils.getChartAbsoluteTime
 import java.util.*
 
 class PressureChart @JvmOverloads constructor(context: Context, attributeSet: AttributeSet? = null, def: Int = 0) :
@@ -28,6 +29,9 @@ class PressureChart @JvmOverloads constructor(context: Context, attributeSet: At
     var mGridLineWidth: Float = 0f
     var mGridLineColor = mTimeStampTextColor
     var mTimestampTextSize = ScreenUtil.dip2px(context, 24f).toFloat()
+
+    private var mIsAbsoluteTime: Boolean = false
+    private var mStartTime: Long? = null
 
     init {
         var typeArray = context.obtainStyledAttributes(attributeSet, R.styleable.PressureChart)
@@ -85,8 +89,20 @@ class PressureChart @JvmOverloads constructor(context: Context, attributeSet: At
             for (i in 0 until timestampCount.toInt()) {
                 mTimeStampLsit.add("${i * minOffset}")
             }
+            if (mIsAbsoluteTime && mStartTime != null) {
+                mTimeStampLsit.clear()
+                for (i in 0 until timestampCount.toInt()) {
+                    var time = mStartTime!! + i * minOffset * 60
+                    mTimeStampLsit.add(getChartAbsoluteTime(time))
+                }
+            }
         }
         for (i in 0 until mTimeStampLsit.size) {
+            when (i) {
+                0 -> mTimestampPaint.textAlign = Paint.Align.LEFT
+//                mTimeStampLsit.size - 1 -> mTimestampPaint.textAlign = Paint.Align.RIGHT
+                else -> mTimestampPaint.textAlign = Paint.Align.CENTER
+            }
             if (i != 0) {
                 canvas?.drawLine(
                     timestampOffset * i,
@@ -95,18 +111,14 @@ class PressureChart @JvmOverloads constructor(context: Context, attributeSet: At
                     mGridLineLength,
                     mGridPait
                 )
+
+                canvas?.drawText(
+                    mTimeStampLsit[i],
+                    timestampOffset * i,
+                    mGridLineLength + mTimeStampPaddingTop + Math.abs(mTimestampPaint.fontMetrics.ascent),
+                    mTimestampPaint
+                )
             }
-            when (i) {
-                0 -> mTimestampPaint.textAlign = Paint.Align.LEFT
-//                mTimeStampLsit.size - 1 -> mTimestampPaint.textAlign = Paint.Align.RIGHT
-                else -> mTimestampPaint.textAlign = Paint.Align.CENTER
-            }
-            canvas?.drawText(
-                mTimeStampLsit[i],
-                timestampOffset * i,
-                mGridLineLength + mTimeStampPaddingTop + Math.abs(mTimestampPaint.fontMetrics.ascent),
-                mTimestampPaint
-            )
         }
         canvas?.restore()
     }
@@ -131,4 +143,30 @@ class PressureChart @JvmOverloads constructor(context: Context, attributeSet: At
             )
         }
     }
+
+    fun setColor(color: Int) {
+        var colorHex = String.format("%06X", 0xFFFFFF and color)
+        mBaseColor = colorHex
+        invalidate()
+    }
+
+    fun setXAxisTextColor(color: Int) {
+        mTimeStampTextColor = color
+        mTimestampPaint.color = mTimeStampTextColor
+        invalidate()
+    }
+
+
+    fun setGridLineColor(color: Int) {
+        this.mGridLineColor = color
+        this.mGridPait.color = mGridLineColor
+        invalidate()
+    }
+
+    fun isAbsoluteTime(flag: Boolean, startTime: Long?) {
+        this.mIsAbsoluteTime = flag
+        this.mStartTime = startTime
+        invalidate()
+    }
+
 }

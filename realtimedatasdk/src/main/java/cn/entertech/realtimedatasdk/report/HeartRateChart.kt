@@ -321,4 +321,9 @@ class HeartRateChart @JvmOverloads constructor(context: Context, attributeSet: A
         invalidate()
     }
 
+    override fun setBackgroundColor(color:Int){
+        this.mBackgroundColor = color
+        invalidate()
+    }
+
 }

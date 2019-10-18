@@ -32,7 +32,7 @@
                     android:layout_marginRight="@dimen/activity_margin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:clv_legend="Low"
+                    app:clv_legend="低"
                     app:clv_color="@color/colorStatisticsHeartLow"
                     >
 
@@ -43,7 +43,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/activity_margin"
-                    app:clv_legend="Neutral"
+                    app:clv_legend="中"
                     app:clv_color="@color/colorStatisticsHeartNeutral"
                     >
 
@@ -53,7 +53,7 @@
                     android:id="@+id/legend_high"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:clv_legend="High"
+                    app:clv_legend="高"
                     app:clv_color="@color/colorStatisticsHeartHigh"
                     >
 
@@ -77,7 +77,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    app:cvtv_text="Heart Rate(bpm)"
+                    app:cvtv_text="心率 (bpm)"
                     app:cvtv_textSize="12sp"
                     />
 
@@ -101,7 +101,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Time(min)"
+                android:text="@string/time_unit"
                 />
 
         <LinearLayout
@@ -130,7 +130,7 @@
                         android:fontFamily="sans-serif"
                         android:textStyle="normal"
                         android:textColor="#333333"
-                        android:text="AVG: 78"
+                        android:text="平均: 78"
                         />
 
                 <TextView
@@ -163,7 +163,7 @@
                         android:fontFamily="sans-serif"
                         android:textStyle="normal"
                         android:textColor="#333333"
-                        android:text="MAX: 78"
+                        android:text="最大: 78"
                         />
 
                 <TextView
@@ -197,7 +197,7 @@
                         android:fontFamily="sans-serif"
                         android:textStyle="normal"
                         android:textColor="#333333"
-                        android:text="MIN: 78"
+                        android:text="最小: 78"
                         />
 
                 <TextView

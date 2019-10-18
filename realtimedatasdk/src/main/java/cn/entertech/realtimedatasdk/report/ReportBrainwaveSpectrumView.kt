@@ -3,8 +3,11 @@ package cn.entertech.realtimedatasdk.report
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.net.Uri
+import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -68,11 +71,23 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
     }
 
     fun initView() {
+        tv_title.text = "脑电波频谱"
         tv_title.setTextColor(mMainColor)
         tv_vertical.setTextColor(getOpacityColor(mTextColor, 0.7f))
+        var bgColor = Color.WHITE
         if (mBg != null) {
             ll_bg.background = mBg
+        } else {
+            mBg = ll_bg.background
         }
+        if (mBg is ColorDrawable) {
+            bgColor = (mBg as ColorDrawable).color
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                bgColor = (mBg as GradientDrawable).color.defaultColor
+            }
+        }
+        sac_brain_chart.setBackgroundColor(bgColor)
         if (mIsShowInfoIcon) {
             iv_info.visibility = View.VISIBLE
         } else {
@@ -86,10 +101,11 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
         sac_brain_chart.setXAxisTextColor(getOpacityColor(mTextColor, 0.7f))
         sac_brain_chart.setGridLineColor(getOpacityColor(mTextColor, 0.1f))
         legend_gamma.setTextColor(getOpacityColor(mTextColor, 0.7f))
-        legend_theta.setTextColor(getOpacityColor(mTextColor, 0.7f))
+        legend_beta.setTextColor(getOpacityColor(mTextColor, 0.7f))
         legend_alpha.setTextColor(getOpacityColor(mTextColor, 0.7f))
         legend_theta.setTextColor(getOpacityColor(mTextColor, 0.7f))
         legend_delta.setTextColor(getOpacityColor(mTextColor, 0.7f))
+        tv_unit.setTextColor(getOpacityColor(mTextColor, 0.7f))
         legend_gamma.setLegendIconColor(mSpectrumColors!![0])
         legend_theta.setLegendIconColor(mSpectrumColors!![1])
         legend_alpha.setLegendIconColor(mSpectrumColors!![2])
@@ -108,7 +124,7 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
         initView()
     }
 
-    fun setData(startTime: Long, stackItems: ArrayList<StackedAreaChart.StackItem>) {
+    fun setData(startTime: Long?, stackItems: ArrayList<StackedAreaChart.StackItem>) {
         sac_brain_chart.setStackItems(stackItems)
         if (mIsAbsoluteTime) {
             sac_brain_chart.isAbsoluteTime(true, startTime)
@@ -116,12 +132,12 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
     }
 
     fun setBrainwaveSpectrums(
-        startTime: Long,
-        gamma: List<Double>,
-        beta: List<Double>,
-        alpha: List<Double>,
-        theta: List<Double>,
-        delta: List<Double>
+        startTime: Long?,
+        gamma: List<Double>?,
+        beta: List<Double>?,
+        alpha: List<Double>?,
+        theta: List<Double>?,
+        delta: List<Double>?
     ) {
         var items = ArrayList<StackedAreaChart.StackItem>()
         var gammaItem = StackedAreaChart.StackItem()
