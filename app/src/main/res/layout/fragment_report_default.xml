@@ -8,24 +8,47 @@
               android:orientation="vertical"
         >
 
-    <cn.entertech.realtimedatasdk.report.ReportAffectiveView
-            android:id="@+id/report_attention"
-            app:ra_isAbsoluteTimeAxis="true"
-            app:ra_sample="10"
+    <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             >
 
-    </cn.entertech.realtimedatasdk.report.ReportAffectiveView>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
 
-    <cn.entertech.realtimedatasdk.report.ReportBrainwaveSpectrumView
-            android:id="@+id/report_brainwave_spectrum"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:rbs_isAbsoluteTimeAxis="true"
-            >
+            <cn.entertech.realtimedatasdk.report.ReportAffectiveView
+                    android:id="@+id/report_attention"
+                    app:ra_isAbsoluteTimeAxis="true"
+                    app:ra_sample="10"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
 
-    </cn.entertech.realtimedatasdk.report.ReportBrainwaveSpectrumView>
+            </cn.entertech.realtimedatasdk.report.ReportAffectiveView>
 
+            <cn.entertech.realtimedatasdk.report.ReportBrainwaveSpectrumView
+                    android:id="@+id/report_brainwave_spectrum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:rbs_isAbsoluteTimeAxis="true"
+                    >
+
+            </cn.entertech.realtimedatasdk.report.ReportBrainwaveSpectrumView>
+
+
+            <cn.entertech.realtimedatasdk.report.ReportHeartRateView
+                    app:rhr_isAbsoluteTimeAxis="true"
+                    android:id="@+id/report_heart_rate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+            </cn.entertech.realtimedatasdk.report.ReportHeartRateView>
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

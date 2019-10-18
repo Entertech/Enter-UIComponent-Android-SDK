@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.View
 import cn.entertech.realtimedatasdk.R
 import cn.entertech.realtimedatasdk.utils.ScreenUtil
+import cn.entertech.realtimedatasdk.utils.getChartAbsoluteTime
 import java.util.*
 
 class HeartRateChart @JvmOverloads constructor(context: Context, attributeSet: AttributeSet? = null, def: Int = 0) :
@@ -31,13 +32,15 @@ class HeartRateChart @JvmOverloads constructor(context: Context, attributeSet: A
 
     var mLowHeartRateColor: Int = Color.parseColor("#ffe4bb")
     var mNeutralHeartRateColor: Int = Color.parseColor("#ffb952")
-    var mHightHeartRateColor: Int = Color.parseColor("#f88883")
+    var mHighHeartRateColor: Int = Color.parseColor("#f88883")
     var mLeftBarTextSize: Float = 50f
     var mLeftBarTextPadding: Float = 10f
     var mCurveHeight: Float = 10f
     var mBackgroundColor: Int = Color.parseColor("#ffffff")
     private var mMaxValue: Float = 120f
 
+    private var mIsAbsoluteTime: Boolean = false
+    private var mStartTime: Long? = null
     init {
         var typeArray = context.obtainStyledAttributes(attributeSet, R.styleable.HeartRateChart)
         mGridLineColor = typeArray.getColor(R.styleable.HeartRateChart_hrc_gridLineColor, mGridLineColor)
@@ -62,8 +65,8 @@ class HeartRateChart @JvmOverloads constructor(context: Context, attributeSet: A
         mLowHeartRateColor = typeArray.getColor(R.styleable.HeartRateChart_hrc_lowHeartRateColor, mLowHeartRateColor)
         mNeutralHeartRateColor =
             typeArray.getColor(R.styleable.HeartRateChart_hrc_neutralHeartRateColor, mNeutralHeartRateColor)
-        mHightHeartRateColor =
-            typeArray.getColor(R.styleable.HeartRateChart_hrc_highHeartRateColor, mHightHeartRateColor)
+        mHighHeartRateColor =
+            typeArray.getColor(R.styleable.HeartRateChart_hrc_highHeartRateColor, mHighHeartRateColor)
         mBackgroundColor = typeArray.getColor(R.styleable.HeartRateChart_hrc_backgroundColor, mBackgroundColor)
         typeArray?.recycle()
         initPaint()
@@ -155,11 +158,17 @@ class HeartRateChart @JvmOverloads constructor(context: Context, attributeSet: A
             path.lineTo(offset * (i).toFloat(), -drawData.toFloat() * scale)
         }
         mDstCanvas?.drawPath(path, mCruvePaint)
-        mDstCanvas?.drawLine(0f,-firstEffectiveValue * scale,firstEffectiveValueIndex * offset,-firstEffectiveValue * scale,noDataPaint)
+        mDstCanvas?.drawLine(
+            0f,
+            -firstEffectiveValue * scale,
+            firstEffectiveValueIndex * offset,
+            -firstEffectiveValue * scale,
+            noDataPaint
+        )
         canvas?.drawBitmap(mDstBitmap, 0f, 0f, mCruvePaint)
 
         mSrcCanvas.translate(0f, mCurveHeight)
-        mCruvePaint.color = mHightHeartRateColor
+        mCruvePaint.color = mHighHeartRateColor
         var rect1 = Rect(0, -mCurveHeight.toInt(), width, -(mCurveHeight / 4 * 3).toInt())
         var rect2 = Rect(0, -(mCurveHeight / 4 * 3).toInt(), width, -(mCurveHeight / 2).toInt())
         mCruvePaint.style = Paint.Style.FILL
@@ -177,7 +186,7 @@ class HeartRateChart @JvmOverloads constructor(context: Context, attributeSet: A
     }
 
     fun drawLeftBar(canvas: Canvas?) {
-        mBarPaint.color = Color.parseColor("#f88883")
+        mBarPaint.color = mHighHeartRateColor
         canvas?.drawCircle(mLeftBarWidth / 2, mLeftBarWidth / 2, mLeftBarWidth / 2, mBarPaint)
         canvas?.drawLine(
             mLeftBarWidth / 2,
@@ -186,7 +195,7 @@ class HeartRateChart @JvmOverloads constructor(context: Context, attributeSet: A
             mCurveHeight / 4f,
             mBarPaint
         )
-        mBarPaint.color = Color.parseColor("#ffb952")
+        mBarPaint.color = mNeutralHeartRateColor
         canvas?.drawLine(
             mLeftBarWidth / 2,
             mCurveHeight / 4f,
@@ -194,7 +203,7 @@ class HeartRateChart @JvmOverloads constructor(context: Context, attributeSet: A
             mCurveHeight / 2f,
             mBarPaint
         )
-        mBarPaint.color = Color.parseColor("#ffe4bb")
+        mBarPaint.color = mLowHeartRateColor
         canvas?.drawLine(
             mLeftBarWidth / 2,
             mCurveHeight / 2f,
@@ -235,6 +244,13 @@ class HeartRateChart @JvmOverloads constructor(context: Context, attributeSet: A
             for (i in 0 until timestampCount.toInt()) {
                 mTimeStampLsit.add("${i * minOffset}")
             }
+            if (mIsAbsoluteTime && mStartTime != null) {
+                mTimeStampLsit.clear()
+                for (i in 0 until timestampCount.toInt()) {
+                    var time = mStartTime!! + i * minOffset * 60
+                    mTimeStampLsit.add(getChartAbsoluteTime(time))
+                }
+            }
         }
         for (i in 0 until mTimeStampLsit.size) {
             if (i != 0) {
@@ -245,6 +261,11 @@ class HeartRateChart @JvmOverloads constructor(context: Context, attributeSet: A
                     (height - mTimeStampTextHeight - mTimeStampPaddingTop),
                     mGridPait
                 )
+            }
+            if(i == 0){
+                mTimestampPaint.textAlign = Paint.Align.LEFT
+            }else{
+                mTimestampPaint.textAlign = Paint.Align.CENTER
             }
             canvas?.drawText(
                 mTimeStampLsit[i],
@@ -262,4 +283,42 @@ class HeartRateChart @JvmOverloads constructor(context: Context, attributeSet: A
         this.mMaxValue = max
         invalidate()
     }
+
+    fun setYAxisTextColor(color: Int) {
+        this.mBarTextPaint.color = color
+        invalidate()
+    }
+
+    fun setXAxisTextColor(color: Int) {
+        this.mTimeStampTextColor = color
+        invalidate()
+    }
+
+    fun setGridLineColor(color: Int) {
+        this.mGridPait.color = color
+        invalidate()
+    }
+
+    fun setHeartRateHighLineColor(color: Int) {
+        this.mHighHeartRateColor = color
+        invalidate()
+    }
+
+    fun setHeartRateNormalLineColor(color: Int) {
+        this.mNeutralHeartRateColor = color
+        invalidate()
+    }
+
+    fun setHeartRateLowLineColor(color: Int) {
+        this.mLowHeartRateColor = color
+        mCruvePaint.color = mLowHeartRateColor
+        invalidate()
+    }
+
+    fun isAbsoluteTime(flag: Boolean, startTime: Long?) {
+        this.mIsAbsoluteTime = flag
+        this.mStartTime = startTime
+        invalidate()
+    }
+
 }

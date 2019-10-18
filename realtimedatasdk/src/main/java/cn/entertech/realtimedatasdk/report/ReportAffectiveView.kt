@@ -68,7 +68,6 @@ class ReportAffectiveView @JvmOverloads constructor(
         mFillColor = typeArray.getColor(R.styleable.ReportAffectiveView_ra_fillColor, mFillColor)
         mEmotionType = typeArray.getInteger(R.styleable.ReportAffectiveView_ra_emotionType, 0)
         mIsAbsoluteTime = typeArray.getBoolean(R.styleable.ReportAffectiveView_ra_isAbsoluteTimeAxis, false)
-        mIsAbsoluteTime = typeArray.getBoolean(R.styleable.ReportAffectiveView_ra_isAbsoluteTimeAxis, false)
         initView()
     }
 
