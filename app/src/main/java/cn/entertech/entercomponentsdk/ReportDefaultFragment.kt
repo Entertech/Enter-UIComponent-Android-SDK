@@ -53,5 +53,10 @@ class ReportDefaultFragment : Fragment() {
             heartRateData.add(java.util.Random().nextDouble() * 120)
         }
         report_heart_rate.setData(System.currentTimeMillis(),heartRateData,100f,79f,90f)
+        var hrvData = ArrayList<Double>()
+        for (i in 0 until 1000) {
+            hrvData.add(java.util.Random().nextDouble() * 120)
+        }
+        report_hrv.setData(System.currentTimeMillis(),hrvData,90f)
     }
 }

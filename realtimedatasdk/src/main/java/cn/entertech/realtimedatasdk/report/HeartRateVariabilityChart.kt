@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.View
 import cn.entertech.realtimedatasdk.R
 import cn.entertech.realtimedatasdk.utils.ScreenUtil
+import cn.entertech.realtimedatasdk.utils.getChartAbsoluteTime
 import java.util.*
 
 class HeartRateVariabilityChart @JvmOverloads constructor(
@@ -42,6 +43,9 @@ class HeartRateVariabilityChart @JvmOverloads constructor(
     var mBackgroundColor: Int = Color.parseColor("#ffffff")
     private var mMaxValue: Float = 150f
     var mCurveHeight: Float = 10f
+
+    private var mIsAbsoluteTime: Boolean = false
+    private var mStartTime: Long? = null
 
     init {
         var typeArray = context.obtainStyledAttributes(attributeSet, R.styleable.HeartRateChart)
@@ -202,6 +206,13 @@ class HeartRateVariabilityChart @JvmOverloads constructor(
             for (i in 0 until timestampCount.toInt()) {
                 mTimeStampLsit.add("${i * minOffset}")
             }
+            if (mIsAbsoluteTime && mStartTime != null) {
+                mTimeStampLsit.clear()
+                for (i in 0 until timestampCount.toInt()) {
+                    var time = mStartTime!! + i * minOffset * 60
+                    mTimeStampLsit.add(getChartAbsoluteTime(time))
+                }
+            }
         }
         for (i in 0 until mTimeStampLsit.size) {
             canvas?.drawLine(
@@ -211,6 +222,11 @@ class HeartRateVariabilityChart @JvmOverloads constructor(
                 mCurveHeight,
                 mGridPait
             )
+            if (i == 0) {
+                mTimestampPaint.textAlign = Paint.Align.LEFT
+            } else {
+                mTimestampPaint.textAlign = Paint.Align.CENTER
+            }
             canvas?.drawText(
                 mTimeStampLsit[i],
                 timestampOffset * i,
@@ -227,4 +243,32 @@ class HeartRateVariabilityChart @JvmOverloads constructor(
         this.mMaxValue = max
         invalidate()
     }
+
+    fun setYAxisTextColor(color: Int) {
+        this.mBarTextPaint.color = color
+        invalidate()
+    }
+
+    fun setXAxisTextColor(color: Int) {
+        this.mTimeStampTextColor = color
+        invalidate()
+    }
+
+    fun setGridLineColor(color: Int) {
+        this.mGridPait.color = color
+        invalidate()
+    }
+
+    fun setLineColor(color: Int) {
+        mHightHeartRateColor = color
+        this.mCruvePaint.color = mHightHeartRateColor
+        invalidate()
+    }
+
+    fun isAbsoluteTime(flag: Boolean, startTime: Long?) {
+        this.mIsAbsoluteTime = flag
+        this.mStartTime = startTime
+        invalidate()
+    }
+
 }

@@ -2,10 +2,11 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:app="http://schemas.android.com/apk/res-auto"
              android:layout_width="match_parent"
-             android:layout_height="match_parent"
+             android:layout_height="wrap_content"
         >
 
     <LinearLayout
+            android:id="@+id/ll_bg"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
                   android:orientation="vertical"
@@ -26,7 +27,8 @@
                 android:orientation="horizontal"
                 >
 
-            <cn.entertech.flowtime.ui.view.CustomVerticalTextView
+            <cn.entertech.realtimedatasdk.widget.CustomVerticalTextView
+                    android:id="@+id/vertical_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -34,7 +36,7 @@
                     app:cvtv_textSize="12sp"
                     />
 
-            <cn.entertech.flowtime.ui.view.HeartRateVariabilityChart
+            <cn.entertech.realtimedatasdk.report.HeartRateVariabilityChart
                     android:layout_marginLeft="@dimen/dp_4"
                     android:id="@+id/hrv_chart"
                     android:layout_width="match_parent"
@@ -48,31 +50,35 @@
         </LinearLayout>
 
         <TextView
+                android:id="@+id/tv_time_unit"
+                android:layout_marginTop="@dimen/activity_margin"
                 android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Time(min)"
-                android:layout_marginBottom="@dimen/activity_margin"
                 />
 
+
         <LinearLayout
+                android:layout_marginTop="@dimen/activity_margin"
                 android:layout_marginBottom="@dimen/activity_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_margin"
                 android:layout_marginRight="@dimen/activity_margin"
                 android:orientation="horizontal"
-                android:gravity="right"
                 >
 
             <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:id="@+id/ll_avg"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     >
 
                 <TextView
-                        android:id="@+id/tv_avg"
+                        android:id="@+id/tv_heart_avg"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
@@ -83,6 +89,7 @@
                         />
 
                 <TextView
+                        android:id="@+id/tv_avg_unit"
                         android:layout_marginLeft="@dimen/activity_margin_half"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -90,7 +97,75 @@
                         android:fontFamily="sans-serif"
                         android:textStyle="normal"
                         android:textColor="#999999"
-                        android:text="ms"
+                        android:text="@string/heart_rate_unit_bpm"
+                        />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/ll_max"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                <TextView
+                        android:id="@+id/tv_heart_max"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif"
+                        android:textStyle="normal"
+                        android:textColor="#333333"
+                        android:text="MAX: 78"
+                        />
+
+                <TextView
+
+                        android:id="@+id/tv_max_unit"
+                        android:layout_marginLeft="@dimen/activity_margin_half"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:fontFamily="sans-serif"
+                        android:textStyle="normal"
+                        android:textColor="#999999"
+                        android:text="@string/heart_rate_unit_bpm"
+                        />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/ll_min"
+                    android:gravity="right"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                <TextView
+                        android:id="@+id/tv_heart_min"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif"
+                        android:textStyle="normal"
+                        android:textColor="#333333"
+                        android:text="MIN: 78"
+                        />
+
+                <TextView
+
+                        android:id="@+id/tv_min_unit"
+                        android:layout_marginLeft="@dimen/activity_margin_half"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:fontFamily="sans-serif"
+                        android:textStyle="normal"
+                        android:textColor="#999999"
+                        android:text="@string/heart_rate_unit_bpm"
                         />
             </LinearLayout>
 
@@ -99,7 +174,7 @@
     </LinearLayout>
 
     <RelativeLayout
-
+            android:visibility="gone"
             android:id="@+id/rl_no_data_cover"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

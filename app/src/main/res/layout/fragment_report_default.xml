@@ -48,6 +48,16 @@
 
             </cn.entertech.realtimedatasdk.report.ReportHeartRateView>
 
+            <cn.entertech.realtimedatasdk.report.ReportHeartRateVariabilityView
+                    app:hrv_isAbsoluteTimeAxis="true"
+                    app:rhr_isAbsoluteTimeAxis="true"
+                    android:id="@+id/report_hrv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+            </cn.entertech.realtimedatasdk.report.ReportHeartRateVariabilityView>
+
         </LinearLayout>
     </ScrollView>
 
