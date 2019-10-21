@@ -30,7 +30,7 @@
                     />
 
 
-            <cn.entertech.realtimedatasdk.report.ReportBrainwaveSpectrumView
+            <cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumView
                     app:rbs_background="@drawable/shape_basic_widget_bg"
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
@@ -40,7 +40,7 @@
                     app:rbs_isAbsoluteTimeAxis="false"
                     >
 
-            </cn.entertech.realtimedatasdk.report.ReportBrainwaveSpectrumView>
+            </cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumView>
 
             <TextView
                     android:layout_width="wrap_content"
@@ -52,7 +52,7 @@
                     android:layout_marginLeft="@dimen/activity_margin"
                     />
 
-            <cn.entertech.realtimedatasdk.report.ReportHeartRateView
+            <cn.entertech.uicomponentsdk.report.ReportHeartRateView
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
                     app:rhr_isAbsoluteTimeAxis="false"
@@ -62,10 +62,10 @@
                     app:rhr_background="@drawable/shape_basic_widget_bg"
                     >
 
-            </cn.entertech.realtimedatasdk.report.ReportHeartRateView>
+            </cn.entertech.uicomponentsdk.report.ReportHeartRateView>
 
 
-            <cn.entertech.realtimedatasdk.report.ReportHeartRateVariabilityView
+            <cn.entertech.uicomponentsdk.report.ReportHeartRateVariabilityView
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:id="@+id/report_hrv"
                     android:layout_width="match_parent"
@@ -75,7 +75,7 @@
                     app:hrv_background="@drawable/shape_basic_widget_bg"
                     >
 
-            </cn.entertech.realtimedatasdk.report.ReportHeartRateVariabilityView>
+            </cn.entertech.uicomponentsdk.report.ReportHeartRateVariabilityView>
 
             <TextView
                     android:layout_width="wrap_content"
@@ -88,7 +88,7 @@
                     />
 
 
-            <cn.entertech.realtimedatasdk.report.ReportAffectiveView
+            <cn.entertech.uicomponentsdk.report.ReportAffectiveView
                     android:id="@+id/report_attention"
                     app:ra_isAbsoluteTimeAxis="false"
                     app:ra_sample="10"
@@ -101,9 +101,9 @@
                     app:ra_fillColor="#00d993"
                     >
 
-            </cn.entertech.realtimedatasdk.report.ReportAffectiveView>
+            </cn.entertech.uicomponentsdk.report.ReportAffectiveView>
 
-            <cn.entertech.realtimedatasdk.report.ReportAffectiveView
+            <cn.entertech.uicomponentsdk.report.ReportAffectiveView
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:id="@+id/report_relaxation"
                     app:ra_isAbsoluteTimeAxis="false"
@@ -117,10 +117,10 @@
                     app:ra_fillColor="#0064ff"
                     >
 
-            </cn.entertech.realtimedatasdk.report.ReportAffectiveView>
+            </cn.entertech.uicomponentsdk.report.ReportAffectiveView>
 
 
-            <cn.entertech.realtimedatasdk.report.ReportPressureView
+            <cn.entertech.uicomponentsdk.report.ReportPressureView
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
@@ -132,7 +132,7 @@
                     android:layout_marginBottom="@dimen/margin_vertical"
                     >
 
-            </cn.entertech.realtimedatasdk.report.ReportPressureView>
+            </cn.entertech.uicomponentsdk.report.ReportPressureView>
 
         </LinearLayout>
     </ScrollView>

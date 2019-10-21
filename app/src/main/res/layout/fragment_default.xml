@@ -39,7 +39,7 @@
                     android:layout_marginTop="@dimen/activity_margin"
                     />
 
-            <cn.entertech.realtimedatasdk.realtime.RealtimeHeartRateView
+            <cn.entertech.uicomponentsdk.realtime.RealtimeHeartRateView
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
                     android:layout_marginRight="@dimen/activity_margin"
                     >
 
-            </cn.entertech.realtimedatasdk.realtime.RealtimeHeartRateView>
+            </cn.entertech.uicomponentsdk.realtime.RealtimeHeartRateView>
 
             <LinearLayout
                     android:layout_width="match_parent"
@@ -70,7 +70,7 @@
                             android:layout_marginTop="@dimen/activity_margin"
                             />
 
-                    <cn.entertech.realtimedatasdk.realtime.RealtimeHeartRateView
+                    <cn.entertech.uicomponentsdk.realtime.RealtimeHeartRateView
                             android:layout_marginTop="@dimen/activity_margin_half"
                             android:layout_width="160dp"
                             android:layout_height="wrap_content"
@@ -80,7 +80,7 @@
 
                             >
 
-                    </cn.entertech.realtimedatasdk.realtime.RealtimeHeartRateView>
+                    </cn.entertech.uicomponentsdk.realtime.RealtimeHeartRateView>
                 </LinearLayout>
 
                 <LinearLayout
@@ -98,7 +98,7 @@
                             android:layout_marginTop="@dimen/activity_margin"
                             />
 
-                    <cn.entertech.realtimedatasdk.realtime.RealtimeHeartRateView
+                    <cn.entertech.uicomponentsdk.realtime.RealtimeHeartRateView
                             android:layout_marginTop="@dimen/activity_margin_half"
                             android:layout_width="160dp"
                             android:layout_height="wrap_content"
@@ -107,7 +107,7 @@
                             app:rhrv_isShowExtremeValue="false"
                             >
 
-                    </cn.entertech.realtimedatasdk.realtime.RealtimeHeartRateView>
+                    </cn.entertech.uicomponentsdk.realtime.RealtimeHeartRateView>
                 </LinearLayout>
             </LinearLayout>
 
@@ -130,7 +130,7 @@
                     android:layout_marginTop="@dimen/activity_margin"
                     />
 
-            <cn.entertech.realtimedatasdk.realtime.RealtimeAttentionView
+            <cn.entertech.uicomponentsdk.realtime.RealtimeAttentionView
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
@@ -138,7 +138,7 @@
                     android:layout_height="wrap_content"
                     >
 
-            </cn.entertech.realtimedatasdk.realtime.RealtimeAttentionView>
+            </cn.entertech.uicomponentsdk.realtime.RealtimeAttentionView>
 
             <LinearLayout
                     android:orientation="horizontal"
@@ -146,7 +146,7 @@
                     android:layout_height="wrap_content"
                     >
 
-                <cn.entertech.realtimedatasdk.realtime.RealtimeAttentionView
+                <cn.entertech.uicomponentsdk.realtime.RealtimeAttentionView
                         android:layout_marginTop="@dimen/activity_margin_half"
                         android:layout_marginLeft="@dimen/activity_margin"
                         android:layout_marginRight="@dimen/activity_margin"
@@ -154,10 +154,10 @@
                         android:layout_height="wrap_content"
                         >
 
-                </cn.entertech.realtimedatasdk.realtime.RealtimeAttentionView>
+                </cn.entertech.uicomponentsdk.realtime.RealtimeAttentionView>
 
 
-                <cn.entertech.realtimedatasdk.realtime.RealtimeRelaxationView
+                <cn.entertech.uicomponentsdk.realtime.RealtimeRelaxationView
                         android:layout_marginTop="@dimen/activity_margin_half"
                         android:layout_marginLeft="@dimen/activity_margin"
                         android:layout_marginRight="@dimen/activity_margin"
@@ -165,12 +165,12 @@
                         android:layout_height="wrap_content"
                         >
 
-                </cn.entertech.realtimedatasdk.realtime.RealtimeRelaxationView>
+                </cn.entertech.uicomponentsdk.realtime.RealtimeRelaxationView>
 
 
             </LinearLayout>
 
-            <cn.entertech.realtimedatasdk.realtime.RealtimePressureView
+            <cn.entertech.uicomponentsdk.realtime.RealtimePressureView
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
@@ -178,7 +178,7 @@
                     android:layout_height="wrap_content"
                     >
 
-            </cn.entertech.realtimedatasdk.realtime.RealtimePressureView>
+            </cn.entertech.uicomponentsdk.realtime.RealtimePressureView>
 
 
             <TextView
@@ -191,7 +191,7 @@
                     android:textColor="@color/colorDefaultBlack"
                     />
 
-            <cn.entertech.realtimedatasdk.realtime.RealtimeBrainwaveSpectrumView
+            <cn.entertech.uicomponentsdk.realtime.RealtimeBrainwaveSpectrumView
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
@@ -199,7 +199,7 @@
                     android:layout_height="wrap_content"
                     >
 
-            </cn.entertech.realtimedatasdk.realtime.RealtimeBrainwaveSpectrumView>
+            </cn.entertech.uicomponentsdk.realtime.RealtimeBrainwaveSpectrumView>
 
             <TextView
                     android:layout_marginTop="32dp"
@@ -211,7 +211,7 @@
                     android:textColor="@color/colorDefaultBlack"
                     />
 
-            <cn.entertech.realtimedatasdk.realtime.RealtimeBrainwaveView
+            <cn.entertech.uicomponentsdk.realtime.RealtimeBrainwaveView
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
@@ -219,7 +219,7 @@
                     android:layout_height="wrap_content"
                     >
 
-            </cn.entertech.realtimedatasdk.realtime.RealtimeBrainwaveView>
+            </cn.entertech.uicomponentsdk.realtime.RealtimeBrainwaveView>
 
             <TextView
                     android:layout_marginTop="32dp"
@@ -230,7 +230,7 @@
                     android:textSize="32dp"
                     android:textColor="@color/colorDefaultBlack"
                     />
-            <cn.entertech.realtimedatasdk.realtime.RealtimeAttentionView
+            <cn.entertech.uicomponentsdk.realtime.RealtimeAttentionView
                     android:id="@+id/attention_tip1"
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:layout_marginLeft="@dimen/activity_margin"
@@ -239,8 +239,8 @@
                     android:layout_height="wrap_content"
                     >
 
-            </cn.entertech.realtimedatasdk.realtime.RealtimeAttentionView>
-            <cn.entertech.realtimedatasdk.realtime.RealtimeAttentionView
+            </cn.entertech.uicomponentsdk.realtime.RealtimeAttentionView>
+            <cn.entertech.uicomponentsdk.realtime.RealtimeAttentionView
                     android:layout_marginBottom="@dimen/margin_vertical"
                     android:id="@+id/attention_tip2"
                     android:layout_marginTop="@dimen/activity_margin_half"
@@ -250,7 +250,7 @@
                     android:layout_height="wrap_content"
                     >
 
-            </cn.entertech.realtimedatasdk.realtime.RealtimeAttentionView>
+            </cn.entertech.uicomponentsdk.realtime.RealtimeAttentionView>
 
         </LinearLayout>
 

@@ -29,7 +29,7 @@
                     android:textColor="@color/colorDefaultBlack"
                     />
 
-            <cn.entertech.realtimedatasdk.realtime.RealtimeBrainwaveView
+            <cn.entertech.uicomponentsdk.realtime.RealtimeBrainwaveView
                     android:id="@+id/brainwave_view"
                     android:layout_marginTop="@dimen/activity_margin"
                     android:layout_marginLeft="@dimen/activity_margin"
@@ -43,9 +43,9 @@
                     app:rbv_rightBrainwaveColor="#0064ff"
                     >
 
-            </cn.entertech.realtimedatasdk.realtime.RealtimeBrainwaveView>
+            </cn.entertech.uicomponentsdk.realtime.RealtimeBrainwaveView>
 
-            <cn.entertech.realtimedatasdk.realtime.RealtimeBrainwaveSpectrumView
+            <cn.entertech.uicomponentsdk.realtime.RealtimeBrainwaveSpectrumView
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
@@ -56,7 +56,7 @@
                     app:rbsv_processBarColors="#0064ff,#0064ff,#0064ff,#0064ff,#0064ff"
                     >
 
-            </cn.entertech.realtimedatasdk.realtime.RealtimeBrainwaveSpectrumView>
+            </cn.entertech.uicomponentsdk.realtime.RealtimeBrainwaveSpectrumView>
 
             <TextView
                     android:layout_marginTop="@dimen/margin_vertical"
@@ -68,7 +68,7 @@
                     android:textColor="@color/colorDefaultBlack"
                     />
 
-            <cn.entertech.realtimedatasdk.realtime.RealtimeHeartRateView
+            <cn.entertech.uicomponentsdk.realtime.RealtimeHeartRateView
                     android:layout_marginTop="@dimen/activity_margin"
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
@@ -78,7 +78,7 @@
                     app:rhrv_mainColor="#ff4852"
                     >
 
-            </cn.entertech.realtimedatasdk.realtime.RealtimeHeartRateView>
+            </cn.entertech.uicomponentsdk.realtime.RealtimeHeartRateView>
 
             <TextView
                     android:layout_marginTop="@dimen/margin_vertical"
@@ -96,7 +96,7 @@
                     android:layout_marginTop="@dimen/activity_margin"
                     >
 
-                <cn.entertech.realtimedatasdk.realtime.RealtimeAttentionView
+                <cn.entertech.uicomponentsdk.realtime.RealtimeAttentionView
                         app:rav_background="@drawable/shape_attention_bg"
                         android:layout_width="0dp"
                         android:layout_weight="1"
@@ -105,9 +105,9 @@
                         app:rav_mainColor="#00d993"
                         >
 
-                </cn.entertech.realtimedatasdk.realtime.RealtimeAttentionView>
+                </cn.entertech.uicomponentsdk.realtime.RealtimeAttentionView>
 
-                <cn.entertech.realtimedatasdk.realtime.RealtimeRelaxationView
+                <cn.entertech.uicomponentsdk.realtime.RealtimeRelaxationView
                         app:rrv_background="@drawable/shape_relaxation_bg"
                         android:layout_width="0dp"
                         android:layout_weight="1"
@@ -117,11 +117,11 @@
                         app:rrv_mainColor="#ffc200"
                         >
 
-                </cn.entertech.realtimedatasdk.realtime.RealtimeRelaxationView>
+                </cn.entertech.uicomponentsdk.realtime.RealtimeRelaxationView>
 
             </LinearLayout>
 
-            <cn.entertech.realtimedatasdk.realtime.RealtimePressureView
+            <cn.entertech.uicomponentsdk.realtime.RealtimePressureView
                     android:layout_marginBottom="@dimen/margin_vertical"
                     app:rpv_background="@drawable/shape_pressure_bg"
                     android:layout_marginTop="@dimen/activity_margin_half"
@@ -132,7 +132,7 @@
                     app:rpv_mainColor="#ff4852"
                     >
 
-            </cn.entertech.realtimedatasdk.realtime.RealtimePressureView>
+            </cn.entertech.uicomponentsdk.realtime.RealtimePressureView>
         </LinearLayout>
 
     </ScrollView>
