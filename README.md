@@ -64,6 +64,7 @@ allprojects {
 实时脑波频谱
 
 ![image-20191010150032042](image/realtime_brainwave_spectrum.png)
+
 | 参数                  | 类型             | 默认值                                       | 说明                                                   |
 | --------------------- | ---------------- | -------------------------------------------- | ------------------------------------------------------ |
 | rbsv_mainColor        | color            | `#23233A`                                    | 主色                                                   |
@@ -78,6 +79,7 @@ allprojects {
 实时脑波图
 
 ![image-20191010150729231](image/realtime_brainwave.png)
+
 | 参数                    | 类型             | 默认值      | 说明               |
 | ----------------------- | ---------------- | ----------- | ------------------ |
 | rbv_mainColor           | color            | `#23233A`   | 主色               |
@@ -143,6 +145,7 @@ var reportData = reportFileHelpr.readReportFile(fileName)
 **ReportBrainwaveSpecrumView**
 
 ![image-20191014140326307](image/report_brainwave_spectrum.png)
+
 | 参数                   | 类型             | 默认值                                    | 说明                                      |
 | ---------------------- | ---------------- | ----------------------------------------- | ----------------------------------------- |
 | rbs_mainColor          | color            | `#23233A`                                 | 主色                                      |
