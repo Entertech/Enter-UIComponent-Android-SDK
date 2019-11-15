@@ -118,6 +118,7 @@ class RealtimeHeartRateView @JvmOverloads constructor(
         tv_max_heart_unit.typeface = typeface
     }
 
+
     fun setHeartValue(heartRate: Int?) {
         if (heartRate == null) {
             return

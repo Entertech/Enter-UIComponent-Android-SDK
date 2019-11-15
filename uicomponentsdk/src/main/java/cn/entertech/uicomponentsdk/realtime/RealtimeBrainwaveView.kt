@@ -19,8 +19,10 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.utils.getOpacityColor
-import com.airbnb.lottie.LottieAnimationView
+import cn.entertech.uicomponentsdk.widget.GifMovieView
 import kotlinx.android.synthetic.main.view_meditation_brainwave.view.*
+import kotlinx.android.synthetic.main.view_meditation_brainwave.view.icon_loading
+import kotlinx.android.synthetic.main.view_meditation_brainwave.view.tv_title
 
 class RealtimeBrainwaveView @JvmOverloads constructor(
     context: Context,
@@ -67,6 +69,7 @@ class RealtimeBrainwaveView @JvmOverloads constructor(
     }
 
     fun initView() {
+        icon_loading.loadGif("loading.gif")
         if (mInfoIconRes != null) {
             iv_brain_real_time_info.setImageResource(mInfoIconRes!!)
         }
@@ -124,7 +127,7 @@ class RealtimeBrainwaveView @JvmOverloads constructor(
 
     fun showLoading() {
         mSelfView.findViewById<RelativeLayout>(R.id.rl_loading_cover_1).visibility = View.VISIBLE
-        mSelfView.findViewById<LottieAnimationView>(R.id.icon_loading).visibility = View.VISIBLE
+        mSelfView.findViewById<GifMovieView>(R.id.icon_loading).visibility = View.VISIBLE
         mSelfView.findViewById<TextView>(R.id.tv_disconnect_text_1).visibility = View.GONE
     }
 
@@ -134,7 +137,7 @@ class RealtimeBrainwaveView @JvmOverloads constructor(
 
     fun showDisconnectTip() {
         mSelfView.findViewById<RelativeLayout>(R.id.rl_loading_cover_1).visibility = View.VISIBLE
-        mSelfView.findViewById<LottieAnimationView>(R.id.icon_loading).visibility = View.GONE
+        mSelfView.findViewById<GifMovieView>(R.id.icon_loading).visibility = View.GONE
         mSelfView.findViewById<TextView>(R.id.tv_disconnect_text_1).visibility = View.VISIBLE
         var sampleBrainData = ArrayList<Double>()
         for (i in 0..150) {
@@ -142,6 +145,14 @@ class RealtimeBrainwaveView @JvmOverloads constructor(
         }
         mSelfView.findViewById<BrainWaveSurfaceView>(R.id.bsv_brainwave_left).setSampleData(sampleBrainData)
         mSelfView.findViewById<BrainWaveSurfaceView>(R.id.bsv_brainwave_right).setSampleData(sampleBrainData)
+    }
+
+    fun hideDisconnectTip(){
+        mSelfView.findViewById<RelativeLayout>(R.id.rl_loading_cover_1).visibility = View.GONE
+        mSelfView.findViewById<GifMovieView>(R.id.icon_loading).visibility = View.GONE
+        mSelfView.findViewById<TextView>(R.id.tv_disconnect_text_1).visibility = View.GONE
+        mSelfView.findViewById<BrainWaveSurfaceView>(R.id.bsv_brainwave_left).hideSampleData()
+        mSelfView.findViewById<BrainWaveSurfaceView>(R.id.bsv_brainwave_right).hideSampleData()
     }
 
     fun setLeftBrainwaveLineColor(color: Int) {

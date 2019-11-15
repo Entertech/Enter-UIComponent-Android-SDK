@@ -16,6 +16,9 @@ import android.graphics.drawable.GradientDrawable
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.utils.getOpacityColor
 import kotlinx.android.synthetic.main.view_meditation_emotion.view.*
+import kotlinx.android.synthetic.main.view_meditation_emotion.view.icon_loading
+import kotlinx.android.synthetic.main.view_meditation_emotion.view.ll_bg
+import kotlinx.android.synthetic.main.view_meditation_emotion.view.tv_title
 
 
 class RealtimePressureView @JvmOverloads constructor(
@@ -57,6 +60,7 @@ class RealtimePressureView @JvmOverloads constructor(
     }
 
     fun initView() {
+        icon_loading.loadGif("loading.gif")
         var stressScale = arrayOf(0, 1, 2, 3, 4, 5)
         var stressIndicatorItems = arrayListOf<EmotionIndicatorView.IndicateItem>()
         stressIndicatorItems.add(
@@ -124,9 +128,9 @@ class RealtimePressureView @JvmOverloads constructor(
             return
         }
         var pressureValue = String.format("%.1f", value / 20f).toFloat()
-        var valueLevel = if (value >= 0 && value < 1) {
+        var valueLevel = if (pressureValue >= 0 && pressureValue < 1) {
             "低"
-        } else if (value >= 1 && value < 3.5) {
+        } else if (pressureValue >= 1 && pressureValue < 3.5) {
             "正常"
         } else {
             "高"

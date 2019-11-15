@@ -16,6 +16,7 @@ import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.utils.getOpacityColor
 import kotlinx.android.synthetic.main.view_meditation_brainwave.view.tv_title
 import kotlinx.android.synthetic.main.view_meditation_brainwave_spectrum.view.*
+import kotlinx.android.synthetic.main.view_meditation_brainwave_spectrum.view.icon_loading
 
 class RealtimeBrainwaveSpectrumView @JvmOverloads constructor(
     context: Context,
@@ -63,6 +64,7 @@ class RealtimeBrainwaveSpectrumView @JvmOverloads constructor(
     }
 
     fun initView() {
+        icon_loading.loadGif("loading.gif")
         if (mInfoIconRes != null) {
             iv_spectrum_real_time_info.setImageResource(mInfoIconRes!!)
         }

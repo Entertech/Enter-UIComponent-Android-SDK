@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.view_meditation_emotion.view.ll_bg
 import kotlinx.android.synthetic.main.view_meditation_emotion.view.tv_title
 
 
-class RealtimeRelaxationView @JvmOverloads constructor(
+class RealtimeArousalView @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -30,12 +30,13 @@ class RealtimeRelaxationView @JvmOverloads constructor(
     private var mBg: Drawable? = null
     private var mMainColor: Int = Color.parseColor("#0064ff")
     private var mTextColor: Int = Color.parseColor("#171726")
-    var mSelfView: View = LayoutInflater.from(context).inflate(R.layout.view_meditation_emotion, null)
+    var mSelfView: View =
+        LayoutInflater.from(context).inflate(R.layout.view_meditation_emotion, null)
     private var mTextFont: String? = null
     private var mInfoUrl: String? = null
 
     companion object {
-        const val INFO_URL = "https://www.notion.so/Relaxation-c9e3b39634a14d2fa47eaed1d55d872b"
+        const val INFO_URL = "https://www.notion.so/Arousal-ee57f4590373442b9107b7ce665e1253"
     }
 
     private var mIsShowInfoIcon: Boolean = true
@@ -44,43 +45,38 @@ class RealtimeRelaxationView @JvmOverloads constructor(
         var layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         mSelfView.layoutParams = layoutParams
         addView(mSelfView)
-        var typeArray = context.obtainStyledAttributes(attributeSet,
-            R.styleable.RealtimeRelaxationView
+        var typeArray = context.obtainStyledAttributes(
+            attributeSet,
+            R.styleable.RealtimeArousalView
         )
-        mMainColor = typeArray.getColor(R.styleable.RealtimeRelaxationView_rrv_mainColor, mMainColor)
-        mTextColor = typeArray.getColor(R.styleable.RealtimeRelaxationView_rrv_textColor, mTextColor)
-        mBg = typeArray.getDrawable(R.styleable.RealtimeRelaxationView_rrv_background)
-        mIsShowInfoIcon = typeArray.getBoolean(R.styleable.RealtimeRelaxationView_rrv_isShowInfoIcon, true)
-        mInfoUrl = typeArray.getString(R.styleable.RealtimeRelaxationView_rrv_infoUrl)
+        mMainColor = typeArray.getColor(R.styleable.RealtimeArousalView_rarv_mainColor, mMainColor)
+        mTextColor = typeArray.getColor(R.styleable.RealtimeArousalView_rarv_textColor, mTextColor)
+        mBg = typeArray.getDrawable(R.styleable.RealtimeArousalView_rarv_background)
+        mIsShowInfoIcon =
+            typeArray.getBoolean(R.styleable.RealtimeArousalView_rarv_isShowInfoIcon, true)
+        mInfoUrl = typeArray.getString(R.styleable.RealtimeArousalView_rarv_infoUrl)
         if (mInfoUrl == null) {
             mInfoUrl = INFO_URL
         }
-        mTextFont = typeArray.getString(R.styleable.RealtimeRelaxationView_rrv_textFont)
+        mTextFont = typeArray.getString(R.styleable.RealtimeArousalView_rarv_textFont)
         initView()
     }
 
     fun initView() {
         icon_loading.loadGif("loading.gif")
-        var relaxationScale = arrayOf(0, 60, 80, 100)
-        var relaxationIndicatorItems = arrayListOf<EmotionIndicatorView.IndicateItem>()
-        relaxationIndicatorItems.add(
+        var stressScale = arrayOf(-2, -1, 0, 1, 2)
+        var stressIndicatorItems = arrayListOf<EmotionIndicatorView.IndicateItem>()
+        stressIndicatorItems.add(
             EmotionIndicatorView.IndicateItem(
-                0.6f,
+                0.5f,
                 getOpacityColor(mMainColor, 0.3f)
             )
         )
-        relaxationIndicatorItems.add(
-            EmotionIndicatorView.IndicateItem(
-                0.2f,
-                getOpacityColor(mMainColor, 0.5f)
-            )
-        )
-        relaxationIndicatorItems.add(EmotionIndicatorView.IndicateItem(0.2f, mMainColor))
-        eiv_emotion.setScales(relaxationScale)
-        eiv_emotion.setIndicatorItems(relaxationIndicatorItems)
+        stressIndicatorItems.add(EmotionIndicatorView.IndicateItem(0.5f, mMainColor))
+        eiv_emotion.setScales(stressScale)
+        eiv_emotion.setIndicatorItems(stressIndicatorItems)
         eiv_emotion.setIndicatorColor(mMainColor)
-        eiv_emotion
-            .setScaleTextColor(getOpacityColor(mMainColor, 0.7f))
+        eiv_emotion.setScaleTextColor(getOpacityColor(mMainColor, 0.7f))
         iv_emotion_real_time_info.setOnClickListener {
             var uri = Uri.parse(mInfoUrl)
             context.startActivity(Intent(Intent.ACTION_VIEW, uri))
@@ -103,7 +99,7 @@ class RealtimeRelaxationView @JvmOverloads constructor(
         }
         tv_emotion_value.setTextColor(mTextColor)
         tv_title.setTextColor(mMainColor)
-        tv_title.text = "放松度"
+        tv_title.text = "激活度"
         tv_emotion_level.setTextColor(mMainColor)
         tv_emotion_level.background =
             context.getDrawable(R.drawable.shape_emotion_level_bg)
@@ -123,29 +119,28 @@ class RealtimeRelaxationView @JvmOverloads constructor(
         tv_disconnect_text_1.typeface = typeface
     }
 
-    fun setRelaxation(value: Float?) {
+
+    fun setArousal(value: Float?) {
         if (value == null) {
             return
         }
-        var valueLevel = if (value >= 0 && value < 60) {
-            "低"
-        } else if (value >= 60 && value < 80) {
-            "正常"
-        } else {
+        var arousalValue = String.format("%.1f", value / 25f - 2f).toFloat()
+        var valueLevel = if (value >= 0 && value < 2) {
             "高"
+        } else {
+            "低"
         }
         tv_emotion_level.text = valueLevel
-        eiv_emotion.setValue(value)
-        tv_emotion_value.text = "${value.toInt()}"
+        eiv_emotion.setValue(arousalValue)
+        tv_emotion_value.text = "$arousalValue"
     }
 
     fun showDisconnectTip() {
         rl_loading_cover_1.visibility = View.VISIBLE
         icon_loading.visibility = View.GONE
         tv_disconnect_text_1.visibility = View.VISIBLE
-        setRelaxation(39f)
+        setArousal(1.2f)
     }
-
 
     fun showLoading() {
         rl_loading_cover_1.visibility = View.VISIBLE
@@ -156,7 +151,6 @@ class RealtimeRelaxationView @JvmOverloads constructor(
     fun hindLoading() {
         rl_loading_cover_1.visibility = View.GONE
     }
-
 
     override fun setBackgroundColor(color: Int) {
         ll_bg.setBackgroundColor(color)
@@ -191,5 +185,4 @@ class RealtimeRelaxationView @JvmOverloads constructor(
         this.mInfoIconRes = res
         initView()
     }
-
 }

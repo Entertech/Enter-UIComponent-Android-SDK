@@ -33,18 +33,20 @@ public class GifMovieView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawColor(Color.TRANSPARENT);
-        super.onDraw(canvas);
-        final long now = SystemClock.uptimeMillis();
+        if (mMovie != null){
+            canvas.drawColor(Color.TRANSPARENT);
+            super.onDraw(canvas);
+            final long now = SystemClock.uptimeMillis();
 
-        if (mMoviestart == 0) {
-            mMoviestart = now;
+            if (mMoviestart == 0) {
+                mMoviestart = now;
+            }
+
+            final int relTime = (int) ((now - mMoviestart) % mMovie.duration());
+            mMovie.setTime(relTime);
+            mMovie.draw(canvas, 0, 0);
+            this.invalidate();
         }
-
-        final int relTime = (int) ((now - mMoviestart) % mMovie.duration());
-        mMovie.setTime(relTime);
-        mMovie.draw(canvas, 0, 0);
-        this.invalidate();
     }
 
     public void loadGif(String assetFileName) {

@@ -21,5 +21,7 @@ class RealtimeDefaultFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         attention_tip1.showDisconnectTip()
         attention_tip2.showLoading()
+        brainwave_view.showDisconnectTip()
+        brainwave_view.hideDisconnectTip()
     }
 }
