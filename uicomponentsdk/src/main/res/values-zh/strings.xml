@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">RealtimeDataSDK</string>
     <string name="meditation_no_device_tip">连接设备以显示实时数据</string>
     <string name="heart_rate_unit_bpm">bpm</string>
     <string name="time_unit">时间（分钟）</string>
