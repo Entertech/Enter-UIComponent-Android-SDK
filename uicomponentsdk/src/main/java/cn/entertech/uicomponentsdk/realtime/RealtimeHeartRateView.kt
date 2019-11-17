@@ -46,15 +46,22 @@ class RealtimeHeartRateView @JvmOverloads constructor(
         var layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         mSelfView.layoutParams = layoutParams
         addView(mSelfView)
-        var typeArray = context.obtainStyledAttributes(attributeSet,
+        var typeArray = context.obtainStyledAttributes(
+            attributeSet,
             R.styleable.RealtimeHeartRateView
         )
         mBg = typeArray.getDrawable(R.styleable.RealtimeHeartRateView_rhrv_background)
         mIsShowExtremeValue =
-            typeArray.getBoolean(R.styleable.RealtimeHeartRateView_rhrv_isShowExtremeValue, mIsShowExtremeValue)
-        mHeartTextColor = typeArray.getColor(R.styleable.RealtimeHeartRateView_rhrv_textColor, mHeartTextColor)
-        mMainColor = typeArray.getColor(R.styleable.RealtimeHeartRateView_rhrv_mainColor, mMainColor)
-        mIsShowInfoIcon = typeArray.getBoolean(R.styleable.RealtimeHeartRateView_rhrv_isShowInfoIcon, true)
+            typeArray.getBoolean(
+                R.styleable.RealtimeHeartRateView_rhrv_isShowExtremeValue,
+                mIsShowExtremeValue
+            )
+        mHeartTextColor =
+            typeArray.getColor(R.styleable.RealtimeHeartRateView_rhrv_textColor, mHeartTextColor)
+        mMainColor =
+            typeArray.getColor(R.styleable.RealtimeHeartRateView_rhrv_mainColor, mMainColor)
+        mIsShowInfoIcon =
+            typeArray.getBoolean(R.styleable.RealtimeHeartRateView_rhrv_isShowInfoIcon, true)
         mInfoUrl = typeArray.getString(R.styleable.RealtimeHeartRateView_rhrv_infoUrl)
         if (mInfoUrl == null) {
             mInfoUrl = INFO_URL
@@ -73,7 +80,7 @@ class RealtimeHeartRateView @JvmOverloads constructor(
         var gifMovieView = GifMovieView(context, stream)
         gif_container.addView(gifMovieView)
         icon_loading.loadGif("loading.gif")
-        if (mInfoIconRes != null){
+        if (mInfoIconRes != null) {
             iv_heart_real_time_info.setImageResource(mInfoIconRes!!)
         }
         if (mIsShowInfoIcon) {
@@ -139,8 +146,8 @@ class RealtimeHeartRateView @JvmOverloads constructor(
             }
         }
         tv_heart_rate.text = "$heartRate"
-        tv_max_heart.text = "Max:$maxHeart"
-        tv_min_heart.text = "Min:$minHeart"
+        tv_max_heart.text = "${context.getString(R.string.max)}$maxHeart"
+        tv_min_heart.text = "${context.getString(R.string.min)}$minHeart"
     }
 
     fun showLoading() {
@@ -149,7 +156,7 @@ class RealtimeHeartRateView @JvmOverloads constructor(
         tv_disconnect_text.visibility = View.GONE
     }
 
-    fun hindLoading() {
+    fun hideLoading() {
         rl_loading_cover.visibility = View.GONE
     }
 

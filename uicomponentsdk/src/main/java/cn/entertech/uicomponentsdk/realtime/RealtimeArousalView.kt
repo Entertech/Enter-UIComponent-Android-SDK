@@ -99,7 +99,7 @@ class RealtimeArousalView @JvmOverloads constructor(
         }
         tv_emotion_value.setTextColor(mTextColor)
         tv_title.setTextColor(mMainColor)
-        tv_title.text = "激活度"
+        tv_title.text = context.getString(R.string.arousal)
         tv_emotion_level.setTextColor(mMainColor)
         tv_emotion_level.background =
             context.getDrawable(R.drawable.shape_emotion_level_bg)
@@ -126,9 +126,9 @@ class RealtimeArousalView @JvmOverloads constructor(
         }
         var arousalValue = String.format("%.1f", value / 25f - 2f).toFloat()
         var valueLevel = if (value >= 0 && value < 2) {
-            "高"
+            context.getString(R.string.high)
         } else {
-            "低"
+            context.getString(R.string.low)
         }
         tv_emotion_level.text = valueLevel
         eiv_emotion.setValue(arousalValue)
@@ -148,7 +148,7 @@ class RealtimeArousalView @JvmOverloads constructor(
         tv_disconnect_text_1.visibility = View.GONE
     }
 
-    fun hindLoading() {
+    fun hideLoading() {
         rl_loading_cover_1.visibility = View.GONE
     }
 

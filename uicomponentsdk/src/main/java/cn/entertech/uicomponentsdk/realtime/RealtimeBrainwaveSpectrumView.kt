@@ -130,7 +130,7 @@ class RealtimeBrainwaveSpectrumView @JvmOverloads constructor(
         tv_disconnect_text_2.visibility = View.GONE
     }
 
-    fun hindLoading() {
+    fun hideLoading() {
         rl_loading_cover_2.visibility = View.GONE
     }
 

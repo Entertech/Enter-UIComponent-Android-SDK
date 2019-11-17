@@ -131,7 +131,7 @@ class RealtimeBrainwaveView @JvmOverloads constructor(
         mSelfView.findViewById<TextView>(R.id.tv_disconnect_text_1).visibility = View.GONE
     }
 
-    fun hindLoading() {
+    fun hideLoading() {
         mSelfView.findViewById<RelativeLayout>(R.id.rl_loading_cover_1).visibility = View.GONE
     }
 

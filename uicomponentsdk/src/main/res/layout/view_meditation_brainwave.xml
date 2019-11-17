@@ -38,7 +38,7 @@
                         android:textColor="#555b7f"
                         android:lineSpacingExtra="8sp"
                         android:layout_centerVertical="true"
-                        android:text="实时脑波"
+                        android:text="@string/brainwave"
                         />
 
                 <ImageView
@@ -85,7 +85,7 @@
                             android:textStyle="normal"
                             android:textColor="#999999"
                             android:gravity="top"
-                            android:text="右脑 (FP2)"
+                            android:text="@string/brainwave_legend_right"
                             />
 
                 </LinearLayout>
@@ -118,7 +118,7 @@
                             android:textStyle="normal"
                             android:textColor="#999999"
                             android:gravity="top"
-                            android:text="左脑 (FP1)"
+                            android:text="@string/brianwave_legend_left"
                             />
                 </LinearLayout>
             </RelativeLayout>

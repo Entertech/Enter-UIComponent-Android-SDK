@@ -32,7 +32,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    app:clv_legend="γ 波"
+                    app:clv_legend="@string/gamma_wave"
                     app:clv_color="@color/colorStatisticsGammaWave"
                     >
 
@@ -43,7 +43,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    app:clv_legend="β 波"
+                    app:clv_legend="@string/beta_wave"
                     app:clv_color="@color/colorStatisticsBetaWave"
                     >
 
@@ -54,7 +54,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    app:clv_legend="α 波"
+                    app:clv_legend="@string/alpha_wave"
                     app:clv_color="@color/colorStatisticsAlphaWave"
                     >
 
@@ -65,7 +65,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    app:clv_legend="θ 波"
+                    app:clv_legend="@string/theta_wave"
                     app:clv_color="@color/colorStatisticsThetaWave"
                     >
 
@@ -76,7 +76,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    app:clv_legend="δ 波"
+                    app:clv_legend="@string/delta_wave"
                     app:clv_color="@color/colorStatisticsDeltaWave"
                     >
 
@@ -99,7 +99,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    app:cvtv_text="各个频谱脑电波占比(%)"
+                    app:cvtv_text="@string/brainwave_spectrum_chart_title"
                     app:cvtv_textSize="12sp"
                     />
 

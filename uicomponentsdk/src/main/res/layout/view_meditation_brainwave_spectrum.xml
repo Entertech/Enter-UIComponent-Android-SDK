@@ -36,7 +36,7 @@
                         android:textColor="#555b7f"
                         android:lineSpacingExtra="8sp"
                         android:layout_centerVertical="true"
-                        android:text="脑波频谱"
+                        android:text="@string/brainwave_spectrum"
                         />
 
                 <ImageView
@@ -64,7 +64,7 @@
                     app:ppb_barLeftPadding="@dimen/activity_margin"
                     app:ppb_barRightPadding="@dimen/activity_margin"
                     app:ppb_barWidth="@dimen/dp_4"
-                    app:ppb_labelText="γ wave"
+                    app:ppb_labelText="@string/gamma_wave"
                     app:ppb_barColor="@color/colorGammaWave"
                     app:ppb_percentTextSize="12sp"
                     >
@@ -84,7 +84,7 @@
                     app:ppb_barLeftPadding="@dimen/activity_margin"
                     app:ppb_barRightPadding="@dimen/activity_margin"
                     app:ppb_barWidth="@dimen/dp_4"
-                    app:ppb_labelText="β wave"
+                    app:ppb_labelText="@string/beta_wave"
                     app:ppb_percentTextSize="12sp"
                     >
 
@@ -103,7 +103,7 @@
                     app:ppb_percent="1"
                     app:ppb_barColor="@color/colorAlphaWave"
                     app:ppb_barWidth="@dimen/dp_4"
-                    app:ppb_labelText="α wave"
+                    app:ppb_labelText="@string/alpha_wave"
                     app:ppb_percentTextSize="12sp"
                     >
 
@@ -122,7 +122,7 @@
                     app:ppb_barLeftPadding="@dimen/activity_margin"
                     app:ppb_barRightPadding="@dimen/activity_margin"
                     app:ppb_barWidth="@dimen/dp_4"
-                    app:ppb_labelText="θ wave"
+                    app:ppb_labelText="@string/theta_wave"
                     app:ppb_percentTextSize="12sp"
                     >
 
@@ -138,7 +138,7 @@
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
                     app:ppb_labelTextSize="12sp"
-                    app:ppb_labelText="δ wave"
+                    app:ppb_labelText="@string/delta_wave"
                     app:ppb_barColor="@color/colorDeltaWave"
                     app:ppb_barLeftPadding="@dimen/activity_margin"
                     app:ppb_barRightPadding="@dimen/activity_margin"

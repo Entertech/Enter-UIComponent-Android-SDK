@@ -71,7 +71,7 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
     }
 
     fun initView() {
-        tv_title.text = "脑电波频谱"
+        tv_title.text = context.getString(R.string.brainwave_spectrum)
         tv_title.setTextColor(mMainColor)
         tv_vertical.setTextColor(getOpacityColor(mTextColor, 0.7f))
         var bgColor = Color.WHITE

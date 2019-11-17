@@ -59,7 +59,8 @@ class ReportAffectiveView @JvmOverloads constructor(
         mMainColor = typeArray.getColor(R.styleable.ReportAffectiveView_ra_mainColor, mMainColor)
         mTextColor = typeArray.getColor(R.styleable.ReportAffectiveView_ra_textColor, mTextColor)
         mBg = typeArray.getDrawable(R.styleable.ReportAffectiveView_ra_background)
-        mIsShowInfoIcon = typeArray.getBoolean(R.styleable.ReportAffectiveView_ra_isShowInfoIcon, true)
+        mIsShowInfoIcon =
+            typeArray.getBoolean(R.styleable.ReportAffectiveView_ra_isShowInfoIcon, true)
         mInfoUrl = typeArray.getString(R.styleable.ReportAffectiveView_ra_infoUrl)
         if (mInfoUrl == null) {
             mInfoUrl = INFO_URL
@@ -70,7 +71,8 @@ class ReportAffectiveView @JvmOverloads constructor(
         mIsShowMin = typeArray.getBoolean(R.styleable.ReportAffectiveView_ra_isShowMin, true)
         mFillColor = typeArray.getColor(R.styleable.ReportAffectiveView_ra_fillColor, mFillColor)
         mEmotionType = typeArray.getInteger(R.styleable.ReportAffectiveView_ra_emotionType, 0)
-        mIsAbsoluteTime = typeArray.getBoolean(R.styleable.ReportAffectiveView_ra_isAbsoluteTimeAxis, false)
+        mIsAbsoluteTime =
+            typeArray.getBoolean(R.styleable.ReportAffectiveView_ra_isAbsoluteTimeAxis, false)
         initView()
     }
 
@@ -78,12 +80,12 @@ class ReportAffectiveView @JvmOverloads constructor(
         tv_title.setTextColor(mMainColor)
         when (mEmotionType) {
             0 -> {
-                tv_title.text = "专注度"
-                tv_vertical.setText("专注度")
+                tv_title.text = context.getString(R.string.attention)
+                tv_vertical.setText(context.getString(R.string.attention_chart_title))
             }
             1 -> {
-                tv_title.text = "放松度"
-                tv_vertical.setText("放松度")
+                tv_title.text = context.getString(R.string.relaxation)
+                tv_vertical.setText(context.getString(R.string.relaxation_chart_title))
             }
         }
         tv_time_unit_des.setTextColor(getOpacityColor(mTextColor, 0.7f))
@@ -135,12 +137,12 @@ class ReportAffectiveView @JvmOverloads constructor(
         } else {
             ll_min.visibility = View.GONE
         }
-        var fillColors = intArrayOf(mFillColor, getOpacityColor(mFillColor, 0.7f))
+        var fillColors = intArrayOf(getOpacityColor(mFillColor, 0.4f), mFillColor)
         chart_attention.setColors(fillColors)
     }
 
     fun setData(startTime: Long, data: List<Double>?) {
-        if (startTime == null || data == null){
+        if (startTime == null || data == null) {
             return
         }
         chart_attention.setValues(data)
@@ -157,8 +159,8 @@ class ReportAffectiveView @JvmOverloads constructor(
         tv_avg.text = "${context.getString(R.string.avg)}${avg.toInt()}"
         tv_max.text = "${context.getString(R.string.max)}${attentionMax.toInt()}"
         tv_min.text = "${context.getString(R.string.min)}${attentionMin.toInt()}"
-        if (mIsAbsoluteTime){
-            chart_attention.isAbsoluteTime(true,startTime)
+        if (mIsAbsoluteTime) {
+            chart_attention.isAbsoluteTime(true, startTime)
         }
     }
 

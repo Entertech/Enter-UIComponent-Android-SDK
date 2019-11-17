@@ -103,7 +103,7 @@ class RealtimeRelaxationView @JvmOverloads constructor(
         }
         tv_emotion_value.setTextColor(mTextColor)
         tv_title.setTextColor(mMainColor)
-        tv_title.text = "放松度"
+        tv_title.text = context.getString(R.string.relaxation)
         tv_emotion_level.setTextColor(mMainColor)
         tv_emotion_level.background =
             context.getDrawable(R.drawable.shape_emotion_level_bg)
@@ -128,11 +128,11 @@ class RealtimeRelaxationView @JvmOverloads constructor(
             return
         }
         var valueLevel = if (value >= 0 && value < 60) {
-            "低"
+            context.getString(R.string.low)
         } else if (value >= 60 && value < 80) {
-            "正常"
+            context.getString(R.string.normal)
         } else {
-            "高"
+            context.getString(R.string.high)
         }
         tv_emotion_level.text = valueLevel
         eiv_emotion.setValue(value)
@@ -153,7 +153,7 @@ class RealtimeRelaxationView @JvmOverloads constructor(
         tv_disconnect_text_1.visibility = View.GONE
     }
 
-    fun hindLoading() {
+    fun hideLoading() {
         rl_loading_cover_1.visibility = View.GONE
     }
 

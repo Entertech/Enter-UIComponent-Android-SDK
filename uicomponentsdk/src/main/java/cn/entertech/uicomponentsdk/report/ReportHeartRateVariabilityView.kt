@@ -17,6 +17,7 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.utils.getOpacityColor
+import cn.entertech.uicomponentsdk.utils.removeZeroData
 import kotlinx.android.synthetic.main.layout_card_hrv.view.*
 import kotlinx.android.synthetic.main.layout_common_card_title.view.*
 import kotlinx.android.synthetic.main.layout_common_card_title.view.tv_title
@@ -53,26 +54,38 @@ class ReportHeartRateVariabilityView @JvmOverloads constructor(
             attributeSet,
             R.styleable.ReportHeartRateVariabilityView
         )
-        mMainColor = typeArray.getColor(R.styleable.ReportHeartRateVariabilityView_hrv_mainColor, mMainColor)
-        mTextColor = typeArray.getColor(R.styleable.ReportHeartRateVariabilityView_hrv_textColor, mTextColor)
+        mMainColor =
+            typeArray.getColor(R.styleable.ReportHeartRateVariabilityView_hrv_mainColor, mMainColor)
+        mTextColor =
+            typeArray.getColor(R.styleable.ReportHeartRateVariabilityView_hrv_textColor, mTextColor)
         mBg = typeArray.getDrawable(R.styleable.ReportHeartRateVariabilityView_hrv_background)
-        mIsShowInfoIcon = typeArray.getBoolean(R.styleable.ReportHeartRateVariabilityView_hrv_isShowInfoIcon, true)
+        mIsShowInfoIcon = typeArray.getBoolean(
+            R.styleable.ReportHeartRateVariabilityView_hrv_isShowInfoIcon,
+            true
+        )
         mInfoUrl = typeArray.getString(R.styleable.ReportHeartRateVariabilityView_hrv_infoUrl)
         if (mInfoUrl == null) {
             mInfoUrl = ReportHeartRateView.INFO_URL
         }
 
-        mIsShowAvg = typeArray.getBoolean(R.styleable.ReportHeartRateVariabilityView_hrv_isShowAvg, true)
-        mIsShowMax = typeArray.getBoolean(R.styleable.ReportHeartRateVariabilityView_hrv_isShowMax, true)
-        mIsShowMin = typeArray.getBoolean(R.styleable.ReportHeartRateVariabilityView_hrv_isShowMin, true)
-        mIsAbsoluteTime = typeArray.getBoolean(R.styleable.ReportHeartRateVariabilityView_hrv_isAbsoluteTimeAxis, false)
-        mLineColor = typeArray.getColor(R.styleable.ReportHeartRateVariabilityView_hrv_lineColor, mLineColor)
+        mIsShowAvg =
+            typeArray.getBoolean(R.styleable.ReportHeartRateVariabilityView_hrv_isShowAvg, true)
+        mIsShowMax =
+            typeArray.getBoolean(R.styleable.ReportHeartRateVariabilityView_hrv_isShowMax, true)
+        mIsShowMin =
+            typeArray.getBoolean(R.styleable.ReportHeartRateVariabilityView_hrv_isShowMin, true)
+        mIsAbsoluteTime = typeArray.getBoolean(
+            R.styleable.ReportHeartRateVariabilityView_hrv_isAbsoluteTimeAxis,
+            false
+        )
+        mLineColor =
+            typeArray.getColor(R.styleable.ReportHeartRateVariabilityView_hrv_lineColor, mLineColor)
         initView()
 
     }
 
     fun initView() {
-        tv_title.text = "心率变异性"
+        tv_title.text = context.getString(R.string.hrv)
         tv_title.setTextColor(mMainColor)
         var bgColor = Color.WHITE
         if (mBg != null) {
@@ -133,11 +146,14 @@ class ReportHeartRateVariabilityView @JvmOverloads constructor(
     }
 
     fun setData(startTime: Long, data: List<Double>?, avg: Double?) {
-        if (data == null){
+        if (data == null) {
             return
         }
         hrv_chart.setValues(data)
+
         tv_heart_avg.text = "${context.getString(R.string.avg)}${avg?.toInt()}"
+        tv_heart_max.text = "${context.getString(R.string.max)}${(data.max())?.toInt()}"
+        tv_heart_min.text = "${context.getString(R.string.min)}${removeZeroData(data).min()?.toInt()}"
         if (mIsAbsoluteTime) {
             hrv_chart.isAbsoluteTime(true, startTime)
         }

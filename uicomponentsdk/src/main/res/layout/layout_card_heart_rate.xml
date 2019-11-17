@@ -32,7 +32,7 @@
                     android:layout_marginRight="@dimen/activity_margin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:clv_legend="低"
+                    app:clv_legend="@string/hr_chart_legend_low"
                     app:clv_color="@color/colorStatisticsHeartLow"
                     >
 
@@ -43,7 +43,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/activity_margin"
-                    app:clv_legend="中"
+                    app:clv_legend="@string/hr_chart_legend_neutral"
                     app:clv_color="@color/colorStatisticsHeartNeutral"
                     >
 
@@ -53,7 +53,7 @@
                     android:id="@+id/legend_high"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:clv_legend="高"
+                    app:clv_legend="@string/hr_chart_legend_high"
                     app:clv_color="@color/colorStatisticsHeartHigh"
                     >
 
@@ -77,7 +77,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    app:cvtv_text="心率 (bpm)"
+                    app:cvtv_text="@string/hr_chart_title"
                     app:cvtv_textSize="12sp"
                     />
 

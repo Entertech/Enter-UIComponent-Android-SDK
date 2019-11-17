@@ -31,7 +31,7 @@
                     android:textStyle="normal"
                     android:textColor="#666666"
                     android:gravity="center_horizontal"
-                    android:text="低"
+                    android:text="@string/pressure_legend_low"
                     />
 
             <TextView
@@ -51,7 +51,7 @@
                     android:textStyle="normal"
                     android:textColor="#666666"
                     android:gravity="center_horizontal"
-                    android:text="高"
+                    android:text="@string/pressure_legend_high"
                     />
 
 
