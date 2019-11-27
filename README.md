@@ -28,6 +28,7 @@ allprojects {
 
 ## 快速接入
 **实时控件**
+
 以实时脑波为例
 ### 1.在xml布局文件中声明控件
 
@@ -60,6 +61,7 @@ brainwave_view.setLeftBrainwave(leftBrainwave)
 <img src="https://github.com/Entertech/Enter-UIComponent-Android-SDK/blob/master/image/%E6%95%88%E6%9E%9C2.png" width="200"/>
 
 **报表控件**
+
 以脑波报表为例
 ### 1.在xml布局文件中声明控件
 
