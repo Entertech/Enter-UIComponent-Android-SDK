@@ -27,7 +27,8 @@ allprojects {
 ```
 
 ## 快速接入
-以实时脑波为例演示快速接入到工程中
+**实时控件**
+以实时脑波为例
 ### 1.在xml布局文件中声明控件
 
 ```xml
@@ -55,8 +56,45 @@ brainwave_view.setRightBrainwave(rightBrainwave)
 brainwave_view.setLeftBrainwave(leftBrainwave)
 ```
 
-## 效果
-<img src="https://github.com/Entertech/Enter-UIComponent-Android-SDK/blob/master/image/%E6%95%88%E6%9E%9C2.jpeg" width="200"/><img src="https://github.com/Entertech/Enter-UIComponent-Android-SDK/blob/master/image/%E6%95%88%E6%9E%9C1.jpeg" width="200"/>
+### 效果
+<img src="https://github.com/Entertech/Enter-UIComponent-Android-SDK/blob/master/image/%E6%95%88%E6%9E%9C2.png" width="200"/>
+
+**报表控件**
+以脑波报表为例
+### 1.在xml布局文件中声明控件
+
+```xml
+<cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumView
+                    app:rbs_background="@drawable/shape_custom_widget_bg"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    android:id="@+id/report_brainwave_spectrum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:rbs_isAbsoluteTimeAxis="true"
+                    app:rbs_textColor="@color/white"
+                    >
+
+</cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumView>
+
+```
+
+### 2.在代码文件中是指具体的值
+
+```kotlin
+report_brainwave_spectrum.setBrainwaveSpectrums(
+            startTime!!,//体验开始时间
+            reportData.reportEEGDataEntity?.gammaCurve,//γ占比曲线
+            reportData.reportEEGDataEntity?.betaCurve,// β占比曲线
+            reportData.reportEEGDataEntity?.alphaCurve,//α占比曲线
+            reportData.reportEEGDataEntity?.thetaCurve,//θ占比曲线
+            reportData.reportEEGDataEntity?.deltaCurve //δ占比曲线
+     )
+
+```
+
+### 效果
+<img src="https://github.com/Entertech/Enter-UIComponent-Android-SDK/blob/master/image/%E6%95%88%E6%9E%9C1.png" width="200"/>
 
 ## 详细API
 更多详细控件API可查看 [UI控件详细API说明](https://github.com/Entertech/Enter-UIComponent-Android-SDK/blob/master/Entertech%20UI%E6%8E%A7%E4%BB%B6%E8%AF%A6%E7%BB%86API%E8%AF%B4%E6%98%8E.md)
