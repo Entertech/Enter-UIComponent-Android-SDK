@@ -85,12 +85,12 @@ brainwave_view.setLeftBrainwave(leftBrainwave)
 
 ```kotlin
 report_brainwave_spectrum.setBrainwaveSpectrums(
-            startTime!!,//体验开始时间
-            reportData.reportEEGDataEntity?.gammaCurve,//γ占比曲线
-            reportData.reportEEGDataEntity?.betaCurve,// β占比曲线
-            reportData.reportEEGDataEntity?.alphaCurve,//α占比曲线
-            reportData.reportEEGDataEntity?.thetaCurve,//θ占比曲线
-            reportData.reportEEGDataEntity?.deltaCurve //δ占比曲线
+            startTime!!, //体验开始时间
+            gammaCurve,  //γ占比曲线
+            betaCurve,   // β占比曲线
+            alphaCurve,  //α占比曲线
+            thetaCurve,  //θ占比曲线
+            deltaCurve   //δ占比曲线
      )
 
 ```
