@@ -2,223 +2,246 @@
 <resources>
 
     <declare-styleable name="BrainWaveSurfaceView">
-        <attr name="bwsf_lineColor" format="color"/>
-        <attr name="bwsf_lineWidth" format="dimension"/>
-        <attr name="bwsf_yAxisColor" format="color"/>
-        <attr name="bwsf_gridLineColor" format="color"/>
-        <attr name="bwsf_gridLineCount" format="integer"/>
-        <attr name="bwsf_leftPadding" format="dimension"/>
-        <attr name="bwsf_rightPadding" format="dimension"/>
-        <attr name="bwsf_bgColor" format="color"/>
+        <attr name="bwsf_lineColor" format="color" />
+        <attr name="bwsf_lineWidth" format="dimension" />
+        <attr name="bwsf_yAxisColor" format="color" />
+        <attr name="bwsf_gridLineColor" format="color" />
+        <attr name="bwsf_gridLineCount" format="integer" />
+        <attr name="bwsf_leftPadding" format="dimension" />
+        <attr name="bwsf_rightPadding" format="dimension" />
+        <attr name="bwsf_bgColor" format="color" />
     </declare-styleable>
 
 
     <declare-styleable name="EmotionIndicatorView">
-        <attr name="eiv_textColor" format="color"/>
-        <attr name="eiv_textSize" format="dimension"/>
-        <attr name="eiv_textBottomPadding" format="dimension"/>
-        <attr name="eiv_barWidth" format="dimension"/>
-        <attr name="eiv_indicatorColor" format="color"/>
-        <attr name="eiv_indicatorTopPadding" format="dimension"/>
-        <attr name="eiv_leftPadding" format="dimension"/>
-        <attr name="eiv_rightPadding" format="dimension"/>
+        <attr name="eiv_textColor" format="color" />
+        <attr name="eiv_textSize" format="dimension" />
+        <attr name="eiv_textBottomPadding" format="dimension" />
+        <attr name="eiv_barWidth" format="dimension" />
+        <attr name="eiv_indicatorColor" format="color" />
+        <attr name="eiv_indicatorTopPadding" format="dimension" />
+        <attr name="eiv_leftPadding" format="dimension" />
+        <attr name="eiv_rightPadding" format="dimension" />
     </declare-styleable>
 
 
     <declare-styleable name="PercentProgressBar">
-        <attr name="ppb_labelText" format="string"/>
-        <attr name="ppb_labelTextColor" format="color"/>
-        <attr name="ppb_labelTextSize" format="dimension"/>
-        <attr name="ppb_percent" format="float"/>
-        <attr name="ppb_percentTextColor" format="color"/>
-        <attr name="ppb_percentTextSize" format="dimension"/>
-        <attr name="ppb_barColor" format="color"/>
-        <attr name="ppb_barWidth" format="dimension"/>
-        <attr name="ppb_barLeftPadding" format="dimension"/>
-        <attr name="ppb_barRightPadding" format="dimension"/>
-        <attr name="ppb_leftPadding" format="dimension"/>
-        <attr name="ppb_rightPadding" format="dimension"/>
+        <attr name="ppb_labelText" format="string" />
+        <attr name="ppb_labelTextColor" format="color" />
+        <attr name="ppb_labelTextSize" format="dimension" />
+        <attr name="ppb_percent" format="float" />
+        <attr name="ppb_percentTextColor" format="color" />
+        <attr name="ppb_percentTextSize" format="dimension" />
+        <attr name="ppb_barColor" format="color" />
+        <attr name="ppb_barWidth" format="dimension" />
+        <attr name="ppb_barLeftPadding" format="dimension" />
+        <attr name="ppb_barRightPadding" format="dimension" />
+        <attr name="ppb_leftPadding" format="dimension" />
+        <attr name="ppb_rightPadding" format="dimension" />
     </declare-styleable>
 
     <declare-styleable name="RealtimeHeartRateView">
-        <attr name="rhrv_background" format="reference|color"/>
-        <attr name="rhrv_isShowExtremeValue" format="boolean"/>
-        <attr name="rhrv_mainColor" format="color"/>
-        <attr name="rhrv_textColor" format="color"/>
-        <attr name="rhrv_textFont" format="string"/>
-        <attr name="rhrv_isShowInfoIcon" format="boolean"/>
-        <attr name="rhrv_infoUrl" format="string"/>
+        <attr name="rhrv_background" format="reference|color" />
+        <attr name="rhrv_isShowExtremeValue" format="boolean" />
+        <attr name="rhrv_mainColor" format="color" />
+        <attr name="rhrv_textColor" format="color" />
+        <attr name="rhrv_textFont" format="string" />
+        <attr name="rhrv_isShowInfoIcon" format="boolean" />
+        <attr name="rhrv_infoUrl" format="string" />
     </declare-styleable>
 
     <declare-styleable name="RealtimeAttentionView">
-        <attr name="rav_background" format="reference|color"/>
-        <attr name="rav_mainColor" format="color"/>
-        <attr name="rav_textColor" format="color"/>
-        <attr name="rav_textFont" format="string"/>
-        <attr name="rav_isShowInfoIcon" format="boolean"/>
-        <attr name="rav_infoUrl" format="string"/>
+        <attr name="rav_background" format="reference|color" />
+        <attr name="rav_mainColor" format="color" />
+        <attr name="rav_textColor" format="color" />
+        <attr name="rav_textFont" format="string" />
+        <attr name="rav_isShowInfoIcon" format="boolean" />
+        <attr name="rav_infoUrl" format="string" />
     </declare-styleable>
 
     <declare-styleable name="RealtimeRelaxationView">
-        <attr name="rrv_background" format="reference|color"/>
-        <attr name="rrv_mainColor" format="color"/>
-        <attr name="rrv_textColor" format="color"/>
-        <attr name="rrv_textFont" format="string"/>
-        <attr name="rrv_isShowInfoIcon" format="boolean"/>
-        <attr name="rrv_infoUrl" format="string"/>
+        <attr name="rrv_background" format="reference|color" />
+        <attr name="rrv_mainColor" format="color" />
+        <attr name="rrv_textColor" format="color" />
+        <attr name="rrv_textFont" format="string" />
+        <attr name="rrv_isShowInfoIcon" format="boolean" />
+        <attr name="rrv_infoUrl" format="string" />
     </declare-styleable>
 
     <declare-styleable name="RealtimePressureView">
-        <attr name="rpv_background" format="reference|color"/>
-        <attr name="rpv_mainColor" format="color"/>
-        <attr name="rpv_textColor" format="color"/>
-        <attr name="rpv_textFont" format="string"/>
-        <attr name="rpv_isShowInfoIcon" format="boolean"/>
-        <attr name="rpv_infoUrl" format="string"/>
+        <attr name="rpv_background" format="reference|color" />
+        <attr name="rpv_mainColor" format="color" />
+        <attr name="rpv_textColor" format="color" />
+        <attr name="rpv_textFont" format="string" />
+        <attr name="rpv_isShowInfoIcon" format="boolean" />
+        <attr name="rpv_infoUrl" format="string" />
     </declare-styleable>
 
     <declare-styleable name="RealtimeBrainwaveView">
-        <attr name="rbv_background" format="reference|color"/>
-        <attr name="rbv_mainColor" format="color"/>
-        <attr name="rbv_textColor" format="color"/>
-        <attr name="rbv_textFont" format="string"/>
-        <attr name="rbv_isShowInfoIcon" format="boolean"/>
-        <attr name="rbv_infoUrl" format="string"/>
-        <attr name="rbv_leftBrainwaveColor" format="color"/>
-        <attr name="rbv_rightBrainwaveColor" format="color"/>
+        <attr name="rbv_background" format="reference|color" />
+        <attr name="rbv_mainColor" format="color" />
+        <attr name="rbv_textColor" format="color" />
+        <attr name="rbv_textFont" format="string" />
+        <attr name="rbv_isShowInfoIcon" format="boolean" />
+        <attr name="rbv_infoUrl" format="string" />
+        <attr name="rbv_leftBrainwaveColor" format="color" />
+        <attr name="rbv_rightBrainwaveColor" format="color" />
     </declare-styleable>
 
 
     <declare-styleable name="RealtimeBrainwaveSpectrumView">
-        <attr name="rbsv_background" format="reference|color"/>
-        <attr name="rbsv_mainColor" format="color"/>
-        <attr name="rbsv_textColor" format="color"/>
-        <attr name="rbsv_textFont" format="string"/>
-        <attr name="rbsv_isShowInfoIcon" format="boolean"/>
-        <attr name="rbsv_infoUrl" format="string"/>
-        <attr name="rbsv_processBarColors" format="string"/>
+        <attr name="rbsv_background" format="reference|color" />
+        <attr name="rbsv_mainColor" format="color" />
+        <attr name="rbsv_textColor" format="color" />
+        <attr name="rbsv_textFont" format="string" />
+        <attr name="rbsv_isShowInfoIcon" format="boolean" />
+        <attr name="rbsv_infoUrl" format="string" />
+        <attr name="rbsv_processBarColors" format="string" />
     </declare-styleable>
 
 
     <declare-styleable name="StackedAreaChart">
-        <attr name="sac_backgroundColor" format="color"/>
-        <attr name="sac_gridLineColor" format="color"/>
-        <attr name="sac_timeStampTextColor" format="color"/>
-        <attr name="sac_timeStampTextSize" format="dimension"/>
-        <attr name="sac_timeStampTextPaddingTop" format="dimension"/>
+        <attr name="sac_backgroundColor" format="color" />
+        <attr name="sac_gridLineColor" format="color" />
+        <attr name="sac_timeStampTextColor" format="color" />
+        <attr name="sac_timeStampTextSize" format="dimension" />
+        <attr name="sac_timeStampTextPaddingTop" format="dimension" />
     </declare-styleable>
 
     <declare-styleable name="HeartRateChart">
 
-        <attr name="hrc_backgroundColor" format="color"/>
-        <attr name="hrc_gridLineColor" format="color"/>
-        <attr name="hrc_timeStampTextColor" format="color"/>
-        <attr name="hrc_timeStampTextSize" format="dimension"/>
-        <attr name="hrc_timeStampTextPaddingTop" format="dimension"/>
-        <attr name="hrc_leftBarWidth" format="dimension"/>
-        <attr name="hrc_leftBarTextSize" format="dimension"/>
-        <attr name="hrc_leftBarTextPadding" format="dimension"/>
-        <attr name="hrc_lowHeartRateColor" format="color"/>
-        <attr name="hrc_neutralHeartRateColor" format="color"/>
-        <attr name="hrc_highHeartRateColor" format="color"/>
-        <attr name="hrc_curveLineWidth" format="dimension"/>
-        <attr name="hrc_maxHeartRate" format="integer"/>
+        <attr name="hrc_backgroundColor" format="color" />
+        <attr name="hrc_gridLineColor" format="color" />
+        <attr name="hrc_timeStampTextColor" format="color" />
+        <attr name="hrc_timeStampTextSize" format="dimension" />
+        <attr name="hrc_timeStampTextPaddingTop" format="dimension" />
+        <attr name="hrc_leftBarWidth" format="dimension" />
+        <attr name="hrc_leftBarTextSize" format="dimension" />
+        <attr name="hrc_leftBarTextPadding" format="dimension" />
+        <attr name="hrc_lowHeartRateColor" format="color" />
+        <attr name="hrc_neutralHeartRateColor" format="color" />
+        <attr name="hrc_highHeartRateColor" format="color" />
+        <attr name="hrc_curveLineWidth" format="dimension" />
+        <attr name="hrc_maxHeartRate" format="integer" />
     </declare-styleable>
 
     <declare-styleable name="PressureChart">
-        <attr name="pc_backgroundColor" format="color"/>
-        <attr name="pc_baseColor" format="string"/>
-        <attr name="pc_gridLineLength" format="dimension"/>
-        <attr name="pc_gridLineColor" format="color"/>
-        <attr name="pc_gridLineWidth" format="dimension"/>
-        <attr name="pc_timestampTextSize" format="dimension"/>
-        <attr name="pc_timestampTextColor" format="color"/>
-        <attr name="pc_timestampTextPaddingTop" format="color"/>
+        <attr name="pc_backgroundColor" format="color" />
+        <attr name="pc_baseColor" format="string" />
+        <attr name="pc_gridLineLength" format="dimension" />
+        <attr name="pc_gridLineColor" format="color" />
+        <attr name="pc_gridLineWidth" format="dimension" />
+        <attr name="pc_timestampTextSize" format="dimension" />
+        <attr name="pc_timestampTextColor" format="color" />
+        <attr name="pc_timestampTextPaddingTop" format="color" />
     </declare-styleable>
 
     <declare-styleable name="ReportBrainwaveSpectrumView">
-        <attr name="rbs_mainColor" format="color"/>
-        <attr name="rbs_textColor" format="color"/>
-        <attr name="rbs_background" format="color|reference"/>
-        <attr name="rbs_isShowInfoIcon" format="boolean"/>
-        <attr name="rbs_isAbsoluteTimeAxis" format="boolean"/>
-        <attr name="rbs_sample" format="integer"/>
-        <attr name="rbs_spectrumColors" format="string"/>
-        <attr name="rbs_infoUrl" format="string"/>
+        <attr name="rbs_isTitleIconShow" format="boolean" />
+        <attr name="rbs_title" format="string" />
+        <attr name="rbs_titleIcon" format="reference" />
+        <attr name="rbs_isTitleMenuIconShow" format="boolean" />
+        <attr name="rbs_titleMenuIcon" format="reference" />
+        <attr name="rbs_mainColor" format="color" />
+        <attr name="rbs_textColor" format="color" />
+        <attr name="rbs_isAbsoluteTimeAxis" format="boolean" />
+        <attr name="rbs_background" format="color|reference" />
+        <attr name="rbs_pointCount" format="integer" />
+        <attr name="rbs_spectrumColors" format="string" />
+    </declare-styleable>
+
+
+    <declare-styleable name="ReportBrainwaveSpectrumPieView">
+        <attr name="rbsp_isTitleIconShow" format="boolean" />
+        <attr name="rbsp_title" format="string" />
+        <attr name="rbsp_titleIcon" format="reference" />
+        <attr name="rbsp_isTitleMenuIconShow" format="boolean" />
+        <attr name="rbsp_titleMenuIcon" format="reference" />
+        <attr name="rbsp_mainColor" format="color" />
+        <attr name="rbsp_textColor" format="color" />
+        <attr name="rbsp_background" format="color|reference" />
+        <attr name="rbsp_spectrumColors" format="string" />
     </declare-styleable>
 
     <declare-styleable name="ReportHeartRateView">
 
-        <attr name="rhr_mainColor" format="color"/>
-        <attr name="rhr_textColor" format="color"/>
-        <attr name="rhr_background" format="color|reference"/>
-        <attr name="rhr_isShowInfoIcon" format="boolean"/>
-        <attr name="rhr_isAbsoluteTimeAxis" format="boolean"/>
-        <attr name="rhr_sample" format="integer"/>
-        <attr name="rhr_isShowAvg" format="boolean"/>
-        <attr name="rhr_isShowMax" format="boolean"/>
-        <attr name="rhr_isShowMin" format="boolean"/>
-        <attr name="rhr_heartRateHighLineColor" format="color"/>
-        <attr name="rhr_heartRateNormalLineColor" format="color"/>
-        <attr name="rhr_heartRateLowLineColor" format="color"/>
-        <attr name="rhr_infoUrl" format="string"/>
+        <attr name="rhr_mainColor" format="color" />
+        <attr name="rhr_textColor" format="color" />
+        <attr name="rhr_background" format="color|reference" />
+        <attr name="rhr_isShowInfoIcon" format="boolean" />
+        <attr name="rhr_isAbsoluteTimeAxis" format="boolean" />
+        <attr name="rhr_sample" format="integer" />
+        <attr name="rhr_isShowAvg" format="boolean" />
+        <attr name="rhr_isShowMax" format="boolean" />
+        <attr name="rhr_isShowMin" format="boolean" />
+        <attr name="rhr_heartRateHighLineColor" format="color" />
+        <attr name="rhr_heartRateNormalLineColor" format="color" />
+        <attr name="rhr_heartRateLowLineColor" format="color" />
+        <attr name="rhr_infoUrl" format="string" />
     </declare-styleable>
 
     <declare-styleable name="ReportHeartRateVariabilityView">
 
-        <attr name="hrv_mainColor" format="color"/>
-        <attr name="hrv_textColor" format="color"/>
-        <attr name="hrv_background" format="color|reference"/>
-        <attr name="hrv_isShowInfoIcon" format="boolean"/>
-        <attr name="hrv_isAbsoluteTimeAxis" format="boolean"/>
-        <attr name="hrv_sample" format="integer"/>
-        <attr name="hrv_lineColor" format="color"/>
-        <attr name="hrv_infoUrl" format="string"/>
-        <attr name="hrv_isShowAvg" format="boolean"/>
-        <attr name="hrv_isShowMax" format="boolean"/>
-        <attr name="hrv_isShowMin" format="boolean"/>
+        <attr name="hrv_mainColor" format="color" />
+        <attr name="hrv_textColor" format="color" />
+        <attr name="hrv_background" format="color|reference" />
+        <attr name="hrv_isShowInfoIcon" format="boolean" />
+        <attr name="hrv_isAbsoluteTimeAxis" format="boolean" />
+        <attr name="hrv_sample" format="integer" />
+        <attr name="hrv_lineColor" format="color" />
+        <attr name="hrv_infoUrl" format="string" />
+        <attr name="hrv_isShowAvg" format="boolean" />
+        <attr name="hrv_isShowMax" format="boolean" />
+        <attr name="hrv_isShowMin" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="ReportAffectiveView">
 
-        <attr name="ra_mainColor" format="color"/>
-        <attr name="ra_textColor" format="color"/>
-        <attr name="ra_background" format="color|reference"/>
-        <attr name="ra_isShowInfoIcon" format="boolean"/>
-        <attr name="ra_isAbsoluteTimeAxis" format="boolean"/>
-        <attr name="ra_sample" format="integer"/>
-        <attr name="ra_isShowAvg" format="boolean"/>
-        <attr name="ra_isShowMax" format="boolean"/>
-        <attr name="ra_isShowMin" format="boolean"/>
-        <attr name="ra_fillColor" format="color"/>
+        <attr name="ra_mainColor" format="color" />
+        <attr name="ra_textColor" format="color" />
+        <attr name="ra_background" format="color|reference" />
+        <attr name="ra_isShowInfoIcon" format="boolean" />
+        <attr name="ra_isAbsoluteTimeAxis" format="boolean" />
+        <attr name="ra_sample" format="integer" />
+        <attr name="ra_isShowAvg" format="boolean" />
+        <attr name="ra_isShowMax" format="boolean" />
+        <attr name="ra_isShowMin" format="boolean" />
+        <attr name="ra_fillColor" format="color" />
         <attr name="ra_emotionType" format="enum">
-            <enum name="attention" value="0"/>
-            <enum name="relaxation" value="1"/>
+            <enum name="attention" value="0" />
+            <enum name="relaxation" value="1" />
         </attr>
 
-        <attr name="ra_infoUrl" format="string"/>
+        <attr name="ra_infoUrl" format="string" />
     </declare-styleable>
     <declare-styleable name="ReportPressureView">
 
-        <attr name="rp_mainColor" format="color"/>
-        <attr name="rp_textColor" format="color"/>
-        <attr name="rp_background" format="color|reference"/>
-        <attr name="rp_isShowInfoIcon" format="boolean"/>
-        <attr name="rp_isAbsoluteTimeAxis" format="boolean"/>
-        <attr name="rp_sample" format="integer"/>
-        <attr name="rp_color" format="color"/>
-        <attr name="rp_infoUrl" format="string"/>
+        <attr name="rp_mainColor" format="color" />
+        <attr name="rp_textColor" format="color" />
+        <attr name="rp_background" format="color|reference" />
+        <attr name="rp_isShowInfoIcon" format="boolean" />
+        <attr name="rp_isAbsoluteTimeAxis" format="boolean" />
+        <attr name="rp_sample" format="integer" />
+        <attr name="rp_color" format="color" />
+        <attr name="rp_infoUrl" format="string" />
     </declare-styleable>
 
     <declare-styleable name="CustomVerticalTextView">
-        <attr name="cvtv_text" format="string"/>
-        <attr name="cvtv_textSize" format="dimension"/>
-        <attr name="cvtv_textColor" format="color"/>
+        <attr name="cvtv_text" format="string" />
+        <attr name="cvtv_textSize" format="dimension" />
+        <attr name="cvtv_textColor" format="color" />
     </declare-styleable>
 
     <declare-styleable name="ChartLegendView">
-        <attr name="clv_legend" format="string"/>
-        <attr name="clv_color" format="color"/>
+        <attr name="clv_legend" format="string" />
+        <attr name="clv_color" format="color" />
     </declare-styleable>
 
+    <declare-styleable name="HalfCircleProgressBar">
+        <attr name="hcpb_barColor" format="color" />
+        <attr name="hcpb_barWidth" format="dimension" />
+        <attr name="hcpb_text" format="string" />
+        <attr name="hcpb_textColor" format="color" />
+        <attr name="hcpb_textSize" format="dimension" />
+    </declare-styleable>
 </resources>

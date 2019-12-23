@@ -47,7 +47,7 @@
                     android:layout_marginTop="4dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="基础控件"
+                    android:text="实时"
                     android:textSize="10sp"
                     android:textColor="@color/colorPrimary"
                     />
@@ -76,7 +76,7 @@
                     android:layout_marginTop="4dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="自定义"
+                    android:text="报表"
                     android:textSize="10sp"
                     android:textColor="@color/colorPrimaryDark"
                     />

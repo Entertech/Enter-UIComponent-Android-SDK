@@ -1,42 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/card_title_height"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/card_title_height"
         >
 
     <ImageView
-            android:visibility="gone"
             android:id="@+id/iv_icon"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/vector_drawable_brain"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/activity_margin"
+            android:src="@drawable/vector_drawable_brain"
+            android:visibility="gone"
             />
 
     <TextView
-            android:layout_marginLeft="@dimen/activity_margin"
-            android:layout_toRightOf="@+id/iv_icon"
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:textSize="16sp"
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:layout_toRightOf="@+id/iv_icon"
             android:fontFamily="sans-serif-medium"
-            android:textStyle="normal"
-            android:textColor="#333333"
             android:text="Brainwave Spectrum"
+            android:textColor="#333333"
+            android:textSize="16sp"
+            android:textStyle="normal"
+            />
+
+
+    <ImageView
+            android:id="@+id/iv_menu"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:scaleType="center"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/activity_margin"
+            android:src="@drawable/vector_drawable_arrow_right_blue"
             />
 
     <ImageView
             android:id="@+id/iv_info"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/vector_drawable_info_circle"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/activity_margin"
+            android:src="@drawable/vector_drawable_info_circle"
+            android:visibility="gone"
             />
 
+
+    <ImageView
+            android:id="@+id/iv_fullscreen"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/activity_margin"
+            android:layout_toLeftOf="@+id/iv_info"
+            android:src="@drawable/vector_drawable_info_circle"
+            android:visibility="gone"
+            />
 
 </RelativeLayout>

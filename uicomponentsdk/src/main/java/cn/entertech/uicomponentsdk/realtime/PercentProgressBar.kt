@@ -87,8 +87,8 @@ class PercentProgressBar @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         var percentText = "${formatNum(mPercent * 100)}%"
-        labelTextWidth = mLabelTextPaint?.measureText(mLabelText)
-        percentTextWidth = mLabelTextPaint?.measureText(percentText)
+        labelTextWidth = mLabelTextPaint.measureText(mLabelText)
+        percentTextWidth = mLabelTextPaint.measureText(percentText)
         barMaxWidth =
             mWidth - labelTextWidth - percentTextWidth - mLeftPadding - mRightPadding - mBarLeftPadding - mBarRightPadding
         var labelTextBaseline =
@@ -101,7 +101,7 @@ class PercentProgressBar @JvmOverloads constructor(
                 mPercentTextPaint.descent()
             )
         canvas.translate(0f, mHeight / 2f)
-        canvas.drawText(mLabelText, mLeftPadding, labelTextBaseline, mLabelTextPaint)
+        canvas.drawText(mLabelText!!, mLeftPadding, labelTextBaseline, mLabelTextPaint)
         drawBar(canvas)
         canvas.drawText(
             percentText,
@@ -112,20 +112,20 @@ class PercentProgressBar @JvmOverloads constructor(
     }
 
     private fun drawBar(canvas: Canvas) {
-        canvas?.drawCircle(
+        canvas.drawCircle(
             labelTextWidth + mBarHeight / 2 + mBarLeftPadding + mLeftPadding,
             0f,
             mBarHeight / 2,
             mBarPaint
         )
-        canvas?.drawLine(
+        canvas.drawLine(
             labelTextWidth + mBarHeight / 2 + mBarLeftPadding + mLeftPadding,
             0f,
             labelTextWidth + mBarLeftPadding + barMaxWidth * mPercent - mBarHeight / 2 + mLeftPadding,
             0f,
             mBarPaint
         )
-        canvas?.drawCircle(
+        canvas.drawCircle(
             labelTextWidth + mBarLeftPadding + barMaxWidth * mPercent - mBarHeight / 2 + mLeftPadding,
             0f,
             mBarHeight / 2,

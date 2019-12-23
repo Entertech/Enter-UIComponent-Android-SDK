@@ -1,12 +1,15 @@
 package cn.entertech.componentdemo
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import cn.entertech.uicomponentsdk.report.file.ReportFileHelper
 import kotlinx.android.synthetic.main.fragment_report_custom.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ReportCustomFragment : Fragment() {
@@ -26,24 +29,30 @@ class ReportCustomFragment : Fragment() {
         var startTime = reportData.startTime
 //        affective view
 
-        report_attention.setData(startTime!!, reportData.reportAttentionEnitty?.attentionRec)
-
-        report_relaxation.setData(startTime!!, reportData.reportRelaxationEnitty?.relaxationRec)
+        var testData = ArrayList<Double>()
+        for (i in 0 .. 500){
+            testData.add(Random().nextDouble()*100)
+        }
+//        report_attention.setData( reportData.reportAttentionEnitty?.attentionRec)
+        report_attention.setData(testData)
+        Log.d("####","attention rec size:"+reportData.reportAttentionEnitty?.attentionRec?.size)
+//        report_relaxation.setData(reportData.reportRelaxationEnitty?.relaxationRec)
 
 //        brainwave spectrum view
+//
+//        report_brainwave_spectrum.setBrainwaveSpectrums(
+//            startTime!!,
+//            reportData.reportEEGDataEntity?.gammaCurve,
+//            reportData.reportEEGDataEntity?.betaCurve,
+//            reportData.reportEEGDataEntity?.alphaCurve,
+//            reportData.reportEEGDataEntity?.thetaCurve,
+//            reportData.reportEEGDataEntity?.deltaCurve
+//        )
 
-        report_brainwave_spectrum.setBrainwaveSpectrums(
-            startTime!!,
-            reportData.reportEEGDataEntity?.gammaCurve,
-            reportData.reportEEGDataEntity?.betaCurve,
-            reportData.reportEEGDataEntity?.alphaCurve,
-            reportData.reportEEGDataEntity?.thetaCurve,
-            reportData.reportEEGDataEntity?.deltaCurve
-        )
+        report_heart_rate.setData( reportData.reportHRDataEntity?.hrRec)
 
-        report_heart_rate.setData(startTime!!, reportData.reportHRDataEntity?.hrRec, reportData.reportHRDataEntity?.hrMax, reportData.reportHRDataEntity?.hrMin, reportData.reportHRDataEntity?.hrAvg)
-
-        report_hrv.setData(startTime!!, reportData.reportHRDataEntity?.hrvRec, reportData.reportHRDataEntity?.hrvAvg)
+//        report_hrv.setData(startTime!!, reportData.reportHRDataEntity?.hrvRec, reportData.reportHRDataEntity?.hrvAvg)
+        report_hrv.setData(reportData.reportHRDataEntity?.hrvRec)
 
         report_pressure.setData(startTime!!, reportData.reportPressureEnitty?.pressureRec)
     }

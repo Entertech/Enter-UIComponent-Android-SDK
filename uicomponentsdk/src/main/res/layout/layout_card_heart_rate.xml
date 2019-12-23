@@ -28,6 +28,7 @@
                 >
 
             <cn.entertech.uicomponentsdk.widget.ChartLegendView
+                    android:visibility="gone"
                     android:id="@+id/legend_low"
                     android:layout_marginRight="@dimen/activity_margin"
                     android:layout_width="wrap_content"
@@ -39,6 +40,7 @@
             </cn.entertech.uicomponentsdk.widget.ChartLegendView>
 
             <cn.entertech.uicomponentsdk.widget.ChartLegendView
+                    android:visibility="gone"
                     android:id="@+id/legend_normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -50,6 +52,7 @@
             </cn.entertech.uicomponentsdk.widget.ChartLegendView>
 
             <cn.entertech.uicomponentsdk.widget.ChartLegendView
+                    android:visibility="gone"
                     android:id="@+id/legend_high"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -81,15 +84,22 @@
                     app:cvtv_textSize="12sp"
                     />
 
-            <cn.entertech.uicomponentsdk.report.HeartRateChart
-                    android:layout_marginLeft="@dimen/dp_4"
-                    android:id="@+id/sac_brain_chart"
+<!--            <cn.entertech.uicomponentsdk.report.HeartRateChart-->
+<!--                    android:layout_marginLeft="@dimen/dp_4"-->
+<!--                    android:id="@+id/sac_brain_chart"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="130dp"-->
+<!--                    app:hrc_timeStampTextSize="12sp"-->
+<!--                    app:hrc_timeStampTextPaddingTop="@dimen/activity_margin_half"-->
+<!--                    app:hrc_leftBarTextSize="10sp"-->
+<!--                    app:hrc_leftBarWidth="4dp"-->
+<!--                    />-->
+
+            <com.github.mikephil.charting.charts.LineChart
+                    android:background="@color/white"
+                    android:id="@+id/hr_chart"
                     android:layout_width="match_parent"
                     android:layout_height="130dp"
-                    app:hrc_timeStampTextSize="12sp"
-                    app:hrc_timeStampTextPaddingTop="@dimen/activity_margin_half"
-                    app:hrc_leftBarTextSize="10sp"
-                    app:hrc_leftBarWidth="4dp"
                     />
 
         </LinearLayout>

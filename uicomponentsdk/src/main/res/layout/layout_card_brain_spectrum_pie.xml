@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/vector_drawable_brainwave_spectrum_right_icon"
+                />
+    </RelativeLayout>
+
+    <LinearLayout
+            android:id="@+id/ll_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00000000"
+            android:elevation="0dp"
+            android:orientation="vertical"
+            android:paddingBottom="27dp"
+            >
+
+
+        <include layout="@layout/layout_common_card_title" />
+
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="218dp"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                >
+
+            <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pie_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toLeftOf="@+id/ll_legend"
+                    />
+
+            <LinearLayout
+                    android:id="@+id/ll_legend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    android:orientation="vertical"
+                    >
+
+                <cn.entertech.uicomponentsdk.widget.ChartLegendView
+                        android:id="@+id/legend_gamma"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:clv_color="@color/colorStatisticsGammaWave"
+                        app:clv_legend="γ wave 5%"
+                        >
+
+                </cn.entertech.uicomponentsdk.widget.ChartLegendView>
+
+                <cn.entertech.uicomponentsdk.widget.ChartLegendView
+
+                        android:id="@+id/legend_beta"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        app:clv_color="@color/colorStatisticsBetaWave"
+                        app:clv_legend="β wave 5%"
+                        >
+
+                </cn.entertech.uicomponentsdk.widget.ChartLegendView>
+
+                <cn.entertech.uicomponentsdk.widget.ChartLegendView
+
+                        android:id="@+id/legend_alpha"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        app:clv_color="@color/colorStatisticsAlphaWave"
+                        app:clv_legend="α wave 6%"
+                        >
+
+                </cn.entertech.uicomponentsdk.widget.ChartLegendView>
+
+                <cn.entertech.uicomponentsdk.widget.ChartLegendView
+
+                        android:id="@+id/legend_theta"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        app:clv_color="@color/colorStatisticsThetaWave"
+                        app:clv_legend="θ wave 7%"
+                        >
+
+                </cn.entertech.uicomponentsdk.widget.ChartLegendView>
+
+                <cn.entertech.uicomponentsdk.widget.ChartLegendView
+                        android:id="@+id/legend_delta"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        app:clv_color="@color/colorStatisticsDeltaWave"
+                        app:clv_legend="δ wave 8%"
+                        >
+
+                </cn.entertech.uicomponentsdk.widget.ChartLegendView>
+
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+        <!--        <TextView-->
+        <!--                android:id="@+id/tv_unit"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_gravity="center_horizontal"-->
+        <!--                android:text="@string/time_unit"-->
+        <!--                android:visibility="visible"-->
+        <!--                />-->
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+            android:id="@+id/rl_no_data_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorLoadingCoverBg"
+            android:visibility="gone"
+            >
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="48dp"
+                android:layout_marginRight="48dp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center_horizontal"
+                android:text="@string/meditation_no_device_tip"
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                />
+    </RelativeLayout>
+
+</FrameLayout>

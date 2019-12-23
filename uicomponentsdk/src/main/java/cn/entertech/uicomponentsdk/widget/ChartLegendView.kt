@@ -13,7 +13,11 @@ import cn.entertech.uicomponentsdk.R
 import kotlinx.android.synthetic.main.layout_chart_legend.view.*
 
 
-class ChartLegendView @JvmOverloads constructor(context: Context, attributeSet: AttributeSet? = null, def: Int = 0) :
+class ChartLegendView @JvmOverloads constructor(
+    context: Context,
+    attributeSet: AttributeSet? = null,
+    def: Int = 0
+) :
     LinearLayout(context, attributeSet, def) {
     var mColor = Color.parseColor("#5167f8")
     var mLegend = ""
@@ -24,7 +28,10 @@ class ChartLegendView @JvmOverloads constructor(context: Context, attributeSet: 
         mColor = typeArray.getColor(R.styleable.ChartLegendView_clv_color, mColor)
         mLegend = typeArray.getString(R.styleable.ChartLegendView_clv_legend)
         var layoutParams =
-            LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
         self.layoutParams = layoutParams
         initView()
         addView(self)
@@ -32,7 +39,8 @@ class ChartLegendView @JvmOverloads constructor(context: Context, attributeSet: 
 
     fun initView() {
         self.findViewById<TextView>(R.id.tv_text).text = mLegend
-        val gradientDrawable = self.findViewById<TextView>(R.id.tv_icon).background as GradientDrawable
+        val gradientDrawable =
+            self.findViewById<TextView>(R.id.tv_icon).background as GradientDrawable
         gradientDrawable.setColor(mColor)
         self.findViewById<TextView>(R.id.tv_icon).background = gradientDrawable
     }
@@ -43,6 +51,11 @@ class ChartLegendView @JvmOverloads constructor(context: Context, attributeSet: 
 
     fun setLegendIconColor(color: Int) {
         mColor = color
+        initView()
+    }
+
+    fun setText(text: String) {
+        this.mLegend = text
         initView()
     }
 }
