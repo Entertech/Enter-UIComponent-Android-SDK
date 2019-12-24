@@ -257,7 +257,17 @@
         <attr name="gsv_scaleLineColor" format="color" />
         <attr name="gsv_marginBottomDegree" format="integer" />
         <attr name="gsv_textBottomMargin" format="dimension" />
+    </declare-styleable>
 
-
+    <declare-styleable name="AverageBarChart">
+        <attr name="abc_background" format="color" />
+        <attr name="abc_barHighLightColor" format="color" />
+        <attr name="abc_barColor" format="color" />
+        <attr name="abc_primaryTextColor" format="color" />
+        <attr name="abc_secondTextColor" format="color" />
+        <attr name="abc_averageLineColor" format="color" />
+        <attr name="abc_averageLineWidth" format="color" />
+        <attr name="abc_isShowUnit" format="boolean" />
+        <attr name="abc_unit" format="string" />
     </declare-styleable>
 </resources>

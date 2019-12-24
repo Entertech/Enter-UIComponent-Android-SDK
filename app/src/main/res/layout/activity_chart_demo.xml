@@ -4,7 +4,6 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#fff"
         tools:context="cn.entertech.componentdemo.ChartDemoActivity"
         >
 
@@ -24,13 +23,20 @@
     <!--            app:hcpb_text="Relaxation"-->
     <!--            />-->
 
-    <cn.entertech.uicomponentsdk.widget.GradientSweepBar
+<!--    <cn.entertech.uicomponentsdk.widget.GradientSweepBar-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="200dp"-->
+<!--            app:gsv_barWidth="72dp"-->
+<!--            app:gsv_marginBottomDegree="10"-->
+<!--            app:gsv_scaleLineLength="88dp"-->
+<!--            app:gsv_textBottomMargin="36dp"-->
+<!--            app:gsv_textSize="50sp"-->
+<!--            />-->
+
+    <cn.entertech.uicomponentsdk.widget.AverageBarChart
+            app:abc_background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            app:gsv_barWidth="72dp"
-            app:gsv_marginBottomDegree="10"
-            app:gsv_scaleLineLength="88dp"
-            app:gsv_textBottomMargin="36dp"
-            app:gsv_textSize="50sp"
-            />
+            app:abc_isShowUnit="true"
+            app:abc_unit="bpm"/>
 </LinearLayout>
