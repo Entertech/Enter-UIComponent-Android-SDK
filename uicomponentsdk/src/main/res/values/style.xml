@@ -244,4 +244,20 @@
         <attr name="hcpb_textColor" format="color" />
         <attr name="hcpb_textSize" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="GradientSweepBar">
+        <attr name="gsv_barWidth" format="dimension" />
+        <attr name="gsv_textColor" format="color" />
+        <attr name="gsv_textSize" format="dimension" />
+        <attr name="gsv_startColor" format="color" />
+        <attr name="gsv_endColor" format="color" />
+        <attr name="gsv_bgBarColor" format="color" />
+        <attr name="gsv_scaleLineLength" format="dimension" />
+        <attr name="gsv_scaleLineWidth" format="dimension" />
+        <attr name="gsv_scaleLineColor" format="color" />
+        <attr name="gsv_marginBottomDegree" format="integer" />
+        <attr name="gsv_textBottomMargin" format="dimension" />
+
+
+    </declare-styleable>
 </resources>

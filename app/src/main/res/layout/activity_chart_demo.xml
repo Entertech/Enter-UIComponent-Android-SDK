@@ -4,8 +4,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="cn.entertech.componentdemo.ChartDemoActivity"
         android:background="#fff"
+        tools:context="cn.entertech.componentdemo.ChartDemoActivity"
         >
 
     <!--    <cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumView-->
@@ -18,9 +18,19 @@
     <!--            />-->
 
 
-    <cn.entertech.uicomponentsdk.widget.HalfCircleProgressBar
-            android:layout_width="200dp"
-            android:layout_height="100dp"
-            app:hcpb_text="Relaxation"
+    <!--    <cn.entertech.uicomponentsdk.widget.HalfCircleProgressBar-->
+    <!--            android:layout_width="200dp"-->
+    <!--            android:layout_height="100dp"-->
+    <!--            app:hcpb_text="Relaxation"-->
+    <!--            />-->
+
+    <cn.entertech.uicomponentsdk.widget.GradientSweepBar
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:gsv_barWidth="72dp"
+            app:gsv_marginBottomDegree="10"
+            app:gsv_scaleLineLength="88dp"
+            app:gsv_textBottomMargin="36dp"
+            app:gsv_textSize="50sp"
             />
 </LinearLayout>
