@@ -136,6 +136,13 @@ class EmotionIndicatorView @JvmOverloads constructor(
 
     private fun onDrawScale(canvas: Canvas?) {
         for (i in 0 until scales.size) {
+            if (i == 0){
+                mTextPaint.textAlign = Paint.Align.LEFT
+            }else if (i == scales.size-1){
+                mTextPaint.textAlign = Paint.Align.RIGHT
+            }else{
+                mTextPaint.textAlign = Paint.Align.CENTER
+            }
             var offset =
                 (scales[i] * 1f - scales[0]) / (scales[scales.size - 1] - scales[0]) * (mWidth - (mBarWidth + mLeftPadding + mRightPadding))
             canvas?.drawText(

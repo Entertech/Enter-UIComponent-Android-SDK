@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
     <color name="transparent">#00000000</color>
+    <color name="colorLine">#DFDFDF</color>
     <color name="waveLoadingStrokeColor">#4756b0</color>
     <color name="brainwaveLegendLeft">#ff6682</color>
     <color name="brainwaveLegendRight">#4b5dcc</color>
@@ -34,4 +36,5 @@
     <color name="colorStatisticsHeartNeutral">#ffb952</color>
     <color name="colorStatisticsHeartHigh">#f88883</color>
     <color name="colorLoadingCoverBg">#99000000</color>
+    <color name="colorUnit">#999999</color>
 </resources>

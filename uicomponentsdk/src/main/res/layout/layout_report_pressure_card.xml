@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="218dp"
+        >
+
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:src="@mipmap/ic_pressure_bg_icon"
+            />
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+        <include layout="@layout/layout_common_card_title" />
+
+        <cn.entertech.uicomponentsdk.widget.GradientSweepBar
+                android:id="@+id/bar_pressure"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="53dp"
+                android:layout_marginRight="53dp"
+                android:layout_height="108dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/activity_margin"
+                />
+
+
+        <TextView
+                android:id="@+id/tv_pressure_level"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_pressure_level_bg"
+                android:paddingLeft="@dimen/activity_margin_half"
+                android:paddingRight="@dimen/activity_margin_half"
+                android:text="low"
+                android:textColor="@color/colorPressureLevelText"
+                />
+    </LinearLayout>
+</RelativeLayout>

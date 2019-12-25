@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Typeface
 import android.util.AttributeSet
 import android.view.View
 import cn.entertech.uicomponentsdk.R
@@ -13,6 +14,7 @@ class HalfCircleProgressBar @JvmOverloads constructor(
     context: Context, attributeSet: AttributeSet? = null,
     def: Int = 0
 ) : View(context, attributeSet, def) {
+    private var mPercent: Float = 0f
     private lateinit var mTextPaint: Paint
     private var mBarWidth: Float = ScreenUtil.dip2px(context, 8f).toFloat()
     private var mBarColor: Int = Color.BLUE
@@ -50,7 +52,7 @@ class HalfCircleProgressBar @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas?) {
         onDrawBgBar(canvas)
-        onDrawBar(canvas, 0.7f)
+        onDrawBar(canvas, mPercent)
         onDrawText(canvas)
     }
 
@@ -83,13 +85,14 @@ class HalfCircleProgressBar @JvmOverloads constructor(
     }
 
     private fun onDrawBar(canvas: Canvas?, percent: Float) {
-        onDrawBar(canvas, percent, Color.BLUE)
+        onDrawBar(canvas, percent, mBarColor)
     }
 
     private fun onDrawText(canvas: Canvas?) {
         canvas?.save()
         canvas?.translate(width / 2f, height.toFloat())
         mTextPaint.textAlign = Paint.Align.CENTER
+        mTextPaint.typeface  = Typeface.DEFAULT_BOLD
         canvas?.drawText(
             mText,
             0f,
@@ -97,5 +100,10 @@ class HalfCircleProgressBar @JvmOverloads constructor(
             mTextPaint
         )
         canvas?.restore()
+    }
+
+    fun setValue(value: Int) {
+        mPercent = value / 100f
+        invalidate()
     }
 }

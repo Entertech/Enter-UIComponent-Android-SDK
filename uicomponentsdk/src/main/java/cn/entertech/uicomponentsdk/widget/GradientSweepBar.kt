@@ -12,6 +12,8 @@ class GradientSweepBar @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     def: Int = 0
 ) : View(context, attributeSet, def) {
+    private var mPercent: Float = 0f
+    private var mValue: String = "0"
     private var mMarginBottomDegree: Int = 4
     private lateinit var mScaleLinePaint: Paint
     private var mScaleLineColor: Int = Color.parseColor("#FF6682")
@@ -82,15 +84,16 @@ class GradientSweepBar @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas?) {
         onDrawBgBar(canvas)
-        onDrawBar(canvas, 0.8f)
-        onDrawScaleLine(canvas, 0.8f)
+        onDrawBar(canvas, mPercent)
+        onDrawScaleLine(canvas, mPercent)
         onDrawText(canvas)
     }
 
     private fun onDrawBar(canvas: Canvas?, percent: Float, paint: Paint) {
         canvas?.save()
         canvas?.translate(width / 2f, height.toFloat())
-        var radius = (width / 2f).coerceAtMost(height.toFloat())
+        var radius =
+            (width / 2f).coerceAtMost(height.toFloat()) - (mScaleLineLength / 2f - mBarWidth / 2f)
         canvas?.drawArc(
             -radius + mBarWidth / 2,
             -radius + mBarWidth / 2,
@@ -121,7 +124,8 @@ class GradientSweepBar @JvmOverloads constructor(
 
 
     private fun onDrawScaleLine(canvas: Canvas?, percent: Float) {
-        var radius = (width / 2f).coerceAtMost(height.toFloat())
+        var radius =
+            (width / 2f).coerceAtMost(height.toFloat()) - (mScaleLineLength / 2f - mBarWidth / 2f)
         var rotationDegree = 90 - mMarginBottomDegree - percent * (180 - mMarginBottomDegree * 2)
         canvas?.save()
         canvas?.translate(width / 2f, height.toFloat())
@@ -135,7 +139,14 @@ class GradientSweepBar @JvmOverloads constructor(
     private fun onDrawText(canvas: Canvas?) {
         canvas?.save()
         canvas?.translate(width / 2f, height.toFloat())
-        canvas?.drawText("79", 0f, -mTextBottomMargin, mTextPaint)
+        canvas?.drawText(mValue, 0f, -mTextBottomMargin, mTextPaint)
         canvas?.restore()
+    }
+
+
+    fun setValue(value: Int) {
+        this.mValue = "$value"
+        this.mPercent = value / 100f
+        invalidate()
     }
 }

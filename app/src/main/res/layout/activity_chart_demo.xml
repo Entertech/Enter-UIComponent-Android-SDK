@@ -3,7 +3,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:context="cn.entertech.componentdemo.ChartDemoActivity"
         >
 
@@ -33,10 +33,19 @@
 <!--            app:gsv_textSize="50sp"-->
 <!--            />-->
 
-    <cn.entertech.uicomponentsdk.widget.AverageBarChart
-            app:abc_background="@color/white"
+<!--    <cn.entertech.uicomponentsdk.widget.AverageBarChart-->
+<!--            app:abc_background="@color/white"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="200dp"-->
+<!--            app:abc_isShowUnit="true"-->
+<!--            app:abc_unit="bpm"/>-->
+
+<!--    <cn.entertech.uicomponentsdk.report.ReportRelaxationAndAttentionCard-->
+<!--            android:background="@color/white"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"/>-->
+
+    <cn.entertech.uicomponentsdk.report.ReportPressureCard
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            app:abc_isShowUnit="true"
-            app:abc_unit="bpm"/>
+            android:layout_height="wrap_content"/>
 </LinearLayout>

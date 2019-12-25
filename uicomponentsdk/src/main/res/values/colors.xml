@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorHRVLevelText">#7F725E</color>
+    <color name="colorHRLevelText">#7F5960</color>
+    <color name="colorRelaxationLevelText">#555B7F</color>
+    <color name="colorAttentionLevelText">#637F72</color>
+    <color name="colorPressureLevelText">#7F5960</color>
+    <color name="colorHrvLevelBg">#FFE4BB</color>
+    <color name="colorHrLevelBg">#FFB2C0</color>
+    <color name="colorRelaxationLevelBg">#ABB7FF</color>
+    <color name="colorPressureLevelBg">#FFB2C0</color>
+    <color name="colorRelaxationBar">#5E75FF</color>
+    <color name="colorAttentionLevelBg">#C7FFE4</color>
+    <color name="colorAttentionBar">#5FC695</color>
+</resources>
