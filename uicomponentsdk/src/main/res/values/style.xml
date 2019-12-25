@@ -270,4 +270,20 @@
         <attr name="abc_isShowUnit" format="boolean" />
         <attr name="abc_unit" format="string" />
     </declare-styleable>
+
+    <declare-styleable name="ReportAverageChartCard">
+        <attr name="racc_isTitleIconShow" format="boolean" />
+        <attr name="racc_title" format="string" />
+        <attr name="racc_titleIcon" format="reference" />
+        <attr name="racc_isTitleMenuIconShow" format="boolean" />
+        <attr name="racc_titleMenuIcon" format="reference" />
+        <attr name="racc_mainColor" format="color" />
+        <attr name="racc_textColor" format="color" />
+        <attr name="racc_background" format="color|reference" />
+        <attr name="racc_barColor" format="color" />
+        <attr name="racc_barHighLightColor" format="color" />
+        <attr name="racc_barValueBgColor" format="color" />
+        <attr name="racc_tag" format="string" />
+    </declare-styleable>
+
 </resources>

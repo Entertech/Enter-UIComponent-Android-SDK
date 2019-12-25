@@ -23,29 +23,39 @@
     <!--            app:hcpb_text="Relaxation"-->
     <!--            />-->
 
-<!--    <cn.entertech.uicomponentsdk.widget.GradientSweepBar-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="200dp"-->
-<!--            app:gsv_barWidth="72dp"-->
-<!--            app:gsv_marginBottomDegree="10"-->
-<!--            app:gsv_scaleLineLength="88dp"-->
-<!--            app:gsv_textBottomMargin="36dp"-->
-<!--            app:gsv_textSize="50sp"-->
-<!--            />-->
+    <!--    <cn.entertech.uicomponentsdk.widget.GradientSweepBar-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="200dp"-->
+    <!--            app:gsv_barWidth="72dp"-->
+    <!--            app:gsv_marginBottomDegree="10"-->
+    <!--            app:gsv_scaleLineLength="88dp"-->
+    <!--            app:gsv_textBottomMargin="36dp"-->
+    <!--            app:gsv_textSize="50sp"-->
+    <!--            />-->
 
-<!--    <cn.entertech.uicomponentsdk.widget.AverageBarChart-->
-<!--            app:abc_background="@color/white"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="200dp"-->
-<!--            app:abc_isShowUnit="true"-->
-<!--            app:abc_unit="bpm"/>-->
+    <!--    <cn.entertech.uicomponentsdk.widget.AverageBarChart-->
+    <!--            app:abc_background="@color/white"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="200dp"-->
+    <!--            app:abc_isShowUnit="true"-->
+    <!--            app:abc_unit="bpm"/>-->
 
-<!--    <cn.entertech.uicomponentsdk.report.ReportRelaxationAndAttentionCard-->
-<!--            android:background="@color/white"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"/>-->
+    <!--    <cn.entertech.uicomponentsdk.report.ReportRelaxationAndAttentionCard-->
+    <!--            android:background="@color/white"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"/>-->
 
-    <cn.entertech.uicomponentsdk.report.ReportPressureCard
+    <!--    <cn.entertech.uicomponentsdk.report.ReportPressureCard-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"/>-->
+
+    <cn.entertech.uicomponentsdk.report.ReportAverageChartCard
+            android:id="@+id/average_card"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            app:racc_barHighLightColor="#FFC56F"
+            app:racc_barValueBgColor="#FFE4BB"
+            app:racc_tag="HRV"
+            app:racc_title="Last 7 times"
+            />
 </LinearLayout>

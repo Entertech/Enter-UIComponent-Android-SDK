@@ -13,6 +13,7 @@ class AverageBarChart @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     def: Int = 0
 ) : View(context, attributeSet, def) {
+    private var mBarValueBarColor: Int = Color.parseColor("#FFE4BB")
     private lateinit var mAverageValueTextPaint: Paint
     private var mUnit: String? = ""
     private var mIsShowUnit: Boolean = false
@@ -27,7 +28,7 @@ class AverageBarChart @JvmOverloads constructor(
     private lateinit var mLegendTextPaint: Paint
     private var mAverageLineWidth: Float = ScreenUtil.dip2px(context, 4f).toFloat()
     private var mBarHighLightColor: Int = Color.parseColor("#FF6682")
-    private var mBarColor: Int = Color.parseColor("#EAECF1")
+    private var mBarColor: Int = Color.parseColor("#FFC56F")
     private var mPrimaryTextColor: Int = Color.BLACK
     private var mSecondTextColor: Int = Color.parseColor("#666666")
     private var mAverageLineColor: Int = Color.parseColor("#FB9C98")
@@ -142,9 +143,7 @@ class AverageBarChart @JvmOverloads constructor(
             (legendTextWidth + (2 * i + 2.5) * barWidth).toInt(),
             (-barHeight.toInt() - ScreenUtil.dip2px(context, 4f) - barWidth).toInt()
         )
-
-        var valueBgColor = getOpacityColor(mBarHighLightColor, 0.3f)
-        mBarPaint.color = valueBgColor
+        mBarPaint.color = mBarValueBarColor
         canvas?.drawRect(valueRect, mBarPaint)
         mBarPaint.color = Color.BLACK
         var lastValue = mValues[i]
@@ -179,6 +178,7 @@ class AverageBarChart @JvmOverloads constructor(
     }
 
     private fun transferValues(values: List<Int>) {
+        mTransferValues.clear()
         var max = values.max()
         var min = values.min()
         if (max == min) {
@@ -250,6 +250,22 @@ class AverageBarChart @JvmOverloads constructor(
         }
 
 
+    }
+
+
+    fun setBarColor(color: Int) {
+        this.mBarColor = color
+        invalidate()
+    }
+
+    fun setBarHighLightColor(color:Int){
+        this.mBarHighLightColor = color
+        invalidate()
+    }
+
+    fun setBarValueBgColor(color: Int) {
+        this.mBarValueBarColor = color
+        invalidate()
     }
 
 }

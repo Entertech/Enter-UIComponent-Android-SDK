@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        >
+
+    <include layout="@layout/layout_common_card_title" />
+
+    <cn.entertech.uicomponentsdk.widget.AverageBarChart
+            android:id="@+id/average_bar_chart"
+            android:layout_width="match_parent"
+            android:layout_height="156dp"
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:layout_marginRight="@dimen/activity_margin"
+            />
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:layout_marginTop="24dp"
+            android:layout_marginRight="@dimen/activity_margin"
+            android:orientation="horizontal"
+            >
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_margin"
+                android:background="@drawable/shape_tip_bg"
+                >
+
+            <ImageView
+                    android:id="@+id/iv_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:src="@drawable/vector_drawable_report_average_arrow_down"
+                    />
+
+            <TextView
+                    android:id="@+id/tv_tip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="@dimen/activity_margin"
+                    android:paddingTop="@dimen/activity_margin_half"
+                    android:paddingRight="@dimen/activity_margin"
+                    android:paddingBottom="@dimen/activity_margin_half"
+                    android:text="The meditation time is shorter than the average of last 7 times."
+                    />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

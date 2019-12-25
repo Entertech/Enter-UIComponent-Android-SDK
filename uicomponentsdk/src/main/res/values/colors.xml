@@ -12,4 +12,5 @@
     <color name="colorRelaxationBar">#5E75FF</color>
     <color name="colorAttentionLevelBg">#C7FFE4</color>
     <color name="colorAttentionBar">#5FC695</color>
+    <color name="colorTipBg">#F1F5F6</color>
 </resources>
