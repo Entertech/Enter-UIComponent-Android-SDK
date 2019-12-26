@@ -22,7 +22,6 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupWindow
-import androidx.core.content.ContextCompat
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.utils.getOpacityColor
 import com.github.mikephil.charting.components.AxisBase
@@ -43,17 +42,25 @@ import kotlinx.android.synthetic.main.layout_card_attention.view.ll_max
 import kotlinx.android.synthetic.main.layout_card_attention.view.ll_min
 import kotlinx.android.synthetic.main.layout_card_attention.view.rl_no_data_cover
 import kotlinx.android.synthetic.main.layout_card_attention.view.tv_time_unit_des
+import kotlinx.android.synthetic.main.layout_report_affective_card.view.*
+import kotlinx.android.synthetic.main.layout_report_affective_card.view.legend_attention
+import kotlinx.android.synthetic.main.layout_report_affective_card.view.legend_relaxation
 import kotlinx.android.synthetic.main.pop_card_attention.view.*
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.math.sign
 
-class ReportLineChartCard @JvmOverloads constructor(
+class ReportAffectiveLineChartCard @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
-    private var mLineColor: Int = Color.RED
+    private var mAttentionData: List<Double> = ArrayList()
+    private var mRelaxationData: List<Double> = ArrayList()
+    //    private var mAttentionData: List<Double>? = null
+    private var mAttentionLineColor: Int = Color.RED
+    private var mRelaxationLineColor: Int = Color.BLUE
     private var mTitle: String? = "Changes During Meditation"
     private var mIsTitleIconShow: Boolean = false
     private var mIsTitleMenuIconShow: Boolean = true
@@ -71,9 +78,12 @@ class ReportLineChartCard @JvmOverloads constructor(
     var mPointCount: Int = 100
     var mTimeOfTwoPoint: Int = 0
 
+    val dataSets = ArrayList<ILineDataSet>()
+
     init {
         if (layoutId == null) {
-            mSelfView = LayoutInflater.from(context).inflate(R.layout.layout_card_attention, null)
+            mSelfView =
+                LayoutInflater.from(context).inflate(R.layout.layout_report_affective_card, null)
             var layoutParams = ViewGroup.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
             mSelfView?.layoutParams = layoutParams
         } else {
@@ -84,37 +94,50 @@ class ReportLineChartCard @JvmOverloads constructor(
         addView(mSelfView)
         var typeArray = context.obtainStyledAttributes(
             attributeSet,
-            R.styleable.ReportLineChartCard
+            R.styleable.ReportAffectiveLineChartCard
         )
-        mMainColor = typeArray.getColor(R.styleable.ReportLineChartCard_rlcc_mainColor, mMainColor)
-        mTextColor = typeArray.getColor(R.styleable.ReportLineChartCard_rlcc_textColor, mTextColor)
-        mBg = typeArray.getDrawable(R.styleable.ReportLineChartCard_rlcc_background)
+        mMainColor =
+            typeArray.getColor(R.styleable.ReportAffectiveLineChartCard_ralcc_mainColor, mMainColor)
+        mTextColor =
+            typeArray.getColor(R.styleable.ReportAffectiveLineChartCard_ralcc_textColor, mTextColor)
+        mBg = typeArray.getDrawable(R.styleable.ReportAffectiveLineChartCard_ralcc_background)
         mIsTitleIconShow = typeArray.getBoolean(
-            R.styleable.ReportLineChartCard_rlcc_isTitleIconShow,
+            R.styleable.ReportAffectiveLineChartCard_ralcc_isTitleIconShow,
             mIsTitleIconShow
         )
         mIsTitleMenuIconShow = typeArray.getBoolean(
-            R.styleable.ReportLineChartCard_rlcc_isTitleMenuIconShow,
+            R.styleable.ReportAffectiveLineChartCard_ralcc_isTitleMenuIconShow,
             mIsTitleMenuIconShow
         )
         mIsTitleIconShow = typeArray.getBoolean(
-            R.styleable.ReportLineChartCard_rlcc_isTitleIconShow,
+            R.styleable.ReportAffectiveLineChartCard_ralcc_isTitleIconShow,
             mIsTitleIconShow
         )
         mIsTitleIconShow = typeArray.getBoolean(
-            R.styleable.ReportLineChartCard_rlcc_isTitleIconShow,
+            R.styleable.ReportAffectiveLineChartCard_ralcc_isTitleIconShow,
             mIsTitleIconShow
         )
-        mTitle = typeArray.getString(R.styleable.ReportLineChartCard_rlcc_title)
+        mTitle = typeArray.getString(R.styleable.ReportAffectiveLineChartCard_ralcc_title)
         mTiltleIcon =
-            typeArray.getDrawable(R.styleable.ReportLineChartCard_rlcc_titleIcon)
+            typeArray.getDrawable(R.styleable.ReportAffectiveLineChartCard_ralcc_titleIcon)
         mTitleMenuIcon =
-            typeArray.getDrawable(R.styleable.ReportLineChartCard_rlcc_titleMenuIcon)
+            typeArray.getDrawable(R.styleable.ReportAffectiveLineChartCard_ralcc_titleMenuIcon)
 
         mPointCount =
-            typeArray.getInteger(R.styleable.ReportLineChartCard_rlcc_pointCount, mPointCount)
-        mLineColor = typeArray.getColor(R.styleable.ReportLineChartCard_rlcc_lineColor, mLineColor)
-        mTimeUnit = typeArray.getInteger(R.styleable.ReportLineChartCard_rlcc_timeUnit, mTimeUnit)
+            typeArray.getInteger(
+                R.styleable.ReportAffectiveLineChartCard_ralcc_pointCount,
+                mPointCount
+            )
+        mAttentionLineColor = typeArray.getColor(
+            R.styleable.ReportAffectiveLineChartCard_ralcc_attentionLineColor,
+            mAttentionLineColor
+        )
+        mRelaxationLineColor = typeArray.getColor(
+            R.styleable.ReportAffectiveLineChartCard_ralcc_relaxationLineColor,
+            mRelaxationLineColor
+        )
+        mTimeUnit =
+            typeArray.getInteger(R.styleable.ReportAffectiveLineChartCard_ralcc_timeUnit, mTimeUnit)
         initView()
     }
 
@@ -122,17 +145,20 @@ class ReportLineChartCard @JvmOverloads constructor(
         initTitle()
         iv_menu.setOnClickListener {
             (context as Activity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-            var affectiveView = ReportLineChartCard(context, null, 0, R.layout.pop_card_attention)
-            affectiveView.setData(mData, true)
+//            var view = LayoutInflater.from(context).inflate(R.layout.pop_card_attention,null)
+            var affectiveView =
+                ReportAffectiveLineChartCard(context, null, 0, R.layout.pop_card_attention)
+            affectiveView.setData(mAttentionData, mRelaxationData, true)
             var popWindow = PopupWindow(affectiveView, MATCH_PARENT, MATCH_PARENT)
-            affectiveView.findViewById<ImageView>(R.id.iv_menu).setImageResource(R.drawable.vector_drawable_screen_shrink)
-            affectiveView.findViewById<LinearLayout>(R.id.ll_custom_yLabel).visibility = View.GONE
+            popWindow.showAtLocation(this, Gravity.CENTER, 0, 0)
+            affectiveView.findViewById<ImageView>(R.id.iv_menu)
+                .setImageResource(R.drawable.vector_drawable_screen_shrink)
+            affectiveView.findViewById<LinearLayout>(R.id.legend).visibility = View.VISIBLE
             affectiveView.findViewById<ImageView>(R.id.iv_menu).setOnClickListener {
                 (context as Activity).requestedOrientation =
                     ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
                 popWindow.dismiss()
             }
-            popWindow.showAtLocation(iv_menu, Gravity.CENTER, 0, 0)
         }
         initChart()
         tv_time_unit_des.setTextColor(getOpacityColor(mTextColor, 0.7f))
@@ -150,6 +176,9 @@ class ReportLineChartCard @JvmOverloads constructor(
                 bgColor = (mBg as GradientDrawable).color.defaultColor
             }
         }
+
+        legend_attention.setLegendIconColor(mAttentionLineColor)
+        legend_relaxation.setLegendIconColor(mRelaxationLineColor)
     }
 
     fun initTitle() {
@@ -158,38 +187,23 @@ class ReportLineChartCard @JvmOverloads constructor(
         tv_title.setTextColor(mTextColor)
         if (mIsTitleIconShow) {
             iv_icon.visibility = View.VISIBLE
-            iv_icon.setImageDrawable(mTiltleIcon)
+            iv_icon.background = mTiltleIcon
         } else {
             iv_icon.visibility = View.GONE
         }
         if (mIsTitleMenuIconShow) {
-            iv_menu.setImageDrawable(mTitleMenuIcon)
+            iv_menu.background = mTitleMenuIcon
             iv_menu.visibility = View.VISIBLE
         } else {
             iv_menu.visibility = View.GONE
         }
     }
 
-    var mTimeStampLsit: ArrayList<String> = ArrayList()
-    fun setData(data: List<Double>?, isShowAllData: Boolean = false) {
-        if (data == null) {
-            return
-        }
-        this.mData = data
-//        chart.xAxis.setLabelCount(mData!!.size,true)
-        var scaleX = mData!!.size / 100f
-        if (scaleX < 1f) {
-            scaleX = 1f
-        }
-//        chart.viewPortHandler.setMaximumScaleX(scaleX)
-        var maxValue = data.max()
-        var minValue = data.min()
-        val values = ArrayList<Entry>()
-        var yAxisMax = (maxValue!! / 0.9f)
-        var yAxisMix = (minValue!! * 0.9f)
-        chart.axisLeft.axisMaximum = yAxisMax.toFloat()
-        chart.axisLeft.axisMinimum = yAxisMix.toFloat()
+    fun setOnMenuIconClickListener(onClickListener: View.OnClickListener) {
+        iv_menu.setOnClickListener(onClickListener)
+    }
 
+    fun drawLine(mData: List<Double>, lineColor: Int, isShowAllData: Boolean = false) {
         var sample = mData!!.size / mPointCount
         if (isShowAllData) {
             sample = 1
@@ -226,7 +240,14 @@ class ReportLineChartCard @JvmOverloads constructor(
 
         if (mData != null && mData!!.isNotEmpty()) {
             var average = mData!!.average().toInt() + 1
-            val ll1 = LimitLine(average.toFloat(), "AVG:$average")
+            val ll1 = LimitLine(
+                average.toFloat(), "AVG:${if (average > 100) {
+                    average - 100
+                } else {
+                    average
+                }
+                }"
+            )
             ll1.lineWidth = 1f
             ll1.enableDashedLine(10f, 10f, 0f)
             ll1.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
@@ -234,74 +255,57 @@ class ReportLineChartCard @JvmOverloads constructor(
             ll1.lineColor = Color.parseColor("#9AA1A9")
             chart.axisLeft.addLimitLine(ll1)
         }
+        val zeroLimitLine = LimitLine(100f, "")
+        zeroLimitLine.lineWidth = 1f
+        zeroLimitLine.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
+        zeroLimitLine.textSize = 10f
+        zeroLimitLine.lineColor = Color.parseColor("#9AA1A9")
+        chart.axisLeft.addLimitLine(zeroLimitLine)
+        val values = ArrayList<Entry>()
 
         for (i in sampleData.indices) {
-            values.add(Entry(i.toFloat(), data[i].toFloat()))
+            values.add(Entry(i.toFloat(), mData!![i].toFloat()))
         }
 
         val set1: LineDataSet
+        set1 = LineDataSet(values, "")
+        set1.color = lineColor
+        set1.lineWidth = 0f
+        // draw points as solid circles
+        set1.setDrawCircleHole(false)
+        // customize legend entry
+        set1.formLineWidth = 1f
+        set1.formLineDashEffect = DashPathEffect(floatArrayOf(10f, 5f), 0f)
+        set1.formSize = 15f
+        // text size of values
+        set1.valueTextSize = 9f
+        set1.setDrawValues(false)
+        set1.setDrawHighlightIndicators(false)
+        set1.setDrawFilled(false)
+        set1.setDrawCircles(false)
+        set1.setMode(LineDataSet.Mode.CUBIC_BEZIER)
+        dataSets.add(set1) // add the data sets
+        // create a data object with the data sets
+        val data = LineData(dataSets)
+        // set data
+        chart.data = data
+        chart.notifyDataSetChanged()
 
-        if (chart.data != null && chart.data.dataSetCount > 0) {
-            set1 = chart.data.getDataSetByIndex(0) as LineDataSet
-            set1.values = values
-            set1.notifyDataSetChanged()
-            chart.data.notifyDataChanged()
-            chart.notifyDataSetChanged()
-        } else {
-            // create a dataset and give it a type
-            set1 = LineDataSet(values, "")
+    }
 
-//            set1.setDrawIcons(false)
-            // draw dashed line
-//            set1.enableDashedLine(10f, 5f, 0f)
-            // black lines and points
-            set1.color = mLineColor
-//            set1.setCircleColor(Color.BLACK)
-
-            // line thickness and point size
-            set1.lineWidth = 0f
-//            set1.circleRadius = 3f
-
-            // draw points as solid circles
-            set1.setDrawCircleHole(false)
-
-            // customize legend entry
-            set1.formLineWidth = 1f
-            set1.formLineDashEffect = DashPathEffect(floatArrayOf(10f, 5f), 0f)
-            set1.formSize = 15f
-
-            // text size of values
-            set1.valueTextSize = 9f
-            set1.setDrawValues(false)
-            // draw selection line as dashed
-//            set1.enableDashedHighlightLine(10f, 5f, 0f)
-            // set the filled area
-            set1.setDrawHighlightIndicators(false)
-            set1.setDrawFilled(false)
-            set1.setDrawCircles(false)
-            set1.setMode(LineDataSet.Mode.CUBIC_BEZIER)
-            // set color of filled area
-//            if (Utils.getSDKInt() >= 18) {
-//                // drawables only supported on api level 18 and above
-//                val drawable =
-//                    ContextCompat.getDrawable(context, R.drawable.shape_affective_chart_fill)
-//                set1.fillDrawable = drawable
-//            } else {
-//                set1.fillColor = Color.GREEN
-//            }
-
-            val dataSets = ArrayList<ILineDataSet>()
-            dataSets.add(set1) // add the data sets
-
-            // create a data object with the data sets
-            val data = LineData(dataSets)
-
-            // set data
-            chart.data = data
-
-
-            chart.notifyDataSetChanged()
+    fun setData(
+        attentionData: List<Double>?,
+        relaxationData: List<Double>?,
+        isShowAllData: Boolean = false
+    ) {
+        if (attentionData == null || relaxationData == null) {
+            return
         }
+        this.mAttentionData = attentionData
+        this.mRelaxationData = relaxationData
+        drawLine(mAttentionData!!, mAttentionLineColor, isShowAllData)
+        drawLine(mRelaxationData!!.map { it + 100 }, mRelaxationLineColor, isShowAllData)
+//        chart.xAxis.setLabelCount(mData!!.size,true)
     }
 
     fun initChart() {
@@ -362,29 +366,27 @@ class ReportLineChartCard @JvmOverloads constructor(
         chart.axisRight.isEnabled = false
         // horizontal grid lines
 //        yAxis.enableGridDashedLine(10f, 10f, 0f)
+        yAxis.setDrawLabels(false)
         yAxis.setDrawGridLines(false)
         yAxis.setDrawAxisLine(false)
         yAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
         // axis range
-        yAxis.axisMaximum = 100f
+        yAxis.axisMaximum = 200f
         yAxis.axisMinimum = 0f
-        yAxis.labelCount = 3
-//        yAxis.setValueFormatter { value, axis ->
-//            if (value == 0f){
-//                ""
-//            }else{
-//                "${value.toInt()}"
-//            }
-//        }
+//        yAxis.labelCount = 3
         yAxis.valueFormatter = object : ValueFormatter() {
             override fun getAxisLabel(
                 value: Float, base: AxisBase
             ): String? {
+                var yLabel = ""
                 if (value == 0f) {
-                    return ""
-                } else {
-                    return "${value.toInt()}"
+                    yLabel =  "0"
+                } else if (value == 100f){
+                    yLabel = "100"
+                }else if (value == 200f){
+                    yLabel = "100"
                 }
+                return yLabel
             }
         }
         // // Create Limit Lines // //

@@ -208,6 +208,22 @@
         <attr name="rlcc_lineColor" format="color" />
         <attr name="rlcc_timeUnit" format="integer" />
     </declare-styleable>
+
+    <declare-styleable name="ReportAffectiveLineChartCard">
+        <attr name="ralcc_isTitleIconShow" format="boolean" />
+        <attr name="ralcc_title" format="string" />
+        <attr name="ralcc_titleIcon" format="reference" />
+        <attr name="ralcc_isTitleMenuIconShow" format="boolean" />
+        <attr name="ralcc_titleMenuIcon" format="reference" />
+        <attr name="ralcc_mainColor" format="color" />
+        <attr name="ralcc_textColor" format="color" />
+        <attr name="ralcc_background" format="color|reference" />
+        <attr name="ralcc_pointCount" format="integer" />
+        <attr name="ralcc_attentionLineColor" format="color" />
+        <attr name="ralcc_relaxationLineColor" format="color" />
+        <attr name="ralcc_timeUnit" format="integer" />
+    </declare-styleable>
+
     <declare-styleable name="ReportPressureView">
 
         <attr name="rp_mainColor" format="color" />

@@ -59,7 +59,7 @@
 <!--            app:racc_title="Last 7 times"-->
 <!--            />-->
 
-    <cn.entertech.uicomponentsdk.report.ReportLineChartCard
+    <cn.entertech.uicomponentsdk.report.ReportAffectiveLineChartCard
             android:id="@+id/report_affective_chart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
