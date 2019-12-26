@@ -195,24 +195,18 @@
         <attr name="hrv_isShowMin" format="boolean" />
     </declare-styleable>
 
-    <declare-styleable name="ReportAffectiveView">
-
-        <attr name="ra_mainColor" format="color" />
-        <attr name="ra_textColor" format="color" />
-        <attr name="ra_background" format="color|reference" />
-        <attr name="ra_isShowInfoIcon" format="boolean" />
-        <attr name="ra_isAbsoluteTimeAxis" format="boolean" />
-        <attr name="ra_sample" format="integer" />
-        <attr name="ra_isShowAvg" format="boolean" />
-        <attr name="ra_isShowMax" format="boolean" />
-        <attr name="ra_isShowMin" format="boolean" />
-        <attr name="ra_fillColor" format="color" />
-        <attr name="ra_emotionType" format="enum">
-            <enum name="attention" value="0" />
-            <enum name="relaxation" value="1" />
-        </attr>
-
-        <attr name="ra_infoUrl" format="string" />
+    <declare-styleable name="ReportLineChartCard">
+        <attr name="rlcc_isTitleIconShow" format="boolean" />
+        <attr name="rlcc_title" format="string" />
+        <attr name="rlcc_titleIcon" format="reference" />
+        <attr name="rlcc_isTitleMenuIconShow" format="boolean" />
+        <attr name="rlcc_titleMenuIcon" format="reference" />
+        <attr name="rlcc_mainColor" format="color" />
+        <attr name="rlcc_textColor" format="color" />
+        <attr name="rlcc_background" format="color|reference" />
+        <attr name="rlcc_pointCount" format="integer" />
+        <attr name="rlcc_lineColor" format="color" />
+        <attr name="rlcc_timeUnit" format="integer" />
     </declare-styleable>
     <declare-styleable name="ReportPressureView">
 

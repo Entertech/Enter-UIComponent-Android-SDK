@@ -27,6 +27,7 @@
                 >
 
             <cn.entertech.uicomponentsdk.widget.CustomVerticalTextView
+                    android:visibility="gone"
                     android:id="@+id/tv_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -61,6 +62,7 @@
                 />
 
         <LinearLayout
+                android:visibility="gone"
                 android:layout_marginBottom="@dimen/activity_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

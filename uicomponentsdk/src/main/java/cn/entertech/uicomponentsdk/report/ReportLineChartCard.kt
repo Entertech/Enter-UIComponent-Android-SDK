@@ -22,11 +22,8 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupWindow
-import androidx.core.content.ContextCompat
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.utils.getOpacityColor
-import cn.entertech.uicomponentsdk.utils.removeZeroData
-import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.XAxis
@@ -34,10 +31,8 @@ import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
-import com.github.mikephil.charting.utils.Utils
 import kotlinx.android.synthetic.main.layout_common_card_title.view.*
 import kotlinx.android.synthetic.main.layout_card_attention.view.*
 import kotlinx.android.synthetic.main.layout_card_attention.view.ll_avg
@@ -45,37 +40,32 @@ import kotlinx.android.synthetic.main.layout_card_attention.view.ll_bg
 import kotlinx.android.synthetic.main.layout_card_attention.view.ll_max
 import kotlinx.android.synthetic.main.layout_card_attention.view.ll_min
 import kotlinx.android.synthetic.main.layout_card_attention.view.rl_no_data_cover
-import kotlinx.android.synthetic.main.layout_card_heart_rate.view.*
 import java.util.*
+import kotlin.math.sign
 
-class ReportAffectiveView @JvmOverloads constructor(
+class ReportLineChartCard @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
+    private var mLineColor: Int = Color.RED
+    private var mTitle: String? = "Changes During Meditation"
+    private var mIsTitleIconShow: Boolean = false
+    private var mIsTitleMenuIconShow: Boolean = true
     private var mData: List<Double>? = null
-    private var mIsAbsoluteTime: Boolean = false
-    private var mEmotionType: Int = 0
-    private var mFillColor: Int = Color.parseColor("#0000ff")
-    private var mIsShowMin: Boolean
-    private var mIsShowMax: Boolean
-    private var mIsShowAvg: Boolean = true
-    private var mSample: Int = 3
     private var mBg: Drawable? = null
 
-    private var mInfoUrl: String? = null
+    private var mTiltleIcon: Drawable?
+    private var mTitleMenuIcon: Drawable?
 
-    companion object {
-        const val INFO_URL = "https://www.notion.so/Attention-84fef81572a848efbf87075ab67f4cfe"
-    }
-
-    private var mInfoIconRes: Int? = null
-    private var mIsShowInfoIcon: Boolean = true
     private var mMainColor: Int = Color.parseColor("#0064ff")
-    private var mTextColor: Int = Color.parseColor("#171726")
+    private var mTextColor: Int = Color.parseColor("#333333")
     var mSelfView: View? = null
-
+    /*数据时间间隔：单位毫秒*/
+    var mTimeUnit: Int = 800
+    var mPointCount: Int = 100
+    var mTimeOfTwoPoint: Int = 0
     init {
         if (layoutId == null) {
             mSelfView = LayoutInflater.from(context).inflate(R.layout.layout_card_attention, null)
@@ -89,33 +79,46 @@ class ReportAffectiveView @JvmOverloads constructor(
         addView(mSelfView)
         var typeArray = context.obtainStyledAttributes(
             attributeSet,
-            R.styleable.ReportAffectiveView
+            R.styleable.ReportLineChartCard
         )
-        mMainColor = typeArray.getColor(R.styleable.ReportAffectiveView_ra_mainColor, mMainColor)
-        mTextColor = typeArray.getColor(R.styleable.ReportAffectiveView_ra_textColor, mTextColor)
-        mBg = typeArray.getDrawable(R.styleable.ReportAffectiveView_ra_background)
-        mIsShowInfoIcon =
-            typeArray.getBoolean(R.styleable.ReportAffectiveView_ra_isShowInfoIcon, true)
-        mInfoUrl = typeArray.getString(R.styleable.ReportAffectiveView_ra_infoUrl)
-        if (mInfoUrl == null) {
-            mInfoUrl = INFO_URL
-        }
-        mSample = typeArray.getInteger(R.styleable.ReportAffectiveView_ra_sample, 3)
-        mIsShowAvg = typeArray.getBoolean(R.styleable.ReportAffectiveView_ra_isShowAvg, true)
-        mIsShowMax = typeArray.getBoolean(R.styleable.ReportAffectiveView_ra_isShowMax, true)
-        mIsShowMin = typeArray.getBoolean(R.styleable.ReportAffectiveView_ra_isShowMin, true)
-        mFillColor = typeArray.getColor(R.styleable.ReportAffectiveView_ra_fillColor, mFillColor)
-        mEmotionType = typeArray.getInteger(R.styleable.ReportAffectiveView_ra_emotionType, 0)
-        mIsAbsoluteTime =
-            typeArray.getBoolean(R.styleable.ReportAffectiveView_ra_isAbsoluteTimeAxis, false)
+        mMainColor = typeArray.getColor(R.styleable.ReportLineChartCard_rlcc_mainColor, mMainColor)
+        mTextColor = typeArray.getColor(R.styleable.ReportLineChartCard_rlcc_textColor, mTextColor)
+        mBg = typeArray.getDrawable(R.styleable.ReportLineChartCard_rlcc_background)
+        mIsTitleIconShow = typeArray.getBoolean(
+            R.styleable.ReportLineChartCard_rlcc_isTitleIconShow,
+            mIsTitleIconShow
+        )
+        mIsTitleMenuIconShow = typeArray.getBoolean(
+            R.styleable.ReportLineChartCard_rlcc_isTitleMenuIconShow,
+            mIsTitleMenuIconShow
+        )
+        mIsTitleIconShow = typeArray.getBoolean(
+            R.styleable.ReportLineChartCard_rlcc_isTitleIconShow,
+            mIsTitleIconShow
+        )
+        mIsTitleIconShow = typeArray.getBoolean(
+            R.styleable.ReportLineChartCard_rlcc_isTitleIconShow,
+            mIsTitleIconShow
+        )
+        mTitle = typeArray.getString(R.styleable.ReportLineChartCard_rlcc_title)
+        mTiltleIcon =
+            typeArray.getDrawable(R.styleable.ReportLineChartCard_rlcc_titleIcon)
+        mTitleMenuIcon =
+            typeArray.getDrawable(R.styleable.ReportLineChartCard_rlcc_titleMenuIcon)
+
+        mPointCount =
+            typeArray.getInteger(R.styleable.ReportLineChartCard_rlcc_pointCount, mPointCount)
+        mLineColor = typeArray.getColor(R.styleable.ReportLineChartCard_rlcc_lineColor, mLineColor)
+        mTimeUnit = typeArray.getInteger(R.styleable.ReportLineChartCard_rlcc_timeUnit, mTimeUnit)
         initView()
     }
 
     fun initView() {
+        initTitle()
         iv_fullscreen.setOnClickListener {
             (context as Activity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 //            var view = LayoutInflater.from(context).inflate(R.layout.pop_card_attention,null)
-            var affectiveView = ReportAffectiveView(context, null, 0, R.layout.pop_card_attention)
+            var affectiveView = ReportLineChartCard(context, null, 0, R.layout.pop_card_attention)
             affectiveView.setData(mData)
             var popWindow = PopupWindow(affectiveView, MATCH_PARENT, MATCH_PARENT)
             popWindow.showAtLocation(this, Gravity.CENTER, 0, 0)
@@ -126,26 +129,7 @@ class ReportAffectiveView @JvmOverloads constructor(
             }
         }
         initChart()
-        tv_title.setTextColor(mMainColor)
-        when (mEmotionType) {
-            0 -> {
-                tv_title.text = "专注度"
-                tv_vertical.setText("专注度")
-            }
-            1 -> {
-                tv_title.text = "放松度"
-                tv_vertical.setText("放松度")
-            }
-        }
         tv_time_unit_des.setTextColor(getOpacityColor(mTextColor, 0.7f))
-        tv_avg.setTextColor(getOpacityColor(mTextColor, 0.7f))
-        tv_max.setTextColor(getOpacityColor(mTextColor, 0.7f))
-        tv_min.setTextColor(getOpacityColor(mTextColor, 0.7f))
-
-        tv_vertical.setTextColor(getOpacityColor(mTextColor, 0.7f))
-//        chart_attention.setYAxisTextColor(getOpacityColor(mTextColor, 0.7f))
-//        chart_attention.setXAxisTextColor(getOpacityColor(mTextColor, 0.7f))
-//        chart_attention.setGridLineColor(getOpacityColor(mTextColor, 0.1f))
 
         var bgColor = Color.WHITE
         if (mBg != null) {
@@ -160,37 +144,31 @@ class ReportAffectiveView @JvmOverloads constructor(
                 bgColor = (mBg as GradientDrawable).color.defaultColor
             }
         }
-//        chart_attention.setBackgroundColor(bgColor)
-        if (mIsShowInfoIcon) {
-            iv_info.visibility = View.VISIBLE
-        } else {
-            iv_info.visibility = View.GONE
-        }
-        iv_info.setOnClickListener {
-            var uri = Uri.parse(mInfoUrl)
-            context.startActivity(Intent(Intent.ACTION_VIEW, uri))
-        }
-//        chart_attention.setSample(mSample)
-        if (mIsShowAvg) {
-            ll_avg.visibility = View.VISIBLE
-        } else {
-            ll_avg.visibility = View.GONE
-        }
-        if (mIsShowMax) {
-            ll_max.visibility = View.VISIBLE
-        } else {
-            ll_max.visibility = View.GONE
-        }
-        if (mIsShowMin) {
-            ll_min.visibility = View.VISIBLE
-        } else {
-            ll_min.visibility = View.GONE
-        }
-        var fillColors = intArrayOf(mFillColor, getOpacityColor(mFillColor, 0.7f))
-//        chart_attention.setColors(fillColors)
     }
 
+    fun initTitle() {
+        tv_title.visibility = View.VISIBLE
+        tv_title.text = mTitle
+        tv_title.setTextColor(mTextColor)
+        if (mIsTitleIconShow) {
+            iv_icon.visibility = View.VISIBLE
+            iv_icon.background = mTiltleIcon
+        } else {
+            iv_icon.visibility = View.GONE
+        }
+        if (mIsTitleMenuIconShow) {
+            iv_menu.background = mTitleMenuIcon
+            iv_menu.visibility = View.VISIBLE
+        } else {
+            iv_menu.visibility = View.GONE
+        }
+    }
 
+    fun setOnMenuIconClickListener(onClickListener: View.OnClickListener) {
+        iv_menu.setOnClickListener(onClickListener)
+    }
+
+    var mTimeStampLsit: ArrayList<String> = ArrayList()
     fun setData(data: List<Double>?) {
         if (data == null) {
             return
@@ -209,22 +187,50 @@ class ReportAffectiveView @JvmOverloads constructor(
         var yAxisMix = (minValue!! * 0.9f)
         chart.axisLeft.axisMaximum = yAxisMax.toFloat()
         chart.axisLeft.axisMinimum = yAxisMix.toFloat()
-        for(i in data.indices){
-            if (i % 75 == 0){
-                val llXAxis = LimitLine(i.toFloat(), "${i/75}")
+
+        var sample = mData!!.size / mPointCount
+        var sampleData = ArrayList<Double>()
+        for (i in mData!!.indices) {
+            if (i % sample == 0) {
+                sampleData.add(mData!![i])
+            }
+        }
+
+        mTimeOfTwoPoint = mTimeUnit * sample
+        var totalMin = (sampleData!!.size * mTimeOfTwoPoint / 1000F / 60F).toInt() + 1
+        var minOffset = totalMin / 8 + 1
+
+        for (i in sampleData!!.indices) {
+            if ((i * mTimeOfTwoPoint / 1000F / 60F) % minOffset == 0f) {
+                val llXAxis =
+                    LimitLine(
+                        i.toFloat(),
+                        "${(i * mTimeOfTwoPoint / 1000F / 60F).toInt()}"
+                    )
                 llXAxis.lineWidth = 1f
                 llXAxis.labelPosition = LimitLine.LimitLabelPosition.LEFT_BOTTOM
                 llXAxis.textSize = 8f
                 llXAxis.yOffset = -12f
                 llXAxis.lineColor = Color.parseColor("#999999")
-                if (i == 0){
+                if (i == 0) {
                     llXAxis.xOffset = -3f
                 }
                 chart.xAxis.addLimitLine(llXAxis)
             }
         }
 
-        for (i in data.indices) {
+        if (mData != null && mData!!.isNotEmpty()) {
+            var average = mData!!.average().toInt() + 1
+            val ll1 = LimitLine(average.toFloat(), "AVG:$average")
+            ll1.lineWidth = 1f
+            ll1.enableDashedLine(10f, 10f, 0f)
+            ll1.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
+            ll1.textSize = 10f
+            ll1.lineColor = Color.parseColor("#9AA1A9")
+            chart.axisLeft.addLimitLine(ll1)
+        }
+
+        for (i in sampleData.indices) {
             values.add(Entry(i.toFloat(), data[i].toFloat()))
         }
 
@@ -244,7 +250,7 @@ class ReportAffectiveView @JvmOverloads constructor(
             // draw dashed line
 //            set1.enableDashedLine(10f, 5f, 0f)
             // black lines and points
-            set1.color = Color.parseColor("#00d993")
+            set1.color = mLineColor
 //            set1.setCircleColor(Color.BLACK)
 
             // line thickness and point size
@@ -266,18 +272,18 @@ class ReportAffectiveView @JvmOverloads constructor(
 //            set1.enableDashedHighlightLine(10f, 5f, 0f)
             // set the filled area
             set1.setDrawHighlightIndicators(false)
-            set1.setDrawFilled(true)
+            set1.setDrawFilled(false)
             set1.setDrawCircles(false)
             set1.setMode(LineDataSet.Mode.CUBIC_BEZIER)
             // set color of filled area
-            if (Utils.getSDKInt() >= 18) {
-                // drawables only supported on api level 18 and above
-                val drawable =
-                    ContextCompat.getDrawable(context, R.drawable.shape_affective_chart_fill)
-                set1.fillDrawable = drawable
-            } else {
-                set1.fillColor = Color.GREEN
-            }
+//            if (Utils.getSDKInt() >= 18) {
+//                // drawables only supported on api level 18 and above
+//                val drawable =
+//                    ContextCompat.getDrawable(context, R.drawable.shape_affective_chart_fill)
+//                set1.fillDrawable = drawable
+//            } else {
+//                set1.fillColor = Color.GREEN
+//            }
 
             val dataSets = ArrayList<ILineDataSet>()
             dataSets.add(set1) // add the data sets
@@ -353,10 +359,10 @@ class ReportAffectiveView @JvmOverloads constructor(
 //        yAxis.enableGridDashedLine(10f, 10f, 0f)
         yAxis.setDrawGridLines(false)
         yAxis.setDrawAxisLine(false)
-        yAxis.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART)
+        yAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
         // axis range
         yAxis.axisMaximum = 100f
-        yAxis.axisMinimum = 20f
+        yAxis.axisMinimum = 0f
         yAxis.labelCount = 3
 //        yAxis.setValueFormatter { value, axis ->
 //            if (value == 0f){
@@ -379,18 +385,11 @@ class ReportAffectiveView @JvmOverloads constructor(
         // // Create Limit Lines // //
 
 
-        val ll1 = LimitLine(150f, "Upper Limit")
-        ll1.lineWidth = 4f
-        ll1.enableDashedLine(10f, 10f, 0f)
-        ll1.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
-        ll1.textSize = 10f
-
-
         // draw limit lines behind data instead of on top
-        yAxis.setDrawLimitLinesBehindData(true)
+        yAxis.setDrawLimitLinesBehindData(false)
         xAxis.setDrawLimitLinesBehindData(true)
+
         // add limit lines
-        yAxis.addLimitLine(ll1)
     }
 
 //    fun setData(startTime: Long, data: List<Double>?) {

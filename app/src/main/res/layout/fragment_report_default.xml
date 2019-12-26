@@ -88,36 +88,26 @@
                     />
 
 
-            <cn.entertech.uicomponentsdk.report.ReportAffectiveView
+            <cn.entertech.uicomponentsdk.report.ReportLineChartCard
                     android:id="@+id/report_attention"
-                    app:ra_isAbsoluteTimeAxis="false"
-                    app:ra_sample="10"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:ra_emotionType="attention"
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
-                    app:ra_background="@drawable/shape_basic_widget_bg"
-                    app:ra_fillColor="#00d993"
                     >
 
-            </cn.entertech.uicomponentsdk.report.ReportAffectiveView>
+            </cn.entertech.uicomponentsdk.report.ReportLineChartCard>
 
-            <cn.entertech.uicomponentsdk.report.ReportAffectiveView
+            <cn.entertech.uicomponentsdk.report.ReportLineChartCard
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:id="@+id/report_relaxation"
-                    app:ra_isAbsoluteTimeAxis="false"
-                    app:ra_sample="10"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:ra_emotionType="relaxation"
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
-                    app:ra_background="@drawable/shape_basic_widget_bg"
-                    app:ra_fillColor="#0064ff"
                     >
 
-            </cn.entertech.uicomponentsdk.report.ReportAffectiveView>
+            </cn.entertech.uicomponentsdk.report.ReportLineChartCard>
 
 
             <cn.entertech.uicomponentsdk.report.ReportPressureView

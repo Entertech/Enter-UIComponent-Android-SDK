@@ -10,7 +10,6 @@
             android:layout_height="24dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/activity_margin"
-            android:src="@drawable/vector_drawable_brain"
             android:visibility="gone"
             />
 
@@ -37,7 +36,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/activity_margin"
-            android:src="@drawable/vector_drawable_arrow_right_blue"
+            android:background="@drawable/vector_drawable_arrow_right_blue"
             />
 
     <ImageView

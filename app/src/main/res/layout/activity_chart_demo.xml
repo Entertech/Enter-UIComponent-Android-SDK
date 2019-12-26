@@ -49,13 +49,20 @@
     <!--            android:layout_width="match_parent"-->
     <!--            android:layout_height="wrap_content"/>-->
 
-    <cn.entertech.uicomponentsdk.report.ReportAverageChartCard
-            android:id="@+id/average_card"
+<!--    <cn.entertech.uicomponentsdk.report.ReportAverageChartCard-->
+<!--            android:id="@+id/average_card"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:racc_barHighLightColor="#FFC56F"-->
+<!--            app:racc_barValueBgColor="#FFE4BB"-->
+<!--            app:racc_tag="HRV"-->
+<!--            app:racc_title="Last 7 times"-->
+<!--            />-->
+
+    <cn.entertech.uicomponentsdk.report.ReportLineChartCard
+            android:id="@+id/report_affective_chart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:racc_barHighLightColor="#FFC56F"
-            app:racc_barValueBgColor="#FFE4BB"
-            app:racc_tag="HRV"
-            app:racc_title="Last 7 times"
-            />
+            app:rlcc_title= "Changes During Meditation"
+            app:rlcc_titleMenuIcon="@drawable/vector_drawable_full_screen"/>
 </LinearLayout>
