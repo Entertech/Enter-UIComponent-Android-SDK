@@ -38,3 +38,23 @@ dependencies {
 //    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
     implementation 'com.airbnb.android:lottie:3.0.7'
 }
+
+//添加
+apply plugin: 'com.novoda.bintray-release'
+publish {
+    bintrayUser="hzentertech"
+    bintrayKey="a5c7edd58f68d746817dce405483be33f6b0c219"
+    //bintray.com用户名
+    userOrg = 'hzentertech'
+    //jcenter上的路径
+    groupId = 'cn.entertech'
+    //项目名称
+    artifactId = 'uicomponentsdk'
+    //版本号
+    publishVersion = '1.0.0-alpha18'
+    //描述，不重要
+    desc = ''
+    //网站，不重要
+    website = 'https://github.com/Entertech/Enter-UIComponent-Android-SDK'
+    dryRun = false
+}

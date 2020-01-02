@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="meditation_no_device_tip">Connect device to show data</string>
     <string name="heart_rate_unit_bpm">bpm</string>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+    <LinearLayout
+            android:id="@+id/ll_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:elevation="0dp"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/activity_margin"
+            >
+
+
+        <include layout="@layout/layout_common_card_title" />
+
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:layout_marginBottom="@dimen/activity_margin"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                >
+
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:orientation="vertical"
+                    >
+
+                <cn.entertech.uicomponentsdk.widget.ChartLegendView
+                        android:id="@+id/legend_gamma"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        app:clv_legend="γ"
+                        />
+
+                <cn.entertech.uicomponentsdk.widget.ChartLegendView
+                        android:id="@+id/legend_beta"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        app:clv_legend="β"
+                        />
+
+                <cn.entertech.uicomponentsdk.widget.ChartLegendView
+                        android:id="@+id/legend_alpha"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        app:clv_legend="α"
+                        />
+
+                <cn.entertech.uicomponentsdk.widget.ChartLegendView
+                        android:id="@+id/legend_theta"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        app:clv_legend="θ"
+                        />
+
+                <cn.entertech.uicomponentsdk.widget.ChartLegendView
+                        android:id="@+id/legend_delta"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        app:clv_legend="δ"
+                        />
+
+            </LinearLayout>
+
+            <cn.entertech.uicomponentsdk.widget.CustomLineChart
+                    android:id="@+id/chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
+        </LinearLayout>
+
+        <TextView
+                android:id="@+id/tv_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/time_unit"
+                android:visibility="visible"
+                />
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+            android:id="@+id/rl_no_data_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorLoadingCoverBg"
+            android:visibility="gone"
+            >
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="48dp"
+                android:layout_marginRight="48dp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center_horizontal"
+                android:text="@string/meditation_no_device_tip"
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                />
+    </RelativeLayout>
+
+</FrameLayout>

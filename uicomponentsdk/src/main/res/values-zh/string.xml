@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="meditation_no_device_tip">连接设备以显示实时数据</string>
+    <string name="heart_rate_unit_bpm">bpm</string>
+    <string name="time_unit">时间（分钟）</string>
+    <string name="avg">平均：</string>
+    <string name="max">最大：</string>
+    <string name="min">最小：</string>
+</resources>

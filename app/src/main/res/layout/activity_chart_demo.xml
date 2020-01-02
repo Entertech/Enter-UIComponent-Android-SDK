@@ -5,16 +5,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context="cn.entertech.componentdemo.ChartDemoActivity"
+        android:orientation="vertical"
         >
 
-    <!--    <cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumView-->
-    <!--            android:id="@+id/report_brainwave_spectrum_pie"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            app:rbs_isTitleIconShow="true"-->
-    <!--            app:rbs_spectrumColors="#FF6682,#5E75FF,#F7C77E,#5FC695,#FB9C98"-->
-    <!--            app:rbs_title="Brainwave Spectrum"-->
-    <!--            />-->
+<!--        <cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumView-->
+<!--                android:id="@+id/report_brainwave_spectrum_pie"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:rbs_isTitleIconShow="false"-->
+<!--                app:rbs_spectrumColors="#FF6682,#5E75FF,#F7C77E,#5FC695,#FB9C98"-->
+<!--                app:rbs_title="Brainwave Spectrum"-->
+<!--                app:rbs_isTitleMenuIconShow="true"-->
+<!--                app:rbs_timeUnit="400"-->
+<!--                app:rbs_titleMenuIcon="@drawable/vector_drawable_full_screen"-->
+<!--                />-->
 
 
     <!--    <cn.entertech.uicomponentsdk.widget.HalfCircleProgressBar-->
@@ -59,10 +63,21 @@
 <!--            app:racc_title="Last 7 times"-->
 <!--            />-->
 
-    <cn.entertech.uicomponentsdk.report.ReportAffectiveLineChartCard
-            android:id="@+id/report_affective_chart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:rlcc_title= "Changes During Meditation"
-            app:rlcc_titleMenuIcon="@drawable/vector_drawable_full_screen"/>
+<!--    <cn.entertech.uicomponentsdk.report.ReportAffectiveLineChartCard-->
+<!--            android:id="@+id/report_affective_chart"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:rlcc_title= "Changes During Meditation"-->
+<!--            app:rlcc_titleMenuIcon="@drawable/vector_drawable_full_screen"/>-->
+
+<!--    <cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumPieView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"/>-->
+
+        <cn.entertech.uicomponentsdk.report.ReportLineChartCard
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:rlcc_timeUnit="400"
+                app:rlcc_pointCount="100"
+                android:id="@+id/line_chart"/>
 </LinearLayout>

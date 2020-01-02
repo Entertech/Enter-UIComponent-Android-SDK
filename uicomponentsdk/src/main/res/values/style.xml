@@ -148,6 +148,10 @@
         <attr name="rbs_background" format="color|reference" />
         <attr name="rbs_pointCount" format="integer" />
         <attr name="rbs_spectrumColors" format="string" />
+        <attr name="rbs_timeUnit" format="integer" />
+        <attr name="rbs_gridLineColor" format="color" />
+        <attr name="rbs_labelColor" format="color" />
+        <attr name="rbs_xAxisUnit" format="string" />
     </declare-styleable>
 
 
@@ -207,6 +211,10 @@
         <attr name="rlcc_pointCount" format="integer" />
         <attr name="rlcc_lineColor" format="color" />
         <attr name="rlcc_timeUnit" format="integer" />
+        <attr name="rlcc_lineWidth" format="dimension" />
+        <attr name="rlcc_gridLineColor" format="color" />
+        <attr name="rlcc_labelColor" format="color" />
+        <attr name="rlcc_xAxisUnit" format="string" />
     </declare-styleable>
 
     <declare-styleable name="ReportAffectiveLineChartCard">
@@ -222,6 +230,10 @@
         <attr name="ralcc_attentionLineColor" format="color" />
         <attr name="ralcc_relaxationLineColor" format="color" />
         <attr name="ralcc_timeUnit" format="integer" />
+        <attr name="ralcc_lineWidth" format="dimension" />
+        <attr name="ralcc_gridLineColor" format="color" />
+        <attr name="ralcc_labelColor" format="color" />
+        <attr name="ralcc_xAxisUnit" format="string" />
     </declare-styleable>
 
     <declare-styleable name="ReportPressureView">

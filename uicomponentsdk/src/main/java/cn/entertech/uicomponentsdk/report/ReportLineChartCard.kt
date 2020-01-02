@@ -24,6 +24,7 @@ import android.widget.LinearLayout
 import android.widget.PopupWindow
 import androidx.core.content.ContextCompat
 import cn.entertech.uicomponentsdk.R
+import cn.entertech.uicomponentsdk.utils.ScreenUtil
 import cn.entertech.uicomponentsdk.utils.getOpacityColor
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.LimitLine
@@ -53,7 +54,11 @@ class ReportLineChartCard @JvmOverloads constructor(
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
+    private var mXAxisUnit: String? = "Time(min)"
+    private var mLineWidth: Float = 1.5f
     private var mLineColor: Int = Color.RED
+    private var mGridLineColor: Int = Color.parseColor("#E9EBF1")
+    private var mLabelColor: Int = Color.parseColor("#9AA1A9")
     private var mTitle: String? = "Changes During Meditation"
     private var mIsTitleIconShow: Boolean = false
     private var mIsTitleMenuIconShow: Boolean = true
@@ -114,7 +119,14 @@ class ReportLineChartCard @JvmOverloads constructor(
         mPointCount =
             typeArray.getInteger(R.styleable.ReportLineChartCard_rlcc_pointCount, mPointCount)
         mLineColor = typeArray.getColor(R.styleable.ReportLineChartCard_rlcc_lineColor, mLineColor)
+        mLabelColor =
+            typeArray.getColor(R.styleable.ReportLineChartCard_rlcc_labelColor, mLabelColor)
+        mGridLineColor =
+            typeArray.getColor(R.styleable.ReportLineChartCard_rlcc_gridLineColor, mGridLineColor)
         mTimeUnit = typeArray.getInteger(R.styleable.ReportLineChartCard_rlcc_timeUnit, mTimeUnit)
+        mLineWidth =
+            typeArray.getDimension(R.styleable.ReportLineChartCard_rlcc_lineWidth, mLineWidth)
+        mXAxisUnit = typeArray.getString(R.styleable.ReportLineChartCard_rlcc_xAxisUnit)
         initView()
     }
 
@@ -123,9 +135,17 @@ class ReportLineChartCard @JvmOverloads constructor(
         iv_menu.setOnClickListener {
             (context as Activity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
             var affectiveView = ReportLineChartCard(context, null, 0, R.layout.pop_card_attention)
+            affectiveView.setLineColor(mLineColor)
+            affectiveView.setLineWidth(mLineWidth)
+            affectiveView.setPointCount(mPointCount)
+            affectiveView.setTimeUnit(mTimeUnit)
+            affectiveView.setGridLineColor(mGridLineColor)
+            affectiveView.setXAxisUnit(mXAxisUnit)
+            affectiveView.setLabelColor(mLabelColor)
             affectiveView.setData(mData, true)
             var popWindow = PopupWindow(affectiveView, MATCH_PARENT, MATCH_PARENT)
-            affectiveView.findViewById<ImageView>(R.id.iv_menu).setImageResource(R.drawable.vector_drawable_screen_shrink)
+            affectiveView.findViewById<ImageView>(R.id.iv_menu)
+                .setImageResource(R.drawable.vector_drawable_screen_shrink)
             affectiveView.findViewById<LinearLayout>(R.id.ll_custom_yLabel).visibility = View.GONE
             affectiveView.findViewById<ImageView>(R.id.iv_menu).setOnClickListener {
                 (context as Activity).requestedOrientation =
@@ -150,6 +170,8 @@ class ReportLineChartCard @JvmOverloads constructor(
                 bgColor = (mBg as GradientDrawable).color.defaultColor
             }
         }
+
+        tv_time_unit_des.text = mXAxisUnit
     }
 
     fun initTitle() {
@@ -191,7 +213,7 @@ class ReportLineChartCard @JvmOverloads constructor(
         chart.axisLeft.axisMinimum = yAxisMix.toFloat()
 
         var sample = mData!!.size / mPointCount
-        if (isShowAllData) {
+        if (isShowAllData || sample <= 1) {
             sample = 1
         }
         var sampleData = ArrayList<Double>()
@@ -202,26 +224,25 @@ class ReportLineChartCard @JvmOverloads constructor(
         }
 
         mTimeOfTwoPoint = mTimeUnit * sample
-        var totalMin = (sampleData!!.size * mTimeOfTwoPoint / 1000F / 60F).toInt() + 1
-        var minOffset = totalMin / 8 + 1
-
-        for (i in sampleData!!.indices) {
-            if ((i * mTimeOfTwoPoint / 1000F / 60F) % minOffset == 0f) {
-                val llXAxis =
-                    LimitLine(
-                        i.toFloat(),
-                        "${(i * mTimeOfTwoPoint / 1000F / 60F).toInt()}"
-                    )
-                llXAxis.lineWidth = 1f
-                llXAxis.labelPosition = LimitLine.LimitLabelPosition.LEFT_BOTTOM
-                llXAxis.textSize = 8f
-                llXAxis.yOffset = -12f
-                llXAxis.lineColor = Color.parseColor("#999999")
-                if (i == 0) {
-                    llXAxis.xOffset = -3f
-                }
-                chart.xAxis.addLimitLine(llXAxis)
+        var totalMin = mData!!.size * mTimeUnit / 1000F / 60F
+        var minOffset = (totalMin / 8).toInt() + 1
+        var currentMin = 0
+        while (currentMin < totalMin) {
+            var limitX = currentMin * 60f * 1000 / mTimeOfTwoPoint
+            val llXAxis = LimitLine(limitX, "$currentMin")
+            llXAxis.lineWidth = 1f
+            llXAxis.labelPosition = LimitLine.LimitLabelPosition.LEFT_BOTTOM
+            llXAxis.textSize = 8f
+            llXAxis.yOffset = -12f
+            llXAxis.lineColor = mGridLineColor
+            llXAxis.textColor = mLabelColor
+            if (currentMin == 0) {
+                llXAxis.xOffset = -3f
+            } else {
+                llXAxis.xOffset = 0f
             }
+            chart.xAxis.addLimitLine(llXAxis)
+            currentMin += minOffset
         }
 
         if (mData != null && mData!!.isNotEmpty()) {
@@ -236,7 +257,7 @@ class ReportLineChartCard @JvmOverloads constructor(
         }
 
         for (i in sampleData.indices) {
-            values.add(Entry(i.toFloat(), data[i].toFloat()))
+            values.add(Entry(i.toFloat(), sampleData[i].toFloat()))
         }
 
         val set1: LineDataSet
@@ -259,7 +280,7 @@ class ReportLineChartCard @JvmOverloads constructor(
 //            set1.setCircleColor(Color.BLACK)
 
             // line thickness and point size
-            set1.lineWidth = 0f
+            set1.lineWidth = mLineWidth
 //            set1.circleRadius = 3f
 
             // draw points as solid circles
@@ -426,6 +447,41 @@ class ReportLineChartCard @JvmOverloads constructor(
         } else {
             View.GONE
         }
+    }
+
+    fun setLineWidth(lineWidth: Float) {
+        this.mLineWidth = lineWidth
+        initView()
+    }
+
+    fun setLineColor(lineColor: Int) {
+        this.mLineColor = lineColor
+        initView()
+    }
+
+    fun setTimeUnit(timeUnit: Int) {
+        this.mTimeUnit = timeUnit
+        initView()
+    }
+
+    fun setPointCount(pointCount: Int) {
+        this.mPointCount = pointCount
+        initView()
+    }
+
+    fun setGridLineColor(gridLineColor: Int) {
+        this.mGridLineColor = gridLineColor
+        initView()
+    }
+
+    fun setLabelColor(labelColor: Int) {
+        this.mLabelColor = labelColor
+        initView()
+    }
+
+    fun setXAxisUnit(axisUnit: String?) {
+        this.mXAxisUnit = axisUnit
+        initView()
     }
 
 }

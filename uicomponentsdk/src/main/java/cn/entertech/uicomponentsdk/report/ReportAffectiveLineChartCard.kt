@@ -55,7 +55,11 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var mXAxisUnit: String? = "Time(min)"
+    private var mGridLineColor: Int = Color.parseColor("#E9EBF1")
+    private var mLabelColor: Int = Color.parseColor("#9AA1A9")
 
+    private var mLineWidth: Float = 1.5f
     private var mAttentionData: List<Double> = ArrayList()
     private var mRelaxationData: List<Double> = ArrayList()
     //    private var mAttentionData: List<Double>? = null
@@ -136,8 +140,22 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
             R.styleable.ReportAffectiveLineChartCard_ralcc_relaxationLineColor,
             mRelaxationLineColor
         )
+        mLabelColor = typeArray.getColor(
+            R.styleable.ReportAffectiveLineChartCard_ralcc_labelColor,
+            mLabelColor
+        )
+        mGridLineColor = typeArray.getColor(
+            R.styleable.ReportAffectiveLineChartCard_ralcc_gridLineColor,
+            mGridLineColor
+        )
+
         mTimeUnit =
             typeArray.getInteger(R.styleable.ReportAffectiveLineChartCard_ralcc_timeUnit, mTimeUnit)
+        mLineWidth = typeArray.getDimension(
+            R.styleable.ReportAffectiveLineChartCard_ralcc_lineWidth,
+            mLineWidth
+        )
+        mXAxisUnit = typeArray.getString(R.styleable.ReportAffectiveLineChartCard_ralcc_xAxisUnit)
         initView()
     }
 
@@ -148,6 +166,14 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
 //            var view = LayoutInflater.from(context).inflate(R.layout.pop_card_attention,null)
             var affectiveView =
                 ReportAffectiveLineChartCard(context, null, 0, R.layout.pop_card_attention)
+            affectiveView.setLineWidth(mLineWidth)
+            affectiveView.setRelaxationLineColor(mRelaxationLineColor)
+            affectiveView.setAttentionLineColor(mAttentionLineColor)
+            affectiveView.setTimeUnit(mTimeUnit)
+            affectiveView.setPointCount(mPointCount)
+            affectiveView.setXAxisUnit(mXAxisUnit)
+            affectiveView.setGridLineColor(mGridLineColor)
+            affectiveView.setLabelColor(mLabelColor)
             affectiveView.setData(mAttentionData, mRelaxationData, true)
             var popWindow = PopupWindow(affectiveView, MATCH_PARENT, MATCH_PARENT)
             popWindow.showAtLocation(this, Gravity.CENTER, 0, 0)
@@ -179,6 +205,8 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
 
         legend_attention.setLegendIconColor(mAttentionLineColor)
         legend_relaxation.setLegendIconColor(mRelaxationLineColor)
+
+        tv_time_unit_des.text = mXAxisUnit
     }
 
     fun initTitle() {
@@ -187,12 +215,12 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
         tv_title.setTextColor(mTextColor)
         if (mIsTitleIconShow) {
             iv_icon.visibility = View.VISIBLE
-            iv_icon.background = mTiltleIcon
+            iv_icon.setImageDrawable(mTiltleIcon)
         } else {
             iv_icon.visibility = View.GONE
         }
         if (mIsTitleMenuIconShow) {
-            iv_menu.background = mTitleMenuIcon
+            iv_menu.setImageDrawable(mTitleMenuIcon)
             iv_menu.visibility = View.VISIBLE
         } else {
             iv_menu.visibility = View.GONE
@@ -205,7 +233,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
 
     fun drawLine(mData: List<Double>, lineColor: Int, isShowAllData: Boolean = false) {
         var sample = mData!!.size / mPointCount
-        if (isShowAllData) {
+        if (isShowAllData || sample <= 1) {
             sample = 1
         }
         var sampleData = ArrayList<Double>()
@@ -216,26 +244,25 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
         }
 
         mTimeOfTwoPoint = mTimeUnit * sample
-        var totalMin = (sampleData!!.size * mTimeOfTwoPoint / 1000F / 60F).toInt() + 1
-        var minOffset = totalMin / 8 + 1
-
-        for (i in sampleData!!.indices) {
-            if ((i * mTimeOfTwoPoint / 1000F / 60F) % minOffset == 0f) {
-                val llXAxis =
-                    LimitLine(
-                        i.toFloat(),
-                        "${(i * mTimeOfTwoPoint / 1000F / 60F).toInt()}"
-                    )
-                llXAxis.lineWidth = 1f
-                llXAxis.labelPosition = LimitLine.LimitLabelPosition.LEFT_BOTTOM
-                llXAxis.textSize = 8f
-                llXAxis.yOffset = -12f
-                llXAxis.lineColor = Color.parseColor("#999999")
-                if (i == 0) {
-                    llXAxis.xOffset = -3f
-                }
-                chart.xAxis.addLimitLine(llXAxis)
+        var totalMin = mData!!.size * mTimeUnit / 1000F / 60F
+        var minOffset = (totalMin / 8).toInt() + 1
+        var currentMin = 0
+        while (currentMin < totalMin) {
+            var limitX = currentMin * 60f * 1000 / mTimeOfTwoPoint
+            val llXAxis = LimitLine(limitX, "$currentMin")
+            llXAxis.lineWidth = 1f
+            llXAxis.labelPosition = LimitLine.LimitLabelPosition.LEFT_BOTTOM
+            llXAxis.textSize = 8f
+            llXAxis.yOffset = -12f
+            llXAxis.lineColor = mGridLineColor
+            llXAxis.textColor = mLabelColor
+            if (currentMin == 0) {
+                llXAxis.xOffset = -3f
+            } else {
+                llXAxis.xOffset = 0f
             }
+            chart.xAxis.addLimitLine(llXAxis)
+            currentMin += minOffset
         }
 
         if (mData != null && mData!!.isNotEmpty()) {
@@ -264,13 +291,13 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
         val values = ArrayList<Entry>()
 
         for (i in sampleData.indices) {
-            values.add(Entry(i.toFloat(), mData!![i].toFloat()))
+            values.add(Entry(i.toFloat(), sampleData!![i].toFloat()))
         }
 
         val set1: LineDataSet
         set1 = LineDataSet(values, "")
         set1.color = lineColor
-        set1.lineWidth = 0f
+        set1.lineWidth = mLineWidth
         // draw points as solid circles
         set1.setDrawCircleHole(false)
         // customize legend entry
@@ -380,10 +407,10 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
             ): String? {
                 var yLabel = ""
                 if (value == 0f) {
-                    yLabel =  "0"
-                } else if (value == 100f){
+                    yLabel = "0"
+                } else if (value == 100f) {
                     yLabel = "100"
-                }else if (value == 200f){
+                } else if (value == 200f) {
                     yLabel = "100"
                 }
                 return yLabel
@@ -429,5 +456,46 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
             View.GONE
         }
     }
+
+    fun setLineWidth(lineWidth: Float) {
+        this.mLineWidth = lineWidth
+        initView()
+    }
+
+    fun setRelaxationLineColor(relaxationLineColor: Int) {
+        this.mRelaxationLineColor = relaxationLineColor
+        initView()
+    }
+
+    fun setAttentionLineColor(attentionLineColor: Int) {
+        this.mAttentionLineColor = attentionLineColor
+        initView()
+    }
+
+    fun setTimeUnit(timeUnit: Int) {
+        this.mTimeUnit = timeUnit
+        initView()
+    }
+
+    fun setPointCount(pointCount: Int) {
+        this.mPointCount = pointCount
+        initView()
+    }
+
+    fun setGridLineColor(gridLineColor: Int) {
+        this.mGridLineColor = gridLineColor
+        initView()
+    }
+
+    fun setLabelColor(labelColor: Int) {
+        this.mLabelColor = labelColor
+        initView()
+    }
+
+    fun setXAxisUnit(axisUnit: String?) {
+        this.mXAxisUnit = axisUnit
+        initView()
+    }
+
 
 }

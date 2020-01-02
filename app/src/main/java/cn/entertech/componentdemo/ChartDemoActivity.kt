@@ -12,10 +12,16 @@ class ChartDemoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_chart_demo)
         var mData1 = ArrayList<Double>()
         var mData2 = ArrayList<Double>()
-        for (i in 0..999) {
-            mData1.add(Random().nextDouble() * 100)
-            mData2.add(Random().nextDouble() * 100)
+        var mData3 = ArrayList<Double>()
+        var mData4 = ArrayList<Double>()
+        var mData5 = ArrayList<Double>()
+        for (i in 0..1900) {
+            mData1.add(0.2)
+            mData2.add(0.2)
+            mData3.add(0.2)
+            mData4.add(0.2)
+            mData5.add(0.2)
         }
-        report_affective_chart.setData(mData1,mData2)
+        line_chart.setData(mData1)
     }
 }

@@ -1,7 +1,9 @@
 package cn.entertech.uicomponentsdk.report
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.graphics.DashPathEffect
 import android.graphics.drawable.ColorDrawable
@@ -11,12 +13,14 @@ import android.net.Uri
 import android.os.Build
 import android.util.AttributeSet
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.ImageView
 import android.widget.LinearLayout
-import androidx.core.content.ContextCompat
+import android.widget.PopupWindow
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.utils.getOpacityColor
 import com.github.mikephil.charting.components.AxisBase
@@ -28,7 +32,6 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
-import com.github.mikephil.charting.utils.Utils
 import kotlinx.android.synthetic.main.layout_card_attention.view.*
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum.view.*
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum.view.chart
@@ -38,46 +41,59 @@ import kotlinx.android.synthetic.main.layout_card_brain_spectrum.view.legend_gam
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum.view.legend_theta
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum.view.ll_bg
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum.view.rl_no_data_cover
-import kotlinx.android.synthetic.main.layout_card_brain_spectrum_pie.view.*
-import kotlinx.android.synthetic.main.layout_card_hrv.view.*
 import kotlinx.android.synthetic.main.layout_common_card_title.view.*
 import java.util.*
 
 class ReportBrainwaveSpectrumView @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var mXAxisUnit: String? = "Time(min)"
+    private var mSelfView: View? = null
+    private var mBrainwaveSpectrums: List<List<Double>>? = null
     private var mTitleText: String? = null
     private var mTitleIcon: Drawable? = null
     private var mTitleMenuIcon: Drawable? = null
     private var mSpectrumColors: List<Int>? = null
-    var mSelfView: View =
-        LayoutInflater.from(context).inflate(R.layout.layout_card_brain_spectrum, null)
-
     private var mIsShowTitleIcon: Boolean = true
     private var mIsShowTitleMenuIcon: Boolean = true
     private var mMainColor: Int = Color.parseColor("#0064ff")
     private var mTextColor: Int = Color.parseColor("#171726")
     private var mIsAbsoluteTime: Boolean = false
-    private var mPointCount: Int = 100
     private var mBg: Drawable? = null
     private var mInfoUrl: String? = null
+    private var mGridLineColor: Int = Color.parseColor("#E9EBF1")
+    private var mLabelColor: Int = Color.parseColor("#9AA1A9")
+
+    /*数据时间间隔：单位毫秒*/
+    var mTimeUnit: Int = 400
+    var mPointCount: Int = 100
+    var mTimeOfTwoPoint: Int = 0
 
     companion object {
         const val INFO_URL = "https://www.notion.so/Attention-84fef81572a848efbf87075ab67f4cfe"
-        const val SPECTRUM_COLORS = "#0921dd,#5167f8,#858aff,#bfadff,#f6e6ff"
+        const val SPECTRUM_COLORS = "#FF6682,#5E75FF,#F7C77E,#5FC695,#FB9C98"
     }
 
     init {
-        var layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        mSelfView.layoutParams = layoutParams
+        if (layoutId == null) {
+            mSelfView =
+                LayoutInflater.from(context).inflate(R.layout.layout_card_brain_spectrum, null)
+            var layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+            mSelfView?.layoutParams = layoutParams
+        } else {
+            mSelfView = LayoutInflater.from(context).inflate(R.layout.pop_card_brain_spectrum, null)
+            var layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
+            mSelfView?.layoutParams = layoutParams
+        }
         addView(mSelfView)
         var typeArray = context.obtainStyledAttributes(
             attributeSet,
             R.styleable.ReportBrainwaveSpectrumView
         )
         mTitleText = typeArray.getString(R.styleable.ReportBrainwaveSpectrumView_rbs_title)
+        mXAxisUnit = typeArray.getString(R.styleable.ReportBrainwaveSpectrumView_rbs_xAxisUnit)
         mMainColor =
             typeArray.getColor(R.styleable.ReportBrainwaveSpectrumView_rbs_mainColor, mMainColor)
         mTextColor =
@@ -92,10 +108,15 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
             R.styleable.ReportBrainwaveSpectrumView_rbs_isTitleMenuIconShow,
             true
         )
+        mLabelColor = typeArray.getColor(R.styleable.ReportBrainwaveSpectrumView_rbs_labelColor, mLabelColor)
+        mGridLineColor = typeArray.getColor(R.styleable.ReportBrainwaveSpectrumView_rbs_gridLineColor, mGridLineColor)
 
         if (mInfoUrl == null) {
             mInfoUrl = INFO_URL
         }
+        mTimeUnit =
+            typeArray.getInteger(R.styleable.ReportBrainwaveSpectrumView_rbs_timeUnit, mTimeUnit)
+
         mPointCount =
             typeArray.getInteger(R.styleable.ReportBrainwaveSpectrumView_rbs_pointCount, 100)
         var color = typeArray.getString(R.styleable.ReportBrainwaveSpectrumView_rbs_spectrumColors)
@@ -111,6 +132,18 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
     fun initView() {
         tv_title.text = mTitleText
         tv_title.setTextColor(mTextColor)
+        if (mIsShowTitleIcon) {
+            iv_icon.visibility = View.VISIBLE
+            iv_icon.setImageDrawable(mTitleIcon)
+        } else {
+            iv_icon.visibility = View.GONE
+        }
+        if (mIsShowTitleMenuIcon) {
+            iv_menu.visibility = View.VISIBLE
+            iv_menu.setImageDrawable(mTitleMenuIcon)
+        } else {
+            iv_menu.visibility = View.GONE
+        }
         var bgColor = Color.WHITE
         if (mBg != null) {
             ll_bg.background = mBg
@@ -143,55 +176,96 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
             legend_theta.setLegendIconColor(mSpectrumColors!![3])
             legend_delta.setLegendIconColor(mSpectrumColors!![4])
         }
+
+        iv_menu.setOnClickListener {
+            (context as Activity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            var affectiveView =
+                ReportBrainwaveSpectrumView(context, null, 0, R.layout.pop_card_brain_spectrum)
+            affectiveView.setData(mBrainwaveSpectrums, true)
+            affectiveView.setTimeUnit(mTimeUnit)
+            affectiveView.setPointCount(mPointCount)
+            affectiveView.setGridLineColor(mGridLineColor)
+            affectiveView.setXAxisUnit(mXAxisUnit)
+            affectiveView.setLabelColor(mLabelColor)
+            var popWindow = PopupWindow(affectiveView, MATCH_PARENT, MATCH_PARENT)
+            affectiveView.findViewById<ImageView>(R.id.iv_menu)
+                .setImageResource(R.drawable.vector_drawable_screen_shrink)
+            affectiveView.findViewById<ImageView>(R.id.iv_menu).setOnClickListener {
+                (context as Activity).requestedOrientation =
+                    ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                popWindow.dismiss()
+            }
+            popWindow.showAtLocation(iv_menu, Gravity.CENTER, 0, 0)
+        }
+
+        tv_unit.text = mXAxisUnit
     }
 
-    fun setData(brainwaveSpectrums: List<List<Double>>?) {
+    fun setData(brainwaveSpectrums: List<List<Double>>?, isShowAllData: Boolean = false) {
         if (brainwaveSpectrums == null) {
             return
         }
-        for (i in brainwaveSpectrums[0].indices) {
-            if (i % 75 == 0) {
-                val llXAxis = LimitLine(i.toFloat(), "${i / 75}")
-                llXAxis.lineWidth = 1f
-                llXAxis.textColor = Color.parseColor("#9AA1A9")
-                llXAxis.labelPosition = LimitLine.LimitLabelPosition.LEFT_BOTTOM
-                llXAxis.textSize = 8f
-                llXAxis.yOffset = -12f
-                llXAxis.lineColor = Color.parseColor("#E9EBF1")
-                if (i == 0) {
-                    llXAxis.xOffset = -3f
-                }
-                chart.xAxis.addLimitLine(llXAxis)
+        this.mBrainwaveSpectrums = brainwaveSpectrums
+        var sample = brainwaveSpectrums[0]!!.size / mPointCount
+        if (isShowAllData || sample <= 1) {
+            sample = 1
+        }
+        var sampleData = ArrayList<Double>()
+        for (i in brainwaveSpectrums[0]!!.indices) {
+            if (i % sample == 0) {
+                sampleData.add(brainwaveSpectrums[0]!![i])
             }
+        }
+
+        mTimeOfTwoPoint = mTimeUnit * sample
+        var totalMin = brainwaveSpectrums[0]!!.size * mTimeUnit / 1000F / 60F
+        var minOffset = (totalMin / 8).toInt() + 1
+        var currentMin = 0
+        while (currentMin < totalMin) {
+            var limitX = currentMin * 60f * 1000 / mTimeOfTwoPoint
+            val llXAxis = LimitLine(limitX, "$currentMin")
+            llXAxis.lineWidth = 1f
+            llXAxis.labelPosition = LimitLine.LimitLabelPosition.LEFT_BOTTOM
+            llXAxis.textSize = 8f
+            llXAxis.yOffset = -12f
+            llXAxis.lineColor = mGridLineColor
+            llXAxis.textColor = mLabelColor
+            if (currentMin == 0) {
+                llXAxis.xOffset = -3f
+            } else {
+                llXAxis.xOffset = 0f
+            }
+            chart.xAxis.addLimitLine(llXAxis)
+            currentMin += minOffset
         }
 
         val dataSets = ArrayList<ILineDataSet>()
         for (i in 0..4) {
             val values = ArrayList<Entry>()
-            for (j in brainwaveSpectrums[i].indices) {
+            for (j in sampleData.indices) {
                 if (i == 0) {
                     values.add(Entry(j.toFloat(), 100f))
                 } else if (i == 1) {
-                    values.add(Entry(j.toFloat(), (100 - brainwaveSpectrums[0][j]).toFloat()))
+                    values.add(Entry(j.toFloat(), (100 * (1 - brainwaveSpectrums[0][j])).toFloat()))
                 } else if (i == 2) {
                     values.add(
                         Entry(
                             j.toFloat(),
-                            (100 - brainwaveSpectrums[0][j] - brainwaveSpectrums[1][j]).toFloat()
+                            (100 * (1 - brainwaveSpectrums[0][j] - brainwaveSpectrums[1][j])).toFloat()
                         )
                     )
                 } else if (i == 3) {
                     values.add(
                         Entry(
                             j.toFloat(),
-                            (100 - brainwaveSpectrums[0][j] - brainwaveSpectrums[1][j] - brainwaveSpectrums[2][j]).toFloat()
+                            (100 * (1 - brainwaveSpectrums[0][j] - brainwaveSpectrums[1][j] - brainwaveSpectrums[2][j])).toFloat()
                         )
                     )
                 } else if (i == 4) {
                     values.add(
                         Entry(
                             j.toFloat(),
-                            (100 - brainwaveSpectrums[0][j] - brainwaveSpectrums[1][j] - brainwaveSpectrums[2][j] - brainwaveSpectrums[3][j]).toFloat()
+                            (100 * (1 - brainwaveSpectrums[0][j] - brainwaveSpectrums[1][j] - brainwaveSpectrums[2][j] - brainwaveSpectrums[3][j])).toFloat()
                         )
                     )
                 }
@@ -302,4 +376,31 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
             View.GONE
         }
     }
+
+    fun setTimeUnit(timeUnit: Int) {
+        this.mTimeUnit = timeUnit
+        initView()
+    }
+
+    fun setPointCount(pointCount: Int) {
+        this.mPointCount = pointCount
+        initView()
+    }
+
+    fun setGridLineColor(gridLineColor: Int) {
+        this.mGridLineColor = gridLineColor
+        initView()
+    }
+
+    fun setLabelColor(labelColor: Int) {
+        this.mLabelColor = labelColor
+        initView()
+    }
+
+    fun setXAxisUnit(axisUnit: String?) {
+        this.mXAxisUnit = axisUnit
+        initView()
+    }
+
+
 }

@@ -97,11 +97,13 @@ class ReportAverageChartCard @JvmOverloads constructor(
         tv_title.setTextColor(mTextColor)
         if (mIsShowTitleIcon) {
             iv_icon.visibility = View.VISIBLE
+            iv_icon.setImageDrawable(mTiltleIcon)
         } else {
             iv_icon.visibility = View.GONE
         }
         if (mIsShowTitleMenuIcon) {
             iv_menu.visibility = View.VISIBLE
+            iv_menu.setImageDrawable(mTitleMenuIcon)
         } else {
             iv_menu.visibility = View.GONE
         }

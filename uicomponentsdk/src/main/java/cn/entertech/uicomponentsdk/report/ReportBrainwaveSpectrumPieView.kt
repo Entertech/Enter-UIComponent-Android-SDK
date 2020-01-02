@@ -40,7 +40,7 @@ class ReportBrainwaveSpectrumPieView @JvmOverloads constructor(
     private var mMainColor: Int = Color.parseColor("#0064ff")
     private var mTextColor: Int = Color.parseColor("#171726")
     private var mBg: Drawable? = null
-    private var mTiltleIcon: Drawable?
+    private var mTitleIcon: Drawable?
     private var mTitleMenuIcon: Drawable?
     private var mInfoUrl: String? = null
 
@@ -66,7 +66,7 @@ class ReportBrainwaveSpectrumPieView @JvmOverloads constructor(
             mTextColor
         )
         mBg = typeArray.getDrawable(R.styleable.ReportBrainwaveSpectrumPieView_rbsp_background)
-        mTiltleIcon =
+        mTitleIcon =
             typeArray.getDrawable(R.styleable.ReportBrainwaveSpectrumPieView_rbsp_titleIcon)
         mTitleMenuIcon =
             typeArray.getDrawable(R.styleable.ReportBrainwaveSpectrumPieView_rbsp_titleMenuIcon)
@@ -99,11 +99,13 @@ class ReportBrainwaveSpectrumPieView @JvmOverloads constructor(
         tv_title.setTextColor(mTextColor)
         if (mIsShowTitleIcon) {
             iv_icon.visibility = View.VISIBLE
+            iv_icon.setImageDrawable(mTitleIcon)
         } else {
             iv_icon.visibility = View.GONE
         }
         if (mIsShowTitleMenuIcon) {
             iv_menu.visibility = View.VISIBLE
+            iv_menu.setImageDrawable(mTitleMenuIcon)
         } else {
             iv_menu.visibility = View.GONE
         }
@@ -171,8 +173,8 @@ class ReportBrainwaveSpectrumPieView @JvmOverloads constructor(
         legend_gamma.setText("γ wave ${(percents[0] * 100).toInt()}%")
         legend_beta.setText("β wave ${(percents[1] * 100).toInt()}%")
         legend_alpha.setText("α wave ${(percents[2] * 100).toInt()}%")
-        legend_theta.setText("theta wave ${(percents[3] * 100).toInt()}%")
-        legend_delta.setText("δ wave ${(percents[4] * 100).toInt()}%")
+        legend_theta.setText("θ wave ${(percents[3] * 100).toInt()}%")
+        legend_delta.setText("δ wave ${((1-percents[0]-percents[1]-percents[2]-percents[3]) * 100).toInt()}%")
         val entries = java.util.ArrayList<PieEntry>()
         for (percent in percents) {
             entries.add(PieEntry(percent))

@@ -12,7 +12,6 @@ import cn.entertech.uicomponentsdk.realtime.EmotionIndicatorView
 import cn.entertech.uicomponentsdk.utils.ScreenUtil
 import kotlinx.android.synthetic.main.layout_common_card_title.view.*
 import kotlinx.android.synthetic.main.layout_common_card_title.view.tv_title
-import kotlinx.android.synthetic.main.layout_report_hr_card.view.*
 import kotlinx.android.synthetic.main.layout_report_hrv_card.view.*
 
 class ReportHRVCard @JvmOverloads constructor(
@@ -42,9 +41,9 @@ class ReportHRVCard @JvmOverloads constructor(
         indicateItems.add(item1)
         indicateItems.add(item2)
         indicateItems.add(item3)
-        eiv_hr.setIndicatorItems(indicateItems)
-        eiv_hr.setScales(arrayOf(0, 30, 50, 70))
-        eiv_hr.setIndicatorColor(Color.parseColor("#FFC56F"))
+        eiv_hrv.setIndicatorItems(indicateItems)
+        eiv_hrv.setScales(arrayOf(0, 30, 50, 70))
+        eiv_hrv.setIndicatorColor(Color.parseColor("#FFC56F"))
     }
 
     fun initTitle() {
@@ -56,7 +55,7 @@ class ReportHRVCard @JvmOverloads constructor(
 
     fun setValue(value: Int) {
         tv_hrv.text = "$value"
-        eiv_hr.setValue(value.toFloat())
+        eiv_hrv.setValue(value.toFloat())
         when (value) {
             in 0..29 -> tv_level.text = "low"
             in 50..70 -> tv_level.text = "high"

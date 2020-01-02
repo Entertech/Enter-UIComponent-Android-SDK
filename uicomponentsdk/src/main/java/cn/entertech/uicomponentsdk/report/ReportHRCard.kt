@@ -13,8 +13,6 @@ import cn.entertech.uicomponentsdk.utils.ScreenUtil
 import kotlinx.android.synthetic.main.layout_common_card_title.view.*
 import kotlinx.android.synthetic.main.layout_common_card_title.view.tv_title
 import kotlinx.android.synthetic.main.layout_report_hr_card.view.*
-import kotlinx.android.synthetic.main.layout_report_hrv_card.view.*
-import kotlinx.android.synthetic.main.view_meditation_emotion.view.*
 
 class ReportHRCard @JvmOverloads constructor(
     context: Context,
