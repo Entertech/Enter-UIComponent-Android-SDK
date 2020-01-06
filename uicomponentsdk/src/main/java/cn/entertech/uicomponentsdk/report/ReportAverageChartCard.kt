@@ -32,6 +32,7 @@ class ReportAverageChartCard @JvmOverloads constructor(
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
     private var mBarHighLightColor: Int = Color.parseColor("#FFE4BB")
     private var mTag: String? = ""
+    private var mUnit: String? = ""
     private var mBarValueBgColor: Int = Color.parseColor("#FFE4BB")
     private var mBarColor: Int = Color.parseColor("#EAECF1")
     private var mIsShowTitleIcon: Boolean = true
@@ -83,9 +84,12 @@ class ReportAverageChartCard @JvmOverloads constructor(
             typeArray.getString(R.styleable.ReportAverageChartCard_racc_title)
         mTag =
             typeArray.getString(R.styleable.ReportAverageChartCard_racc_tag)
-
+        mUnit = typeArray.getString(R.styleable.ReportAverageChartCard_racc_unit)
         mBarColor = typeArray.getColor(R.styleable.ReportAverageChartCard_racc_barColor, mBarColor)
-        mBarHighLightColor = typeArray.getColor(R.styleable.ReportAverageChartCard_racc_barHighLightColor, mBarHighLightColor)
+        mBarHighLightColor = typeArray.getColor(
+            R.styleable.ReportAverageChartCard_racc_barHighLightColor,
+            mBarHighLightColor
+        )
         mBarValueBgColor =
             typeArray.getColor(R.styleable.ReportAverageChartCard_racc_barValueBgColor, mBarColor)
         initView()
@@ -111,6 +115,7 @@ class ReportAverageChartCard @JvmOverloads constructor(
     }
 
     fun initChart() {
+        average_bar_chart.setUnit(mUnit)
         average_bar_chart.setBarColor(mBarColor)
         average_bar_chart.setBarHighLightColor(mBarHighLightColor)
         average_bar_chart.setBarValueBgColor(mBarValueBgColor)
@@ -126,10 +131,14 @@ class ReportAverageChartCard @JvmOverloads constructor(
         if (lastValue > average) {
             tv_tip.text = "The $mTag is higher than the average of last 7 times. "
             iv_arrow.setImageResource(R.drawable.vector_drawable_report_average_arrow_up)
-        } else {
+        } else if (lastValue < average) {
             tv_tip.text = "The $mTag is low than the average of last 7 times. "
             iv_arrow.setImageResource(R.drawable.vector_drawable_report_average_arrow_down)
+        } else {
+            tv_tip.text = "The $mTag is the same as the average of last 7 times. "
+            iv_arrow.setImageResource(R.mipmap.ic_average_equal)
         }
+
     }
 
 }

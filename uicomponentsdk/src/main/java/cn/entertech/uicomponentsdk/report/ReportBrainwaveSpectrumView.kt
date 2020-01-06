@@ -21,6 +21,7 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupWindow
+import android.widget.TextView
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.utils.getOpacityColor
 import com.github.mikephil.charting.components.AxisBase
@@ -188,6 +189,7 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
             affectiveView.setXAxisUnit(mXAxisUnit)
             affectiveView.setLabelColor(mLabelColor)
             var popWindow = PopupWindow(affectiveView, MATCH_PARENT, MATCH_PARENT)
+            affectiveView.findViewById<TextView>(R.id.tv_title).text = "Zoom in on the curve and slide to view it."
             affectiveView.findViewById<ImageView>(R.id.iv_menu)
                 .setImageResource(R.drawable.vector_drawable_screen_shrink)
             affectiveView.findViewById<ImageView>(R.id.iv_menu).setOnClickListener {

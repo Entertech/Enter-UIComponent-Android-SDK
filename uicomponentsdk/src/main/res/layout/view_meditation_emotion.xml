@@ -139,7 +139,7 @@
                     android:textStyle="normal"
                     android:textColor="#ffffff"
                     android:gravity="center_horizontal"
-                    android:text="@string/meditation_no_device_tip"
+                    android:text="@string/meditation_no_device_tip_1"
                     />
         </RelativeLayout>
     </RelativeLayout>

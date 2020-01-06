@@ -284,6 +284,7 @@
     <declare-styleable name="AverageBarChart">
         <attr name="abc_background" format="color" />
         <attr name="abc_barHighLightColor" format="color" />
+        <attr name="abc_barValueBgColor" format="color" />
         <attr name="abc_barColor" format="color" />
         <attr name="abc_primaryTextColor" format="color" />
         <attr name="abc_secondTextColor" format="color" />
@@ -306,6 +307,7 @@
         <attr name="racc_barHighLightColor" format="color" />
         <attr name="racc_barValueBgColor" format="color" />
         <attr name="racc_tag" format="string" />
+        <attr name="racc_unit" format="string" />
     </declare-styleable>
 
 </resources>

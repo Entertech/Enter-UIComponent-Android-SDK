@@ -22,6 +22,7 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupWindow
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.utils.ScreenUtil
@@ -143,6 +144,7 @@ class ReportLineChartCard @JvmOverloads constructor(
             affectiveView.setXAxisUnit(mXAxisUnit)
             affectiveView.setLabelColor(mLabelColor)
             affectiveView.setData(mData, true)
+            affectiveView.findViewById<TextView>(R.id.tv_title).text = "Zoom in on the curve and slide to view it."
             var popWindow = PopupWindow(affectiveView, MATCH_PARENT, MATCH_PARENT)
             affectiveView.findViewById<ImageView>(R.id.iv_menu)
                 .setImageResource(R.drawable.vector_drawable_screen_shrink)

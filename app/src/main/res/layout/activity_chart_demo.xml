@@ -37,12 +37,13 @@
     <!--            app:gsv_textSize="50sp"-->
     <!--            />-->
 
-    <!--    <cn.entertech.uicomponentsdk.widget.AverageBarChart-->
-    <!--            app:abc_background="@color/white"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="200dp"-->
-    <!--            app:abc_isShowUnit="true"-->
-    <!--            app:abc_unit="bpm"/>-->
+        <cn.entertech.uicomponentsdk.widget.AverageBarChart
+                android:id="@+id/average_bar"
+                app:abc_background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:abc_isShowUnit="true"
+                app:abc_unit="bpm"/>
 
     <!--    <cn.entertech.uicomponentsdk.report.ReportRelaxationAndAttentionCard-->
     <!--            android:background="@color/white"-->
@@ -74,10 +75,10 @@
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="wrap_content"/>-->
 
-        <cn.entertech.uicomponentsdk.report.ReportLineChartCard
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:rlcc_timeUnit="400"
-                app:rlcc_pointCount="100"
-                android:id="@+id/line_chart"/>
+<!--        <cn.entertech.uicomponentsdk.report.ReportLineChartCard-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:rlcc_timeUnit="400"-->
+<!--                app:rlcc_pointCount="100"-->
+<!--                android:id="@+id/line_chart"/>-->
 </LinearLayout>

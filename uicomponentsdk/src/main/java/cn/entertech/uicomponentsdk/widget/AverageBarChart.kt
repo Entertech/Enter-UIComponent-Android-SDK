@@ -13,7 +13,6 @@ class AverageBarChart @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     def: Int = 0
 ) : View(context, attributeSet, def) {
-    private var mBarValueBarColor: Int = Color.parseColor("#FFE4BB")
     private lateinit var mAverageValueTextPaint: Paint
     private var mUnit: String? = ""
     private var mIsShowUnit: Boolean = false
@@ -28,6 +27,7 @@ class AverageBarChart @JvmOverloads constructor(
     private lateinit var mLegendTextPaint: Paint
     private var mAverageLineWidth: Float = ScreenUtil.dip2px(context, 4f).toFloat()
     private var mBarHighLightColor: Int = Color.parseColor("#FF6682")
+    private var mBarValueBgColor: Int = Color.parseColor("#FFB2C0")
     private var mBarColor: Int = Color.parseColor("#FFC56F")
     private var mPrimaryTextColor: Int = Color.BLACK
     private var mSecondTextColor: Int = Color.parseColor("#666666")
@@ -52,7 +52,8 @@ class AverageBarChart @JvmOverloads constructor(
             R.styleable.AverageBarChart_abc_averageLineWidth,
             mAverageLineWidth
         )
-
+        mBarValueBgColor =
+            typeArray.getColor(R.styleable.AverageBarChart_abc_barValueBgColor, mBarValueBgColor)
         mIsShowUnit = typeArray.getBoolean(R.styleable.AverageBarChart_abc_isShowUnit, false)
         mUnit = typeArray.getString(R.styleable.AverageBarChart_abc_unit)
         typeArray?.recycle()
@@ -62,6 +63,7 @@ class AverageBarChart @JvmOverloads constructor(
     }
 
     private fun initPaint() {
+        this.setLayerType(LAYER_TYPE_SOFTWARE, null)
         mLegendTextPaint = Paint(Paint.ANTI_ALIAS_FLAG)
         mLegendTextPaint.color = mSecondTextColor
         mLegendTextPaint.textSize = ScreenUtil.dip2px(context, 12f).toFloat()
@@ -143,7 +145,7 @@ class AverageBarChart @JvmOverloads constructor(
             (legendTextWidth + (2 * i + 2.5) * barWidth).toInt(),
             (-barHeight.toInt() - ScreenUtil.dip2px(context, 4f) - barWidth).toInt()
         )
-        mBarPaint.color = mBarValueBarColor
+        mBarPaint.color = mBarValueBgColor
         canvas?.drawRect(valueRect, mBarPaint)
         mBarPaint.color = Color.BLACK
         var lastValue = mValues[i]
@@ -198,13 +200,13 @@ class AverageBarChart @JvmOverloads constructor(
     }
 
     private fun onDrawAverageLine(canvas: Canvas?) {
-        var transferAverage = mTransferValues.average().toInt() + 1
-        var average = mValues.average().toInt() + 1
+        var transferAverage = mTransferValues.average().toFloat()
+        var average = mValues.average()
         if (transferAverage < 46) {
-            transferAverage = 46
+            transferAverage = 46f
         }
         if (transferAverage >= 128) {
-            transferAverage = 114
+            transferAverage = 114f
         }
         canvas?.drawLine(
             0f,
@@ -224,11 +226,17 @@ class AverageBarChart @JvmOverloads constructor(
         )
 
         var averageRect = Rect()
-        mAverageValueTextPaint.getTextBounds("$average", 0, "$average".length, averageRect)
+        var averageFormatString = String.format("%.1f", average)
+        mAverageValueTextPaint.getTextBounds(
+            "$averageFormatString",
+            0,
+            "$averageFormatString".length,
+            averageRect
+        )
         var averageValueTextHeight = averageRect.height()
         var averageValueTextWidth = averageRect.width()
         canvas?.drawText(
-            "$average",
+            averageFormatString,
             0f,
             -transferAverage * scaleHeight + averageValueTextHeight + ScreenUtil.dip2px(
                 context,
@@ -237,7 +245,7 @@ class AverageBarChart @JvmOverloads constructor(
             mAverageValueTextPaint
         )
 
-        if (mIsShowUnit) {
+        if (mUnit != null && mUnit != "") {
             canvas?.drawText(
                 mUnit,
                 averageValueTextWidth + 8f,
@@ -248,8 +256,6 @@ class AverageBarChart @JvmOverloads constructor(
                 mAverageTextPaint
             )
         }
-
-
     }
 
 
@@ -258,13 +264,18 @@ class AverageBarChart @JvmOverloads constructor(
         invalidate()
     }
 
-    fun setBarHighLightColor(color:Int){
+    fun setBarHighLightColor(color: Int) {
         this.mBarHighLightColor = color
         invalidate()
     }
 
     fun setBarValueBgColor(color: Int) {
-        this.mBarValueBarColor = color
+        this.mBarValueBgColor = color
+        invalidate()
+    }
+
+    fun setUnit(unit: String?) {
+        this.mUnit = unit
         invalidate()
     }
 

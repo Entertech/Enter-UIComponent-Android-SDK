@@ -23,6 +23,7 @@ import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.MPPointF
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum_pie.view.*
 import kotlinx.android.synthetic.main.layout_common_card_title.view.*
+import kotlin.math.roundToInt
 
 class ReportBrainwaveSpectrumPieView @JvmOverloads constructor(
     context: Context,
@@ -170,11 +171,20 @@ class ReportBrainwaveSpectrumPieView @JvmOverloads constructor(
     }
 
     fun setData(percents: List<Float>) {
-        legend_gamma.setText("γ wave ${(percents[0] * 100).toInt()}%")
-        legend_beta.setText("β wave ${(percents[1] * 100).toInt()}%")
-        legend_alpha.setText("α wave ${(percents[2] * 100).toInt()}%")
-        legend_theta.setText("θ wave ${(percents[3] * 100).toInt()}%")
-        legend_delta.setText("δ wave ${((1-percents[0]-percents[1]-percents[2]-percents[3]) * 100).toInt()}%")
+        var gammaPercent = (percents[0] * 100).roundToInt()
+        var betaPercent = (percents[1] * 100).roundToInt()
+        var alphaPercent = (percents[2] * 100).roundToInt()
+        var thetaPercent = (percents[3] * 100).roundToInt()
+        var deltaPercent = 0
+        var sum = gammaPercent + betaPercent + alphaPercent + thetaPercent
+        if (sum != 0) {
+            deltaPercent = 100 - sum
+        }
+        legend_gamma.setText("γ wave ${gammaPercent}%")
+        legend_beta.setText("β wave ${betaPercent}%")
+        legend_alpha.setText("α wave ${alphaPercent}%")
+        legend_theta.setText("θ wave ${thetaPercent}%")
+        legend_delta.setText("δ wave ${deltaPercent}%")
         val entries = java.util.ArrayList<PieEntry>()
         for (percent in percents) {
             entries.add(PieEntry(percent))

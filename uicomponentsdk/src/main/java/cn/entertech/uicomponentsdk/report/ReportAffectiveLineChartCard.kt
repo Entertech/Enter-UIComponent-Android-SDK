@@ -22,6 +22,7 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupWindow
+import android.widget.TextView
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.utils.getOpacityColor
 import com.github.mikephil.charting.components.AxisBase
@@ -177,6 +178,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
             affectiveView.setData(mAttentionData, mRelaxationData, true)
             var popWindow = PopupWindow(affectiveView, MATCH_PARENT, MATCH_PARENT)
             popWindow.showAtLocation(this, Gravity.CENTER, 0, 0)
+            affectiveView.findViewById<TextView>(R.id.tv_title).text = "Zoom in on the curve and slide to view it."
             affectiveView.findViewById<ImageView>(R.id.iv_menu)
                 .setImageResource(R.drawable.vector_drawable_screen_shrink)
             affectiveView.findViewById<LinearLayout>(R.id.legend).visibility = View.VISIBLE

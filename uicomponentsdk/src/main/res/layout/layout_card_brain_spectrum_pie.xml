@@ -148,7 +148,7 @@
                 android:layout_marginRight="48dp"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center_horizontal"
-                android:text="@string/meditation_no_device_tip"
+                android:text="@string/meditation_no_device_tip_1"
                 android:textColor="#ffffff"
                 android:textSize="16sp"
                 android:textStyle="normal"
