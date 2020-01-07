@@ -54,15 +54,19 @@
     <!--            android:layout_width="match_parent"-->
     <!--            android:layout_height="wrap_content"/>-->
 
-<!--    <cn.entertech.uicomponentsdk.report.ReportAverageChartCard-->
-<!--            android:id="@+id/average_card"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:racc_barHighLightColor="#FFC56F"-->
-<!--            app:racc_barValueBgColor="#FFE4BB"-->
-<!--            app:racc_tag="HRV"-->
-<!--            app:racc_title="Last 7 times"-->
-<!--            />-->
+    <cn.entertech.uicomponentsdk.report.ReportAverageChartCard
+            android:id="@+id/average_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:racc_barHighLightColor="#FFC56F"
+            app:racc_barValueBgColor="#FFE4BB"
+            app:racc_tag="HRV"
+            app:racc_isMenuIconInfo="true"
+            app:racc_titleMenuIcon="@drawable/vector_drawable_info_circle"
+            app:racc_isTitleMenuIconShow="true"
+            app:racc_infoUrl="https://www.notion.so/Flowtime-Help-Center-b151d8677e5c41d8af6364f44fb93369"
+            app:racc_title="Last 7 times"
+            />
 
 <!--    <cn.entertech.uicomponentsdk.report.ReportAffectiveLineChartCard-->
 <!--            android:id="@+id/report_affective_chart"-->

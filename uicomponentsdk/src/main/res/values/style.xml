@@ -308,6 +308,8 @@
         <attr name="racc_barValueBgColor" format="color" />
         <attr name="racc_tag" format="string" />
         <attr name="racc_unit" format="string" />
+        <attr name="racc_infoUrl" format="string" />
+        <attr name="racc_isMenuIconInfo" format="boolean" />
     </declare-styleable>
 
 </resources>

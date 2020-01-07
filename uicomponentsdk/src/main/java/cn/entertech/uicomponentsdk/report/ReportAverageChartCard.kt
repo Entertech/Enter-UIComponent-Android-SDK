@@ -33,6 +33,7 @@ class ReportAverageChartCard @JvmOverloads constructor(
     private var mBarHighLightColor: Int = Color.parseColor("#FFE4BB")
     private var mTag: String? = ""
     private var mUnit: String? = ""
+    private var mInfoUrl: String? = ""
     private var mBarValueBgColor: Int = Color.parseColor("#FFE4BB")
     private var mBarColor: Int = Color.parseColor("#EAECF1")
     private var mIsShowTitleIcon: Boolean = true
@@ -42,7 +43,7 @@ class ReportAverageChartCard @JvmOverloads constructor(
     var mSelfView: View =
         LayoutInflater.from(context).inflate(R.layout.layout_average_bar_card, null)
 
-    private var mIsShowInfoIcon: Boolean = true
+    private var mIsMenuIconInfo: Boolean = false
     private var mMainColor: Int = Color.parseColor("#0064ff")
     private var mTextColor: Int = Color.parseColor("#171726")
     private var mBg: Drawable? = null
@@ -92,6 +93,9 @@ class ReportAverageChartCard @JvmOverloads constructor(
         )
         mBarValueBgColor =
             typeArray.getColor(R.styleable.ReportAverageChartCard_racc_barValueBgColor, mBarColor)
+        mInfoUrl = typeArray.getString(R.styleable.ReportAverageChartCard_racc_infoUrl)
+        mIsMenuIconInfo =
+            typeArray.getBoolean(R.styleable.ReportAverageChartCard_racc_isMenuIconInfo, false)
         initView()
 
     }
@@ -110,6 +114,12 @@ class ReportAverageChartCard @JvmOverloads constructor(
             iv_menu.setImageDrawable(mTitleMenuIcon)
         } else {
             iv_menu.visibility = View.GONE
+        }
+        if (mIsMenuIconInfo) {
+            iv_menu.setOnClickListener {
+                var uri = Uri.parse(mInfoUrl)
+                context.startActivity(Intent(Intent.ACTION_VIEW, uri))
+            }
         }
         initChart()
     }

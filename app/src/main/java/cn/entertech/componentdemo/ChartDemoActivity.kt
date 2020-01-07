@@ -8,6 +8,6 @@ class ChartDemoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chart_demo)
-        average_bar.setValues(listOf(100,20,30,40,50,30,90))
+//        average_bar.setValues(listOf(100,20,30,40,50,30,90))
     }
 }

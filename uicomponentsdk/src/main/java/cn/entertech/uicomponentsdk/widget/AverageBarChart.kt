@@ -20,7 +20,7 @@ class AverageBarChart @JvmOverloads constructor(
     private var barWidth: Float = 0f
     private var scaleHeight: Float = 0f
     private lateinit var mAverageLinePaint: Paint
-    private var mValues = listOf<Int>(44, 44, 44, 44, 44, 44, 52)
+    private var mValues = listOf<Int>()
     private var mTransferValues = ArrayList<Int>()
     private lateinit var mBarPaint: Paint
     private var legendTextWidth: Int = 0

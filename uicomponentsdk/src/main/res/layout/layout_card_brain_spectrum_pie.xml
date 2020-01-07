@@ -62,7 +62,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:clv_color="@color/colorStatisticsGammaWave"
-                        app:clv_legend="γ wave 5%"
+                        app:clv_legend="γ wave 0%"
                         >
 
                 </cn.entertech.uicomponentsdk.widget.ChartLegendView>
@@ -74,7 +74,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         app:clv_color="@color/colorStatisticsBetaWave"
-                        app:clv_legend="β wave 5%"
+                        app:clv_legend="β wave 0%"
                         >
 
                 </cn.entertech.uicomponentsdk.widget.ChartLegendView>
@@ -86,7 +86,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         app:clv_color="@color/colorStatisticsAlphaWave"
-                        app:clv_legend="α wave 6%"
+                        app:clv_legend="α wave 0%"
                         >
 
                 </cn.entertech.uicomponentsdk.widget.ChartLegendView>
@@ -98,7 +98,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         app:clv_color="@color/colorStatisticsThetaWave"
-                        app:clv_legend="θ wave 7%"
+                        app:clv_legend="θ wave 0%"
                         >
 
                 </cn.entertech.uicomponentsdk.widget.ChartLegendView>
@@ -109,7 +109,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         app:clv_color="@color/colorStatisticsDeltaWave"
-                        app:clv_legend="δ wave 8%"
+                        app:clv_legend="δ wave 0%"
                         >
 
                 </cn.entertech.uicomponentsdk.widget.ChartLegendView>
