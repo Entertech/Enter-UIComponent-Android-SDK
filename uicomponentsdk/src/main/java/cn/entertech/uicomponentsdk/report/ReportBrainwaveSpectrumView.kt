@@ -172,7 +172,7 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
 
         if (mSpectrumColors != null) {
             legend_gamma.setLegendIconColor(mSpectrumColors!![0])
-            legend_theta.setLegendIconColor(mSpectrumColors!![1])
+            legend_beta.setLegendIconColor(mSpectrumColors!![1])
             legend_alpha.setLegendIconColor(mSpectrumColors!![2])
             legend_theta.setLegendIconColor(mSpectrumColors!![3])
             legend_delta.setLegendIconColor(mSpectrumColors!![4])
@@ -182,12 +182,13 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
             (context as Activity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
             var affectiveView =
                 ReportBrainwaveSpectrumView(context, null, 0, R.layout.pop_card_brain_spectrum)
-            affectiveView.setData(mBrainwaveSpectrums, true)
             affectiveView.setTimeUnit(mTimeUnit)
             affectiveView.setPointCount(mPointCount)
             affectiveView.setGridLineColor(mGridLineColor)
             affectiveView.setXAxisUnit(mXAxisUnit)
+            affectiveView.setSpectrumColors(mSpectrumColors)
             affectiveView.setLabelColor(mLabelColor)
+            affectiveView.setData(mBrainwaveSpectrums, true)
             var popWindow = PopupWindow(affectiveView, MATCH_PARENT, MATCH_PARENT)
             affectiveView.findViewById<TextView>(R.id.tv_title).text = "Zoom in on the curve and slide to view it."
             affectiveView.findViewById<ImageView>(R.id.iv_menu)
@@ -366,7 +367,7 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
         yAxis.addLimitLine(ll1)
     }
 
-    fun setSpectrumColors(colors: List<Int>) {
+    fun setSpectrumColors(colors: List<Int>?) {
         this.mSpectrumColors = colors
         initView()
     }

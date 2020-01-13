@@ -132,7 +132,7 @@ class ReportBrainwaveSpectrumPieView @JvmOverloads constructor(
 
         if (mSpectrumColors != null) {
             legend_gamma.setLegendIconColor(mSpectrumColors!![0])
-            legend_theta.setLegendIconColor(mSpectrumColors!![1])
+            legend_beta.setLegendIconColor(mSpectrumColors!![1])
             legend_alpha.setLegendIconColor(mSpectrumColors!![2])
             legend_theta.setLegendIconColor(mSpectrumColors!![3])
             legend_delta.setLegendIconColor(mSpectrumColors!![4])

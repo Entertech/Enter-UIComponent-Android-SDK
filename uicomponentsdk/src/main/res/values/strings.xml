@@ -2,7 +2,4 @@
     <string name="meditation_no_device_tip_1">Connect device to show data</string>
     <string name="heart_rate_unit_bpm">bpm</string>
     <string name="time_unit">Time（min）</string>
-    <string name="avg">Avg：</string>
-    <string name="max">Max：</string>
-    <string name="min">Min：</string>
 </resources>

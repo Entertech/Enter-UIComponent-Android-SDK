@@ -24,6 +24,7 @@ import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.TextView
 import cn.entertech.uicomponentsdk.R
+import cn.entertech.uicomponentsdk.utils.formatData
 import cn.entertech.uicomponentsdk.utils.getOpacityColor
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.LimitLine
@@ -330,8 +331,9 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
         if (attentionData == null || relaxationData == null) {
             return
         }
-        this.mAttentionData = attentionData
-        this.mRelaxationData = relaxationData
+
+        this.mAttentionData = formatData(attentionData)
+        this.mRelaxationData = formatData(relaxationData)
         drawLine(mAttentionData!!, mAttentionLineColor, isShowAllData)
         drawLine(mRelaxationData!!.map { it + 100 }, mRelaxationLineColor, isShowAllData)
 //        chart.xAxis.setLabelCount(mData!!.size,true)
@@ -400,9 +402,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
         yAxis.setDrawAxisLine(false)
         yAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
         // axis range
-        yAxis.axisMaximum = 200f
-        yAxis.axisMinimum = 0f
-//        yAxis.labelCount = 3
+        yAxis.labelCount = 3
         yAxis.valueFormatter = object : ValueFormatter() {
             override fun getAxisLabel(
                 value: Float, base: AxisBase

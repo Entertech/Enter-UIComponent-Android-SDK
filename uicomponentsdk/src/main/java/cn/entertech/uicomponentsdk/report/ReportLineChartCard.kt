@@ -26,6 +26,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.utils.ScreenUtil
+import cn.entertech.uicomponentsdk.utils.formatData
 import cn.entertech.uicomponentsdk.utils.getOpacityColor
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.LimitLine
@@ -144,7 +145,8 @@ class ReportLineChartCard @JvmOverloads constructor(
             affectiveView.setXAxisUnit(mXAxisUnit)
             affectiveView.setLabelColor(mLabelColor)
             affectiveView.setData(mData, true)
-            affectiveView.findViewById<TextView>(R.id.tv_title).text = "Zoom in on the curve and slide to view it."
+            affectiveView.findViewById<TextView>(R.id.tv_title).text =
+                "Zoom in on the curve and slide to view it."
             var popWindow = PopupWindow(affectiveView, MATCH_PARENT, MATCH_PARENT)
             affectiveView.findViewById<ImageView>(R.id.iv_menu)
                 .setImageResource(R.drawable.vector_drawable_screen_shrink)
@@ -194,20 +196,14 @@ class ReportLineChartCard @JvmOverloads constructor(
         }
     }
 
-    var mTimeStampLsit: ArrayList<String> = ArrayList()
+
     fun setData(data: List<Double>?, isShowAllData: Boolean = false) {
         if (data == null) {
             return
         }
-        this.mData = data
-//        chart.xAxis.setLabelCount(mData!!.size,true)
-        var scaleX = mData!!.size / 100f
-        if (scaleX < 1f) {
-            scaleX = 1f
-        }
-//        chart.viewPortHandler.setMaximumScaleX(scaleX)
-        var maxValue = data.max()
-        var minValue = data.min()
+        this.mData = formatData(data)
+        var maxValue = mData!!.max()
+        var minValue = mData!!.min()
         val values = ArrayList<Entry>()
         var yAxisMax = (maxValue!! / 0.9f)
         var yAxisMix = (minValue!! * 0.9f)
@@ -353,35 +349,6 @@ class ReportLineChartCard @JvmOverloads constructor(
         xAxis.position = XAxis.XAxisPosition.BOTTOM
         val yAxis: YAxis = chart.axisLeft
         xAxis.setDrawLabels(false)
-        xAxis.valueFormatter = object : ValueFormatter() {
-            override fun getAxisLabel(
-                value: Float, base: AxisBase
-            ): String? {
-
-//                xAxis.mEntries = floatArrayOf(75f,150f,225f,300f,375f,450f,525f)
-                Log.d("####", "x entry is " + Arrays.toString(xAxis.mEntries))
-//                if ((value * 0.8f) % 60 == 0f){
-//                    return "${(value * 0.8f / 60).toInt()}"
-//                }else{
-//                    return ""
-//                }
-//                return "${value}"
-//                Log.d("####", "min is : ${(value * 0.8f / 60).toInt()}")
-                return "${String.format("%.1f", value * 0.8f / 60)}"
-//                return "${(value * 0.8f / 60).toInt()}"
-            }
-        }
-//        xAxis.setValueFormatter { value, axis ->
-//            if ((value * 0.8f) % 60 == 0f){
-//                "${(value * 0.8f / 60).toInt()}"
-//            }else{
-//                ""
-//            }
-//        }
-//        xAxis.setLabelCount(7, true)
-//        xAxis.spaceMax = 300f
-        // disable dual axis (only use LEFT axis)
-//        xAxis.valueFormatter = IndexAxisValueFormatter(arrayOf("1","2","3","4"))
         chart.axisRight.isEnabled = false
         // horizontal grid lines
 //        yAxis.enableGridDashedLine(10f, 10f, 0f)
@@ -389,8 +356,6 @@ class ReportLineChartCard @JvmOverloads constructor(
         yAxis.setDrawAxisLine(false)
         yAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
         // axis range
-        yAxis.axisMaximum = 100f
-        yAxis.axisMinimum = 0f
         yAxis.labelCount = 3
 //        yAxis.setValueFormatter { value, axis ->
 //            if (value == 0f){
