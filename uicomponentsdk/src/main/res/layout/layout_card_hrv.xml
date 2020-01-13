@@ -33,7 +33,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    app:cvtv_text="HRV (ms)"
+                    app:cvtv_text="@string/sdk_hrv_chart_title"
                     app:cvtv_textSize="12sp"
                     />
 
@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/activity_margin"
-                android:text="@string/time_unit"
+                android:text="@string/sdk_time_unit"
                 />
 
 
@@ -103,7 +103,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/activity_margin_half"
                         android:fontFamily="sans-serif"
-                        android:text="@string/heart_rate_unit_bpm"
+                        android:text="@string/sdk_heart_rate_unit_bpm"
                         android:textColor="#999999"
                         android:textSize="12sp"
                         android:textStyle="normal"
@@ -111,6 +111,7 @@
             </LinearLayout>
 
             <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/ll_max"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -136,7 +137,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/activity_margin_half"
                         android:fontFamily="sans-serif"
-                        android:text="@string/heart_rate_unit_bpm"
+                        android:text="@string/sdk_heart_rate_unit_bpm"
                         android:textColor="#999999"
                         android:textSize="12sp"
                         android:textStyle="normal"
@@ -144,6 +145,7 @@
             </LinearLayout>
 
             <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/ll_min"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -170,7 +172,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/activity_margin_half"
                         android:fontFamily="sans-serif"
-                        android:text="@string/heart_rate_unit_bpm"
+                        android:text="@string/sdk_heart_rate_unit_bpm"
                         android:textColor="#999999"
                         android:textSize="12sp"
                         android:textStyle="normal"
@@ -197,7 +199,7 @@
                 android:layout_marginRight="48dp"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center_horizontal"
-                android:text="@string/meditation_no_device_tip_1"
+                android:text="@string/sdk_meditation_no_device_tip_1"
                 android:textColor="#ffffff"
                 android:textSize="16sp"
                 android:textStyle="normal"

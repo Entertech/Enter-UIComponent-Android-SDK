@@ -1,0 +1,35 @@
+<resources>
+    <string name="sdk_meditation_no_device_tip_1">连接设备以显示实时数据</string>
+    <string name="sdk_heart_rate_unit_bpm">bpm</string>
+    <string name="sdk_time_unit">时间（分钟）</string>
+    <string name="sdk_arousal">激活度</string>
+    <string name="sdk_high">高</string>
+    <string name="sdk_low">低</string>
+    <string name="sdk_attention">专注度</string>
+    <string name="sdk_normal">正常</string>
+    <string name="sdk_brainwave_spectrum">脑波频谱</string>
+    <string name="sdk_gamma_wave">γ 波</string>
+    <string name="sdk_beta_wave">β 波</string>
+    <string name="sdk_alpha_wave">α 波</string>
+    <string name="sdk_theta_wave">θ 波</string>
+    <string name="sdk_delta_wave">δ 波</string>
+    <string name="sdk_brainwave">实时脑波</string>
+    <string name="sdk_brainwave_legend_right">右脑 (FP2)</string>
+    <string name="sdk_brianwave_legend_left">左脑 (FP1)</string>
+    <string name="sdk_heart_rate">心率</string>
+    <string name="sdk_pressure">压力值</string>
+    <string name="sdk_relaxation">放松度</string>
+    <string name="sdk_brainwave_spectrum_chart_title">各个频谱脑电波占比(%)</string>
+    <string name="sdk_hrv">心率变异性</string>
+    <string name="sdk_hrv_chart_title">HRV (ms)</string>
+    <string name="sdk_hr_chart_title">心率 (bpm)</string>
+    <string name="sdk_attention_chart_title">专注度</string>
+    <string name="sdk_relaxation_chart_title">放松度</string>
+    <string name="sdk_pressure_legend_low">低</string>
+    <string name="sdk_pressure_legend_high">高</string>
+    <string name="sdk_hr_chart_legend_low">低</string>
+    <string name="sdk_hr_chart_legend_neutral">中</string>
+    <string name="sdk_hr_chart_legend_high">高</string>
+    <string name="sdk_max">最大值：</string>
+    <string name="sdk_min">最小值：</string>
+</resources>

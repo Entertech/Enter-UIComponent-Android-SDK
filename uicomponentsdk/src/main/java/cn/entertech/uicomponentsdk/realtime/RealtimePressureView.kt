@@ -16,6 +16,9 @@ import android.graphics.drawable.GradientDrawable
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.utils.getOpacityColor
 import kotlinx.android.synthetic.main.view_meditation_emotion.view.*
+import kotlinx.android.synthetic.main.view_meditation_emotion.view.icon_loading
+import kotlinx.android.synthetic.main.view_meditation_emotion.view.ll_bg
+import kotlinx.android.synthetic.main.view_meditation_emotion.view.tv_title
 
 
 class RealtimePressureView @JvmOverloads constructor(
@@ -27,7 +30,8 @@ class RealtimePressureView @JvmOverloads constructor(
     private var mBg: Drawable? = null
     private var mMainColor: Int = Color.parseColor("#0064ff")
     private var mTextColor: Int = Color.parseColor("#171726")
-    var mSelfView: View = LayoutInflater.from(context).inflate(R.layout.view_meditation_emotion, null)
+    var mSelfView: View =
+        LayoutInflater.from(context).inflate(R.layout.view_meditation_emotion, null)
     private var mTextFont: String? = null
     private var mInfoUrl: String? = null
 
@@ -41,13 +45,15 @@ class RealtimePressureView @JvmOverloads constructor(
         var layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         mSelfView.layoutParams = layoutParams
         addView(mSelfView)
-        var typeArray = context.obtainStyledAttributes(attributeSet,
+        var typeArray = context.obtainStyledAttributes(
+            attributeSet,
             R.styleable.RealtimePressureView
         )
         mMainColor = typeArray.getColor(R.styleable.RealtimePressureView_rpv_mainColor, mMainColor)
         mTextColor = typeArray.getColor(R.styleable.RealtimePressureView_rpv_textColor, mTextColor)
         mBg = typeArray.getDrawable(R.styleable.RealtimePressureView_rpv_background)
-        mIsShowInfoIcon = typeArray.getBoolean(R.styleable.RealtimePressureView_rpv_isShowInfoIcon, true)
+        mIsShowInfoIcon =
+            typeArray.getBoolean(R.styleable.RealtimePressureView_rpv_isShowInfoIcon, true)
         mInfoUrl = typeArray.getString(R.styleable.RealtimePressureView_rpv_infoUrl)
         if (mInfoUrl == null) {
             mInfoUrl = INFO_URL
@@ -57,6 +63,7 @@ class RealtimePressureView @JvmOverloads constructor(
     }
 
     fun initView() {
+        icon_loading.loadGif("loading.gif")
         var stressScale = arrayOf(0, 1, 2, 3, 4, 5)
         var stressIndicatorItems = arrayListOf<EmotionIndicatorView.IndicateItem>()
         stressIndicatorItems.add(
@@ -98,7 +105,7 @@ class RealtimePressureView @JvmOverloads constructor(
         }
         tv_emotion_value.setTextColor(mTextColor)
         tv_title.setTextColor(mMainColor)
-        tv_title.text = "压力值"
+        tv_title.text = context.getString(R.string.sdk_pressure)
         tv_emotion_level.setTextColor(mMainColor)
         tv_emotion_level.background =
             context.getDrawable(R.drawable.shape_emotion_level_bg)
@@ -124,12 +131,12 @@ class RealtimePressureView @JvmOverloads constructor(
             return
         }
         var pressureValue = String.format("%.1f", value / 20f).toFloat()
-        var valueLevel = if (value >= 0 && value < 1) {
-            "低"
-        } else if (value >= 1 && value < 3.5) {
-            "正常"
+        var valueLevel = if (pressureValue >= 0 && pressureValue < 1) {
+            context.getString(R.string.sdk_low)
+        } else if (pressureValue >= 1 && pressureValue < 3.5) {
+            context.getString(R.string.sdk_normal)
         } else {
-            "高"
+            context.getString(R.string.sdk_high)
         }
         tv_emotion_level.text = valueLevel
         eiv_emotion.setValue(pressureValue)
@@ -149,7 +156,7 @@ class RealtimePressureView @JvmOverloads constructor(
         tv_disconnect_text_1.visibility = View.GONE
     }
 
-    fun hindLoading() {
+    fun hideLoading() {
         rl_loading_cover_1.visibility = View.GONE
     }
 

@@ -115,8 +115,7 @@ class ReportHeartRateView @JvmOverloads constructor(
     }
 
     fun initView() {
-        initChart()
-        tv_title.text = "心率"
+        tv_title.text = context.getString(R.string.sdk_heart_rate)
         tv_title.setTextColor(mMainColor)
 
         var bgColor = Color.WHITE

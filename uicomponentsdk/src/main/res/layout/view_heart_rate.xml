@@ -36,7 +36,7 @@
                         android:textStyle="normal"
                         android:textColor="#7f5960"
                         android:lineSpacingExtra="8.8sp"
-                        android:text="心率"
+                        android:text="@string/sdk_heart_rate"
                         />
 
                 <ImageView
@@ -91,7 +91,7 @@
                             android:textColor="#42486b"
                             android:lineSpacingExtra="4sp"
                             android:gravity="center_horizontal"
-                            android:text="@string/heart_rate_unit_bpm"
+                            android:text="@string/sdk_heart_rate_unit_bpm"
                             />
                 </LinearLayout>
 
@@ -152,7 +152,7 @@
                                 android:fontFamily="sans-serif"
                                 android:textStyle="normal"
                                 android:textColor="#999999"
-                                android:text="@string/heart_rate_unit_bpm"
+                                android:text="@string/sdk_heart_rate_unit_bpm"
                                 android:layout_marginLeft="@dimen/dp_4"
                                 />
 
@@ -187,7 +187,7 @@
                                 android:fontFamily="sans-serif"
                                 android:textStyle="normal"
                                 android:textColor="#999999"
-                                android:text="@string/heart_rate_unit_bpm"
+                                android:text="@string/sdk_heart_rate_unit_bpm"
                                 android:layout_marginLeft="@dimen/dp_4"
                                 />
 
@@ -240,7 +240,7 @@
                     android:textStyle="normal"
                     android:textColor="#ffffff"
                     android:gravity="center_horizontal"
-                    android:text="连接设备以显示实时数据"
+                    android:text="@string/sdk_meditation_no_device_tip_1"
                     />
         </RelativeLayout>
 

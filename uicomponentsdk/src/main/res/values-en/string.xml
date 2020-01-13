@@ -1,6 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="meditation_no_device_tip_1">Connect device to show data</string>
-    <string name="heart_rate_unit_bpm">bpm</string>
-    <string name="time_unit">Time（min）</string>
+    <string name="sdk_meditation_no_device_tip_1">Need Flowtime headband to get biofeedback data</string>
+    <string name="sdk_heart_rate_unit_bpm">bpm</string>
+    <string name="sdk_time_unit">Time（min）</string>
+    <string name="sdk_arousal">Arousal</string>
+    <string name="sdk_high">HIGH</string>
+    <string name="sdk_low">LOW</string>
+    <string name="sdk_attention">Attention</string>
+    <string name="sdk_normal">NORMAL</string>
+    <string name="sdk_brainwave_spectrum">Brainwave Spectrum</string>
+    <string name="sdk_gamma_wave">γ wave</string>
+    <string name="sdk_beta_wave">β wave</string>
+    <string name="sdk_alpha_wave">α wave</string>
+    <string name="sdk_theta_wave">θ wave</string>
+    <string name="sdk_delta_wave">δ wave</string>
+    <string name="sdk_brainwave">Real-time Brainwave(EEG)</string>
+    <string name="sdk_brainwave_legend_right">Right Brain(FP2)</string>
+    <string name="sdk_brianwave_legend_left">LeftBrain(FP1)</string>
+    <string name="sdk_heart_rate">Heart Rate</string>
+    <string name="sdk_pressure">Pressure</string>
+    <string name="sdk_relaxation">Relaxation</string>
+    <string name="sdk_brainwave_spectrum_chart_title">Each band power ratio(%)</string>
+    <string name="sdk_hrv">Heart Rate Variability</string>
+    <string name="sdk_hrv_chart_title">HRV Value(ms)</string>
+    <string name="sdk_hr_chart_title">Heart Rate(bpm)</string>
+    <string name="sdk_attention_chart_title">Attention Index</string>
+    <string name="sdk_relaxation_chart_title">Relaxation Index</string>
+    <string name="sdk_pressure_legend_low">Low</string>
+    <string name="sdk_pressure_legend_high">High</string>
+    <string name="sdk_hr_chart_legend_low">Low</string>
+    <string name="sdk_hr_chart_legend_neutral">Neutral</string>
+    <string name="sdk_hr_chart_legend_high">High</string>
+    <string name="sdk_max">Max：</string>
+    <string name="sdk_min">Min：</string>
 </resources>

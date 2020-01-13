@@ -59,7 +59,7 @@ class ReportPressureView @JvmOverloads constructor(
     }
 
     fun initView() {
-        tv_title.text = "压力水平"
+        tv_title.text = context.getString(R.string.sdk_pressure)
         tv_title.setTextColor(mMainColor)
         if (mBg != null) {
             ll_bg.background = mBg

@@ -170,15 +170,36 @@
 
             </LinearLayout>
 
-            <cn.entertech.uicomponentsdk.realtime.RealtimePressureView
-                    android:layout_marginTop="@dimen/activity_margin_half"
-                    android:layout_marginLeft="@dimen/activity_margin"
-                    android:layout_marginRight="@dimen/activity_margin"
-                    android:layout_width="160dp"
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     >
 
-            </cn.entertech.uicomponentsdk.realtime.RealtimePressureView>
+                <cn.entertech.uicomponentsdk.realtime.RealtimeAttentionView
+                        android:layout_marginTop="@dimen/activity_margin_half"
+                        android:layout_marginLeft="@dimen/activity_margin"
+                        android:layout_marginRight="@dimen/activity_margin"
+                        android:layout_width="160dp"
+                        android:layout_height="wrap_content"
+                        >
+
+                </cn.entertech.uicomponentsdk.realtime.RealtimeAttentionView>
+
+
+                <cn.entertech.uicomponentsdk.realtime.RealtimeArousalView
+                        android:layout_marginTop="@dimen/activity_margin_half"
+                        android:layout_marginLeft="@dimen/activity_margin"
+                        android:layout_marginRight="@dimen/activity_margin"
+                        android:layout_width="160dp"
+                        android:layout_height="wrap_content"
+                        >
+
+                </cn.entertech.uicomponentsdk.realtime.RealtimeArousalView>
+
+
+            </LinearLayout>
+
 
 
             <TextView
@@ -212,6 +233,7 @@
                     />
 
             <cn.entertech.uicomponentsdk.realtime.RealtimeBrainwaveView
+                    android:id="@+id/brainwave_view"
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"

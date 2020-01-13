@@ -32,10 +32,7 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
 //    implementation 'cn.entertech:uicomponentsdk:1.0.0-alpha01'
-
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'com.airbnb.android:lottie:3.0.7'
     api project(':uicomponentsdk')
-
 }

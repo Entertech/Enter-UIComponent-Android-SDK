@@ -77,6 +77,14 @@
         <attr name="rpv_infoUrl" format="string" />
     </declare-styleable>
 
+    <declare-styleable name="RealtimeArousalView">
+        <attr name="rarv_background" format="reference|color"/>
+        <attr name="rarv_mainColor" format="color"/>
+        <attr name="rarv_textColor" format="color"/>
+        <attr name="rarv_textFont" format="string"/>
+        <attr name="rarv_isShowInfoIcon" format="boolean"/>
+        <attr name="rarv_infoUrl" format="string"/>
+    </declare-styleable>
     <declare-styleable name="RealtimeBrainwaveView">
         <attr name="rbv_background" format="reference|color" />
         <attr name="rbv_mainColor" format="color" />

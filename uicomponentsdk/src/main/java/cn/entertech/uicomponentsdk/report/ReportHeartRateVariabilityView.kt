@@ -246,6 +246,7 @@ class ReportHeartRateVariabilityView @JvmOverloads constructor(
     fun initView() {
         initChart()
         tv_title.text = "心率变异性"
+        tv_title.text = context.getString(R.string.sdk_hrv)
         tv_title.setTextColor(mMainColor)
         var bgColor = Color.WHITE
         if (mBg != null) {
@@ -304,17 +305,6 @@ class ReportHeartRateVariabilityView @JvmOverloads constructor(
         }
 //        hrv_chart.setLineColor(mLineColor)
     }
-
-//    fun setData(startTime: Long, data: List<Double>?, avg: Double?) {
-//        if (data == null) {
-//            return
-//        }
-//        hrv_chart.setValues(data)
-//        tv_heart_avg.text = "${context.getString(R.string.avg)}${avg?.toInt()}"
-//        if (mIsAbsoluteTime) {
-//            hrv_chart.isAbsoluteTime(true, startTime)
-//        }
-//    }
 
     fun isDataNull(flag: Boolean) {
         mSelfView.findViewById<RelativeLayout>(R.id.rl_no_data_cover).visibility =

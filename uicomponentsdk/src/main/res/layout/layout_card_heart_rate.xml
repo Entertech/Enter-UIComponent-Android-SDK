@@ -33,7 +33,7 @@
                     android:layout_marginRight="@dimen/activity_margin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:clv_legend="低"
+                    app:clv_legend="@string/sdk_hr_chart_legend_low"
                     app:clv_color="@color/colorStatisticsHeartLow"
                     >
 
@@ -45,7 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/activity_margin"
-                    app:clv_legend="中"
+                    app:clv_legend="@string/sdk_hr_chart_legend_neutral"
                     app:clv_color="@color/colorStatisticsHeartNeutral"
                     >
 
@@ -56,7 +56,7 @@
                     android:id="@+id/legend_high"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:clv_legend="高"
+                    app:clv_legend="@string/sdk_hr_chart_legend_high"
                     app:clv_color="@color/colorStatisticsHeartHigh"
                     >
 
@@ -80,7 +80,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    app:cvtv_text="心率 (bpm)"
+                    app:cvtv_text="@string/sdk_hr_chart_title"
                     app:cvtv_textSize="12sp"
                     />
 
@@ -111,7 +111,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/time_unit"
+                android:text="@string/sdk_time_unit"
                 />
 
         <LinearLayout
@@ -152,7 +152,7 @@
                         android:fontFamily="sans-serif"
                         android:textStyle="normal"
                         android:textColor="#999999"
-                        android:text="@string/heart_rate_unit_bpm"
+                        android:text="@string/sdk_heart_rate_unit_bpm"
                         />
             </LinearLayout>
 
@@ -186,7 +186,7 @@
                         android:fontFamily="sans-serif"
                         android:textStyle="normal"
                         android:textColor="#999999"
-                        android:text="@string/heart_rate_unit_bpm"
+                        android:text="@string/sdk_heart_rate_unit_bpm"
                         />
             </LinearLayout>
 
@@ -220,7 +220,7 @@
                         android:fontFamily="sans-serif"
                         android:textStyle="normal"
                         android:textColor="#999999"
-                        android:text="@string/heart_rate_unit_bpm"
+                        android:text="@string/sdk_heart_rate_unit_bpm"
                         />
             </LinearLayout>
 
@@ -247,7 +247,7 @@
                 android:textStyle="normal"
                 android:textColor="#ffffff"
                 android:gravity="center_horizontal"
-                android:text="@string/meditation_no_device_tip_1"
+                android:text="@string/sdk_meditation_no_device_tip_1"
                 />
     </RelativeLayout>
 </FrameLayout>
