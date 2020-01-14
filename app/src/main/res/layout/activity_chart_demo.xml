@@ -8,17 +8,17 @@
         android:orientation="vertical"
         >
 
-<!--        <cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumView-->
-<!--                android:id="@+id/report_brainwave_spectrum_pie"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                app:rbs_isTitleIconShow="false"-->
-<!--                app:rbs_spectrumColors="#FF6682,#5E75FF,#F7C77E,#5FC695,#FB9C98"-->
-<!--                app:rbs_title="Brainwave Spectrum"-->
-<!--                app:rbs_isTitleMenuIconShow="true"-->
-<!--                app:rbs_timeUnit="400"-->
-<!--                app:rbs_titleMenuIcon="@drawable/vector_drawable_full_screen"-->
-<!--                />-->
+        <cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumView
+                android:id="@+id/report_brainwave_spectrum_pie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:rbs_isTitleIconShow="false"
+                app:rbs_spectrumColors="#FF6682,#5E75FF,#F7C77E,#5FC695,#FB9C98"
+                app:rbs_title="Brainwave Spectrum"
+                app:rbs_isTitleMenuIconShow="true"
+                app:rbs_timeUnit="400"
+                app:rbs_titleMenuIcon="@drawable/vector_drawable_full_screen"
+                />
 
 
     <!--    <cn.entertech.uicomponentsdk.widget.HalfCircleProgressBar-->
@@ -27,15 +27,15 @@
     <!--            app:hcpb_text="Relaxation"-->
     <!--            />-->
 
-    <!--    <cn.entertech.uicomponentsdk.widget.GradientSweepBar-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="200dp"-->
-    <!--            app:gsv_barWidth="72dp"-->
-    <!--            app:gsv_marginBottomDegree="10"-->
-    <!--            app:gsv_scaleLineLength="88dp"-->
-    <!--            app:gsv_textBottomMargin="36dp"-->
-    <!--            app:gsv_textSize="50sp"-->
-    <!--            />-->
+        <cn.entertech.uicomponentsdk.widget.GradientSweepBar
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:gsv_barWidth="72dp"
+                app:gsv_marginBottomDegree="10"
+                app:gsv_scaleLineLength="88dp"
+                app:gsv_textBottomMargin="36dp"
+                app:gsv_textSize="50sp"
+                />
 
         <cn.entertech.uicomponentsdk.widget.AverageBarChart
                 android:id="@+id/average_bar"

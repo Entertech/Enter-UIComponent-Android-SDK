@@ -13,6 +13,7 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import android.graphics.drawable.GradientDrawable
+import androidx.core.content.ContextCompat
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.utils.getOpacityColor
 import kotlinx.android.synthetic.main.view_meditation_emotion.view.*
@@ -105,8 +106,7 @@ class RealtimeRelaxationView @JvmOverloads constructor(
         tv_title.setTextColor(mMainColor)
         tv_title.text = context.getString(R.string.sdk_relaxation)
         tv_emotion_level.setTextColor(mMainColor)
-        tv_emotion_level.background =
-            context.getDrawable(R.drawable.shape_emotion_level_bg)
+        tv_emotion_level.background = ContextCompat.getDrawable(context,R.drawable.shape_emotion_level_bg)
         val myGrad = tv_emotion_level.background as GradientDrawable
         myGrad.setColor(getOpacityColor(mMainColor, 0.2f))
         setTextFont()

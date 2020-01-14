@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 28
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -50,7 +50,7 @@ publish {
     //项目名称
     artifactId = 'uicomponentsdk'
     //版本号
-    publishVersion = '1.0.0-alpha32'
+    publishVersion = '1.0.0-alpha34'
     //描述，不重要
     desc = ''
     //网站，不重要

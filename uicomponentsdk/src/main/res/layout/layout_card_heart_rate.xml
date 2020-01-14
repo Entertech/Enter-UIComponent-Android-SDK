@@ -84,17 +84,6 @@
                     app:cvtv_textSize="12sp"
                     />
 
-<!--            <cn.entertech.uicomponentsdk.report.HeartRateChart-->
-<!--                    android:layout_marginLeft="@dimen/dp_4"-->
-<!--                    android:id="@+id/sac_brain_chart"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="130dp"-->
-<!--                    app:hrc_timeStampTextSize="12sp"-->
-<!--                    app:hrc_timeStampTextPaddingTop="@dimen/activity_margin_half"-->
-<!--                    app:hrc_leftBarTextSize="10sp"-->
-<!--                    app:hrc_leftBarWidth="4dp"-->
-<!--                    />-->
-
             <com.github.mikephil.charting.charts.LineChart
                     android:background="@color/white"
                     android:id="@+id/hr_chart"

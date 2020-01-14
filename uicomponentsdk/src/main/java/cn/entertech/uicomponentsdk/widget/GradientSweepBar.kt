@@ -94,11 +94,14 @@ class GradientSweepBar @JvmOverloads constructor(
         canvas?.translate(width / 2f, height.toFloat())
         var radius =
             (width / 2f).coerceAtMost(height.toFloat()) - (mScaleLineLength / 2f - mBarWidth / 2f)
+        var rectF = RectF(
+            -radius + mBarWidth / 2,
+            -radius + mBarWidth / 2,
+            radius - mBarWidth / 2,
+            radius - mBarWidth / 2
+        )
         canvas?.drawArc(
-            -radius + mBarWidth / 2,
-            -radius + mBarWidth / 2,
-            radius - mBarWidth / 2,
-            radius - mBarWidth / 2,
+            rectF,
             -180f + mMarginBottomDegree,
             percent * (180 - mMarginBottomDegree * 2),
             false,

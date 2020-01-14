@@ -44,17 +44,6 @@
                     android:layout_height="130dp"
                     />
 
-<!--            <cn.entertech.uicomponentsdk.report.HeartRateVariabilityChart-->
-<!--                    android:id="@+id/hrv_chart"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="130dp"-->
-<!--                    android:layout_marginLeft="@dimen/dp_4"-->
-<!--                    android:visibility="gone"-->
-<!--                    app:hrc_leftBarTextSize="10sp"-->
-<!--                    app:hrc_leftBarWidth="4dp"-->
-<!--                    app:hrc_timeStampTextPaddingTop="@dimen/activity_margin_half"-->
-<!--                    app:hrc_timeStampTextSize="12sp"-->
-<!--                    />-->
 
         </LinearLayout>
 

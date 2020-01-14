@@ -1,10 +1,7 @@
 package cn.entertech.uicomponentsdk.widget
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Typeface
+import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
 import cn.entertech.uicomponentsdk.R
@@ -61,11 +58,14 @@ class HalfCircleProgressBar @JvmOverloads constructor(
         mBarPaint.color = barColor
         canvas?.translate(width / 2f, height.toFloat())
         var radius = (width / 2f).coerceAtMost(height.toFloat())
+        var rectF = RectF(
+            -radius + mBarWidth / 2,
+            -radius + mBarWidth / 2,
+            radius - mBarWidth / 2,
+            radius - mBarWidth / 2
+        )
         canvas?.drawArc(
-            -radius + mBarWidth / 2,
-            -radius + mBarWidth / 2,
-            radius - mBarWidth / 2,
-            radius - mBarWidth / 2,
+            rectF,
             -176f,
             percent * 180 - 8,
             false,
@@ -92,7 +92,7 @@ class HalfCircleProgressBar @JvmOverloads constructor(
         canvas?.save()
         canvas?.translate(width / 2f, height.toFloat())
         mTextPaint.textAlign = Paint.Align.CENTER
-        mTextPaint.typeface  = Typeface.DEFAULT_BOLD
+        mTextPaint.typeface = Typeface.DEFAULT_BOLD
         canvas?.drawText(
             mText,
             0f,
