@@ -2,18 +2,26 @@ package cn.entertech.uicomponentsdk.realtime;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.*;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.CornerPathEffect;
+import android.graphics.DashPathEffect;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.PixelFormat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import cn.entertech.uicomponentsdk.R;
-import cn.entertech.uicomponentsdk.utils.ScreenUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BrainWaveSurfaceView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
+import cn.entertech.uicomponentsdk.R;
+import cn.entertech.uicomponentsdk.utils.ScreenUtil;
+
+public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
+    private Context mContext;
     private float mLineWidth;
     private float mRightPadding;
     private float mLeftPadding;
@@ -35,33 +43,37 @@ public class BrainWaveSurfaceView extends SurfaceView implements SurfaceHolder.C
     private Paint mBgPaint;
     private boolean isShowSampleData = false;
     private int mMaxValue = 300;
+    private Paint mYAxisLabelPaint;
+    private int mYAxisMargin;
 
-    public BrainWaveSurfaceView(Context context) {
+    public HRVSurfaceView(Context context) {
         this(context, null);
     }
 
-    public BrainWaveSurfaceView(Context context, AttributeSet attrs) {
+    public HRVSurfaceView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public BrainWaveSurfaceView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public HRVSurfaceView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.BrainWaveSurfaceView);
+        this.mContext = context;
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.HRVSurfaceView);
         if (typedArray != null) {
-            mLineColor = typedArray.getColor(R.styleable.BrainWaveSurfaceView_bwsf_lineColor, mLineColor);
-            mBgColor = typedArray.getColor(R.styleable.BrainWaveSurfaceView_bwsf_bgColor, mBgColor);
-            mYAxisColor = typedArray.getColor(R.styleable.BrainWaveSurfaceView_bwsf_yAxisColor, mYAxisColor);
-            mGridLineColor = typedArray.getColor(R.styleable.BrainWaveSurfaceView_bwsf_gridLineColor, mGridLineColor);
-            mGridLineCount = typedArray.getInteger(R.styleable.BrainWaveSurfaceView_bwsf_gridLineCount, mGridLineCount);
-            mLeftPadding = typedArray.getDimension(R.styleable.BrainWaveSurfaceView_bwsf_leftPadding, ScreenUtil.dip2px(context, 5));
-            mRightPadding = typedArray.getDimension(R.styleable.BrainWaveSurfaceView_bwsf_rightPadding, ScreenUtil.dip2px(context, 5));
-            mLineWidth = typedArray.getDimension(R.styleable.BrainWaveSurfaceView_bwsf_lineWidth, 3);
-            mMaxValue = typedArray.getInteger(R.styleable.BrainWaveSurfaceView_bwsf_maxValue, mMaxValue);
+            mLineColor = typedArray.getColor(R.styleable.HRVSurfaceView_hrvsf_lineColor, mLineColor);
+            mBgColor = typedArray.getColor(R.styleable.HRVSurfaceView_hrvsf_bgColor, mBgColor);
+            mYAxisColor = typedArray.getColor(R.styleable.HRVSurfaceView_hrvsf_yAxisColor, mYAxisColor);
+            mGridLineColor = typedArray.getColor(R.styleable.HRVSurfaceView_hrvsf_gridLineColor, mGridLineColor);
+            mGridLineCount = typedArray.getInteger(R.styleable.HRVSurfaceView_hrvsf_gridLineCount, mGridLineCount);
+            mLeftPadding = typedArray.getDimension(R.styleable.HRVSurfaceView_hrvsf_leftPadding, ScreenUtil.dip2px(context, 5));
+            mRightPadding = typedArray.getDimension(R.styleable.HRVSurfaceView_hrvsf_rightPadding, ScreenUtil.dip2px(context, 5));
+            mLineWidth = typedArray.getDimension(R.styleable.HRVSurfaceView_hrvsf_lineWidth, 3);
+            mMaxValue = typedArray.getInteger(R.styleable.HRVSurfaceView_hrvsf_maxValue, mMaxValue);
         }
         initPaint();
     }
 
     private void initPaint() {
+
         mSurfaceHolder = getHolder();
         mSurfaceHolder.addCallback(this);
         setFocusable(true);
@@ -80,7 +92,7 @@ public class BrainWaveSurfaceView extends SurfaceView implements SurfaceHolder.C
         mStartLinePaint = new Paint();
         mStartLinePaint.setStyle(Paint.Style.STROKE);
         mStartLinePaint.setColor(mYAxisColor);
-        mStartLinePaint.setStrokeWidth(3);
+        mStartLinePaint.setStrokeWidth(1f);
 
         mGridLinePaint = new Paint();
         mGridLinePaint.setStyle(Paint.Style.STROKE);
@@ -88,6 +100,11 @@ public class BrainWaveSurfaceView extends SurfaceView implements SurfaceHolder.C
         mGridLinePaint.setStrokeWidth(3);
         initData();
         mSurfaceHolder.setFormat(PixelFormat.RGBA_8888);
+
+        mYAxisLabelPaint = new Paint();
+        mYAxisLabelPaint.setColor(Color.parseColor("#9AA1A9"));
+        mYAxisLabelPaint.setTextSize(ScreenUtil.dip2px(mContext, 12));
+        mYAxisLabelPaint.setTextAlign(Paint.Align.RIGHT);
 //        this.setZOrderOnTop(true);
 ////        this.setZOrderMediaOverlay(true);
 //        this.getHolder().setFormat(PixelFormat.TRANSPARENT);
@@ -125,8 +142,8 @@ public class BrainWaveSurfaceView extends SurfaceView implements SurfaceHolder.C
 
 
     private void initData() {
-        for (int i = 0; i < BRAIN_QUEUE_LENGTH; i++) {
-            drawData.add(1.0);
+        for (int i = 0; i < BRAIN_BUFFER_LENGTH; i++) {
+            mSourceData.add(0.0);
         }
     }
 
@@ -159,31 +176,37 @@ public class BrainWaveSurfaceView extends SurfaceView implements SurfaceHolder.C
 
 
     public void onDrawBg(Canvas canvas) {
+        mYAxisMargin = ScreenUtil.dip2px(mContext, 16);
         canvas.drawRect(0, 0, getWidth(), getHeight(), mBgPaint);
 //        canvas.drawColor(mBgColor,PorterDuff.Mode.CLEAR);
-        float lineOffset = (getWidth() - (mLeftPadding + mRightPadding)) / 4;
+        float lineOffset = (getWidth() - (mLeftPadding + mRightPadding) - mYAxisMargin) / 4;
+        canvas.drawLine(mLeftPadding + mYAxisMargin, getHeight()-0.5f, getWidth() - mRightPadding, getHeight()-0.5f, mStartLinePaint);
         for (int i = 0; i < (mGridLineCount + 1); i++) {
             if (i == 0) {
-                canvas.drawLine(mLeftPadding, 0, mLeftPadding, getHeight(), mStartLinePaint);
+                canvas.drawLine(mLeftPadding + mYAxisMargin, 0, mLeftPadding + mYAxisMargin, getHeight(), mStartLinePaint);
             } else {
                 //绘制长度为4的实线后再绘制长度为4的空白区域，0位间隔
                 mGridLinePaint.setPathEffect(new DashPathEffect(new float[]{8, 8}, 0));
                 canvas.drawLine(lineOffset * i, 0, lineOffset * i, getHeight(), mGridLinePaint);
             }
         }
+        canvas.drawText("0", mYAxisMargin, getHeight() - 10, mYAxisLabelPaint);
+        canvas.drawText("50", mYAxisMargin, 30, mYAxisLabelPaint);
     }
 
-    public void onDrawBrainWave(Canvas canvas) {
-        float pointOffset = getWidth() * 1f / (drawData.size() - 1);
-        dealData();
+    public void onDrawHrv(Canvas canvas) {
+        float pointOffset = getWidth() * 1f / (mSourceData.size() - 1);
+//        dealData();
         //获得canvas对象
-        canvas.translate(mLeftPadding, getHeight() / 2);
+
+        float time = (getHeight() / mMaxValue);
+        canvas.translate(mLeftPadding + mYAxisMargin, getHeight());
         Path path = new Path();
 //        Log.d("####","draw data is "+drawData.toString());
-        for (int i = 0; i < drawData.size(); i++) {
+        for (int i = 0; i < mSourceData.size(); i++) {
             if (i == 0)
-                path.moveTo(i * pointOffset, (float) (-(drawData.get(i))));
-            path.lineTo(i * pointOffset, (float) (-(drawData.get(i))));
+                path.moveTo(i * pointOffset, (float) (-(mSourceData.get(i) * time)));
+            path.lineTo(i * pointOffset, (float) (-(mSourceData.get(i) * time)));
 
         }
         canvas.drawPath(path, mCruvePaint);
@@ -194,11 +217,12 @@ public class BrainWaveSurfaceView extends SurfaceView implements SurfaceHolder.C
         float pointOffset = getWidth() * 1f / (sampleData.size() - 1);
         //获得canvas对象
         canvas.translate(mLeftPadding, getHeight() / 2);
+        float time = (getHeight() / mMaxValue);
         Path path = new Path();
         for (int i = 0; i < sampleData.size(); i++) {
             if (i == 0)
-                path.moveTo(i * pointOffset, (float) (-(sampleData.get(i))));
-            path.lineTo(i * pointOffset, (float) (-(sampleData.get(i))));
+                path.moveTo(i * pointOffset, (float) (-(sampleData.get(i) * time)));
+            path.lineTo(i * pointOffset, (float) (-(sampleData.get(i) * time)));
 
         }
         canvas.drawPath(path, mCruvePaint);
@@ -213,7 +237,7 @@ public class BrainWaveSurfaceView extends SurfaceView implements SurfaceHolder.C
             if (isShowSampleData) {
                 onDrawSampleData(mCanvas);
             } else {
-                onDrawBrainWave(mCanvas);
+                onDrawHrv(mCanvas);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -229,7 +253,7 @@ public class BrainWaveSurfaceView extends SurfaceView implements SurfaceHolder.C
             drawData.add(1.0);
             drawData.remove(0);
         } else {
-            float time = mMaxValue / ((getHeight() / 2));
+            float time = mMaxValue / (getHeight());
             if (mSourceData.get(0) == 0.0) {
                 drawData.add(1.0);
                 mSourceData.remove(0);
@@ -247,14 +271,14 @@ public class BrainWaveSurfaceView extends SurfaceView implements SurfaceHolder.C
         this.isShowSampleData = true;
     }
 
-    public void setLineColor(int color){
+    public void setLineColor(int color) {
         this.mLineColor = color;
         mCruvePaint.setColor(mLineColor);
         invalidate();
     }
 
     @Override
-    public void setBackgroundColor(int color){
+    public void setBackgroundColor(int color) {
         this.mBgColor = color;
         mBgPaint.setColor(mBgColor);
         invalidate();

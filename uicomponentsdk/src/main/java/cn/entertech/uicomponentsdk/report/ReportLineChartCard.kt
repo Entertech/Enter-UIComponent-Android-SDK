@@ -56,6 +56,7 @@ class ReportLineChartCard @JvmOverloads constructor(
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
+    private var mAverageValue: Int = 0
     private var mXAxisUnit: String? = "Time(min)"
     private var mLineWidth: Float = 1.5f
     private var mLineColor: Int = Color.RED
@@ -144,6 +145,7 @@ class ReportLineChartCard @JvmOverloads constructor(
             affectiveView.setGridLineColor(mGridLineColor)
             affectiveView.setXAxisUnit(mXAxisUnit)
             affectiveView.setLabelColor(mLabelColor)
+            affectiveView.setAverage(mAverageValue)
             affectiveView.setData(mData, true)
             affectiveView.findViewById<TextView>(R.id.tv_title).text =
                 "Zoom in on the curve and slide to view it."
@@ -196,8 +198,7 @@ class ReportLineChartCard @JvmOverloads constructor(
         }
     }
 
-
-    fun setData(data: List<Double>?, isShowAllData: Boolean = false) {
+    fun setData(data: List<Double>?,isShowAllData: Boolean = false) {
         if (data == null) {
             return
         }
@@ -244,8 +245,7 @@ class ReportLineChartCard @JvmOverloads constructor(
         }
 
         if (mData != null && mData!!.isNotEmpty()) {
-            var average = mData!!.average().toInt() + 1
-            val ll1 = LimitLine(average.toFloat(), "AVG:$average")
+            val ll1 = LimitLine(mAverageValue.toFloat(), "AVG:$mAverageValue")
             ll1.lineWidth = 1f
             ll1.enableDashedLine(10f, 10f, 0f)
             ll1.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
@@ -448,6 +448,11 @@ class ReportLineChartCard @JvmOverloads constructor(
 
     fun setXAxisUnit(axisUnit: String?) {
         this.mXAxisUnit = axisUnit
+        initView()
+    }
+
+    fun setAverage(value:Int){
+        this.mAverageValue = value
         initView()
     }
 

@@ -10,8 +10,20 @@
         <attr name="bwsf_leftPadding" format="dimension" />
         <attr name="bwsf_rightPadding" format="dimension" />
         <attr name="bwsf_bgColor" format="color" />
+        <attr name="bwsf_maxValue" format="integer" />
     </declare-styleable>
 
+    <declare-styleable name="HRVSurfaceView">
+        <attr name="hrvsf_lineColor" format="color" />
+        <attr name="hrvsf_lineWidth" format="dimension" />
+        <attr name="hrvsf_yAxisColor" format="color" />
+        <attr name="hrvsf_gridLineColor" format="color" />
+        <attr name="hrvsf_gridLineCount" format="integer" />
+        <attr name="hrvsf_leftPadding" format="dimension" />
+        <attr name="hrvsf_rightPadding" format="dimension" />
+        <attr name="hrvsf_bgColor" format="color" />
+        <attr name="hrvsf_maxValue" format="integer" />
+    </declare-styleable>
 
     <declare-styleable name="EmotionIndicatorView">
         <attr name="eiv_textColor" format="color" />
@@ -95,6 +107,18 @@
         <attr name="rbv_leftBrainwaveColor" format="color" />
         <attr name="rbv_rightBrainwaveColor" format="color" />
     </declare-styleable>
+
+
+    <declare-styleable name="RealtimeHRVView">
+        <attr name="rhrvv_background" format="reference|color" />
+        <attr name="rhrvv_mainColor" format="color" />
+        <attr name="rhrvv_textColor" format="color" />
+        <attr name="rhrvv_textFont" format="string" />
+        <attr name="rhrvv_isShowInfoIcon" format="boolean" />
+        <attr name="rhrvv_infoUrl" format="string" />
+        <attr name="rhrvv_lineColor" format="color" />
+    </declare-styleable>
+
 
 
     <declare-styleable name="RealtimeBrainwaveSpectrumView">

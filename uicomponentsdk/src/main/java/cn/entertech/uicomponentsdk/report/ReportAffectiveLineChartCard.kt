@@ -57,6 +57,8 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var mAttentionAverage: Int = 0
+    private var mRelaxationAverage: Int = 0
     private var mXAxisUnit: String? = "Time(min)"
     private var mGridLineColor: Int = Color.parseColor("#E9EBF1")
     private var mLabelColor: Int = Color.parseColor("#9AA1A9")
@@ -176,10 +178,13 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
             affectiveView.setXAxisUnit(mXAxisUnit)
             affectiveView.setGridLineColor(mGridLineColor)
             affectiveView.setLabelColor(mLabelColor)
+            affectiveView.setAttentionAverage(mAttentionAverage)
+            affectiveView.setRelaxationAverage(mRelaxationAverage)
             affectiveView.setData(mAttentionData, mRelaxationData, true)
             var popWindow = PopupWindow(affectiveView, MATCH_PARENT, MATCH_PARENT)
             popWindow.showAtLocation(this, Gravity.CENTER, 0, 0)
-            affectiveView.findViewById<TextView>(R.id.tv_title).text = "Zoom in on the curve and slide to view it."
+            affectiveView.findViewById<TextView>(R.id.tv_title).text =
+                "Zoom in on the curve and slide to view it."
             affectiveView.findViewById<ImageView>(R.id.iv_menu)
                 .setImageResource(R.drawable.vector_drawable_screen_shrink)
             affectiveView.findViewById<LinearLayout>(R.id.legend).visibility = View.VISIBLE
@@ -234,7 +239,12 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
         iv_menu.setOnClickListener(onClickListener)
     }
 
-    fun drawLine(mData: List<Double>, lineColor: Int, isShowAllData: Boolean = false) {
+    fun drawLine(
+        mData: List<Double>,
+        average: Int,
+        lineColor: Int,
+        isShowAllData: Boolean = false
+    ) {
         var sample = mData!!.size / mPointCount
         if (isShowAllData || sample <= 1) {
             sample = 1
@@ -269,14 +279,12 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
         }
 
         if (mData != null && mData!!.isNotEmpty()) {
-            var average = mData!!.average().toInt() + 1
             val ll1 = LimitLine(
-                average.toFloat(), "AVG:${if (average > 100) {
-                    average - 100
+                average.toFloat(), "AVG:${if (average >= 100) {
+                    mRelaxationAverage
                 } else {
-                    average
-                }
-                }"
+                    mAttentionAverage
+                }}"
             )
             ll1.lineWidth = 1f
             ll1.enableDashedLine(10f, 10f, 0f)
@@ -334,8 +342,13 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
 
         this.mAttentionData = formatData(attentionData)
         this.mRelaxationData = formatData(relaxationData)
-        drawLine(mAttentionData!!, mAttentionLineColor, isShowAllData)
-        drawLine(mRelaxationData!!.map { it + 100 }, mRelaxationLineColor, isShowAllData)
+        drawLine(mAttentionData!!, mAttentionAverage, mAttentionLineColor, isShowAllData)
+        drawLine(
+            mRelaxationData!!.map { it + 100 },
+            mRelaxationAverage + 100,
+            mRelaxationLineColor,
+            isShowAllData
+        )
 //        chart.xAxis.setLabelCount(mData!!.size,true)
     }
 
@@ -360,43 +373,13 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
         // vertical grid lines
         xAxis.setDrawAxisLine(false)
         xAxis.setDrawGridLines(false)
-//        xAxis.enableGridDashedLine(10f, 10f, 0f)
-//        xAxis.setLabelCount(8)
         xAxis.position = XAxis.XAxisPosition.BOTTOM
         val yAxis: YAxis = chart.axisLeft
         xAxis.setDrawLabels(false)
-        xAxis.valueFormatter = object : ValueFormatter() {
-            override fun getAxisLabel(
-                value: Float, base: AxisBase
-            ): String? {
-
-//                xAxis.mEntries = floatArrayOf(75f,150f,225f,300f,375f,450f,525f)
-                Log.d("####", "x entry is " + Arrays.toString(xAxis.mEntries))
-//                if ((value * 0.8f) % 60 == 0f){
-//                    return "${(value * 0.8f / 60).toInt()}"
-//                }else{
-//                    return ""
-//                }
-//                return "${value}"
-//                Log.d("####", "min is : ${(value * 0.8f / 60).toInt()}")
-                return "${String.format("%.1f", value * 0.8f / 60)}"
-//                return "${(value * 0.8f / 60).toInt()}"
-            }
-        }
-//        xAxis.setValueFormatter { value, axis ->
-//            if ((value * 0.8f) % 60 == 0f){
-//                "${(value * 0.8f / 60).toInt()}"
-//            }else{
-//                ""
-//            }
-//        }
-//        xAxis.setLabelCount(7, true)
-//        xAxis.spaceMax = 300f
-        // disable dual axis (only use LEFT axis)
-//        xAxis.valueFormatter = IndexAxisValueFormatter(arrayOf("1","2","3","4"))
         chart.axisRight.isEnabled = false
-        // horizontal grid lines
-//        yAxis.enableGridDashedLine(10f, 10f, 0f)
+        yAxis.mAxisRange
+        yAxis.axisMaximum = 200f
+        yAxis.axisMinimum = 0f
         yAxis.setDrawLabels(false)
         yAxis.setDrawGridLines(false)
         yAxis.setDrawAxisLine(false)
@@ -427,30 +410,6 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
 
         // add limit lines
     }
-
-//    fun setData(startTime: Long, data: List<Double>?) {
-//        if (startTime == null || data == null){
-//            return
-//        }
-//        chart_attention.setValues(data)
-//        var removeZeroAttentionRec = removeZeroData(data)
-//        var attentionMax =
-//            java.util.Collections.max(removeZeroAttentionRec).toFloat()
-//        var attentionMin =
-//            java.util.Collections.min(removeZeroAttentionRec).toFloat()
-//        var sum = 0.0
-//        for (value in removeZeroAttentionRec) {
-//            sum += value
-//        }
-//        var avg = sum / removeZeroAttentionRec.size
-//        tv_avg.text = "${context.getString(R.string.avg)}${avg.toInt()}"
-//        tv_max.text = "${context.getString(R.string.max)}${attentionMax.toInt()}"
-//        tv_min.text = "${context.getString(R.string.min)}${attentionMin.toInt()}"
-//        if (mIsAbsoluteTime){
-//            chart_attention.isAbsoluteTime(true,startTime)
-//        }
-//    }
-
     fun isDataNull(flag: Boolean) {
         rl_no_data_cover.visibility = if (flag) {
             View.VISIBLE
@@ -496,6 +455,16 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
 
     fun setXAxisUnit(axisUnit: String?) {
         this.mXAxisUnit = axisUnit
+        initView()
+    }
+
+    fun setAttentionAverage(attentionValue: Int) {
+        this.mAttentionAverage = attentionValue
+        initView()
+    }
+
+    fun setRelaxationAverage(relaxationValue: Int) {
+        this.mRelaxationAverage = relaxationValue
         initView()
     }
 

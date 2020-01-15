@@ -8,17 +8,39 @@
         android:orientation="vertical"
         >
 
-        <cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumView
-                android:id="@+id/report_brainwave_spectrum_pie"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:rbs_isTitleIconShow="false"
-                app:rbs_spectrumColors="#FF6682,#5E75FF,#F7C77E,#5FC695,#FB9C98"
-                app:rbs_title="Brainwave Spectrum"
-                app:rbs_isTitleMenuIconShow="true"
-                app:rbs_timeUnit="400"
-                app:rbs_titleMenuIcon="@drawable/vector_drawable_full_screen"
-                />
+    <cn.entertech.uicomponentsdk.report.ReportAffectiveLineChartCard
+            android:id="@+id/chart_relaxation_and_attention"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_margin_half"
+            android:background="@color/white"
+            app:ralcc_attentionLineColor="#5FC695"
+            app:ralcc_isTitleMenuIconShow="true"
+            app:ralcc_pointCount="100"
+            app:ralcc_relaxationLineColor="#4B5DCC"
+            app:ralcc_timeUnit="800"
+            app:ralcc_title="Changes During Meditation"
+            app:ralcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
+            app:ralcc_xAxisUnit="Time(min)"
+            />
+
+
+    <!--    <cn.entertech.uicomponentsdk.realtime.RealtimeHRVView-->
+<!--            android:id="@+id/realtime_hrv"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"/>-->
+
+<!--        <cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumView-->
+<!--                android:id="@+id/report_brainwave_spectrum_pie"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:rbs_isTitleIconShow="false"-->
+<!--                app:rbs_spectrumColors="#FF6682,#5E75FF,#F7C77E,#5FC695,#FB9C98"-->
+<!--                app:rbs_title="Brainwave Spectrum"-->
+<!--                app:rbs_isTitleMenuIconShow="true"-->
+<!--                app:rbs_timeUnit="400"-->
+<!--                app:rbs_titleMenuIcon="@drawable/vector_drawable_full_screen"-->
+<!--                />-->
 
 
     <!--    <cn.entertech.uicomponentsdk.widget.HalfCircleProgressBar-->
