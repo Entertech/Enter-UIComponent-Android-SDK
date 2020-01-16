@@ -82,7 +82,7 @@ class ReportLineChartCard @JvmOverloads constructor(
     init {
         if (layoutId == null) {
             mSelfView = LayoutInflater.from(context).inflate(R.layout.layout_card_attention, null)
-            var layoutParams = ViewGroup.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+            var layoutParams = ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT)
             mSelfView?.layoutParams = layoutParams
         } else {
             mSelfView = LayoutInflater.from(context).inflate(layoutId, null)

@@ -24,12 +24,12 @@ class ChartDemoActivity : AppCompatActivity() {
 //        }
 //        timer.schedule(timerTask,0,400)
 
-        var data = ArrayList<Double>()
-        for (i in 0..1000){
-            data.add(0.0)
-        }
-        chart_relaxation_and_attention.setRelaxationAverage(0)
-        chart_relaxation_and_attention.setAttentionAverage(0)
-        chart_relaxation_and_attention.setData(data,data)
+//        var data = ArrayList<Double>()
+//        for (i in 0..1000){
+//            data.add(0.0)
+//        }
+//        chart_relaxation_and_attention.setRelaxationAverage(0)
+//        chart_relaxation_and_attention.setAttentionAverage(0)
+//        chart_relaxation_and_attention.setData(data,data)
     }
 }

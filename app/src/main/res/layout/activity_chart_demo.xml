@@ -8,21 +8,21 @@
         android:orientation="vertical"
         >
 
-    <cn.entertech.uicomponentsdk.report.ReportAffectiveLineChartCard
-            android:id="@+id/chart_relaxation_and_attention"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_margin_half"
-            android:background="@color/white"
-            app:ralcc_attentionLineColor="#5FC695"
-            app:ralcc_isTitleMenuIconShow="true"
-            app:ralcc_pointCount="100"
-            app:ralcc_relaxationLineColor="#4B5DCC"
-            app:ralcc_timeUnit="800"
-            app:ralcc_title="Changes During Meditation"
-            app:ralcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
-            app:ralcc_xAxisUnit="Time(min)"
-            />
+<!--    <cn.entertech.uicomponentsdk.report.ReportAffectiveLineChartCard-->
+<!--            android:id="@+id/chart_relaxation_and_attention"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="@dimen/activity_margin_half"-->
+<!--            android:background="@color/white"-->
+<!--            app:ralcc_attentionLineColor="#5FC695"-->
+<!--            app:ralcc_isTitleMenuIconShow="true"-->
+<!--            app:ralcc_pointCount="100"-->
+<!--            app:ralcc_relaxationLineColor="#4B5DCC"-->
+<!--            app:ralcc_timeUnit="800"-->
+<!--            app:ralcc_title="Changes During Meditation"-->
+<!--            app:ralcc_titleMenuIcon="@drawable/vector_drawable_full_screen"-->
+<!--            app:ralcc_xAxisUnit="Time(min)"-->
+<!--            />-->
 
 
     <!--    <cn.entertech.uicomponentsdk.realtime.RealtimeHRVView-->
@@ -49,23 +49,23 @@
     <!--            app:hcpb_text="Relaxation"-->
     <!--            />-->
 
-        <cn.entertech.uicomponentsdk.widget.GradientSweepBar
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                app:gsv_barWidth="72dp"
-                app:gsv_marginBottomDegree="10"
-                app:gsv_scaleLineLength="88dp"
-                app:gsv_textBottomMargin="36dp"
-                app:gsv_textSize="50sp"
-                />
+<!--        <cn.entertech.uicomponentsdk.widget.GradientSweepBar-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="200dp"-->
+<!--                app:gsv_barWidth="72dp"-->
+<!--                app:gsv_marginBottomDegree="10"-->
+<!--                app:gsv_scaleLineLength="88dp"-->
+<!--                app:gsv_textBottomMargin="36dp"-->
+<!--                app:gsv_textSize="50sp"-->
+<!--                />-->
 
-        <cn.entertech.uicomponentsdk.widget.AverageBarChart
-                android:id="@+id/average_bar"
-                app:abc_background="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                app:abc_isShowUnit="true"
-                app:abc_unit="bpm"/>
+<!--        <cn.entertech.uicomponentsdk.widget.AverageBarChart-->
+<!--                android:id="@+id/average_bar"-->
+<!--                app:abc_background="@color/white"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="200dp"-->
+<!--                app:abc_isShowUnit="true"-->
+<!--                app:abc_unit="bpm"/>-->
 
     <!--    <cn.entertech.uicomponentsdk.report.ReportRelaxationAndAttentionCard-->
     <!--            android:background="@color/white"-->
@@ -76,19 +76,19 @@
     <!--            android:layout_width="match_parent"-->
     <!--            android:layout_height="wrap_content"/>-->
 
-    <cn.entertech.uicomponentsdk.report.ReportAverageChartCard
-            android:id="@+id/average_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:racc_barHighLightColor="#FFC56F"
-            app:racc_barValueBgColor="#FFE4BB"
-            app:racc_tag="HRV"
-            app:racc_isMenuIconInfo="true"
-            app:racc_titleMenuIcon="@drawable/vector_drawable_info_circle"
-            app:racc_isTitleMenuIconShow="true"
-            app:racc_infoUrl="https://www.notion.so/Flowtime-Help-Center-b151d8677e5c41d8af6364f44fb93369"
-            app:racc_title="Last 7 times"
-            />
+<!--    <cn.entertech.uicomponentsdk.report.ReportAverageChartCard-->
+<!--            android:id="@+id/average_card"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:racc_barHighLightColor="#FFC56F"-->
+<!--            app:racc_barValueBgColor="#FFE4BB"-->
+<!--            app:racc_tag="HRV"-->
+<!--            app:racc_isMenuIconInfo="true"-->
+<!--            app:racc_titleMenuIcon="@drawable/vector_drawable_info_circle"-->
+<!--            app:racc_isTitleMenuIconShow="true"-->
+<!--            app:racc_infoUrl="https://www.notion.so/Flowtime-Help-Center-b151d8677e5c41d8af6364f44fb93369"-->
+<!--            app:racc_title="Last 7 times"-->
+<!--            />-->
 
 <!--    <cn.entertech.uicomponentsdk.report.ReportAffectiveLineChartCard-->
 <!--            android:id="@+id/report_affective_chart"-->
@@ -101,10 +101,21 @@
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="wrap_content"/>-->
 
-<!--        <cn.entertech.uicomponentsdk.report.ReportLineChartCard-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                app:rlcc_timeUnit="400"-->
-<!--                app:rlcc_pointCount="100"-->
-<!--                android:id="@+id/line_chart"/>-->
+    <cn.entertech.uicomponentsdk.report.ReportAffectiveLineChartCard
+            android:id="@+id/chart_relaxation_and_attention"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:layout_marginTop="@dimen/activity_margin_half"
+            android:background="@color/white"
+            app:ralcc_attentionLineColor="#5FC695"
+            app:ralcc_isTitleMenuIconShow="true"
+            app:ralcc_pointCount="100"
+            app:ralcc_relaxationLineColor="#4B5DCC"
+            app:ralcc_timeUnit="800"
+            app:ralcc_title="Changes During Meditation"
+            app:ralcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
+            app:ralcc_xAxisUnit="Time(min)"
+            />
+
+
 </LinearLayout>

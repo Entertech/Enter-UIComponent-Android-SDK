@@ -92,7 +92,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
         if (layoutId == null) {
             mSelfView =
                 LayoutInflater.from(context).inflate(R.layout.layout_report_affective_card, null)
-            var layoutParams = ViewGroup.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+            var layoutParams = ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT)
             mSelfView?.layoutParams = layoutParams
         } else {
             mSelfView = LayoutInflater.from(context).inflate(layoutId, null)
