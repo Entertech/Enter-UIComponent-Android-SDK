@@ -8,7 +8,7 @@
         tools:context="cn.entertech.componentdemo.ChartDemoActivity"
         >
 
-    <cn.entertech.uicomponentsdk.report.ReportLineChartCard
+    <cn.entertech.uicomponentsdk.report.ReportRelaxationAndAttentionCard
             android:id="@+id/line_chart"
             android:layout_width="match_parent"
             android:layout_height="200dp"/>

@@ -184,7 +184,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
             var popWindow = PopupWindow(affectiveView, MATCH_PARENT, MATCH_PARENT)
             popWindow.showAtLocation(this, Gravity.CENTER, 0, 0)
             affectiveView.findViewById<TextView>(R.id.tv_title).text =
-                "Zoom in on the curve and slide to view it."
+                context.getString(R.string.chart_full_screen_tip)
             affectiveView.findViewById<ImageView>(R.id.iv_menu)
                 .setImageResource(R.drawable.vector_drawable_screen_shrink)
             affectiveView.findViewById<LinearLayout>(R.id.legend).visibility = View.VISIBLE

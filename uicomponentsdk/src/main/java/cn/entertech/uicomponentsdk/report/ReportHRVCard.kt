@@ -49,7 +49,7 @@ class ReportHRVCard @JvmOverloads constructor(
     fun initTitle() {
         iv_icon.visibility = View.VISIBLE
         iv_icon.setImageResource(R.drawable.vector_drawable_title_icon_hrv)
-        tv_title.text = "Heart Rate Variability"
+        tv_title.text = context.getString(R.string.sdk_hrv)
         tv_title.setTextColor(mMainColor)
     }
 
@@ -57,9 +57,9 @@ class ReportHRVCard @JvmOverloads constructor(
         tv_hrv.text = "$value"
         eiv_hrv.setValue(value.toFloat())
         when (value) {
-            in 0..29 -> tv_level.text = "low"
-            in 50..70 -> tv_level.text = "high"
-            else -> tv_level.text = "nor"
+            in 0..29 -> tv_level.text = context.getString(R.string.sdk_low)
+            in 50..70 -> tv_level.text = context.getString(R.string.sdk_high)
+            else -> tv_level.text = context.getString(R.string.sdk_normal)
         }
     }
 }

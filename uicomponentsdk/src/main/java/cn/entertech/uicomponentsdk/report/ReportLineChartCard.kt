@@ -148,7 +148,7 @@ class ReportLineChartCard @JvmOverloads constructor(
             affectiveView.setAverage(mAverageValue)
             affectiveView.setData(mData, true)
             affectiveView.findViewById<TextView>(R.id.tv_title).text =
-                "Zoom in on the curve and slide to view it."
+               context.getString(R.string.chart_full_screen_tip)
             var popWindow = PopupWindow(affectiveView, MATCH_PARENT, MATCH_PARENT)
             affectiveView.findViewById<ImageView>(R.id.iv_menu)
                 .setImageResource(R.drawable.vector_drawable_screen_shrink)

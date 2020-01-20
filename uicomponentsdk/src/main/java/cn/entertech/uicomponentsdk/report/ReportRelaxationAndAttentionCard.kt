@@ -43,7 +43,7 @@ class ReportRelaxationAndAttentionCard @JvmOverloads constructor(
     fun initTitle() {
         iv_icon.visibility = View.VISIBLE
         iv_icon.setImageResource(R.drawable.vector_drawable_title_icon_relaxtion)
-        tv_title.text = "Relaxation & Attention"
+        tv_title.text = context.getString(R.string.sdk_relaxation_and_attention)
         tv_title.setTextColor(mMainColor)
     }
 
@@ -53,14 +53,14 @@ class ReportRelaxationAndAttentionCard @JvmOverloads constructor(
         tv_attention.text = "$attention"
         bar_attention.setValue(attention)
         when (relaxation) {
-            in 0..59 -> tv_relaxation_level.text = "low"
-            in 60..79 -> tv_relaxation_level.text = "nor"
-            else -> tv_relaxation_level.text = "high"
+            in 0..59 -> tv_relaxation_level.text = context.getString(R.string.sdk_low)
+            in 60..79 -> tv_relaxation_level.text = context.getString(R.string.sdk_normal)
+            else -> tv_relaxation_level.text = context.getString(R.string.sdk_high)
         }
         when (attention) {
-            in 0..59 -> tv_attention_level.text = "low"
-            in 60..79 -> tv_attention_level.text = "nor"
-            else -> tv_attention_level.text = "high"
+            in 0..59 -> tv_attention_level.text = context.getString(R.string.sdk_low)
+            in 60..79 -> tv_attention_level.text = context.getString(R.string.sdk_normal)
+            else -> tv_attention_level.text = context.getString(R.string.sdk_high)
         }
     }
 }

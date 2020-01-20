@@ -44,16 +44,16 @@ class ReportPressureCard @JvmOverloads constructor(
     fun initTitle() {
         iv_icon.visibility = View.VISIBLE
         iv_icon.setImageResource(R.drawable.vector_drawable_title_icon_pressure)
-        tv_title.text = "Pressure"
+        tv_title.text = context.getString(R.string.sdk_pressure)
         tv_title.setTextColor(mMainColor)
     }
 
     fun setValue(pressure: Int) {
         bar_pressure.setValue(pressure)
         when (pressure) {
-            in 0..19 -> tv_pressure_level.text = "low"
-            in 20..69 -> tv_pressure_level.text = "nor"
-            else -> tv_pressure_level.text = "high"
+            in 0..19 -> tv_pressure_level.text = context.getString(R.string.sdk_low)
+            in 20..69 -> tv_pressure_level.text = context.getString(R.string.sdk_normal)
+            else -> tv_pressure_level.text = context.getString(R.string.sdk_high)
         }
     }
 }

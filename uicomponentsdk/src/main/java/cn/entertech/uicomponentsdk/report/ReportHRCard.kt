@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.realtime.EmotionIndicatorView
 import cn.entertech.uicomponentsdk.utils.ScreenUtil
@@ -49,7 +50,7 @@ class ReportHRCard @JvmOverloads constructor(
     fun initTitle() {
         iv_icon.visibility = View.VISIBLE
         iv_icon.setImageResource(R.drawable.vector_drawable_title_icon_hr)
-        tv_title.text = "Heart Rate"
+        tv_title.text = context.getString(R.string.sdk_heart_rate)
         tv_title.setTextColor(mMainColor)
     }
 
@@ -57,9 +58,9 @@ class ReportHRCard @JvmOverloads constructor(
         tv_hr.text = "$value"
         eiv_hr.setValue(value.toFloat())
         when (value) {
-            in 0..19 -> tv_hr_level.text = "low"
-            in 80..100 -> tv_hr_level.text = "high"
-            else -> tv_hr_level.text = "nor"
+            in 0..19 -> tv_hr_level.text = context.getString(R.string.sdk_low)
+            in 80..100 -> tv_hr_level.text = context.getString(R.string.sdk_high)
+            else -> tv_hr_level.text = context.getString(R.string.sdk_normal)
         }
     }
 }

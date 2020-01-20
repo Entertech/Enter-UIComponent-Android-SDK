@@ -30,7 +30,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/activity_margin"
                     app:clv_color="#5FC695"
-                    app:clv_legend="Attention"
+                    app:clv_legend="@string/sdk_attention"
                     />
 
             <cn.entertech.uicomponentsdk.widget.ChartLegendView
@@ -38,7 +38,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:clv_color="#4B5DCC"
-                    app:clv_legend="Relaxation"
+                    app:clv_legend="@string/sdk_relaxation"
                     />
         </LinearLayout>
 
