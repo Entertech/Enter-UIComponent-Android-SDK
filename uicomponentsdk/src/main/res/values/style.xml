@@ -62,41 +62,57 @@
         <attr name="rhrv_infoUrl" format="string" />
     </declare-styleable>
 
-    <declare-styleable name="RealtimeAttentionView">
+    <declare-styleable name="RealtimeAffectiveView">
         <attr name="rav_background" format="reference|color" />
         <attr name="rav_mainColor" format="color" />
         <attr name="rav_textColor" format="color" />
         <attr name="rav_textFont" format="string" />
         <attr name="rav_isShowInfoIcon" format="boolean" />
         <attr name="rav_infoUrl" format="string" />
+        <attr name="rav_affectiveType" format="enum">
+            <enum name="Attention" value="0"></enum>
+            <enum name="Relaxation" value="1"></enum>
+            <enum name="Pressure" value="2"></enum>
+            <enum name="Pleasure" value="3"></enum>
+            <enum name="Arousal" value="4"></enum>
+            <enum name="Coherence" value="5"></enum>
+        </attr>
     </declare-styleable>
+<!--    <declare-styleable name="RealtimeAttentionView">-->
+<!--        <attr name="rav_background" format="reference|color" />-->
+<!--        <attr name="rav_mainColor" format="color" />-->
+<!--        <attr name="rav_textColor" format="color" />-->
+<!--        <attr name="rav_textFont" format="string" />-->
+<!--        <attr name="rav_isShowInfoIcon" format="boolean" />-->
+<!--        <attr name="rav_infoUrl" format="string" />-->
+<!--    </declare-styleable>-->
 
-    <declare-styleable name="RealtimeRelaxationView">
-        <attr name="rrv_background" format="reference|color" />
-        <attr name="rrv_mainColor" format="color" />
-        <attr name="rrv_textColor" format="color" />
-        <attr name="rrv_textFont" format="string" />
-        <attr name="rrv_isShowInfoIcon" format="boolean" />
-        <attr name="rrv_infoUrl" format="string" />
-    </declare-styleable>
+<!--    <declare-styleable name="RealtimeRelaxationView">-->
+<!--        <attr name="rrv_background" format="reference|color" />-->
+<!--        <attr name="rrv_mainColor" format="color" />-->
+<!--        <attr name="rrv_textColor" format="color" />-->
+<!--        <attr name="rrv_textFont" format="string" />-->
+<!--        <attr name="rrv_isShowInfoIcon" format="boolean" />-->
+<!--        <attr name="rrv_infoUrl" format="string" />-->
+<!--    </declare-styleable>-->
 
-    <declare-styleable name="RealtimePressureView">
-        <attr name="rpv_background" format="reference|color" />
-        <attr name="rpv_mainColor" format="color" />
-        <attr name="rpv_textColor" format="color" />
-        <attr name="rpv_textFont" format="string" />
-        <attr name="rpv_isShowInfoIcon" format="boolean" />
-        <attr name="rpv_infoUrl" format="string" />
-    </declare-styleable>
+<!--    <declare-styleable name="RealtimePressureView">-->
+<!--        <attr name="rpv_background" format="reference|color" />-->
+<!--        <attr name="rpv_mainColor" format="color" />-->
+<!--        <attr name="rpv_textColor" format="color" />-->
+<!--        <attr name="rpv_textFont" format="string" />-->
+<!--        <attr name="rpv_isShowInfoIcon" format="boolean" />-->
+<!--        <attr name="rpv_infoUrl" format="string" />-->
+<!--    </declare-styleable>-->
 
-    <declare-styleable name="RealtimeArousalView">
-        <attr name="rarv_background" format="reference|color"/>
-        <attr name="rarv_mainColor" format="color"/>
-        <attr name="rarv_textColor" format="color"/>
-        <attr name="rarv_textFont" format="string"/>
-        <attr name="rarv_isShowInfoIcon" format="boolean"/>
-        <attr name="rarv_infoUrl" format="string"/>
-    </declare-styleable>
+<!--    <declare-styleable name="RealtimeArousalView">-->
+<!--        <attr name="rarv_background" format="reference|color"/>-->
+<!--        <attr name="rarv_mainColor" format="color"/>-->
+<!--        <attr name="rarv_textColor" format="color"/>-->
+<!--        <attr name="rarv_textFont" format="string"/>-->
+<!--        <attr name="rarv_isShowInfoIcon" format="boolean"/>-->
+<!--        <attr name="rarv_infoUrl" format="string"/>-->
+<!--    </declare-styleable>-->
     <declare-styleable name="RealtimeBrainwaveView">
         <attr name="rbv_background" format="reference|color" />
         <attr name="rbv_mainColor" format="color" />

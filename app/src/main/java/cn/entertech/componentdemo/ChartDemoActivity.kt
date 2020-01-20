@@ -12,6 +12,13 @@ class ChartDemoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chart_demo)
+
+        var data = ArrayList<Double>()
+        for (i in 0..1000){
+            data.add(Random().nextDouble()*100)
+        }
+        line_chart.setData(data)
+//        realtime_coherence.setCoherence(50f)
 //        average_bar.setValues(listOf(100,20,30,40,50,30,90))
 //        var timer = Timer()
 //        var timerTask:TimerTask = object: TimerTask() {

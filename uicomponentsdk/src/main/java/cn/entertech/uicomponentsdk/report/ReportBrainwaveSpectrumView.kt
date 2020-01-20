@@ -229,14 +229,14 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
             val llXAxis = LimitLine(limitX, "$currentMin")
             llXAxis.lineWidth = 1f
             llXAxis.labelPosition = LimitLine.LimitLabelPosition.LEFT_BOTTOM
-            llXAxis.textSize = 8f
-            llXAxis.yOffset = -12f
+            llXAxis.textSize = 12f
+            llXAxis.yOffset = -15f
             llXAxis.lineColor = mGridLineColor
             llXAxis.textColor = mLabelColor
             if (currentMin == 0) {
                 llXAxis.xOffset = -3f
             } else {
-                llXAxis.xOffset = 0f
+                llXAxis.xOffset = -1f
             }
             chart.xAxis.addLimitLine(llXAxis)
             currentMin += minOffset

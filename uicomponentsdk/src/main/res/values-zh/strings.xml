@@ -3,6 +3,7 @@
     <string name="sdk_heart_rate_unit_bpm">bpm</string>
     <string name="sdk_time_unit">时间（分钟）</string>
     <string name="sdk_arousal">激活度</string>
+    <string name="sdk_coherence">和谐度</string>
     <string name="sdk_high">高</string>
     <string name="sdk_low">低</string>
     <string name="sdk_attention">专注度</string>
@@ -19,6 +20,7 @@
     <string name="sdk_heart_rate">心率</string>
     <string name="sdk_pressure">压力值</string>
     <string name="sdk_relaxation">放松度</string>
+    <string name="sdk_pleasure">愉悦度</string>
     <string name="sdk_brainwave_spectrum_chart_title">各个频谱脑电波占比(%)</string>
     <string name="sdk_hrv">心率变异性</string>
     <string name="sdk_hrv_chart_title">HRV (ms)</string>

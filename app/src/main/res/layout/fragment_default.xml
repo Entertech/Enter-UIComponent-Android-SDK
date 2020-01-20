@@ -130,7 +130,7 @@
                     android:layout_marginTop="@dimen/activity_margin"
                     />
 
-            <cn.entertech.uicomponentsdk.realtime.RealtimeAttentionView
+            <cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
@@ -138,7 +138,7 @@
                     android:layout_height="wrap_content"
                     >
 
-            </cn.entertech.uicomponentsdk.realtime.RealtimeAttentionView>
+            </cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView>
 
             <LinearLayout
                     android:orientation="horizontal"
@@ -146,7 +146,7 @@
                     android:layout_height="wrap_content"
                     >
 
-                <cn.entertech.uicomponentsdk.realtime.RealtimeAttentionView
+                <cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView
                         android:layout_marginTop="@dimen/activity_margin_half"
                         android:layout_marginLeft="@dimen/activity_margin"
                         android:layout_marginRight="@dimen/activity_margin"
@@ -154,10 +154,10 @@
                         android:layout_height="wrap_content"
                         >
 
-                </cn.entertech.uicomponentsdk.realtime.RealtimeAttentionView>
+                </cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView>
 
 
-                <cn.entertech.uicomponentsdk.realtime.RealtimeRelaxationView
+                <cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView
                         android:layout_marginTop="@dimen/activity_margin_half"
                         android:layout_marginLeft="@dimen/activity_margin"
                         android:layout_marginRight="@dimen/activity_margin"
@@ -165,7 +165,7 @@
                         android:layout_height="wrap_content"
                         >
 
-                </cn.entertech.uicomponentsdk.realtime.RealtimeRelaxationView>
+                </cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView>
 
 
             </LinearLayout>
@@ -176,7 +176,7 @@
                     android:layout_height="wrap_content"
                     >
 
-                <cn.entertech.uicomponentsdk.realtime.RealtimeAttentionView
+                <cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView
                         android:layout_marginTop="@dimen/activity_margin_half"
                         android:layout_marginLeft="@dimen/activity_margin"
                         android:layout_marginRight="@dimen/activity_margin"
@@ -184,10 +184,10 @@
                         android:layout_height="wrap_content"
                         >
 
-                </cn.entertech.uicomponentsdk.realtime.RealtimeAttentionView>
+                </cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView>
 
 
-                <cn.entertech.uicomponentsdk.realtime.RealtimeArousalView
+                <cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView
                         android:layout_marginTop="@dimen/activity_margin_half"
                         android:layout_marginLeft="@dimen/activity_margin"
                         android:layout_marginRight="@dimen/activity_margin"
@@ -195,7 +195,7 @@
                         android:layout_height="wrap_content"
                         >
 
-                </cn.entertech.uicomponentsdk.realtime.RealtimeArousalView>
+                </cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView>
 
 
             </LinearLayout>
@@ -252,7 +252,7 @@
                     android:textSize="32dp"
                     android:textColor="@color/colorDefaultBlack"
                     />
-            <cn.entertech.uicomponentsdk.realtime.RealtimeAttentionView
+            <cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView
                     android:id="@+id/attention_tip1"
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:layout_marginLeft="@dimen/activity_margin"
@@ -261,8 +261,8 @@
                     android:layout_height="wrap_content"
                     >
 
-            </cn.entertech.uicomponentsdk.realtime.RealtimeAttentionView>
-            <cn.entertech.uicomponentsdk.realtime.RealtimeAttentionView
+            </cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView>
+            <cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView
                     android:layout_marginBottom="@dimen/margin_vertical"
                     android:id="@+id/attention_tip2"
                     android:layout_marginTop="@dimen/activity_margin_half"
@@ -272,7 +272,7 @@
                     android:layout_height="wrap_content"
                     >
 
-            </cn.entertech.uicomponentsdk.realtime.RealtimeAttentionView>
+            </cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView>
 
         </LinearLayout>
 

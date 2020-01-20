@@ -3,6 +3,7 @@
     <string name="sdk_heart_rate_unit_bpm">bpm</string>
     <string name="sdk_time_unit">Time（min）</string>
     <string name="sdk_arousal">Arousal</string>
+    <string name="sdk_coherence">Coherence</string>
     <string name="sdk_high">HIGH</string>
     <string name="sdk_low">LOW</string>
     <string name="sdk_attention">Attention</string>
@@ -19,6 +20,7 @@
     <string name="sdk_heart_rate">Heart Rate</string>
     <string name="sdk_pressure">Pressure</string>
     <string name="sdk_relaxation">Relaxation</string>
+    <string name="sdk_pleasure">Pleasure</string>
     <string name="sdk_brainwave_spectrum_chart_title">Each band power ratio(%)</string>
     <string name="sdk_hrv">Heart Rate Variability</string>
     <string name="sdk_hrv_chart_title">HRV Value(ms)</string>

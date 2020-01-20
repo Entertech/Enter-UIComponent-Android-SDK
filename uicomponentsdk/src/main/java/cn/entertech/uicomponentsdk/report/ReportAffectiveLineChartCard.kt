@@ -265,14 +265,14 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
             val llXAxis = LimitLine(limitX, "$currentMin")
             llXAxis.lineWidth = 1f
             llXAxis.labelPosition = LimitLine.LimitLabelPosition.LEFT_BOTTOM
-            llXAxis.textSize = 8f
-            llXAxis.yOffset = -12f
+            llXAxis.textSize = 12f
+            llXAxis.yOffset = -15f
             llXAxis.lineColor = mGridLineColor
             llXAxis.textColor = mLabelColor
             if (currentMin == 0) {
                 llXAxis.xOffset = -3f
             } else {
-                llXAxis.xOffset = 0f
+                llXAxis.xOffset = -1f
             }
             chart.xAxis.addLimitLine(llXAxis)
             currentMin += minOffset
@@ -289,7 +289,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
             ll1.lineWidth = 1f
             ll1.enableDashedLine(10f, 10f, 0f)
             ll1.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
-            ll1.textSize = 10f
+            ll1.textSize = 14f
             ll1.lineColor = Color.parseColor("#9AA1A9")
             chart.axisLeft.addLimitLine(ll1)
         }
@@ -386,6 +386,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
         yAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
         // axis range
         yAxis.labelCount = 3
+        yAxis.textSize = 12f
         yAxis.valueFormatter = object : ValueFormatter() {
             override fun getAxisLabel(
                 value: Float, base: AxisBase
