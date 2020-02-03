@@ -216,7 +216,7 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
     public void onDrawSampleData(Canvas canvas) {
         float pointOffset = getWidth() * 1f / (sampleData.size() - 1);
         //获得canvas对象
-        canvas.translate(mLeftPadding, getHeight() / 2);
+        canvas.translate(mLeftPadding + mYAxisMargin, getHeight());
         float time = (getHeight() / mMaxValue);
         Path path = new Path();
         for (int i = 0; i < sampleData.size(); i++) {
@@ -269,6 +269,7 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
     public void setSampleData(List<Double> sampleData) {
         this.sampleData = sampleData;
         this.isShowSampleData = true;
+        invalidate();
     }
 
     public void setLineColor(int color) {

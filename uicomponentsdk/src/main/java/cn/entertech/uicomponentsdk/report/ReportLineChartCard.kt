@@ -37,6 +37,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.github.mikephil.charting.utils.Utils
 import kotlinx.android.synthetic.main.layout_common_card_title.view.*
 import kotlinx.android.synthetic.main.layout_card_attention.view.*
 import kotlinx.android.synthetic.main.layout_card_attention.view.chart
@@ -56,6 +57,7 @@ class ReportLineChartCard @JvmOverloads constructor(
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
+    private var mIsDrawFill: Boolean = false
     private var mAverageValue: Int = 0
     private var mXAxisUnit: String? = "Time(min)"
     private var mLineWidth: Float = 1.5f
@@ -130,6 +132,7 @@ class ReportLineChartCard @JvmOverloads constructor(
         mLineWidth =
             typeArray.getDimension(R.styleable.ReportLineChartCard_rlcc_lineWidth, mLineWidth)
         mXAxisUnit = typeArray.getString(R.styleable.ReportLineChartCard_rlcc_xAxisUnit)
+        mIsDrawFill = typeArray.getBoolean(R.styleable.ReportLineChartCard_rlcc_isDrawFill,false)
         initView()
     }
 
@@ -258,7 +261,7 @@ class ReportLineChartCard @JvmOverloads constructor(
             values.add(Entry(i.toFloat(), sampleData[i].toFloat()))
         }
 
-        val set1: LineDataSet
+        var set1: LineDataSet
 
         if (chart.data != null && chart.data.dataSetCount > 0) {
             set1 = chart.data.getDataSetByIndex(0) as LineDataSet
@@ -280,7 +283,6 @@ class ReportLineChartCard @JvmOverloads constructor(
             // line thickness and point size
             set1.lineWidth = mLineWidth
 //            set1.circleRadius = 3f
-
             // draw points as solid circles
             set1.setDrawCircleHole(false)
 
@@ -296,18 +298,34 @@ class ReportLineChartCard @JvmOverloads constructor(
 //            set1.enableDashedHighlightLine(10f, 5f, 0f)
             // set the filled area
             set1.setDrawHighlightIndicators(false)
-            set1.setDrawFilled(false)
+            set1.setDrawFilled(mIsDrawFill)
+            set1.fillAlpha = 255
             set1.setDrawCircles(false)
             set1.setMode(LineDataSet.Mode.CUBIC_BEZIER)
-            // set color of filled area
-//            if (Utils.getSDKInt() >= 18) {
-//                // drawables only supported on api level 18 and above
-//                val drawable =
-//                    ContextCompat.getDrawable(context, R.drawable.shape_affective_chart_fill)
-//                set1.fillDrawable = drawable
-//            } else {
-//                set1.fillColor = Color.GREEN
-//            }
+            if (mIsDrawFill){
+                // set color of filled area
+                if (Utils.getSDKInt() >= 18) {
+                    // drawables only supported on api level 18 and above
+                var gradientDrawable =  GradientDrawable()
+
+                // Set the color array to draw gradient
+                    gradientDrawable.setColors(intArrayOf(mLineColor, getOpacityColor(mLineColor,0.5F)))
+
+                // Set the GradientDrawable gradient type linear gradient
+                    gradientDrawable.setGradientType(GradientDrawable.LINEAR_GRADIENT)
+
+                // Set GradientDrawable shape is a rectangle
+                    gradientDrawable.setShape(GradientDrawable.RECTANGLE)
+                    set1.fillDrawable = gradientDrawable
+                } else {
+                    set1.fillColor = mLineColor
+                }
+                set1.lineWidth = 0f
+                set1.setDrawFilled(true)
+            }else{
+                set1.setDrawFilled(false)
+                set1.lineWidth = mLineWidth
+            }
 
             val dataSets = ArrayList<ILineDataSet>()
             dataSets.add(set1) // add the data sets

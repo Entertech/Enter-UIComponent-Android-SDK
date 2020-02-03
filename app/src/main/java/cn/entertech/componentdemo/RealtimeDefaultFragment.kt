@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_default.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class RealtimeDefaultFragment : Fragment() {
@@ -21,7 +23,28 @@ class RealtimeDefaultFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         attention_tip1.showDisconnectTip()
         attention_tip2.showLoading()
-        brainwave_view.showDisconnectTip()
-        brainwave_view.hideDisconnectTip()
+        realtime_brainwave_spectrum.setDeltaWavePercent(0.2f)
+        realtime_brainwave_spectrum.setAlphaWavePercent(0.5f)
+        realtime_brainwave_spectrum.setThetaWavePercent(0.1f)
+        realtime_brainwave_spectrum.setGammaWavePercent(0.02f)
+        realtime_brainwave_spectrum.setBetaWavePercent(0.18f)
+        var timer = Timer()
+        var timerTask:TimerTask = object: TimerTask() {
+            override fun run() {
+                activity!!.runOnUiThread {
+                    var leftBrainwave = ArrayList<Double>()
+                    var rightBrainwave = ArrayList<Double>()
+                    for (i in 0..99) {
+                        leftBrainwave.add(Random().nextDouble() * 100)
+                        rightBrainwave.add(Random().nextDouble() * 100)
+                    }
+                    realtime_hrv.appendHrv(Random().nextDouble() * 50)
+                    brainwave_view.setRightBrainwave(rightBrainwave)
+                    brainwave_view.setLeftBrainwave(leftBrainwave)
+                }
+            }
+
+        }
+        timer.schedule(timerTask,0,400)
     }
 }

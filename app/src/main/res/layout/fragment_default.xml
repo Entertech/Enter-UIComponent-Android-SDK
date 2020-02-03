@@ -151,6 +151,7 @@
                         android:layout_marginLeft="@dimen/activity_margin"
                         android:layout_marginRight="@dimen/activity_margin"
                         android:layout_width="160dp"
+                        app:rav_affectiveType="Attention"
                         android:layout_height="wrap_content"
                         >
 
@@ -163,6 +164,7 @@
                         android:layout_marginRight="@dimen/activity_margin"
                         android:layout_width="160dp"
                         android:layout_height="wrap_content"
+                        app:rav_affectiveType="Relaxation"
                         >
 
                 </cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView>
@@ -182,6 +184,7 @@
                         android:layout_marginRight="@dimen/activity_margin"
                         android:layout_width="160dp"
                         android:layout_height="wrap_content"
+                        app:rav_affectiveType="Pleasure"
                         >
 
                 </cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView>
@@ -193,6 +196,7 @@
                         android:layout_marginRight="@dimen/activity_margin"
                         android:layout_width="160dp"
                         android:layout_height="wrap_content"
+                        app:rav_affectiveType="Pressure"
                         >
 
                 </cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView>
@@ -201,6 +205,37 @@
             </LinearLayout>
 
 
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                <cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView
+                        android:layout_marginTop="@dimen/activity_margin_half"
+                        android:layout_marginLeft="@dimen/activity_margin"
+                        android:layout_marginRight="@dimen/activity_margin"
+                        android:layout_width="160dp"
+                        android:layout_height="wrap_content"
+                        app:rav_affectiveType="Arousal"
+                        >
+
+                </cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView>
+
+
+                <cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView
+                        android:layout_marginTop="@dimen/activity_margin_half"
+                        android:layout_marginLeft="@dimen/activity_margin"
+                        android:layout_marginRight="@dimen/activity_margin"
+                        android:layout_width="160dp"
+                        android:layout_height="wrap_content"
+                        app:rav_affectiveType="Coherence"
+                        >
+
+                </cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView>
+
+
+            </LinearLayout>
 
             <TextView
                     android:layout_marginTop="32dp"
@@ -213,6 +248,7 @@
                     />
 
             <cn.entertech.uicomponentsdk.realtime.RealtimeBrainwaveSpectrumView
+                    android:id="@+id/realtime_brainwave_spectrum"
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
@@ -243,6 +279,13 @@
 
             </cn.entertech.uicomponentsdk.realtime.RealtimeBrainwaveView>
 
+            <cn.entertech.uicomponentsdk.realtime.RealtimeHRVView
+                    android:id="@+id/realtime_hrv"
+                    android:layout_marginTop="@dimen/activity_margin_half"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"/>
             <TextView
                     android:layout_marginTop="32dp"
                     android:layout_marginLeft="@dimen/activity_margin"

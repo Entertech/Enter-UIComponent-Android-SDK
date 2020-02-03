@@ -8,8 +8,9 @@
         tools:context="cn.entertech.componentdemo.ChartDemoActivity"
         >
 
-    <cn.entertech.uicomponentsdk.report.ReportRelaxationAndAttentionCard
+    <cn.entertech.uicomponentsdk.report.ReportLineChartCard
             android:id="@+id/line_chart"
+            app:rlcc_isDrawFill="true"
             android:layout_width="match_parent"
             android:layout_height="200dp"/>
 

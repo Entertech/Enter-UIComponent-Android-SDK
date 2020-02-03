@@ -7,14 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import cn.entertech.uicomponentsdk.report.file.ReportFileHelper
-import kotlinx.android.synthetic.main.fragment_report_custom.*
 import kotlinx.android.synthetic.main.fragment_report_default.*
-import kotlinx.android.synthetic.main.fragment_report_default.report_attention
-import kotlinx.android.synthetic.main.fragment_report_default.report_brainwave_spectrum
-import kotlinx.android.synthetic.main.fragment_report_default.report_heart_rate
-import kotlinx.android.synthetic.main.fragment_report_default.report_hrv
 import kotlinx.android.synthetic.main.fragment_report_default.report_pressure
-import kotlinx.android.synthetic.main.fragment_report_default.report_relaxation
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -32,38 +26,34 @@ class ReportDefaultFragment : Fragment() {
 
         var reportFileHelper = ReportFileHelper.getInstance(activity!!)
         var reportData = reportFileHelper.readReportFile("sample")
-        var startTime = reportData.startTime
-//        affective view
-
-//        report_attention.setData(reportData.reportAttentionEnitty?.attentionRec)
-
 
         var testData = ArrayList<Double>()
-        for (i in 0 .. 500){
-            testData.add(Random().nextDouble()*100)
+        for (i in 0..500) {
+            testData.add(Random().nextDouble() * 100)
         }
-//        report_attention.setData( reportData.reportAttentionEnitty?.attentionRec)
-        report_attention.setData(testData)
-        Log.d("####","attention rec size:"+reportData.reportAttentionEnitty?.attentionRec?.size)
-//        report_relaxation.setData(reportData.reportRelaxationEnitty?.relaxationRec)
+        chart_relaxation_and_attention.setAttentionAverage( reportData.reportAttentionEnitty?.attentionRec!!.average().toInt())
+        chart_relaxation_and_attention.setRelaxationAverage( reportData.reportRelaxationEnitty?.relaxationRec!!.average().toInt())
+        chart_relaxation_and_attention.setData( reportData.reportAttentionEnitty?.attentionRec, reportData.reportRelaxationEnitty?.relaxationRec)
+        chart_relaxation.setAverage(reportData.reportRelaxationEnitty?.relaxationRec!!.average().toInt())
+        chart_attention.setAverage(reportData.reportAttentionEnitty?.attentionRec!!.average().toInt())
+        chart_relaxation.setData(reportData.reportRelaxationEnitty?.relaxationRec)
+        chart_attention.setData(reportData.reportAttentionEnitty?.attentionRec)
+        var spectrumList = listOf<List<Double>>(
+            reportData.reportEEGDataEntity!!.gammaCurve!!,
+            reportData.reportEEGDataEntity!!.betaCurve!!,
+            reportData.reportEEGDataEntity!!.alphaCurve!!,
+            reportData.reportEEGDataEntity!!.thetaCurve!!,
+            reportData.reportEEGDataEntity!!.deltaCurve!!
+        )
+        chart_brainwave.setData(
+            spectrumList
+        )
+        chart_hr.setAverage(reportData.reportHRDataEntity?.hrAvg!!.toInt())
+        chart_hr.setData(reportData.reportHRDataEntity?.hrRec)
 
-//        brainwave spectrum view
+        chart_hrv.setAverage(reportData.reportHRDataEntity?.hrvAvg!!.toInt())
+        chart_hrv.setData(reportData.reportHRDataEntity?.hrvRec)
 
-//        report_brainwave_spectrum.setBrainwaveSpectrums(
-//            startTime!!,
-//            reportData.reportEEGDataEntity?.gammaCurve,
-//            reportData.reportEEGDataEntity?.betaCurve,
-//            reportData.reportEEGDataEntity?.alphaCurve,
-//            reportData.reportEEGDataEntity?.thetaCurve,
-//            reportData.reportEEGDataEntity?.deltaCurve
-//        )
-
-        report_heart_rate.setData(reportData.reportHRDataEntity?.hrRec)
-
-//        report_hrv.setData(startTime!!, reportData.reportHRDataEntity?.hrvRec, reportData.reportHRDataEntity?.hrvAvg)
-        report_hrv.setData(reportData.reportHRDataEntity?.hrvRec)
-
-        report_pressure.setData(startTime!!, reportData.reportPressureEnitty?.pressureRec)
-        Log.d("###","attention size:"+reportData.reportAttentionEnitty?.attentionRec!!.size+"::heart size is "+reportData.reportHRDataEntity?.hrRec!!.size)
+        report_pressure.setValue(reportData.reportPressureEnitty?.pressureAvg!!.toInt())
     }
 }

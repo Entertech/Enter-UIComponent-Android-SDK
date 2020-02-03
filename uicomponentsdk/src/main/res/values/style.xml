@@ -263,6 +263,7 @@
         <attr name="rlcc_gridLineColor" format="color" />
         <attr name="rlcc_labelColor" format="color" />
         <attr name="rlcc_xAxisUnit" format="string" />
+        <attr name="rlcc_isDrawFill" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="ReportAffectiveLineChartCard">
