@@ -50,7 +50,7 @@ publish {
     //项目名称
     artifactId = 'uicomponentsdk'
     //版本号
-    publishVersion = '1.0.0-alpha49'
+    publishVersion = '1.0.0'
     //描述，不重要
     desc = ''
     //网站，不重要

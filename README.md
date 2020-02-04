@@ -11,7 +11,7 @@
 在module的build.gradle文件下添加以下依赖
 
 ```groovy
-implementation 'cn.entertech:uicomponent:1.0.0-alpha'
+implementation 'cn.entertech:uicomponentsdk:1.0.0'
 ```
 
 在项目根目录的build.gradle文件下添加以下依赖地址
