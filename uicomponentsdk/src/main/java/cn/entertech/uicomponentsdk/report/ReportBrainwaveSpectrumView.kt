@@ -213,12 +213,26 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
         if (isShowAllData || sample <= 1) {
             sample = 1
         }
-        var sampleData = ArrayList<Double>()
+        var sampleData = ArrayList<List<Double>>()
+        var gammaAverage = ArrayList<Double>()
+        var betaAverage = ArrayList<Double>()
+        var alphaAverage = ArrayList<Double>()
+        var thetaAverage = ArrayList<Double>()
+        var deltaAverage = ArrayList<Double>()
         for (i in brainwaveSpectrums[0]!!.indices) {
             if (i % sample == 0) {
-                sampleData.add(brainwaveSpectrums[0]!![i])
+                gammaAverage.add(brainwaveSpectrums[0]!![i])
+                betaAverage.add(brainwaveSpectrums[1]!![i])
+                alphaAverage.add(brainwaveSpectrums[2]!![i])
+                thetaAverage.add(brainwaveSpectrums[3]!![i])
+                deltaAverage.add(brainwaveSpectrums[4]!![i])
             }
         }
+        sampleData.add(gammaAverage)
+        sampleData.add(betaAverage)
+        sampleData.add(alphaAverage)
+        sampleData.add(thetaAverage)
+        sampleData.add(deltaAverage)
 
         mTimeOfTwoPoint = mTimeUnit * sample
         var totalMin = brainwaveSpectrums[0]!!.size * mTimeUnit / 1000F / 60F
@@ -245,30 +259,30 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
         val dataSets = ArrayList<ILineDataSet>()
         for (i in 0..4) {
             val values = ArrayList<Entry>()
-            for (j in sampleData.indices) {
+            for (j in sampleData[0].indices) {
                 if (i == 0) {
                     values.add(Entry(j.toFloat(), 100f))
                 } else if (i == 1) {
-                    values.add(Entry(j.toFloat(), (100 * (1 - brainwaveSpectrums[0][j])).toFloat()))
+                    values.add(Entry(j.toFloat(), (100 * (1 - sampleData[0][j])).toFloat()))
                 } else if (i == 2) {
                     values.add(
                         Entry(
                             j.toFloat(),
-                            (100 * (1 - brainwaveSpectrums[0][j] - brainwaveSpectrums[1][j])).toFloat()
+                            (100 * (1 - sampleData[0][j] - sampleData[1][j])).toFloat()
                         )
                     )
                 } else if (i == 3) {
                     values.add(
                         Entry(
                             j.toFloat(),
-                            (100 * (1 - brainwaveSpectrums[0][j] - brainwaveSpectrums[1][j] - brainwaveSpectrums[2][j])).toFloat()
+                            (100 * (1 - sampleData[0][j] - sampleData[1][j] - sampleData[2][j])).toFloat()
                         )
                     )
                 } else if (i == 4) {
                     values.add(
                         Entry(
                             j.toFloat(),
-                            (100 * (1 - brainwaveSpectrums[0][j] - brainwaveSpectrums[1][j] - brainwaveSpectrums[2][j] - brainwaveSpectrums[3][j])).toFloat()
+                            (100 * (1 - sampleData[0][j] - sampleData[1][j] - sampleData[2][j] - sampleData[3][j])).toFloat()
                         )
                     )
                 }
