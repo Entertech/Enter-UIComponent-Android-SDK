@@ -51,9 +51,9 @@ class ReportPressureCard @JvmOverloads constructor(
     fun setValue(pressure: Int) {
         bar_pressure.setValue(pressure)
         when (pressure) {
-            in 0..19 -> tv_pressure_level.text = context.getString(R.string.sdk_low)
-            in 20..69 -> tv_pressure_level.text = context.getString(R.string.sdk_normal)
-            else -> tv_pressure_level.text = context.getString(R.string.sdk_high)
+            in 0..19 -> tv_pressure_level.text = context.getString(R.string.sdk_report_low)
+            in 20..69 -> tv_pressure_level.text = context.getString(R.string.sdk_report_nor)
+            else -> tv_pressure_level.text = context.getString(R.string.sdk_report_high)
         }
     }
 }

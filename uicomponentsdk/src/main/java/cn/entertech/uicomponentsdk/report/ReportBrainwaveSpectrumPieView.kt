@@ -124,11 +124,11 @@ class ReportBrainwaveSpectrumPieView @JvmOverloads constructor(
             }
         }
         pie_chart.setBackgroundColor(bgColor)
-        legend_gamma.setTextColor(getOpacityColor(mTextColor, 0.7f))
-        legend_beta.setTextColor(getOpacityColor(mTextColor, 0.7f))
-        legend_alpha.setTextColor(getOpacityColor(mTextColor, 0.7f))
-        legend_theta.setTextColor(getOpacityColor(mTextColor, 0.7f))
-        legend_delta.setTextColor(getOpacityColor(mTextColor, 0.7f))
+        legend_gamma.setTextColor(mTextColor)
+        legend_beta.setTextColor(mTextColor)
+        legend_alpha.setTextColor(mTextColor)
+        legend_theta.setTextColor(mTextColor)
+        legend_delta.setTextColor(mTextColor)
 
         if (mSpectrumColors != null) {
             legend_gamma.setLegendIconColor(mSpectrumColors!![0])

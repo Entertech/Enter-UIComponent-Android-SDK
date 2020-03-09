@@ -53,14 +53,14 @@ class ReportRelaxationAndAttentionCard @JvmOverloads constructor(
         tv_attention.text = "$attention"
         bar_attention.setValue(attention)
         when (relaxation) {
-            in 0..59 -> tv_relaxation_level.text = context.getString(R.string.sdk_low)
-            in 60..79 -> tv_relaxation_level.text = context.getString(R.string.sdk_normal)
-            else -> tv_relaxation_level.text = context.getString(R.string.sdk_high)
+            in 0..59 -> tv_relaxation_level.text = context.getString(R.string.sdk_report_low)
+            in 60..79 -> tv_relaxation_level.text = context.getString(R.string.sdk_report_nor)
+            else -> tv_relaxation_level.text = context.getString(R.string.sdk_report_high)
         }
         when (attention) {
-            in 0..59 -> tv_attention_level.text = context.getString(R.string.sdk_low)
-            in 60..79 -> tv_attention_level.text = context.getString(R.string.sdk_normal)
-            else -> tv_attention_level.text = context.getString(R.string.sdk_high)
+            in 0..59 -> tv_attention_level.text = context.getString(R.string.sdk_report_low)
+            in 60..79 -> tv_attention_level.text = context.getString(R.string.sdk_report_nor)
+            else -> tv_attention_level.text = context.getString(R.string.sdk_report_high)
         }
     }
 }

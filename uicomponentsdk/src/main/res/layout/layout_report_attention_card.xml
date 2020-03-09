@@ -23,6 +23,7 @@
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
+                android:layout_marginTop="@dimen/activity_margin"
                 android:layout_marginLeft="@dimen/activity_margin"
                 android:layout_marginRight="@dimen/activity_margin"
                 android:layout_marginBottom="@dimen/activity_margin"
@@ -40,6 +41,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="25"
+                        android:textStyle="bold"
                         android:textColor="@color/black"
                         android:textSize="40sp"
                         />
@@ -89,7 +91,7 @@
         </RelativeLayout>
 
         <View
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="@dimen/activity_margin"
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
                 android:layout_marginLeft="@dimen/activity_margin"
@@ -118,6 +120,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="25"
+                        android:textStyle="bold"
                         android:textColor="@color/black"
                         android:textSize="40sp"
                         />

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="136dp"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         >
 
@@ -27,6 +27,7 @@
                 >
 
             <LinearLayout
+                    android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -37,6 +38,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="25"
+                        android:textStyle="bold"
                         android:textColor="@color/black"
                         android:textSize="40sp"
                         />
@@ -74,13 +76,14 @@
 
             <cn.entertech.uicomponentsdk.realtime.EmotionIndicatorView
                     android:id="@+id/eiv_hr"
-                    android:layout_width="141dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="150dp"
+                    android:layout_height="70dp"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
+                    android:layout_alignParentBottom="true"
                     app:eiv_textSize="10sp"
+                    app:eiv_textBottomPadding="2dp"
                     app:eiv_textColor="#7F5960"
-                    app:eiv_barWidth="@dimen/dp_4"
+                    app:eiv_barWidth="6dp"
                     />
         </RelativeLayout>
 

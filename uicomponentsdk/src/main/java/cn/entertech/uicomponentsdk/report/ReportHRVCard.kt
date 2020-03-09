@@ -57,9 +57,9 @@ class ReportHRVCard @JvmOverloads constructor(
         tv_hrv.text = "$value"
         eiv_hrv.setValue(value.toFloat())
         when (value) {
-            in 0..29 -> tv_level.text = context.getString(R.string.sdk_low)
-            in 50..70 -> tv_level.text = context.getString(R.string.sdk_high)
-            else -> tv_level.text = context.getString(R.string.sdk_normal)
+            in 0..29 -> tv_level.text = context.getString(R.string.sdk_report_low)
+            in 50..70 -> tv_level.text = context.getString(R.string.sdk_report_high)
+            else -> tv_level.text = context.getString(R.string.sdk_report_nor)
         }
     }
 }

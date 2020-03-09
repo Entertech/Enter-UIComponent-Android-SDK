@@ -27,12 +27,14 @@
                 >
 
             <LinearLayout
+                    android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     >
 
                 <TextView
+                        android:textStyle="bold"
                         android:id="@+id/tv_hrv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -74,13 +76,14 @@
 
             <cn.entertech.uicomponentsdk.realtime.EmotionIndicatorView
                     android:id="@+id/eiv_hrv"
-                    android:layout_width="141dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="150dp"
+                    android:layout_height="70dp"
+                    android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
                     app:eiv_textSize="10sp"
                     app:eiv_textColor="#CC9E59"
-                    app:eiv_barWidth="@dimen/dp_4"
+                    app:eiv_textBottomPadding="2dp"
+                    app:eiv_barWidth="6dp"
                     />
         </RelativeLayout>
 
