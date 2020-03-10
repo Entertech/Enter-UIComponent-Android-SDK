@@ -48,7 +48,7 @@ public class CustomXAxisRenderer extends XAxisRenderer {
             mLimitLineClippingRect.top = mViewPortHandler.contentTop();
             mLimitLineClippingRect.left = mViewPortHandler.contentLeft();
             mLimitLineClippingRect.right = mViewPortHandler.contentRight();
-            mLimitLineClippingRect.bottom = mViewPortHandler.contentBottom()+40f;
+            mLimitLineClippingRect.bottom = mViewPortHandler.contentBottom()+Utils.convertDpToPixel(20f);
             mLimitLineClippingRect.inset(-l.getLineWidth(), 0.f);
             c.clipRect(mLimitLineClippingRect);
 

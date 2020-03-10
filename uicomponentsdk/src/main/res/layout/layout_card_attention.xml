@@ -44,6 +44,7 @@
         </LinearLayout>
 
         <TextView
+                android:layout_marginTop="@dimen/activity_margin_half"
                 android:id="@+id/tv_time_unit_des"
                 android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"

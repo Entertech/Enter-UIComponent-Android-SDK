@@ -52,7 +52,7 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
     private var mXAxisUnit: String? = "Time(min)"
     private var mSelfView: View? = null
-    private var mBrainwaveSpectrums: List<List<Double>>? = null
+    private var mBrainwaveSpectrums: List<ArrayList<Double>>? = null
     private var mTitleText: String? = null
     private var mTitleIcon: Drawable? = null
     private var mTitleMenuIcon: Drawable? = null
@@ -109,8 +109,12 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
             R.styleable.ReportBrainwaveSpectrumView_rbs_isTitleMenuIconShow,
             true
         )
-        mLabelColor = typeArray.getColor(R.styleable.ReportBrainwaveSpectrumView_rbs_labelColor, mLabelColor)
-        mGridLineColor = typeArray.getColor(R.styleable.ReportBrainwaveSpectrumView_rbs_gridLineColor, mGridLineColor)
+        mLabelColor =
+            typeArray.getColor(R.styleable.ReportBrainwaveSpectrumView_rbs_labelColor, mLabelColor)
+        mGridLineColor = typeArray.getColor(
+            R.styleable.ReportBrainwaveSpectrumView_rbs_gridLineColor,
+            mGridLineColor
+        )
 
         if (mInfoUrl == null) {
             mInfoUrl = INFO_URL
@@ -190,7 +194,8 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
             affectiveView.setLabelColor(mLabelColor)
             affectiveView.setData(mBrainwaveSpectrums, true)
             var popWindow = PopupWindow(affectiveView, MATCH_PARENT, MATCH_PARENT)
-            affectiveView.findViewById<TextView>(R.id.tv_title).text = "Zoom in on the curve and slide to view it."
+            affectiveView.findViewById<TextView>(R.id.tv_title).text =
+                "Zoom in on the curve and slide to view it."
             affectiveView.findViewById<ImageView>(R.id.iv_menu)
                 .setImageResource(R.drawable.vector_drawable_screen_shrink)
             affectiveView.findViewById<ImageView>(R.id.iv_menu).setOnClickListener {
@@ -204,16 +209,43 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
         tv_unit.text = mXAxisUnit
     }
 
-    fun setData(brainwaveSpectrums: List<List<Double>>?, isShowAllData: Boolean = false) {
+    fun fixData() {
+        if (mBrainwaveSpectrums != null && mBrainwaveSpectrums!!.isNotEmpty()) {
+            for (i in mBrainwaveSpectrums!![0]!!.indices) {
+                if (mBrainwaveSpectrums!![0][i] + mBrainwaveSpectrums!![1][i] + mBrainwaveSpectrums!![2][i] + mBrainwaveSpectrums!![3][i] + mBrainwaveSpectrums!![4][i] < 0.9) {
+                    if (i != 0) {
+                        mBrainwaveSpectrums!![0]!![i] = mBrainwaveSpectrums!![0]!![i - 1]
+                        mBrainwaveSpectrums!![1]!![i] = mBrainwaveSpectrums!![1]!![i - 1]
+                        mBrainwaveSpectrums!![2]!![i] = mBrainwaveSpectrums!![2]!![i - 1]
+                        mBrainwaveSpectrums!![3]!![i] = mBrainwaveSpectrums!![3]!![i - 1]
+                        mBrainwaveSpectrums!![4]!![i] = mBrainwaveSpectrums!![4]!![i - 1]
+                    } else {
+                        for (j in mBrainwaveSpectrums!![0]!!.indices) {
+                            if (mBrainwaveSpectrums!![0][j] + mBrainwaveSpectrums!![1][j] + mBrainwaveSpectrums!![2][j] + mBrainwaveSpectrums!![3][j] + mBrainwaveSpectrums!![4][j] >= 0.9) {
+                                mBrainwaveSpectrums!![0]!![0] = mBrainwaveSpectrums!![0]!![j]
+                                mBrainwaveSpectrums!![1]!![0] = mBrainwaveSpectrums!![1]!![j]
+                                mBrainwaveSpectrums!![2]!![0] = mBrainwaveSpectrums!![2]!![j]
+                                mBrainwaveSpectrums!![3]!![0] = mBrainwaveSpectrums!![3]!![j]
+                                mBrainwaveSpectrums!![4]!![0] = mBrainwaveSpectrums!![4]!![j]
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun setData(brainwaveSpectrums: List<ArrayList<Double>>?, isShowAllData: Boolean = false) {
         if (brainwaveSpectrums == null) {
             return
         }
         this.mBrainwaveSpectrums = brainwaveSpectrums
+        fixData()
         var sample = brainwaveSpectrums[0]!!.size / mPointCount
         if (isShowAllData || sample <= 1) {
             sample = 1
         }
-        var sampleData = ArrayList<List<Double>>()
+        var sampleData = ArrayList<ArrayList<Double>>()
         var gammaAverage = ArrayList<Double>()
         var betaAverage = ArrayList<Double>()
         var alphaAverage = ArrayList<Double>()

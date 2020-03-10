@@ -8,19 +8,26 @@
         tools:context="cn.entertech.componentdemo.ChartDemoActivity"
         >
 
-<!--    <cn.entertech.uicomponentsdk.report.ReportLineChartCard-->
-<!--            android:id="@+id/line_chart"-->
-<!--            app:rlcc_isDrawFill="true"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="200dp"/>-->
-
-    <cn.entertech.uicomponentsdk.report.ReportHRCard
+    <cn.entertech.uicomponentsdk.report.ReportLineChartCard
+            android:id="@+id/line_chart"
+            app:rlcc_isDrawFill="true"
+            app:rlcc_isTitleMenuIconShow="true"
+            app:rlcc_lineColor="#FF6682"
+            app:rlcc_lineWidth="0.75dp"
+            app:rlcc_xAxisUnit="Time(min)"
+            app:rlcc_pointCount="100"
+            app:rlcc_timeUnit="400"
+            app:rlcc_title="Changes During Meditation"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:eiv_textSize="10sp"
-            app:eiv_textBottomPadding="2dp"
-            app:eiv_textColor="#7F5960"
-            app:eiv_barWidth="6dp"/>
+            android:layout_height="200dp"/>
+
+<!--    <cn.entertech.uicomponentsdk.report.ReportHRCard-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:eiv_textSize="10sp"-->
+<!--            app:eiv_textBottomPadding="2dp"-->
+<!--            app:eiv_textColor="#7F5960"-->
+<!--            app:eiv_barWidth="6dp"/>-->
     <!--    <cn.entertech.uicomponentsdk.report.ReportAffectiveLineChartCard-->
     <!--            android:id="@+id/chart_relaxation_and_attention"-->
     <!--            android:layout_width="match_parent"-->
