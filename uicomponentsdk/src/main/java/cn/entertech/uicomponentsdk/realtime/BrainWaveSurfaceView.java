@@ -29,7 +29,7 @@ public class BrainWaveSurfaceView extends SurfaceView implements SurfaceHolder.C
     private boolean isViewActivity;
     private SurfaceHolder mSurfaceHolder;
     public static int BRAIN_QUEUE_LENGTH = 200;
-    public static int BRAIN_BUFFER_LENGTH = 100;
+    public static int BRAIN_BUFFER_LENGTH = 50;
     private Paint mStartLinePaint;
     private Paint mGridLinePaint;
     private Paint mBgPaint;
