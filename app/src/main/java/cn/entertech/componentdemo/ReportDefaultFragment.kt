@@ -45,9 +45,9 @@ class ReportDefaultFragment : Fragment() {
             reportData.reportEEGDataEntity!!.thetaCurve!!,
             reportData.reportEEGDataEntity!!.deltaCurve!!
         )
-        chart_brainwave.setData(
-            spectrumList
-        )
+//        chart_brainwave.setData(
+//            spectrumList
+//        )
         chart_hr.setAverage(reportData.reportHRDataEntity?.hrAvg!!.toInt())
         chart_hr.setData(reportData.reportHRDataEntity?.hrRec)
 

@@ -17,6 +17,7 @@ class HalfCircleProgressBar @JvmOverloads constructor(
     private var mBarColor: Int = Color.BLUE
     private var mTextSize: Float = ScreenUtil.dip2px(context, 13f).toFloat()
     private var mTextColor: Int = Color.BLACK
+    private var mBarBgColor: Int = Color.parseColor("#F1F5F6")
     private var mText: String? = ""
     private lateinit var mBarPaint: Paint
 
@@ -81,7 +82,7 @@ class HalfCircleProgressBar @JvmOverloads constructor(
     }
 
     private fun onDrawBgBar(canvas: Canvas?) {
-        onDrawBar(canvas, 1f, Color.parseColor("#F1F5F6"))
+        onDrawBar(canvas, 1f, mBarBgColor)
     }
 
     private fun onDrawBar(canvas: Canvas?, percent: Float) {
@@ -104,6 +105,23 @@ class HalfCircleProgressBar @JvmOverloads constructor(
 
     fun setValue(value: Int) {
         mPercent = value / 100f
+        invalidate()
+    }
+
+    fun setBarColor(color:Int){
+        this.mBarColor = color
+        mBarPaint.color = mBarColor
+        invalidate()
+    }
+
+    fun setBarTextColor(color:Int){
+        this.mTextColor = color
+        mTextPaint.color = mTextColor
+        invalidate()
+    }
+
+    fun setBarBgColor(color:Int){
+        this.mBarBgColor = color
         invalidate()
     }
 }

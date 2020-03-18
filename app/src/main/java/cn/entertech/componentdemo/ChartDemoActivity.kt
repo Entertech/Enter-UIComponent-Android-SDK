@@ -3,6 +3,7 @@ package cn.entertech.componentdemo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_chart_demo.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -13,11 +14,9 @@ class ChartDemoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chart_demo)
 
-        var data = ArrayList<Double>()
-        for (i in 0..1000){
-            data.add(Random().nextDouble()*100)
-        }
-        line_chart.setData(data)
+//        line_chart.setOnClickListener {
+//            Toast.makeText(this,"sfdsfs",Toast.LENGTH_SHORT).show()
+//        }
 //        realtime_coherence.setCoherence(50f)
 //        average_bar.setValues(listOf(100,20,30,40,50,30,90))
 //        var timer = Timer()

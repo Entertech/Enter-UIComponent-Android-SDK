@@ -152,4 +152,16 @@ class GradientSweepBar @JvmOverloads constructor(
         this.mPercent = value / 100f
         invalidate()
     }
+
+    fun setBarBgColor(color:Int){
+        this.mBgBarColor = color
+        mBgBarPaint.color = mBgBarColor
+        invalidate()
+    }
+
+    fun setValueTextColor(color:Int){
+        this.mTextColor = color
+        mTextPaint.color = mTextColor
+        invalidate()
+    }
 }

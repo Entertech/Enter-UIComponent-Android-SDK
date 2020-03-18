@@ -78,41 +78,41 @@
             <enum name="Coherence" value="5"></enum>
         </attr>
     </declare-styleable>
-<!--    <declare-styleable name="RealtimeAttentionView">-->
-<!--        <attr name="rav_background" format="reference|color" />-->
-<!--        <attr name="rav_mainColor" format="color" />-->
-<!--        <attr name="rav_textColor" format="color" />-->
-<!--        <attr name="rav_textFont" format="string" />-->
-<!--        <attr name="rav_isShowInfoIcon" format="boolean" />-->
-<!--        <attr name="rav_infoUrl" format="string" />-->
-<!--    </declare-styleable>-->
+    <!--    <declare-styleable name="RealtimeAttentionView">-->
+    <!--        <attr name="rav_background" format="reference|color" />-->
+    <!--        <attr name="rav_mainColor" format="color" />-->
+    <!--        <attr name="rav_textColor" format="color" />-->
+    <!--        <attr name="rav_textFont" format="string" />-->
+    <!--        <attr name="rav_isShowInfoIcon" format="boolean" />-->
+    <!--        <attr name="rav_infoUrl" format="string" />-->
+    <!--    </declare-styleable>-->
 
-<!--    <declare-styleable name="RealtimeRelaxationView">-->
-<!--        <attr name="rrv_background" format="reference|color" />-->
-<!--        <attr name="rrv_mainColor" format="color" />-->
-<!--        <attr name="rrv_textColor" format="color" />-->
-<!--        <attr name="rrv_textFont" format="string" />-->
-<!--        <attr name="rrv_isShowInfoIcon" format="boolean" />-->
-<!--        <attr name="rrv_infoUrl" format="string" />-->
-<!--    </declare-styleable>-->
+    <!--    <declare-styleable name="RealtimeRelaxationView">-->
+    <!--        <attr name="rrv_background" format="reference|color" />-->
+    <!--        <attr name="rrv_mainColor" format="color" />-->
+    <!--        <attr name="rrv_textColor" format="color" />-->
+    <!--        <attr name="rrv_textFont" format="string" />-->
+    <!--        <attr name="rrv_isShowInfoIcon" format="boolean" />-->
+    <!--        <attr name="rrv_infoUrl" format="string" />-->
+    <!--    </declare-styleable>-->
 
-<!--    <declare-styleable name="RealtimePressureView">-->
-<!--        <attr name="rpv_background" format="reference|color" />-->
-<!--        <attr name="rpv_mainColor" format="color" />-->
-<!--        <attr name="rpv_textColor" format="color" />-->
-<!--        <attr name="rpv_textFont" format="string" />-->
-<!--        <attr name="rpv_isShowInfoIcon" format="boolean" />-->
-<!--        <attr name="rpv_infoUrl" format="string" />-->
-<!--    </declare-styleable>-->
+    <!--    <declare-styleable name="RealtimePressureView">-->
+    <!--        <attr name="rpv_background" format="reference|color" />-->
+    <!--        <attr name="rpv_mainColor" format="color" />-->
+    <!--        <attr name="rpv_textColor" format="color" />-->
+    <!--        <attr name="rpv_textFont" format="string" />-->
+    <!--        <attr name="rpv_isShowInfoIcon" format="boolean" />-->
+    <!--        <attr name="rpv_infoUrl" format="string" />-->
+    <!--    </declare-styleable>-->
 
-<!--    <declare-styleable name="RealtimeArousalView">-->
-<!--        <attr name="rarv_background" format="reference|color"/>-->
-<!--        <attr name="rarv_mainColor" format="color"/>-->
-<!--        <attr name="rarv_textColor" format="color"/>-->
-<!--        <attr name="rarv_textFont" format="string"/>-->
-<!--        <attr name="rarv_isShowInfoIcon" format="boolean"/>-->
-<!--        <attr name="rarv_infoUrl" format="string"/>-->
-<!--    </declare-styleable>-->
+    <!--    <declare-styleable name="RealtimeArousalView">-->
+    <!--        <attr name="rarv_background" format="reference|color"/>-->
+    <!--        <attr name="rarv_mainColor" format="color"/>-->
+    <!--        <attr name="rarv_textColor" format="color"/>-->
+    <!--        <attr name="rarv_textFont" format="string"/>-->
+    <!--        <attr name="rarv_isShowInfoIcon" format="boolean"/>-->
+    <!--        <attr name="rarv_infoUrl" format="string"/>-->
+    <!--    </declare-styleable>-->
     <declare-styleable name="RealtimeBrainwaveView">
         <attr name="rbv_background" format="reference|color" />
         <attr name="rbv_mainColor" format="color" />
@@ -134,7 +134,6 @@
         <attr name="rhrvv_infoUrl" format="string" />
         <attr name="rhrvv_lineColor" format="color" />
     </declare-styleable>
-
 
 
     <declare-styleable name="RealtimeBrainwaveSpectrumView">
@@ -360,5 +359,50 @@
         <attr name="racc_infoUrl" format="string" />
         <attr name="racc_isMenuIconInfo" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="ReportHRCard">
+        <attr name="rchr_background" format="color|reference" />
+        <attr name="rchr_textColor" format="color" />
+        <attr name="rchr_unitTextColor" format="color" />
+        <attr name="rchr_indicatorColor" format="color" />
+        <attr name="rchr_indicatorTextColor" format="color" />
+        <attr name="rchr_indicatorTriangleColor" format="color" />
+        <attr name="rchr_levelBgColor" format="color" />
+        <attr name="rchr_arrowColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="ReportHRVCard">
+        <attr name="rchrv_background" format="color|reference" />
+        <attr name="rchrv_textColor" format="color" />
+        <attr name="rchrv_unitTextColor" format="color" />
+        <attr name="rchrv_indicatorColor" format="color" />
+        <attr name="rchrv_indicatorTextColor" format="color" />
+        <attr name="rchrv_indicatorTriangleColor" format="color" />
+        <attr name="rchrv_levelBgColor" format="color" />
+        <attr name="rchrv_arrowColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="ReportRelaxationAndAttentionCard">
+        <attr name="rcraa_background" format="color|reference" />
+        <attr name="rcraa_textColor" format="color" />
+        <attr name="rcraa_attentionColor" format="color" />
+        <attr name="rcraa_relaxationColor" format="color" />
+        <attr name="rcraa_relaxationLevelTextColor" format="color" />
+        <attr name="rcraa_attentionLevelTextColor" format="color" />
+        <attr name="rcraa_attentionLevelBgColor" format="color" />
+        <attr name="rcraa_relaxationLevelBgColor" format="color" />
+        <attr name="rcraa_arrowColor" format="color" />
+        <attr name="rcraa_lineColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="ReportPressureCard">
+        <attr name="rpc_background" format="color|reference" />
+        <attr name="rpc_textColor" format="color" />
+        <attr name="rpc_arrowColor" format="color" />
+        <attr name="rpc_levelBgColor" format="color" />
+        <attr name="rpc_levelTextColor" format="color" />
+        <attr name="rpc_barBgColor" format="color" />
+    </declare-styleable>
+
 
 </resources>
