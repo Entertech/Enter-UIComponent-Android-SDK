@@ -63,6 +63,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
     private var mGridLineColor: Int = Color.parseColor("#E9EBF1")
     private var mLabelColor: Int = Color.parseColor("#9AA1A9")
 
+    private var mAverageLineColor: Int = Color.parseColor("#9AA1A9")
     private var mLineWidth: Float = 1.5f
     private var mAttentionData: List<Double> = ArrayList()
     private var mRelaxationData: List<Double> = ArrayList()
@@ -88,6 +89,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
 
     val dataSets = ArrayList<ILineDataSet>()
 
+    var bgColor = Color.WHITE
     init {
         if (layoutId == null) {
             mSelfView =
@@ -177,6 +179,9 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
             affectiveView.setPointCount(mPointCount)
             affectiveView.setXAxisUnit(mXAxisUnit)
             affectiveView.setGridLineColor(mGridLineColor)
+            affectiveView.setTextColor(mTextColor)
+            affectiveView.setBg(mBg)
+            affectiveView.setAverageLineColor(mAverageLineColor)
             affectiveView.setLabelColor(mLabelColor)
             affectiveView.setAttentionAverage(mAttentionAverage)
             affectiveView.setRelaxationAverage(mRelaxationAverage)
@@ -197,7 +202,6 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
         initChart()
         tv_time_unit_des.setTextColor(getOpacityColor(mTextColor, 0.7f))
 
-        var bgColor = Color.WHITE
         if (mBg != null) {
             ll_bg.background = mBg
         } else {
@@ -290,7 +294,8 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
             ll1.enableDashedLine(10f, 10f, 0f)
             ll1.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
             ll1.textSize = 14f
-            ll1.lineColor = Color.parseColor("#9AA1A9")
+            ll1.textColor = mTextColor
+            ll1.lineColor = mAverageLineColor
             chart.axisLeft.addLimitLine(ll1)
         }
         val zeroLimitLine = LimitLine(100f, "")
@@ -353,7 +358,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
     }
 
     fun initChart() {
-        chart.setBackgroundColor(Color.parseColor("#ffffff"))
+        chart.setBackgroundColor(bgColor)
 
         // disable description text
         chart.getDescription().setEnabled(false)
@@ -469,5 +474,18 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
         initView()
     }
 
+    fun setAverageLineColor(color:Int){
+        this.mAverageLineColor = color
+        initView()
+    }
 
+    fun setBg(bg:Drawable?){
+        this.mBg = bg
+        initView()
+    }
+
+    fun setTextColor(color:Int){
+        this.mTextColor = color
+        initView()
+    }
 }

@@ -15,14 +15,7 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import cn.entertech.uicomponentsdk.R
-import cn.entertech.uicomponentsdk.utils.getOpacityColor
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
-import com.github.mikephil.charting.formatter.PercentFormatter
-import com.github.mikephil.charting.utils.MPPointF
 import kotlinx.android.synthetic.main.layout_average_bar_card.view.*
-import kotlinx.android.synthetic.main.layout_card_brain_spectrum_pie.view.*
 import kotlinx.android.synthetic.main.layout_common_card_title.view.*
 
 class ReportAverageChartCard @JvmOverloads constructor(
@@ -102,7 +95,7 @@ class ReportAverageChartCard @JvmOverloads constructor(
 
     fun initView() {
         tv_title.text = mTitle
-        tv_title.setTextColor(mTextColor)
+        tv_title.setTextColor(mMainColor)
         if (mIsShowTitleIcon) {
             iv_icon.visibility = View.VISIBLE
             iv_icon.setImageDrawable(mTiltleIcon)
@@ -127,8 +120,15 @@ class ReportAverageChartCard @JvmOverloads constructor(
     fun initChart() {
         average_bar_chart.setUnit(mUnit)
         average_bar_chart.setBarColor(mBarColor)
+        average_bar_chart.setPrimaryTextColor(mMainColor)
+        average_bar_chart.setSecondTextColor(mTextColor)
         average_bar_chart.setBarHighLightColor(mBarHighLightColor)
         average_bar_chart.setBarValueBgColor(mBarValueBgColor)
+
+        if (mBg != null && mBg is ColorDrawable){
+            average_bar_chart.setBgColor((mBg as ColorDrawable).color)
+            ll_bg.setBackgroundColor((mBg as ColorDrawable).color)
+        }
     }
 
     fun setValues(values: List<Int>) {
@@ -151,4 +151,11 @@ class ReportAverageChartCard @JvmOverloads constructor(
 
     }
 
+    fun setTipBg(color:Int){
+        (ll_tip_bg.background as GradientDrawable).setColor(color)
+    }
+
+    fun setTipTextColor(color:Int){
+        tv_tip.setTextColor(color)
+    }
 }

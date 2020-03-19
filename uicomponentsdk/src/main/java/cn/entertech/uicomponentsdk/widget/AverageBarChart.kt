@@ -71,7 +71,7 @@ class AverageBarChart @JvmOverloads constructor(
         mAverageTextPaint = Paint(Paint.ANTI_ALIAS_FLAG)
         mAverageValueTextPaint = Paint(Paint.ANTI_ALIAS_FLAG)
         mAverageValueTextPaint.textSize = ScreenUtil.dip2px(context, 20f).toFloat()
-        mAverageValueTextPaint.color = Color.BLACK
+        mAverageValueTextPaint.color = mPrimaryTextColor
         mBarPaint = Paint(Paint.ANTI_ALIAS_FLAG)
         mBarPaint.color = mBarColor
         mBarPaint.style = Paint.Style.FILL
@@ -147,7 +147,7 @@ class AverageBarChart @JvmOverloads constructor(
         )
         mBarPaint.color = mBarValueBgColor
         canvas?.drawRect(valueRect, mBarPaint)
-        mBarPaint.color = Color.BLACK
+        mBarPaint.color = mPrimaryTextColor
         var lastValue = mValues[i]
         var lastValueTextBound = Rect()
         mBarPaint.getTextBounds(
@@ -276,6 +276,23 @@ class AverageBarChart @JvmOverloads constructor(
 
     fun setUnit(unit: String?) {
         this.mUnit = unit
+        invalidate()
+    }
+
+    fun setBgColor(bgColor:Int?){
+        this.mBackground = bgColor
+        invalidate()
+    }
+
+    fun setPrimaryTextColor(color:Int){
+        this.mPrimaryTextColor = color
+        initPaint()
+        invalidate()
+    }
+
+    fun setSecondTextColor(color:Int){
+        this.mSecondTextColor = color
+        initPaint()
         invalidate()
     }
 

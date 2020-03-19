@@ -16,16 +16,16 @@
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="wrap_content"/>-->
 
-    <cn.entertech.uicomponentsdk.report.ReportPressureCard
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:rpc_arrowColor="@color/white"
-            app:rpc_background="#000000"
-            app:rpc_levelBgColor="#402D30"
-            app:rpc_levelTextColor="#FFE7E6"
-            app:rpc_textColor="#ffffff"
-            app:rpc_barBgColor="#3A3A42"
-            />
+<!--    <cn.entertech.uicomponentsdk.report.ReportPressureCard-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:rpc_arrowColor="@color/white"-->
+<!--            app:rpc_background="#000000"-->
+<!--            app:rpc_levelBgColor="#402D30"-->
+<!--            app:rpc_levelTextColor="#FFE7E6"-->
+<!--            app:rpc_textColor="#ffffff"-->
+<!--            app:rpc_barBgColor="#3A3A42"-->
+<!--            />-->
     <!--    <cn.entertech.uicomponentsdk.report.ReportAffectiveLineChartCard-->
     <!--            android:id="@+id/chart_relaxation_and_attention"-->
     <!--            android:layout_width="match_parent"-->
@@ -115,9 +115,11 @@
     <!--            app:rlcc_title= "Changes During Meditation"-->
     <!--            app:rlcc_titleMenuIcon="@drawable/vector_drawable_full_screen"/>-->
 
-    <!--    <cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumPieView-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="wrap_content"/>-->
+        <cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumPieView
+                android:id="@+id/pie_chart_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:rbsp_background="#000000"/>
 
 <!--    <cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView-->
 <!--            android:id="@+id/realtime_coherence"-->

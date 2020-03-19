@@ -13,7 +13,7 @@ class ChartDemoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chart_demo)
-
+        pie_chart_1.setData(listOf(0.2f,0.2f,0.2f,0.2f,0.2f))
 //        line_chart.setOnClickListener {
 //            Toast.makeText(this,"sfdsfs",Toast.LENGTH_SHORT).show()
 //        }

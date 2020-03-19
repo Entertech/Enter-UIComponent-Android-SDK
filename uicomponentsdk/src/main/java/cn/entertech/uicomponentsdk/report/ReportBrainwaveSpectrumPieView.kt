@@ -44,7 +44,7 @@ class ReportBrainwaveSpectrumPieView @JvmOverloads constructor(
     private var mTitleIcon: Drawable?
     private var mTitleMenuIcon: Drawable?
     private var mInfoUrl: String? = null
-
+    var bgColor = Color.WHITE
     companion object {
         const val INFO_URL = "https://www.notion.so/Attention-84fef81572a848efbf87075ab67f4cfe"
         const val SPECTRUM_COLORS = "#0921dd,#5167f8,#858aff,#bfadff,#f6e6ff"
@@ -110,7 +110,6 @@ class ReportBrainwaveSpectrumPieView @JvmOverloads constructor(
         } else {
             iv_menu.visibility = View.GONE
         }
-        var bgColor = Color.WHITE
         if (mBg != null) {
             ll_bg.background = mBg
         } else {
@@ -142,6 +141,7 @@ class ReportBrainwaveSpectrumPieView @JvmOverloads constructor(
     }
 
     fun initChart() {
+        pie_chart.setBackgroundColor(bgColor)
         pie_chart.setUsePercentValues(true)
         pie_chart.getDescription().setEnabled(false)
         pie_chart.setExtraOffsets(5f, 10f, 5f, 5f)
@@ -153,6 +153,7 @@ class ReportBrainwaveSpectrumPieView @JvmOverloads constructor(
         pie_chart.setTransparentCircleColor(Color.WHITE)
         pie_chart.setTransparentCircleAlpha(110)
         pie_chart.setHoleRadius(58f)
+        pie_chart.setHoleColor(bgColor)
         pie_chart.setTransparentCircleRadius(61f)
 
         pie_chart.setDrawCenterText(true)

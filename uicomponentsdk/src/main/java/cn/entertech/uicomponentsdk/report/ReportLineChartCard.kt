@@ -57,6 +57,7 @@ class ReportLineChartCard @JvmOverloads constructor(
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
+    private var mAverageLineColor: Int = Color.parseColor("#9AA1A9")
     private var mIsDrawFill: Boolean = false
     private var mAverageValue: Int = 0
     private var mXAxisUnit: String? = "Time(min)"
@@ -81,6 +82,7 @@ class ReportLineChartCard @JvmOverloads constructor(
     var mPointCount: Int = 100
     var mTimeOfTwoPoint: Int = 0
 
+    var bgColor = Color.WHITE
     init {
         if (layoutId == null) {
             mSelfView = LayoutInflater.from(context).inflate(R.layout.layout_card_attention, null)
@@ -147,6 +149,9 @@ class ReportLineChartCard @JvmOverloads constructor(
             affectiveView.setTimeUnit(mTimeUnit)
             affectiveView.setGridLineColor(mGridLineColor)
             affectiveView.setXAxisUnit(mXAxisUnit)
+            affectiveView.setTextColor(mTextColor)
+            affectiveView.setBg(mBg)
+            affectiveView.setAverageLineColor(mAverageLineColor)
             affectiveView.setLabelColor(mLabelColor)
             affectiveView.setAverage(mAverageValue)
             affectiveView.setData(mData, true)
@@ -166,7 +171,6 @@ class ReportLineChartCard @JvmOverloads constructor(
         initChart()
         tv_time_unit_des.setTextColor(getOpacityColor(mTextColor, 0.7f))
 
-        var bgColor = Color.WHITE
         if (mBg != null) {
             ll_bg.background = mBg
         } else {
@@ -253,7 +257,8 @@ class ReportLineChartCard @JvmOverloads constructor(
             ll1.enableDashedLine(10f, 10f, 0f)
             ll1.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
             ll1.textSize = 14f
-            ll1.lineColor = Color.parseColor("#9AA1A9")
+            ll1.textColor = mTextColor
+            ll1.lineColor = mAverageLineColor
             chart.axisLeft.addLimitLine(ll1)
         }
 
@@ -342,7 +347,7 @@ class ReportLineChartCard @JvmOverloads constructor(
     }
 
     fun initChart() {
-        chart.setBackgroundColor(Color.parseColor("#ffffff"))
+        chart.setBackgroundColor(bgColor)
 
         // disable description text
         chart.getDescription().setEnabled(false)
@@ -476,4 +481,18 @@ class ReportLineChartCard @JvmOverloads constructor(
         initView()
     }
 
+    fun setAverageLineColor(color:Int){
+        this.mAverageLineColor = color
+        initView()
+    }
+
+    fun setBg(bg:Drawable?){
+        this.mBg = bg
+        initView()
+    }
+
+    fun setTextColor(color:Int){
+        this.mTextColor = color
+        initView()
+    }
 }

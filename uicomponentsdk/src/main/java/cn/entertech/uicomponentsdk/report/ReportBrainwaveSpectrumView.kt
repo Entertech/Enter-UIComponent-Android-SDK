@@ -50,6 +50,7 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var bgColor: Int = Color.WHITE
     private var mXAxisUnit: String? = "Time(min)"
     private var mSelfView: View? = null
     private var mBrainwaveSpectrums: List<ArrayList<Double>>? = null
@@ -131,7 +132,6 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
         mSpectrumColors = color.split(",")
             .map { Color.parseColor(it) }
         initView()
-        initChart()
     }
 
     fun initView() {
@@ -149,7 +149,6 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
         } else {
             iv_menu.visibility = View.GONE
         }
-        var bgColor = Color.WHITE
         if (mBg != null) {
             ll_bg.background = mBg
         } else {
@@ -191,6 +190,8 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
             affectiveView.setGridLineColor(mGridLineColor)
             affectiveView.setXAxisUnit(mXAxisUnit)
             affectiveView.setSpectrumColors(mSpectrumColors)
+            affectiveView.setTextColor(mTextColor)
+            affectiveView.setBg(mBg)
             affectiveView.setLabelColor(mLabelColor)
             affectiveView.setData(mBrainwaveSpectrums, true)
             var popWindow = PopupWindow(affectiveView, MATCH_PARENT, MATCH_PARENT)
@@ -207,6 +208,8 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
         }
 
         tv_unit.text = mXAxisUnit
+
+        initChart()
     }
 
     fun fixData() {
@@ -349,7 +352,7 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
     }
 
     fun initChart() {
-        chart.setBackgroundColor(Color.parseColor("#ffffff"))
+        chart.setBackgroundColor(bgColor)
         // disable description text
         chart.getDescription().setEnabled(false)
         chart.legend.isEnabled = false
@@ -451,5 +454,14 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
         initView()
     }
 
+    fun setBg(bg:Drawable?){
+        this.mBg = bg
+        initView()
+    }
+
+    fun setTextColor(color:Int){
+        this.mTextColor = color
+        initView()
+    }
 
 }
