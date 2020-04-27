@@ -13,10 +13,7 @@ import android.net.Uri
 import android.os.Build
 import android.util.AttributeSet
 import android.util.Log
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
@@ -25,9 +22,7 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import cn.entertech.uicomponentsdk.R
-import cn.entertech.uicomponentsdk.utils.ScreenUtil
-import cn.entertech.uicomponentsdk.utils.formatData
-import cn.entertech.uicomponentsdk.utils.getOpacityColor
+import cn.entertech.uicomponentsdk.utils.*
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.XAxis
@@ -37,6 +32,8 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.github.mikephil.charting.listener.ChartTouchListener
+import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.utils.Utils
 import kotlinx.android.synthetic.main.layout_common_card_title.view.*
 import kotlinx.android.synthetic.main.layout_card_attention.view.*
@@ -49,7 +46,7 @@ import kotlinx.android.synthetic.main.layout_card_attention.view.rl_no_data_cove
 import kotlinx.android.synthetic.main.layout_card_attention.view.tv_time_unit_des
 import kotlinx.android.synthetic.main.pop_card_attention.view.*
 import java.util.*
-import kotlin.math.sign
+import kotlin.math.*
 
 class ReportLineChartCard @JvmOverloads constructor(
     context: Context,
@@ -77,12 +74,14 @@ class ReportLineChartCard @JvmOverloads constructor(
     private var mMainColor: Int = Color.parseColor("#0064ff")
     private var mTextColor: Int = Color.parseColor("#333333")
     var mSelfView: View? = null
+
     /*数据时间间隔：单位毫秒*/
     var mTimeUnit: Int = 800
     var mPointCount: Int = 100
     var mTimeOfTwoPoint: Int = 0
 
     var bgColor = Color.WHITE
+
     init {
         if (layoutId == null) {
             mSelfView = LayoutInflater.from(context).inflate(R.layout.layout_card_attention, null)
@@ -134,7 +133,7 @@ class ReportLineChartCard @JvmOverloads constructor(
         mLineWidth =
             typeArray.getDimension(R.styleable.ReportLineChartCard_rlcc_lineWidth, mLineWidth)
         mXAxisUnit = typeArray.getString(R.styleable.ReportLineChartCard_rlcc_xAxisUnit)
-        mIsDrawFill = typeArray.getBoolean(R.styleable.ReportLineChartCard_rlcc_isDrawFill,false)
+        mIsDrawFill = typeArray.getBoolean(R.styleable.ReportLineChartCard_rlcc_isDrawFill, false)
         initView()
     }
 
@@ -156,7 +155,7 @@ class ReportLineChartCard @JvmOverloads constructor(
             affectiveView.setAverage(mAverageValue)
             affectiveView.setData(mData, true)
             affectiveView.findViewById<TextView>(R.id.tv_title).text =
-               context.getString(R.string.chart_full_screen_tip)
+                context.getString(R.string.chart_full_screen_tip)
             var popWindow = PopupWindow(affectiveView, MATCH_PARENT, MATCH_PARENT)
             affectiveView.findViewById<ImageView>(R.id.iv_menu)
                 .setImageResource(R.drawable.vector_drawable_screen_shrink)
@@ -205,18 +204,23 @@ class ReportLineChartCard @JvmOverloads constructor(
         }
     }
 
-    fun setData(data: List<Double>?,isShowAllData: Boolean = false) {
+    fun setData(data: List<Double>?, isShowAllData: Boolean = false) {
         if (data == null) {
             return
         }
         this.mData = formatData(data)
         var maxValue = mData!!.max()
         var minValue = mData!!.min()
+        var yAxisMax = (maxValue!! / 0.9f).toFloat()
+        var yAxisMin = (minValue!! * 0.9f).toFloat()
+        if (yAxisMax - yAxisMin < 5) {
+            chart.axisLeft.axisMaximum = yAxisMax + 1
+            chart.axisLeft.axisMinimum = if (yAxisMin - 1 <= 0) 0f else { yAxisMin - 1 }
+        } else {
+            chart.axisLeft.axisMaximum = yAxisMax
+            chart.axisLeft.axisMinimum = yAxisMin
+        }
         val values = ArrayList<Entry>()
-        var yAxisMax = (maxValue!! / 0.9f)
-        var yAxisMix = (minValue!! * 0.9f)
-        chart.axisLeft.axisMaximum = yAxisMax.toFloat()
-        chart.axisLeft.axisMinimum = yAxisMix.toFloat()
 
         var sample = mData!!.size / mPointCount
         if (isShowAllData || sample <= 1) {
@@ -302,24 +306,29 @@ class ReportLineChartCard @JvmOverloads constructor(
             // draw selection line as dashed
 //            set1.enableDashedHighlightLine(10f, 5f, 0f)
             // set the filled area
-            set1.setDrawHighlightIndicators(false)
+            set1.setDrawHighlightIndicators(true)
             set1.setDrawFilled(mIsDrawFill)
             set1.fillAlpha = 255
             set1.setDrawCircles(false)
-            set1.setMode(LineDataSet.Mode.CUBIC_BEZIER)
-            if (mIsDrawFill){
+            set1.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
+            if (mIsDrawFill) {
                 // set color of filled area
                 if (Utils.getSDKInt() >= 18) {
                     // drawables only supported on api level 18 and above
-                var gradientDrawable =  GradientDrawable()
+                    var gradientDrawable = GradientDrawable()
 
-                // Set the color array to draw gradient
-                    gradientDrawable.setColors(intArrayOf(mLineColor, getOpacityColor(mLineColor,0.5F)))
+                    // Set the color array to draw gradient
+                    gradientDrawable.setColors(
+                        intArrayOf(
+                            mLineColor,
+                            getOpacityColor(mLineColor, 0.5F)
+                        )
+                    )
 
-                // Set the GradientDrawable gradient type linear gradient
+                    // Set the GradientDrawable gradient type linear gradient
                     gradientDrawable.setGradientType(GradientDrawable.LINEAR_GRADIENT)
 
-                // Set GradientDrawable shape is a rectangle
+                    // Set GradientDrawable shape is a rectangle
                     gradientDrawable.setShape(GradientDrawable.RECTANGLE)
                     set1.fillDrawable = gradientDrawable
                 } else {
@@ -327,7 +336,7 @@ class ReportLineChartCard @JvmOverloads constructor(
                 }
                 set1.lineWidth = 0f
                 set1.setDrawFilled(true)
-            }else{
+            } else {
                 set1.setDrawFilled(false)
                 set1.lineWidth = mLineWidth
             }
@@ -341,7 +350,50 @@ class ReportLineChartCard @JvmOverloads constructor(
             // set data
             chart.data = data
 
+            chart.onChartGestureListener = object:OnChartGestureListener{
+                override fun onChartGestureEnd(
+                    me: MotionEvent?,
+                    lastPerformedGesture: ChartTouchListener.ChartGesture?
+                ) {
 
+                }
+
+                override fun onChartFling(
+                    me1: MotionEvent?,
+                    me2: MotionEvent?,
+                    velocityX: Float,
+                    velocityY: Float
+                ) {
+
+                }
+
+                override fun onChartSingleTapped(me: MotionEvent?) {
+                    if (set1.isDrawCirclesEnabled){
+                        set1.setDrawCircles(false)
+                    }else{
+                        set1.setDrawCircles(true)
+                    }
+                }
+
+                override fun onChartGestureStart(
+                    me: MotionEvent?,
+                    lastPerformedGesture: ChartTouchListener.ChartGesture?
+                ) {
+                }
+
+                override fun onChartScale(me: MotionEvent?, scaleX: Float, scaleY: Float) {
+                }
+
+                override fun onChartLongPressed(me: MotionEvent?) {
+                }
+
+                override fun onChartDoubleTapped(me: MotionEvent?) {
+                }
+
+                override fun onChartTranslate(me: MotionEvent?, dX: Float, dY: Float) {
+                }
+
+            }
             chart.notifyDataSetChanged()
         }
     }
@@ -354,7 +406,7 @@ class ReportLineChartCard @JvmOverloads constructor(
         chart.legend.isEnabled = false
         // enable touch gestures
         chart.setTouchEnabled(true)
-
+        chart.animateX(500)
         chart.setDrawGridBackground(false)
         // enable scaling and dragging
         chart.setDragEnabled(true)
@@ -379,7 +431,7 @@ class ReportLineChartCard @JvmOverloads constructor(
         yAxis.setDrawAxisLine(false)
         yAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
         // axis range
-        yAxis.labelCount = 3
+        yAxis.setLabelCount(5, false)
         yAxis.textSize = 12f
         yAxis.textColor = Color.parseColor("#9AA1A9")
 //        yAxis.setValueFormatter { value, axis ->
@@ -404,7 +456,6 @@ class ReportLineChartCard @JvmOverloads constructor(
 
 
         // draw limit lines behind data instead of on top
-        yAxis.setDrawLimitLinesBehindData(false)
         xAxis.setDrawLimitLinesBehindData(true)
 
         // add limit lines
@@ -476,22 +527,22 @@ class ReportLineChartCard @JvmOverloads constructor(
         initView()
     }
 
-    fun setAverage(value:Int){
+    fun setAverage(value: Int) {
         this.mAverageValue = value
         initView()
     }
 
-    fun setAverageLineColor(color:Int){
+    fun setAverageLineColor(color: Int) {
         this.mAverageLineColor = color
         initView()
     }
 
-    fun setBg(bg:Drawable?){
+    fun setBg(bg: Drawable?) {
         this.mBg = bg
         initView()
     }
 
-    fun setTextColor(color:Int){
+    fun setTextColor(color: Int) {
         this.mTextColor = color
         initView()
     }

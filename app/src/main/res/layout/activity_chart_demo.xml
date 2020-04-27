@@ -8,6 +8,26 @@
         tools:context="cn.entertech.componentdemo.ChartDemoActivity"
         >
 
+        <Button
+                android:id="@+id/btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <cn.entertech.uicomponentsdk.realtime.RealtimeHRVView
+                app:rhrvv_background="#FDF1EA"
+                app:rhrvv_lineColor="#FFC56F"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                app:rhrvv_titleText="HRV"
+                app:rhrvv_gridLineColor="#00ff00"
+                app:rhrvv_mainColor="#40392F"
+                app:rhrvv_axisColor="#000000"
+                android:id="@+id/hrv"/>
+<!--        <cn.entertech.uicomponentsdk.report.ReportAffectiveLineChartCard-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="250dp"-->
+<!--                android:id="@+id/line_chart"-->
+<!--                />-->
+
 <!--    <cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumPieView-->
 <!--            android:id="@+id/line_chart"-->
 <!--            app:rbsp_spectrumColors="#FF6682,#FB9C98,#F7C77E,#5FC695,#5E75FF"-->
@@ -115,11 +135,11 @@
     <!--            app:rlcc_title= "Changes During Meditation"-->
     <!--            app:rlcc_titleMenuIcon="@drawable/vector_drawable_full_screen"/>-->
 
-        <cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumPieView
-                android:id="@+id/pie_chart_1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:rbsp_background="#000000"/>
+<!--        <cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumPieView-->
+<!--                android:id="@+id/pie_chart_1"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:rbsp_background="#000000"/>-->
 
 <!--    <cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView-->
 <!--            android:id="@+id/realtime_coherence"-->

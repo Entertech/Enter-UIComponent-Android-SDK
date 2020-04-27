@@ -18,7 +18,8 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import cn.entertech.uicomponentsdk.R
-import cn.entertech.uicomponentsdk.widget.GifMovieView
+import cn.entertech.uicomponentsdk.utils.ScreenUtil
+import com.airbnb.lottie.LottieAnimationView
 import kotlinx.android.synthetic.main.view_meditation_hrv.view.*
 
 class RealtimeHRVView @JvmOverloads constructor(
@@ -32,8 +33,11 @@ class RealtimeHRVView @JvmOverloads constructor(
     private var mBg: Drawable? = null
     private var mMainColor: Int = Color.parseColor("#0064ff")
     private var mTextColor: Int = Color.parseColor("#171726")
+    private var mAxisColor: Int = Color.parseColor("#9AA1A9")
+    private var mGridLineColor: Int = Color.parseColor("#9AA1A9")
     private var mTextFont: String? = null
     private var mInfoUrl: String? = null
+    private var mTitleText: String? = null
 
     companion object {
         const val INFO_URL = "https://www.notion.so/EEG-b3a44e9eb01549c29da1d8b2cc7bc08d"
@@ -41,6 +45,7 @@ class RealtimeHRVView @JvmOverloads constructor(
 
     private var mIsShowInfoIcon: Boolean = true
 
+    private var mLineWidth = ScreenUtil.dip2px(context,1.5f).toFloat()
     init {
         var layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         mSelfView.layoutParams = layoutParams
@@ -50,8 +55,12 @@ class RealtimeHRVView @JvmOverloads constructor(
         )
         mMainColor = typeArray.getColor(R.styleable.RealtimeHRVView_rhrvv_mainColor, mMainColor)
         mTextColor = typeArray.getColor(R.styleable.RealtimeHRVView_rhrvv_textColor, mTextColor)
+        mAxisColor = typeArray.getColor(R.styleable.RealtimeHRVView_rhrvv_axisColor, mAxisColor)
+        mGridLineColor = typeArray.getColor(R.styleable.RealtimeHRVView_rhrvv_gridLineColor, mGridLineColor)
         mBg = typeArray.getDrawable(R.styleable.RealtimeHRVView_rhrvv_background)
+        mLineWidth = typeArray.getDimension(R.styleable.RealtimeHRVView_rhrvv_lineWidth,mLineWidth)
         mIsShowInfoIcon = typeArray.getBoolean(R.styleable.RealtimeHRVView_rhrvv_isShowInfoIcon, true)
+        mTitleText = typeArray.getString(R.styleable.RealtimeHRVView_rhrvv_titleText)
         mInfoUrl = typeArray.getString(R.styleable.RealtimeHRVView_rhrvv_infoUrl)
         if (mInfoUrl == null) {
             mInfoUrl = INFO_URL
@@ -63,7 +72,6 @@ class RealtimeHRVView @JvmOverloads constructor(
     }
 
     fun initView() {
-        icon_loading.loadGif("loading.gif")
         if (mInfoIconRes != null) {
             iv_brain_real_time_info.setImageResource(mInfoIconRes!!)
         }
@@ -73,6 +81,7 @@ class RealtimeHRVView @JvmOverloads constructor(
         }
 
         tv_title.setTextColor(mMainColor)
+        tv_title.text = mTitleText
         var bgColor = Color.WHITE
         if (mBg != null) {
             rl_bg.background = mBg
@@ -88,6 +97,9 @@ class RealtimeHRVView @JvmOverloads constructor(
         }
         sf_hrv.setBackgroundColor(bgColor)
         sf_hrv.setLineColor(mLineColor)
+        sf_hrv.setLineWidth(mLineWidth)
+        sf_hrv.setGridLineColor(mGridLineColor)
+        sf_hrv.setAxisColor(mAxisColor)
         setTextFont()
     }
 
@@ -106,32 +118,33 @@ class RealtimeHRVView @JvmOverloads constructor(
         mSelfView.findViewById<HRVSurfaceView>(R.id.sf_hrv).setData(data)
     }
 
-    fun showLoading() {
-        mSelfView.findViewById<RelativeLayout>(R.id.rl_loading_cover_1).visibility = View.VISIBLE
-        mSelfView.findViewById<GifMovieView>(R.id.icon_loading).visibility = View.VISIBLE
-        mSelfView.findViewById<TextView>(R.id.tv_disconnect_text_1).visibility = View.GONE
+    fun showLoadingCover() {
+        mSelfView.findViewById<RelativeLayout>(R.id.rl_loading_cover).visibility = View.VISIBLE
+        mSelfView.findViewById<LottieAnimationView>(R.id.icon_loading).visibility = View.VISIBLE
+        mSelfView.findViewById<TextView>(R.id.tv_disconnect_text).visibility = View.GONE
     }
 
-    fun hideLoading() {
-        mSelfView.findViewById<RelativeLayout>(R.id.rl_loading_cover_1).visibility = View.GONE
+    fun hindLoadingCover() {
+        mSelfView.findViewById<RelativeLayout>(R.id.rl_loading_cover).visibility = View.GONE
     }
 
-    fun showDisconnectTip() {
-        mSelfView.findViewById<RelativeLayout>(R.id.rl_loading_cover_1).visibility = View.VISIBLE
-        mSelfView.findViewById<GifMovieView>(R.id.icon_loading).visibility = View.GONE
-        mSelfView.findViewById<TextView>(R.id.tv_disconnect_text_1).visibility = View.VISIBLE
-        var sampleBrainData = ArrayList<Double>()
-        for (i in 0..150) {
-            sampleBrainData.add(java.util.Random().nextDouble() * 50)
-        }
-        mSelfView.findViewById<HRVSurfaceView>(R.id.sf_hrv).setSampleData(sampleBrainData)
+    fun showSampleData() {
+        mSelfView.findViewById<LottieAnimationView>(R.id.icon_loading).visibility = View.GONE
+        mSelfView.findViewById<RelativeLayout>(R.id.rl_loading_cover).visibility = View.VISIBLE
+        mSelfView.findViewById<TextView>(R.id.tv_disconnect_text).visibility = View.VISIBLE
+        appendHrv(24.0)
     }
 
-    fun hideDisconnectTip(){
-        mSelfView.findViewById<RelativeLayout>(R.id.rl_loading_cover_1).visibility = View.GONE
-        mSelfView.findViewById<GifMovieView>(R.id.icon_loading).visibility = View.GONE
-        mSelfView.findViewById<TextView>(R.id.tv_disconnect_text_1).visibility = View.GONE
-        mSelfView.findViewById<HRVSurfaceView>(R.id.sf_hrv).hideSampleData()
+    fun showErrorMessage(error: String) {
+        mSelfView.findViewById<LottieAnimationView>(R.id.icon_loading).visibility = View.GONE
+        mSelfView.findViewById<RelativeLayout>(R.id.rl_loading_cover).visibility = View.VISIBLE
+        mSelfView.findViewById<TextView>(R.id.tv_disconnect_text).visibility = View.VISIBLE
+        mSelfView.findViewById<TextView>(R.id.tv_disconnect_text).text = error
+        appendHrv(0.0)
+    }
+
+    fun hideSampleData() {
+        mSelfView.findViewById<RelativeLayout>(R.id.rl_loading_cover).visibility = View.GONE
     }
 
     fun setLineColor(color: Int) {

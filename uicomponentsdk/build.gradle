@@ -35,7 +35,7 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
 //    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
-    implementation 'com.airbnb.android:lottie:3.0.7'
+    implementation 'com.airbnb.android:lottie:3.4.0'
 }
 
 //添加
@@ -50,7 +50,7 @@ publish {
     //项目名称
     artifactId = 'uicomponentsdk'
     //版本号
-    publishVersion = '1.0.15'
+    publishVersion = '1.0.16'
     //描述，不重要
     desc = ''
     //网站，不重要

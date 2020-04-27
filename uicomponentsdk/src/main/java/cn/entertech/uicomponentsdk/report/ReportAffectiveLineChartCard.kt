@@ -2,23 +2,16 @@ package cn.entertech.uicomponentsdk.report
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.graphics.DashPathEffect
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
-import android.net.Uri
 import android.os.Build
 import android.util.AttributeSet
-import android.util.Log
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupWindow
@@ -26,31 +19,26 @@ import android.widget.TextView
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.utils.formatData
 import cn.entertech.uicomponentsdk.utils.getOpacityColor
-import com.github.mikephil.charting.components.AxisBase
-import com.github.mikephil.charting.components.LimitLine
-import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.components.YAxis
+import cn.entertech.uicomponentsdk.utils.niceCeil
+import cn.entertech.uicomponentsdk.utils.niceFloor
+import com.github.mikephil.charting.components.*
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.highlight.ChartHighlighter
+import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
-import kotlinx.android.synthetic.main.layout_common_card_title.view.*
-import kotlinx.android.synthetic.main.layout_card_attention.view.*
+import com.github.mikephil.charting.listener.ChartTouchListener
+import com.github.mikephil.charting.listener.OnChartGestureListener
 import kotlinx.android.synthetic.main.layout_card_attention.view.chart
-import kotlinx.android.synthetic.main.layout_card_attention.view.ll_avg
 import kotlinx.android.synthetic.main.layout_card_attention.view.ll_bg
-import kotlinx.android.synthetic.main.layout_card_attention.view.ll_max
-import kotlinx.android.synthetic.main.layout_card_attention.view.ll_min
 import kotlinx.android.synthetic.main.layout_card_attention.view.rl_no_data_cover
 import kotlinx.android.synthetic.main.layout_card_attention.view.tv_time_unit_des
+import kotlinx.android.synthetic.main.layout_common_card_title.view.*
 import kotlinx.android.synthetic.main.layout_report_affective_card.view.*
-import kotlinx.android.synthetic.main.layout_report_affective_card.view.legend_attention
-import kotlinx.android.synthetic.main.layout_report_affective_card.view.legend_relaxation
-import kotlinx.android.synthetic.main.pop_card_attention.view.*
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.math.sign
+import java.lang.Integer.min
+import kotlin.math.*
 
 class ReportAffectiveLineChartCard @JvmOverloads constructor(
     context: Context,
@@ -67,6 +55,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
     private var mLineWidth: Float = 1.5f
     private var mAttentionData: List<Double> = ArrayList()
     private var mRelaxationData: List<Double> = ArrayList()
+
     //    private var mAttentionData: List<Double>? = null
     private var mAttentionLineColor: Int = Color.RED
     private var mRelaxationLineColor: Int = Color.BLUE
@@ -90,6 +79,8 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
     val dataSets = ArrayList<ILineDataSet>()
 
     var bgColor = Color.WHITE
+    val TICK_COUNT = 5
+
     init {
         if (layoutId == null) {
             mSelfView =
@@ -323,15 +314,62 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
         // text size of values
         set1.valueTextSize = 9f
         set1.setDrawValues(false)
-        set1.setDrawHighlightIndicators(false)
+        set1.setDrawCircles(false);
+        set1.setDrawHighlightIndicators(true)
         set1.setDrawFilled(false)
-        set1.setDrawCircles(false)
         set1.setMode(LineDataSet.Mode.CUBIC_BEZIER)
         dataSets.add(set1) // add the data sets
         // create a data object with the data sets
         val data = LineData(dataSets)
         // set data
+        val markview = MarkerView(context,R.layout.layout_markview)
+        markview.setOffset(0f,-500f)
+        chart.markerView = markview
         chart.data = data
+//        chart.onChartGestureListener = object: OnChartGestureListener {
+//            override fun onChartGestureEnd(
+//                me: MotionEvent?,
+//                lastPerformedGesture: ChartTouchListener.ChartGesture?
+//            ) {
+//
+//            }
+//
+//            override fun onChartFling(
+//                me1: MotionEvent?,
+//                me2: MotionEvent?,
+//                velocityX: Float,
+//                velocityY: Float
+//            ) {
+//
+//            }
+//
+//            override fun onChartSingleTapped(me: MotionEvent?) {
+//                if (set1.isDrawCirclesEnabled){
+//                    set1.setDrawCircles(false)
+//                }else{
+//                    set1.setDrawCircles(true)
+//                }
+//            }
+//
+//            override fun onChartGestureStart(
+//                me: MotionEvent?,
+//                lastPerformedGesture: ChartTouchListener.ChartGesture?
+//            ) {
+//            }
+//
+//            override fun onChartScale(me: MotionEvent?, scaleX: Float, scaleY: Float) {
+//            }
+//
+//            override fun onChartLongPressed(me: MotionEvent?) {
+//            }
+//
+//            override fun onChartDoubleTapped(me: MotionEvent?) {
+//            }
+//
+//            override fun onChartTranslate(me: MotionEvent?, dX: Float, dY: Float) {
+//            }
+//
+//        }
         chart.notifyDataSetChanged()
 
     }
@@ -416,6 +454,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
 
         // add limit lines
     }
+
     fun isDataNull(flag: Boolean) {
         rl_no_data_cover.visibility = if (flag) {
             View.VISIBLE
@@ -474,17 +513,17 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
         initView()
     }
 
-    fun setAverageLineColor(color:Int){
+    fun setAverageLineColor(color: Int) {
         this.mAverageLineColor = color
         initView()
     }
 
-    fun setBg(bg:Drawable?){
+    fun setBg(bg: Drawable?) {
         this.mBg = bg
         initView()
     }
 
-    fun setTextColor(color:Int){
+    fun setTextColor(color: Int) {
         this.mTextColor = color
         initView()
     }

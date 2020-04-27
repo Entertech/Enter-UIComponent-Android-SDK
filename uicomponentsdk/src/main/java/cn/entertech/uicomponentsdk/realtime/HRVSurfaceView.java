@@ -27,7 +27,7 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
     private float mLeftPadding;
     private int mGridLineCount = 4;
     private int mGridLineColor = Color.parseColor("#383838");
-    private int mYAxisColor = Color.parseColor("#383838");
+    private int mAxisColor = Color.parseColor("#383838");
     private int mLineColor = Color.parseColor("#ff6682");
     private int mBgColor = Color.parseColor("#f2f4fb");
     private Paint mCruvePaint;
@@ -38,7 +38,7 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
     private SurfaceHolder mSurfaceHolder;
     public static int BRAIN_QUEUE_LENGTH = 200;
     public static int BRAIN_BUFFER_LENGTH = 100;
-    private Paint mStartLinePaint;
+    private Paint mAxisPaint;
     private Paint mGridLinePaint;
     private Paint mBgPaint;
     private boolean isShowSampleData = false;
@@ -61,7 +61,7 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
         if (typedArray != null) {
             mLineColor = typedArray.getColor(R.styleable.HRVSurfaceView_hrvsf_lineColor, mLineColor);
             mBgColor = typedArray.getColor(R.styleable.HRVSurfaceView_hrvsf_bgColor, mBgColor);
-            mYAxisColor = typedArray.getColor(R.styleable.HRVSurfaceView_hrvsf_yAxisColor, mYAxisColor);
+            mAxisColor = typedArray.getColor(R.styleable.HRVSurfaceView_hrvsf_yAxisColor, mAxisColor);
             mGridLineColor = typedArray.getColor(R.styleable.HRVSurfaceView_hrvsf_gridLineColor, mGridLineColor);
             mGridLineCount = typedArray.getInteger(R.styleable.HRVSurfaceView_hrvsf_gridLineCount, mGridLineCount);
             mLeftPadding = typedArray.getDimension(R.styleable.HRVSurfaceView_hrvsf_leftPadding, ScreenUtil.dip2px(context, 5));
@@ -89,10 +89,10 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
         CornerPathEffect pathEffect = new CornerPathEffect(25);
         mCruvePaint.setPathEffect(pathEffect);
         mCruvePaint.setColor(mLineColor);
-        mStartLinePaint = new Paint();
-        mStartLinePaint.setStyle(Paint.Style.STROKE);
-        mStartLinePaint.setColor(mYAxisColor);
-        mStartLinePaint.setStrokeWidth(1f);
+        mAxisPaint = new Paint();
+        mAxisPaint.setStyle(Paint.Style.STROKE);
+        mAxisPaint.setColor(mAxisColor);
+        mAxisPaint.setStrokeWidth(1f);
 
         mGridLinePaint = new Paint();
         mGridLinePaint.setStyle(Paint.Style.STROKE);
@@ -167,7 +167,7 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
         while (isViewActivity) {
             draw();
             try {
-                Thread.sleep(40);
+                Thread.sleep(400);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -176,24 +176,24 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
 
 
     public void onDrawBg(Canvas canvas) {
-        mYAxisMargin = ScreenUtil.dip2px(mContext, 16);
+        mYAxisMargin = ScreenUtil.dip2px(mContext, 0);
         canvas.drawRect(0, 0, getWidth(), getHeight(), mBgPaint);
 //        canvas.drawColor(mBgColor,PorterDuff.Mode.CLEAR);
         float lineOffset = (getWidth() - (mLeftPadding + mRightPadding) - mYAxisMargin) / 4;
-        canvas.drawLine(mLeftPadding + mYAxisMargin, getHeight()-0.5f, getWidth() - mRightPadding, getHeight()-0.5f, mStartLinePaint);
+        canvas.drawLine(mLeftPadding + mYAxisMargin, getHeight() - 0.5f, getWidth() - mRightPadding, getHeight() - 0.5f, mAxisPaint);
         for (int i = 0; i < (mGridLineCount + 1); i++) {
             if (i == 0) {
-                canvas.drawLine(mLeftPadding + mYAxisMargin, 0, mLeftPadding + mYAxisMargin, getHeight(), mStartLinePaint);
+                canvas.drawLine(mLeftPadding + mYAxisMargin, 0, mLeftPadding + mYAxisMargin, getHeight(), mAxisPaint);
             } else {
                 //绘制长度为4的实线后再绘制长度为4的空白区域，0位间隔
                 mGridLinePaint.setPathEffect(new DashPathEffect(new float[]{8, 8}, 0));
                 canvas.drawLine(lineOffset * i, 0, lineOffset * i, getHeight(), mGridLinePaint);
             }
         }
-        canvas.drawText("0", mYAxisMargin, getHeight() - 10, mYAxisLabelPaint);
-        canvas.drawText("50", mYAxisMargin, 30, mYAxisLabelPaint);
+//        canvas.drawText("0", mYAxisMargin, getHeight() - 10, mYAxisLabelPaint);
+//        canvas.drawText("50", mYAxisMargin, 30, mYAxisLabelPaint);
     }
-
+    Path path= new Path();
     public void onDrawHrv(Canvas canvas) {
         float pointOffset = getWidth() * 1f / (mSourceData.size() - 1);
 //        dealData();
@@ -201,7 +201,7 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
 
         float time = (getHeight() / mMaxValue);
         canvas.translate(mLeftPadding + mYAxisMargin, getHeight());
-        Path path = new Path();
+        path.reset();
 //        Log.d("####","draw data is "+drawData.toString());
         for (int i = 0; i < mSourceData.size(); i++) {
             if (i == 0)
@@ -278,6 +278,23 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
         invalidate();
     }
 
+    public void setLineWidth(float lineWidth){
+        this.mLineWidth = lineWidth;
+        mCruvePaint.setStrokeWidth(mLineWidth);
+        invalidate();
+    }
+
+    public void setGridLineColor(int gridLineColor){
+        this.mGridLineColor = gridLineColor;
+        mGridLinePaint.setColor(mGridLineColor);
+        invalidate();
+    }
+
+    public void setAxisColor(int color){
+        this.mAxisColor = color;
+        mAxisPaint.setColor(mAxisColor);
+        invalidate();
+    }
     @Override
     public void setBackgroundColor(int color) {
         this.mBgColor = color;

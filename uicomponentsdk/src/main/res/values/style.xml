@@ -133,6 +133,10 @@
         <attr name="rhrvv_isShowInfoIcon" format="boolean" />
         <attr name="rhrvv_infoUrl" format="string" />
         <attr name="rhrvv_lineColor" format="color" />
+        <attr name="rhrvv_axisColor" format="color" />
+        <attr name="rhrvv_gridLineColor" format="color" />
+        <attr name="rhrvv_lineWidth" format="dimension" />
+        <attr name="rhrvv_titleText" format="string" />
     </declare-styleable>
 
 
