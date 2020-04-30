@@ -37,12 +37,12 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
     private boolean isViewActivity;
     private SurfaceHolder mSurfaceHolder;
     public static int BRAIN_QUEUE_LENGTH = 200;
-    public static int BRAIN_BUFFER_LENGTH = 100;
+    public static int BRAIN_BUFFER_LENGTH = 2;
     private Paint mAxisPaint;
     private Paint mGridLinePaint;
     private Paint mBgPaint;
     private boolean isShowSampleData = false;
-    private int mMaxValue = 300;
+    private int mMaxValue = 50;
     private Paint mYAxisLabelPaint;
     private int mYAxisMargin;
 
@@ -142,8 +142,8 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
 
 
     private void initData() {
-        for (int i = 0; i < BRAIN_BUFFER_LENGTH; i++) {
-            mSourceData.add(0.0);
+        for (int i = 0; i < BRAIN_QUEUE_LENGTH; i++) {
+            drawData.add(0.0);
         }
     }
 
@@ -193,21 +193,20 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
 //        canvas.drawText("0", mYAxisMargin, getHeight() - 10, mYAxisLabelPaint);
 //        canvas.drawText("50", mYAxisMargin, 30, mYAxisLabelPaint);
     }
-    Path path= new Path();
-    public void onDrawHrv(Canvas canvas) {
-        float pointOffset = getWidth() * 1f / (mSourceData.size() - 1);
-//        dealData();
-        //获得canvas对象
 
-        float time = (getHeight() / mMaxValue);
+    Path path = new Path();
+
+    public void onDrawHrv(Canvas canvas) {
+        float pointOffset = getWidth() * 1f / (drawData.size() - 1);
+        dealData();
+        //获得canvas对象
         canvas.translate(mLeftPadding + mYAxisMargin, getHeight());
         path.reset();
-//        Log.d("####","draw data is "+drawData.toString());
-        for (int i = 0; i < mSourceData.size(); i++) {
+        Log.d("####", "draw data is " + drawData.toString());
+        for (int i = 0; i < drawData.size(); i++) {
             if (i == 0)
-                path.moveTo(i * pointOffset, (float) (-(mSourceData.get(i) * time)));
-            path.lineTo(i * pointOffset, (float) (-(mSourceData.get(i) * time)));
-
+                path.moveTo(i * pointOffset, (float) (-(drawData.get(i))));
+            path.lineTo(i * pointOffset, (float) (-(drawData.get(i))));
         }
         canvas.drawPath(path, mCruvePaint);
 
@@ -250,19 +249,19 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
 
     public void dealData() {
         if (mSourceData.size() == 0) {
-            drawData.add(1.0);
+            drawData.add(0.0);
             drawData.remove(0);
         } else {
-            float time = mMaxValue / (getHeight());
-            if (mSourceData.get(0) == 0.0) {
-                drawData.add(1.0);
+            float times = mMaxValue * 1.0f / (getHeight());
+//            if (mSourceData.get(0) == 0.0) {
+//                drawData.add(1.0);
+//                mSourceData.remove(0);
+//                drawData.remove(0);
+//            } else {
+                drawData.add(mSourceData.get(0) / times);
                 mSourceData.remove(0);
                 drawData.remove(0);
-            } else {
-                drawData.add(mSourceData.get(0) / time);
-                mSourceData.remove(0);
-                drawData.remove(0);
-            }
+//            }
         }
     }
 
@@ -278,23 +277,24 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
         invalidate();
     }
 
-    public void setLineWidth(float lineWidth){
+    public void setLineWidth(float lineWidth) {
         this.mLineWidth = lineWidth;
         mCruvePaint.setStrokeWidth(mLineWidth);
         invalidate();
     }
 
-    public void setGridLineColor(int gridLineColor){
+    public void setGridLineColor(int gridLineColor) {
         this.mGridLineColor = gridLineColor;
         mGridLinePaint.setColor(mGridLineColor);
         invalidate();
     }
 
-    public void setAxisColor(int color){
+    public void setAxisColor(int color) {
         this.mAxisColor = color;
         mAxisPaint.setColor(mAxisColor);
         invalidate();
     }
+
     @Override
     public void setBackgroundColor(int color) {
         this.mBgColor = color;

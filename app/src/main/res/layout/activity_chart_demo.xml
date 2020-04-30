@@ -52,6 +52,16 @@
                     app:ralcc_xAxisUnit="Time(min)"
                     android:id="@+id/line_chart"/>
 
+                <cn.entertech.uicomponentsdk.realtime.RealtimeHRVView
+                        app:rhrvv_background="@drawable/shape_attention_bg"
+                        app:rhrvv_lineColor="#FFC56F"
+                        android:layout_width="match_parent"
+                        android:layout_height="168dp"
+                        app:rhrvv_titleText="HRV"
+                        app:rhrvv_gridLineColor="#00ff00"
+                        app:rhrvv_mainColor="#40392F"
+                        app:rhrvv_axisColor="#000000"
+                        android:id="@+id/hrv"/>
             <cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumView
                     android:id="@+id/report_brainwave_spectrum_pie"
                     android:layout_width="match_parent"
@@ -68,16 +78,6 @@
 
         </LinearLayout>
     </ScrollView>
-<!--        <cn.entertech.uicomponentsdk.realtime.RealtimeHRVView-->
-<!--                app:rhrvv_background="#FDF1EA"-->
-<!--                app:rhrvv_lineColor="#FFC56F"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="300dp"-->
-<!--                app:rhrvv_titleText="HRV"-->
-<!--                app:rhrvv_gridLineColor="#00ff00"-->
-<!--                app:rhrvv_mainColor="#40392F"-->
-<!--                app:rhrvv_axisColor="#000000"-->
-<!--                android:id="@+id/hrv"/>-->
 <!--        <cn.entertech.uicomponentsdk.report.ReportAffectiveLineChartCard-->
 <!--                android:layout_width="match_parent"-->
 <!--                android:layout_height="250dp"-->

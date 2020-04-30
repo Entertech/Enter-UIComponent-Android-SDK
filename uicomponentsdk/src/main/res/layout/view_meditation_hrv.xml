@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/shape_emotion_attention_card_bg"
+        android:orientation="vertical"
+        android:id="@+id/ll_bg"
         >
 
 
     <RelativeLayout
-            android:id="@+id/rl_bg"
             android:layout_width="match_parent"
-            android:layout_height="168dp"
-            android:background="@drawable/shape_emotion_attention_card_bg"
+            android:layout_height="match_parent"
             >
 
         <LinearLayout
@@ -21,33 +21,33 @@
                 >
 
             <RelativeLayout
-                    android:layout_marginTop="@dimen/activity_margin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_margin"
                     >
 
                 <TextView
                         android:id="@+id/tv_title"
-                        android:layout_marginTop="@dimen/activity_margin"
-                        android:layout_marginLeft="@dimen/activity_margin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
-                        android:fontFamily="sans-serif-medium"
-                        android:textStyle="normal"
-                        android:textColor="#555b7f"
-                        android:lineSpacingExtra="8sp"
                         android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/activity_margin"
+                        android:layout_marginTop="@dimen/activity_margin"
+                        android:fontFamily="sans-serif-medium"
+                        android:lineSpacingExtra="8sp"
                         android:text="心率变异性（HRV）"
+                        android:textColor="#555b7f"
+                        android:textSize="14sp"
+                        android:textStyle="normal"
                         />
 
                 <ImageView
                         android:id="@+id/iv_brain_real_time_info"
-                        android:layout_marginRight="@dimen/activity_margin"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/activity_margin"
                         android:src="@drawable/vector_drawable_info_circle"
                         />
 
@@ -55,49 +55,49 @@
 
             <cn.entertech.uicomponentsdk.realtime.HRVSurfaceView
                     android:id="@+id/sf_hrv"
-                    android:layout_marginTop="@dimen/activity_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginTop="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
                     android:layout_marginBottom="14dp"
-                    android:layout_width="match_parent"
                     app:hrvsf_maxValue="50"
-                    android:layout_height="match_parent"
                     />
 
         </LinearLayout>
 
         <RelativeLayout
                 android:id="@+id/rl_loading_cover"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/shape_meditation_loading_bg"
+                android:visibility="gone"
                 >
 
             <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/icon_loading"
-                    android:layout_centerInParent="true"
                     android:layout_width="124dp"
                     android:layout_height="60dp"
-                    app:lottie_fileName="loading.json"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="true"
+                    android:layout_centerInParent="true"
                     android:visibility="gone"
+                    app:lottie_autoPlay="true"
+                    app:lottie_fileName="loading.json"
+                    app:lottie_loop="true"
                     />
 
             <TextView
                     android:id="@+id/tv_disconnect_text"
-                    android:layout_marginLeft="48dp"
-                    android:layout_marginRight="48dp"
-                    android:layout_centerInParent="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="48dp"
+                    android:layout_marginRight="48dp"
                     android:fontFamily="sans-serif-medium"
-                    android:textStyle="normal"
-                    android:textColor="@color/white"
                     android:gravity="center_horizontal"
                     android:text="@string/sdk_meditation_no_device_tip_1"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="normal"
                     />
         </RelativeLayout>
     </RelativeLayout>

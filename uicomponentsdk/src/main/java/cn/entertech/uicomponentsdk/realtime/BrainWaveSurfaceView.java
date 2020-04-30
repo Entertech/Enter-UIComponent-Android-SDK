@@ -97,7 +97,6 @@ public class BrainWaveSurfaceView extends SurfaceView implements SurfaceHolder.C
         if (data == null) {
             return;
         }
-        Log.d("#####", "receive brian data is... " + data.toString());
         List<Double> simpleData = new ArrayList<>();
         for (int i = 0; i < data.size(); i++) {
             if (i % 10 == 0) {

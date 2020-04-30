@@ -47,7 +47,7 @@ class RealtimeHRVView @JvmOverloads constructor(
 
     private var mLineWidth = ScreenUtil.dip2px(context,1.5f).toFloat()
     init {
-        var layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+        var layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
         mSelfView.layoutParams = layoutParams
         addView(mSelfView)
         var typeArray = context.obtainStyledAttributes(attributeSet,
@@ -84,9 +84,9 @@ class RealtimeHRVView @JvmOverloads constructor(
         tv_title.text = mTitleText
         var bgColor = Color.WHITE
         if (mBg != null) {
-            rl_bg.background = mBg
+            ll_bg.background = mBg
         } else {
-            mBg = rl_bg.background
+            mBg = ll_bg.background
         }
         if (mBg is ColorDrawable) {
             bgColor = (mBg as ColorDrawable).color

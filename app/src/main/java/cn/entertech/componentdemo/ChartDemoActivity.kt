@@ -36,16 +36,16 @@ class ChartDemoActivity : AppCompatActivity() {
 //        }
 //        realtime_coherence.setCoherence(50f)
 //        average_bar.setValues(listOf(100,20,30,40,50,30,90))
-//        var timer = Timer()
-//        var timerTask:TimerTask = object: TimerTask() {
-//            override fun run() {
-//                runOnUiThread {
-//                    hrv.appendHrv(Random().nextDouble()*50)
-//                }
-//            }
-//
-//        }
-//        timer.schedule(timerTask,0,400)
+        var timer = Timer()
+        var timerTask:TimerTask = object: TimerTask() {
+            override fun run() {
+                runOnUiThread {
+                    hrv.appendHrv(Random().nextDouble()*50)
+                }
+            }
+
+        }
+        timer.schedule(timerTask,0,400)
 //        hrv.showSampleData()
 //        var data = ArrayList<Double>()
 //        for (i in 0..1000){
