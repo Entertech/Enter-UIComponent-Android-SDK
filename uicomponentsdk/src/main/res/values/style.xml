@@ -203,6 +203,12 @@
         <attr name="rbs_gridLineColor" format="color" />
         <attr name="rbs_labelColor" format="color" />
         <attr name="rbs_xAxisUnit" format="string" />
+        <attr name="rbs_highlightLineColor" format="color"/>
+        <attr name="rbs_highlightLineWidth" format="float"/>
+        <attr name="rbs_markViewBgColor" format="color"/>
+        <attr name="rbs_markViewTitleColor" format="color"/>
+        <attr name="rbs_markViewValueColor" format="color"/>
+        <attr name="rbs_markViewDivideLineColor" format="color"/>
     </declare-styleable>
 
 
@@ -267,6 +273,12 @@
         <attr name="rlcc_labelColor" format="color" />
         <attr name="rlcc_xAxisUnit" format="string" />
         <attr name="rlcc_isDrawFill" format="boolean" />
+        <attr name="rlcc_highlightLineColor" format="color"/>
+        <attr name="rlcc_highlightLineWidth" format="float"/>
+        <attr name="rlcc_markViewBgColor" format="color"/>
+        <attr name="rlcc_markViewTitle" format="string"/>
+        <attr name="rlcc_markViewTitleColor" format="color"/>
+        <attr name="rlcc_markViewValueColor" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="ReportAffectiveLineChartCard">
@@ -286,6 +298,14 @@
         <attr name="ralcc_gridLineColor" format="color" />
         <attr name="ralcc_labelColor" format="color" />
         <attr name="ralcc_xAxisUnit" format="string" />
+        <attr name="ralcc_highlightLineColor" format="color"/>
+        <attr name="ralcc_highlightLineWidth" format="float"/>
+        <attr name="ralcc_markViewBgColor" format="color"/>
+        <attr name="ralcc_markViewTitle1" format="string"/>
+        <attr name="ralcc_markViewTitle2" format="string"/>
+        <attr name="ralcc_markViewTitleColor" format="color"/>
+        <attr name="ralcc_markViewValueColor" format="color"/>
+        <attr name="ralcc_markViewDivideLineColor" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="ReportPressureView">

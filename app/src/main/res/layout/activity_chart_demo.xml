@@ -8,20 +8,76 @@
         tools:context="cn.entertech.componentdemo.ChartDemoActivity"
         >
 
-        <Button
-                android:id="@+id/btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        <cn.entertech.uicomponentsdk.realtime.RealtimeHRVView
-                app:rhrvv_background="#FDF1EA"
-                app:rhrvv_lineColor="#FFC56F"
+<!--        <Button-->
+<!--                android:id="@+id/btn"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"/>-->
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                app:rhrvv_titleText="HRV"
-                app:rhrvv_gridLineColor="#00ff00"
-                app:rhrvv_mainColor="#40392F"
-                app:rhrvv_axisColor="#000000"
-                android:id="@+id/hrv"/>
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <cn.entertech.uicomponentsdk.report.ReportLineChartCard
+                    app:rlcc_title="title"
+                    app:rlcc_isTitleMenuIconShow="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    app:rlcc_titleMenuIcon="@drawable/vector_drawable_info_circle"
+                    app:rlcc_lineColor="#FF6682"
+                    app:rlcc_markViewTitle="Heart rate"
+                    app:rlcc_markViewBgColor="#F1F5F6"
+                    app:rlcc_background="#ffffff"
+                    app:rlcc_highlightLineColor="#DDE1EB"
+                    app:rlcc_highlightLineWidth="1.5"
+                    app:rlcc_xAxisUnit="Time(min)"
+                    android:id="@+id/line_chart1"/>
+            <cn.entertech.uicomponentsdk.report.ReportAffectiveLineChartCard
+                    app:ralcc_title="title"
+                    app:ralcc_isTitleMenuIconShow="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    app:ralcc_titleMenuIcon="@drawable/vector_drawable_info_circle"
+                    app:ralcc_attentionLineColor="#FF6682"
+                    app:ralcc_relaxationLineColor="#00ff00"
+                    app:ralcc_markViewTitle1="Attention"
+                    app:ralcc_markViewTitle2="Relaxation"
+                    app:ralcc_markViewBgColor="#F1F5F6"
+                    app:ralcc_background="#ffffff"
+                    app:ralcc_highlightLineColor="#DDE1EB"
+                    app:ralcc_highlightLineWidth="1.5"
+                    app:ralcc_xAxisUnit="Time(min)"
+                    android:id="@+id/line_chart"/>
+
+            <cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumView
+                    android:id="@+id/report_brainwave_spectrum_pie"
+                    android:layout_width="match_parent"
+                    android:layout_height="289dp"
+                    app:rbs_isTitleIconShow="false"
+                    app:rbs_spectrumColors="#FF6682,#5E75FF,#F7C77E,#5FC695,#FB9C98"
+                    app:rbs_title="Brainwave Spectrum"
+                    app:rbs_isTitleMenuIconShow="true"
+                    app:rbs_highlightLineColor="#DDE1EB"
+                    app:rbs_highlightLineWidth="1.5"
+                    app:rbs_timeUnit="400"
+                    app:rbs_titleMenuIcon="@drawable/vector_drawable_full_screen"
+                    />
+
+        </LinearLayout>
+    </ScrollView>
+<!--        <cn.entertech.uicomponentsdk.realtime.RealtimeHRVView-->
+<!--                app:rhrvv_background="#FDF1EA"-->
+<!--                app:rhrvv_lineColor="#FFC56F"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="300dp"-->
+<!--                app:rhrvv_titleText="HRV"-->
+<!--                app:rhrvv_gridLineColor="#00ff00"-->
+<!--                app:rhrvv_mainColor="#40392F"-->
+<!--                app:rhrvv_axisColor="#000000"-->
+<!--                android:id="@+id/hrv"/>-->
 <!--        <cn.entertech.uicomponentsdk.report.ReportAffectiveLineChartCard-->
 <!--                android:layout_width="match_parent"-->
 <!--                android:layout_height="250dp"-->
@@ -67,18 +123,6 @@
     <!--            android:id="@+id/realtime_hrv"-->
     <!--            android:layout_width="match_parent"-->
     <!--            android:layout_height="wrap_content"/>-->
-
-    <!--        <cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumView-->
-    <!--                android:id="@+id/report_brainwave_spectrum_pie"-->
-    <!--                android:layout_width="match_parent"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                app:rbs_isTitleIconShow="false"-->
-    <!--                app:rbs_spectrumColors="#FF6682,#5E75FF,#F7C77E,#5FC695,#FB9C98"-->
-    <!--                app:rbs_title="Brainwave Spectrum"-->
-    <!--                app:rbs_isTitleMenuIconShow="true"-->
-    <!--                app:rbs_timeUnit="400"-->
-    <!--                app:rbs_titleMenuIcon="@drawable/vector_drawable_full_screen"-->
-    <!--                />-->
 
 
     <!--    <cn.entertech.uicomponentsdk.widget.HalfCircleProgressBar-->

@@ -2,10 +2,46 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/ll_bg"
+        android:background="@drawable/shape_markview_bg"
         >
-    <TextView
+
+    <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="MarkView"/>
+            android:layout_marginLeft="@dimen/activity_margin_half"
+            android:layout_marginTop="@dimen/activity_margin_half"
+            android:layout_marginRight="@dimen/activity_margin_half"
+            android:orientation="horizontal"
+            >
 
+        <TextView
+                android:id="@+id/tv_color"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/shape_chart_highlight_icon_outside"
+                />
+
+        <TextView
+                android:layout_marginLeft="4dp"
+                android:id="@+id/tv_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:text="Heart rate"
+                />
+    </LinearLayout>
+
+    <TextView
+            android:id="@+id/tv_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="@dimen/activity_margin_half"
+            android:text="35"
+            android:textSize="16sp"
+            />
 </LinearLayout>

@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:id="@+id/rl_bg"
         >
 
     <LinearLayout
-            android:id="@+id/ll_bg"
+            android:layout_marginTop="@dimen/activity_margin_half"
+            android:id="@+id/ll_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"
-            android:elevation="0dp"
             android:orientation="vertical"
             android:paddingBottom="@dimen/activity_margin"
             >
@@ -18,10 +19,18 @@
 
         <include layout="@layout/layout_common_card_title" />
 
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_marginTop="@dimen/activity_margin_half"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
         <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="192dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:layout_marginLeft="@dimen/activity_margin"
                 android:layout_marginRight="@dimen/activity_margin"
                 android:layout_marginBottom="@dimen/activity_margin"
@@ -29,11 +38,23 @@
                 android:orientation="horizontal"
                 >
 
+
+            <cn.entertech.uicomponentsdk.widget.CustomLineChart
+                    android:id="@+id/chart"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    />
+
+
             <LinearLayout
+                    android:visibility="visible"
                     android:layout_width="wrap_content"
+                    android:gravity="left"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginTop="@dimen/activity_margin"
+                    android:layout_marginTop="48dp"
+                    android:layout_marginBottom="8dp"
                     android:orientation="vertical"
                     >
 
@@ -78,12 +99,6 @@
                         />
 
             </LinearLayout>
-
-            <cn.entertech.uicomponentsdk.widget.CustomLineChart
-                    android:id="@+id/chart"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    />
         </LinearLayout>
 
         <TextView
@@ -121,4 +136,4 @@
                 />
     </RelativeLayout>
 
-</FrameLayout>
+</RelativeLayout>

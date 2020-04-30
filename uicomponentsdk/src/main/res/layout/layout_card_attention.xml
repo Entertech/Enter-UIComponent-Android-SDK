@@ -1,38 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/rl_bg"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="262dp"
         >
 
     <LinearLayout
+            android:layout_marginTop="@dimen/activity_margin_half"
+            android:id="@+id/ll_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:background="@color/white"
-            android:elevation="0dp"
-            android:id="@+id/ll_bg"
+            >
+
+        <include layout="@layout/layout_common_card_title" />
+    </LinearLayout>
+
+    <LinearLayout
+            android:visibility="visible"
+            android:layout_marginTop="@dimen/activity_margin_half"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
             >
 
 
-        <include layout="@layout/layout_common_card_title"/>
-
         <LinearLayout
-                android:layout_marginLeft="@dimen/activity_margin"
-                android:layout_marginRight="@dimen/activity_margin"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 >
 
             <cn.entertech.uicomponentsdk.widget.CustomVerticalTextView
-                    android:visibility="gone"
                     android:id="@+id/tv_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:visibility="gone"
                     app:cvtv_text="Relaxation Index"
                     app:cvtv_textSize="12sp"
                     />
@@ -40,67 +50,68 @@
             <cn.entertech.uicomponentsdk.widget.CustomLineChart
                     android:id="@+id/chart"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    />
         </LinearLayout>
 
         <TextView
-                android:layout_marginTop="@dimen/activity_margin_half"
                 android:id="@+id/tv_time_unit_des"
-                android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/sdk_time_unit"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/activity_margin_half"
                 android:layout_marginBottom="@dimen/activity_margin"
+                android:text="@string/sdk_time_unit"
                 />
 
         <LinearLayout
-                android:visibility="gone"
-                android:layout_marginBottom="@dimen/activity_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_margin"
                 android:layout_marginRight="@dimen/activity_margin"
+                android:layout_marginBottom="@dimen/activity_margin"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 >
 
             <LinearLayout
                     android:id="@+id/ll_avg"
-                    android:visibility="visible"
-                    android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:orientation="horizontal"
+                    android:visibility="visible"
                     >
 
                 <TextView
                         android:id="@+id/tv_avg"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
                         android:fontFamily="sans-serif"
-                        android:textStyle="normal"
-                        android:textColor="#333333"
                         android:text="平均: 78"
+                        android:textColor="#333333"
+                        android:textSize="14sp"
+                        android:textStyle="normal"
                         />
 
                 <TextView
-                        android:layout_marginLeft="@dimen/activity_margin_half"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="12sp"
+                        android:layout_marginLeft="@dimen/activity_margin_half"
                         android:fontFamily="sans-serif"
-                        android:textStyle="normal"
-                        android:textColor="#999999"
                         android:text=""
+                        android:textColor="#999999"
+                        android:textSize="12sp"
+                        android:textStyle="normal"
                         />
             </LinearLayout>
 
             <LinearLayout
                     android:id="@+id/ll_max"
-                    android:gravity="center"
-                    android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
                     android:orientation="horizontal"
                     >
 
@@ -108,31 +119,31 @@
                         android:id="@+id/tv_max"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
                         android:fontFamily="sans-serif"
-                        android:textStyle="normal"
-                        android:textColor="#333333"
                         android:text="最大: 78"
+                        android:textColor="#333333"
+                        android:textSize="14sp"
+                        android:textStyle="normal"
                         />
 
                 <TextView
-                        android:layout_marginLeft="@dimen/activity_margin_half"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="12sp"
+                        android:layout_marginLeft="@dimen/activity_margin_half"
                         android:fontFamily="sans-serif"
-                        android:textStyle="normal"
-                        android:textColor="#999999"
                         android:text=""
+                        android:textColor="#999999"
+                        android:textSize="12sp"
+                        android:textStyle="normal"
                         />
             </LinearLayout>
 
             <LinearLayout
                     android:id="@+id/ll_min"
-                    android:gravity="right"
-                    android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
                     android:orientation="horizontal"
                     >
 
@@ -140,22 +151,22 @@
                         android:id="@+id/tv_min"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
                         android:fontFamily="sans-serif"
-                        android:textStyle="normal"
-                        android:textColor="#333333"
                         android:text="最小: 78"
+                        android:textColor="#333333"
+                        android:textSize="14sp"
+                        android:textStyle="normal"
                         />
 
                 <TextView
-                        android:layout_marginLeft="@dimen/activity_margin_half"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="12sp"
+                        android:layout_marginLeft="@dimen/activity_margin_half"
                         android:fontFamily="sans-serif"
-                        android:textStyle="normal"
-                        android:textColor="#999999"
                         android:text=""
+                        android:textColor="#999999"
+                        android:textSize="12sp"
+                        android:textStyle="normal"
                         />
             </LinearLayout>
         </LinearLayout>
@@ -163,25 +174,25 @@
     </LinearLayout>
 
     <RelativeLayout
-            android:visibility="gone"
             android:id="@+id/rl_no_data_cover"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorLoadingCoverBg"
+            android:visibility="gone"
             >
 
         <TextView
-                android:layout_marginRight="48dp"
-                android:layout_marginLeft="48dp"
-                android:layout_centerInParent="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="48dp"
+                android:layout_marginRight="48dp"
                 android:fontFamily="sans-serif-medium"
-                android:textStyle="normal"
-                android:textColor="#ffffff"
                 android:gravity="center_horizontal"
                 android:text="@string/sdk_meditation_no_device_tip_1"
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                android:textStyle="normal"
                 />
     </RelativeLayout>
-</FrameLayout>
+</RelativeLayout>

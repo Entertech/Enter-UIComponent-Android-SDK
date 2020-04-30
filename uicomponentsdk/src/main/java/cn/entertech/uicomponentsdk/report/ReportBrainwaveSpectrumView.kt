@@ -15,15 +15,18 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.TextView
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.utils.getOpacityColor
+import cn.entertech.uicomponentsdk.utils.toDrawable
+import cn.entertech.uicomponentsdk.widget.BrainwaveSpectrumChartMarkView
+import cn.entertech.uicomponentsdk.widget.ChartIconView
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.XAxis
@@ -32,24 +35,30 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
-import kotlinx.android.synthetic.main.layout_card_attention.view.*
+import com.github.mikephil.charting.listener.ChartTouchListener
+import com.github.mikephil.charting.listener.OnChartGestureListener
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
+import com.github.mikephil.charting.utils.MPPointF
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum.view.*
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum.view.chart
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum.view.legend_alpha
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum.view.legend_delta
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum.view.legend_gamma
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum.view.legend_theta
-import kotlinx.android.synthetic.main.layout_card_brain_spectrum.view.ll_bg
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum.view.rl_no_data_cover
 import kotlinx.android.synthetic.main.layout_common_card_title.view.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 class ReportBrainwaveSpectrumView @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private lateinit var marker: BrainwaveSpectrumChartMarkView
+    private var dataSets: ArrayList<ILineDataSet> = ArrayList()
     private var bgColor: Int = Color.WHITE
     private var mXAxisUnit: String? = "Time(min)"
     private var mSelfView: View? = null
@@ -78,17 +87,43 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
         const val SPECTRUM_COLORS = "#FF6682,#5E75FF,#F7C77E,#5FC695,#FB9C98"
     }
 
-    init {
-        if (layoutId == null) {
-            mSelfView =
-                LayoutInflater.from(context).inflate(R.layout.layout_card_brain_spectrum, null)
-            var layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-            mSelfView?.layoutParams = layoutParams
-        } else {
-            mSelfView = LayoutInflater.from(context).inflate(R.layout.pop_card_brain_spectrum, null)
-            var layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
-            mSelfView?.layoutParams = layoutParams
+    private var mMarkViewTitleColor: Int = Color.parseColor("#8F11152E")
+        set(value) {
+            field = value
+            initView()
         }
+    private var mMarkViewValueColor: Int = Color.parseColor("#11152E")
+        set(value) {
+            field = value
+            initView()
+        }
+    private var mMarkViewBgColor: Int = Color.parseColor("#F1F5F6")
+        set(value) {
+            field = value
+            initView()
+        }
+    private var mHighlightLineWidth: Float = 1.5f
+        set(value) {
+            field = value
+            initView()
+        }
+    private var mHighlightLineColor: Int = Color.parseColor("#DDE1EB")
+        set(value) {
+            field = value
+            initView()
+        }
+    private var mMarkDivideLineColor: Int = Color.parseColor("#9AA1A9")
+        set(value) {
+            field = value
+            initView()
+        }
+
+
+    init {
+        mSelfView =
+            LayoutInflater.from(context).inflate(R.layout.layout_card_brain_spectrum, null)
+        var layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
+        mSelfView?.layoutParams = layoutParams
         addView(mSelfView)
         var typeArray = context.obtainStyledAttributes(
             attributeSet,
@@ -131,10 +166,32 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
         }
         mSpectrumColors = color.split(",")
             .map { Color.parseColor(it) }
+        mHighlightLineColor = typeArray.getColor(
+            R.styleable.ReportBrainwaveSpectrumView_rbs_highlightLineColor,
+            mHighlightLineColor
+        )
+        mHighlightLineWidth = typeArray.getFloat(
+            R.styleable.ReportBrainwaveSpectrumView_rbs_highlightLineWidth,
+            mHighlightLineWidth
+        )
+        mMarkViewBgColor = typeArray.getColor(
+            R.styleable.ReportBrainwaveSpectrumView_rbs_markViewBgColor,
+            mMarkViewBgColor
+        )
+        mMarkViewTitleColor = typeArray.getColor(
+            R.styleable.ReportBrainwaveSpectrumView_rbs_markViewTitleColor,
+            mMarkViewTitleColor
+        )
+        mMarkViewValueColor = typeArray.getColor(
+            R.styleable.ReportBrainwaveSpectrumView_rbs_markViewValueColor,
+            mMarkViewValueColor
+        )
+        mMarkDivideLineColor = typeArray.getColor(R.styleable.ReportBrainwaveSpectrumView_rbs_markViewDivideLineColor,mMarkDivideLineColor)
+
         initView()
     }
 
-    fun initView() {
+    fun initTitle() {
         tv_title.text = mTitleText
         tv_title.setTextColor(mTextColor)
         if (mIsShowTitleIcon) {
@@ -149,38 +206,10 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
         } else {
             iv_menu.visibility = View.GONE
         }
-        if (mBg != null) {
-            ll_bg.background = mBg
-        } else {
-            mBg = ll_bg.background
-        }
-        if (mBg is ColorDrawable) {
-            bgColor = (mBg as ColorDrawable).color
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                bgColor = (mBg as GradientDrawable).color.defaultColor
-            }
-        }
         iv_info.setOnClickListener {
             var uri = Uri.parse(mInfoUrl)
             context.startActivity(Intent(Intent.ACTION_VIEW, uri))
         }
-
-        tv_unit.setTextColor(getOpacityColor(mTextColor, 0.7f))
-        if (mIsAbsoluteTime) {
-            tv_unit.visibility = View.GONE
-        } else {
-            tv_unit.visibility = View.VISIBLE
-        }
-
-        if (mSpectrumColors != null) {
-            legend_gamma.setLegendIconColor(mSpectrumColors!![0])
-            legend_beta.setLegendIconColor(mSpectrumColors!![1])
-            legend_alpha.setLegendIconColor(mSpectrumColors!![2])
-            legend_theta.setLegendIconColor(mSpectrumColors!![3])
-            legend_delta.setLegendIconColor(mSpectrumColors!![4])
-        }
-
         iv_menu.setOnClickListener {
             (context as Activity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
             var affectiveView =
@@ -192,6 +221,11 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
             affectiveView.setSpectrumColors(mSpectrumColors)
             affectiveView.setTextColor(mTextColor)
             affectiveView.setBg(mBg)
+            affectiveView.mHighlightLineColor = mHighlightLineColor
+            affectiveView.mHighlightLineWidth = mHighlightLineWidth
+            affectiveView.mMarkViewBgColor = mMarkViewBgColor
+            affectiveView.mMarkViewTitleColor = mMarkViewTitleColor
+            affectiveView.mMarkViewValueColor = mMarkViewValueColor
             affectiveView.setLabelColor(mLabelColor)
             affectiveView.setData(mBrainwaveSpectrums, true)
             var popWindow = PopupWindow(affectiveView, MATCH_PARENT, MATCH_PARENT)
@@ -204,12 +238,54 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
                     ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
                 popWindow.dismiss()
             }
+            popWindow.setBackgroundDrawable(mBg)
             popWindow.showAtLocation(iv_menu, Gravity.CENTER, 0, 0)
         }
 
-        tv_unit.text = mXAxisUnit
+    }
 
+    fun initBg() {
+        if (mBg != null) {
+            rl_bg.background = mBg
+        } else {
+            mBg = rl_bg.background
+        }
+        if (mBg is ColorDrawable) {
+            bgColor = (mBg as ColorDrawable).color
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                bgColor = (mBg as GradientDrawable).color.defaultColor
+            }
+        }
+
+    }
+
+    fun initUnit() {
+        tv_unit.setTextColor(getOpacityColor(mTextColor, 0.7f))
+        tv_unit.text = mXAxisUnit
+        if (mIsAbsoluteTime) {
+            tv_unit.visibility = View.GONE
+        } else {
+            tv_unit.visibility = View.VISIBLE
+        }
+    }
+
+    fun initLegend() {
+        if (mSpectrumColors != null) {
+            legend_gamma.setLegendIconColor(mSpectrumColors!![0])
+            legend_beta.setLegendIconColor(mSpectrumColors!![1])
+            legend_alpha.setLegendIconColor(mSpectrumColors!![2])
+            legend_theta.setLegendIconColor(mSpectrumColors!![3])
+            legend_delta.setLegendIconColor(mSpectrumColors!![4])
+        }
+    }
+
+    fun initView() {
+        initTitle()
+        initBg()
+        initUnit()
         initChart()
+        initLegend()
     }
 
     fun fixData() {
@@ -280,7 +356,7 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
             llXAxis.labelPosition = LimitLine.LimitLabelPosition.LEFT_BOTTOM
             llXAxis.textSize = 12f
             llXAxis.yOffset = -15f
-            llXAxis.lineColor = mGridLineColor
+            llXAxis.lineColor = Color.parseColor("#00000000")
             llXAxis.textColor = mLabelColor
             if (currentMin == 0) {
                 llXAxis.xOffset = -3f
@@ -291,7 +367,20 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
             currentMin += minOffset
         }
 
-        val dataSets = ArrayList<ILineDataSet>()
+        var yLimitLineValues = listOf<Float>(0f, 25f, 50f, 75f, 100f)
+        yLimitLineValues.forEach {
+            var limitLine: LimitLine? = null
+            limitLine = LimitLine(it, "${it.toInt()}%")
+            limitLine?.enableDashedLine(10f, 10f, 0f)
+            limitLine?.lineWidth = 1f
+            limitLine?.labelPosition = LimitLine.LimitLabelPosition.LEFT_TOP
+            limitLine?.textSize = 11f
+            limitLine?.xOffset = -20f
+            limitLine?.yOffset = -4f
+            limitLine?.textColor = mLabelColor
+            limitLine?.lineColor = mGridLineColor
+            chart.axisLeft.addLimitLine(limitLine)
+        }
         for (i in 0..4) {
             val values = ArrayList<Entry>()
             for (j in sampleData[0].indices) {
@@ -327,6 +416,12 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
             set1 = LineDataSet(values, "")
             set1.lineWidth = 0f
             set1.setDrawCircleHole(false)
+
+//            set1.setDrawHighlightIndicators(false)
+//            set1.setDrawHorizontalHighlightIndicator(false)
+            set1.setDrawVerticalHighlightIndicator(true)
+            set1.highLightColor = mHighlightLineColor
+            set1.highlightLineWidth = mHighlightLineWidth
             set1.formLineWidth = 0f
             set1.formLineDashEffect = DashPathEffect(floatArrayOf(10f, 5f), 0f)
             set1.formSize = 15f
@@ -334,7 +429,7 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
             set1.valueTextSize = 9f
             set1.setDrawValues(false)
             set1.lineWidth = 0f
-            set1.setDrawHighlightIndicators(false)
+            set1.setDrawHighlightIndicators(true)
             set1.setDrawFilled(true)
             set1.setDrawCircles(false)
             set1.setMode(LineDataSet.Mode.CUBIC_BEZIER)
@@ -345,26 +440,132 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
 
         // create a data object with the data sets
         val data = LineData(dataSets)
+        marker.setDataSets(dataSets)
         // set data
         chart.data = data
         chart.notifyDataSetChanged()
 
     }
 
+    fun setChartListener() {
+        chart.onChartGestureListener = object : OnChartGestureListener {
+            override fun onChartGestureEnd(
+                me: MotionEvent?,
+                lastPerformedGesture: ChartTouchListener.ChartGesture?
+            ) {
+                if (me?.action == MotionEvent.ACTION_UP) {
+                    ll_title.visibility = View.VISIBLE
+                    chart.highlightValue(null)
+                    dataSets.map {
+                        it as LineDataSet
+                    }.forEach {
+                        it.setDrawIcons(false)
+                    }
+                }
+            }
+
+            override fun onChartFling(
+                me1: MotionEvent?,
+                me2: MotionEvent?,
+                velocityX: Float,
+                velocityY: Float
+            ) {
+            }
+
+            override fun onChartSingleTapped(me: MotionEvent) {
+            }
+
+            override fun onChartGestureStart(
+                me: MotionEvent,
+                lastPerformedGesture: ChartTouchListener.ChartGesture?
+            ) {
+            }
+
+            override fun onChartScale(me: MotionEvent?, scaleX: Float, scaleY: Float) {
+            }
+
+            override fun onChartLongPressed(me: MotionEvent) {
+                chart.disableScroll()
+                marker.setDataSets(dataSets)
+                dataSets.map {
+                    it as LineDataSet
+                }.forEach {
+                    it.setDrawHorizontalHighlightIndicator(false)
+                    it.setDrawVerticalHighlightIndicator(true)
+                    it.highLightColor = mHighlightLineColor
+                    it.highlightLineWidth = mHighlightLineWidth
+                }
+                val highlightByTouchPoint = chart.getHighlightByTouchPoint(me.x, me.y)
+                chart.highlightValue(highlightByTouchPoint, true)
+            }
+
+            override fun onChartDoubleTapped(me: MotionEvent?) {
+            }
+
+            override fun onChartTranslate(me: MotionEvent?, dX: Float, dY: Float) {
+            }
+        }
+
+        var iconGamma = ChartIconView(context)
+        var iconBeta = ChartIconView(context)
+        var iconAlpha = ChartIconView(context)
+        var icontheta = ChartIconView(context)
+        var iconDelta = ChartIconView(context)
+        var iconList = listOf<ChartIconView>(iconGamma, iconBeta, iconAlpha, icontheta, iconDelta)
+        chart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+            override fun onNothingSelected() {
+            }
+
+            override fun onValueSelected(e: Entry, h: Highlight?) {
+                ll_title.visibility = View.GONE
+                for (i in iconList.indices) {
+                    iconList[i].color = mSpectrumColors!![i]
+                }
+                var iconDrawables = iconList.map { it.toDrawable(context) }
+                for (i in dataSets.indices) {
+                    dataSets[i]?.setDrawIcons(true)
+                    dataSets[i]?.iconsOffset = MPPointF(0f, 3f)
+                    (dataSets[i]!! as LineDataSet)?.values.forEach {
+                        if (it.x == e.x) {
+                            it.icon = iconDrawables[i]
+                        } else {
+                            it.icon = null
+                        }
+                    }
+                }
+                chart.notifyDataSetChanged()
+            }
+
+        })
+    }
+
     fun initChart() {
-        chart.setBackgroundColor(bgColor)
+//        chart.setBackgroundColor(bgColor)
         // disable description text
+
+        marker = BrainwaveSpectrumChartMarkView(
+            context,
+            mSpectrumColors!!.toIntArray(),mMarkViewValueColor,
+            getOpacityColor(mMarkDivideLineColor,0.3f),mMarkViewTitleColor,
+            arrayOf("γ", "β", "α", "θ", "δ")
+        )
+        marker.setMarkViewBgColor(mMarkViewBgColor)
+        marker.chartView = chart
+        chart.marker = marker
         chart.getDescription().setEnabled(false)
         chart.legend.isEnabled = false
         // enable touch gestures
         chart.setTouchEnabled(true)
 
+        chart.setMaxVisibleValueCount(100000)
         chart.setDrawGridBackground(false)
         // enable scaling and dragging
         chart.setDragEnabled(true)
 //        chart.setScaleEnabled(true)
         chart.setScaleXEnabled(true)
         chart.setScaleYEnabled(false)
+        chart.extraTopOffset = 60f
+        chart.extraLeftOffset = 30f
         // force pinch zoom along both axis
         chart.setPinchZoom(true)
         val xAxis: XAxis = chart.xAxis
@@ -389,19 +590,12 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
 //        yAxis.enableGridDashedLine(10f, 10f, 0f)
         yAxis.setDrawGridLines(false)
         yAxis.setDrawAxisLine(false)
+        yAxis.setDrawLabels(false)
         yAxis.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART)
         // axis range
-        yAxis.axisMaximum = 100f
+        yAxis.axisMaximum = 105f
         yAxis.axisMinimum = 0f
         yAxis.labelCount = 3
-        yAxis.valueFormatter = object : ValueFormatter() {
-            override fun getAxisLabel(
-                value: Float, base: AxisBase
-            ): String? {
-                return ""
-            }
-        }
-
         val ll1 = LimitLine(150f, "Upper Limit")
         ll1.lineWidth = 4f
         ll1.enableDashedLine(10f, 10f, 0f)
@@ -410,10 +604,11 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
 
 
         // draw limit lines behind data instead of on top
-        yAxis.setDrawLimitLinesBehindData(true)
+        yAxis.setDrawLimitLinesBehindData(false)
         xAxis.setDrawLimitLinesBehindData(false)
         // add limit lines
         yAxis.addLimitLine(ll1)
+        setChartListener()
     }
 
     fun setSpectrumColors(colors: List<Int>?) {
@@ -454,12 +649,12 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
         initView()
     }
 
-    fun setBg(bg:Drawable?){
+    fun setBg(bg: Drawable?) {
         this.mBg = bg
         initView()
     }
 
-    fun setTextColor(color:Int){
+    fun setTextColor(color: Int) {
         this.mTextColor = color
         initView()
     }
