@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.util.AttributeSet
+import android.util.Log
 import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.ImageView
@@ -17,10 +18,7 @@ import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.TextView
 import cn.entertech.uicomponentsdk.R
-import cn.entertech.uicomponentsdk.utils.dp
-import cn.entertech.uicomponentsdk.utils.formatData
-import cn.entertech.uicomponentsdk.utils.getOpacityColor
-import cn.entertech.uicomponentsdk.utils.toDrawable
+import cn.entertech.uicomponentsdk.utils.*
 import cn.entertech.uicomponentsdk.widget.ChartIconView
 import cn.entertech.uicomponentsdk.widget.LineChartMarkView
 import com.github.mikephil.charting.components.LimitLine
@@ -39,6 +37,8 @@ import com.github.mikephil.charting.utils.Utils
 import kotlinx.android.synthetic.main.layout_card_attention.view.*
 import kotlinx.android.synthetic.main.layout_common_card_title.view.*
 import java.util.*
+import kotlin.math.ceil
+import kotlin.math.floor
 
 class ReportLineChartCard @JvmOverloads constructor(
     context: Context,
@@ -273,22 +273,6 @@ class ReportLineChartCard @JvmOverloads constructor(
         }
     }
 
-    fun setChartMaxAndMinValue() {
-        var maxValue = mData!!.max()
-        var minValue = mData!!.min()
-        var yAxisMax = (maxValue!! / 0.9f).toFloat()
-        var yAxisMin = (minValue!! * 0.9f).toFloat()
-        if (yAxisMax - yAxisMin < 5) {
-            chart.axisLeft.axisMaximum = yAxisMax + 1
-            chart.axisLeft.axisMinimum = if (yAxisMin - 1 <= 0) 0f else {
-                yAxisMin - 1
-            }
-        } else {
-            chart.axisLeft.axisMaximum = yAxisMax
-            chart.axisLeft.axisMinimum = yAxisMin
-        }
-    }
-
     fun sampleData(sample: Int, isShowAllData: Boolean): ArrayList<Double> {
         var sampleData = ArrayList<Double>()
         for (i in mData!!.indices) {
@@ -305,7 +289,6 @@ class ReportLineChartCard @JvmOverloads constructor(
             return
         }
         this.mData = formatData(data)
-        setChartMaxAndMinValue()
         var sample = mData!!.size / mPointCount
         if (isShowAllData || sample <= 1) {
             sample = 1
@@ -382,7 +365,7 @@ class ReportLineChartCard @JvmOverloads constructor(
             set1.setDrawFilled(mIsDrawFill)
             set1.fillAlpha = 255
             set1.setDrawCircles(false)
-            set1.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
+            set1.mode = LineDataSet.Mode.CUBIC_BEZIER
             if (mIsDrawFill) {
                 if (Utils.getSDKInt() >= 18) {
                     var gradientDrawable = GradientDrawable()
@@ -413,9 +396,30 @@ class ReportLineChartCard @JvmOverloads constructor(
 
 //         // set data
             chart.data = data
+            calNiceLabel(mData!!)
             chart.notifyDataSetChanged()
         }
     }
+
+    private fun calNiceLabel(data: List<Double>) {
+        var min = data.min()
+        var max = data.max()
+        var yAxisMax = (max!! / 0.9f)
+        var yAxisMin = (min!! * 0.9f)
+        var interval = calNiceInterval(yAxisMin, yAxisMax)
+        var firstLabel = floor(yAxisMin / interval) * interval
+        var lastLabel = ceil(yAxisMax / interval) * interval
+        var labels = ArrayList<Float>()
+        var i = firstLabel
+        while (i <= lastLabel) {
+            labels.add(i.toFloat())
+            i += interval
+        }
+        chart.axisLeft.axisMaximum = lastLabel.toFloat()
+        chart.axisLeft.axisMinimum = firstLabel.toFloat()
+        chart.axisLeft.mEntries = labels.toFloatArray()
+    }
+
 
     fun initChart() {
 //        chart.setBackgroundColor(bgColor)
@@ -427,7 +431,7 @@ class ReportLineChartCard @JvmOverloads constructor(
         chart.isDragEnabled = true
         chart.isScaleXEnabled = true
         chart.isScaleYEnabled = false
-
+        chart.isHighlightPerDragEnabled = false
         val marker = LineChartMarkView(context, mLineColor, mMarkViewTitle)
         marker.chartView = chart
         marker.setMarkTitleColor(mMarkViewTitleColor)
@@ -446,7 +450,7 @@ class ReportLineChartCard @JvmOverloads constructor(
         yAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
         yAxis.setLabelCount(5, false)
         yAxis.setDrawGridLines(true)
-        yAxis.gridColor = getOpacityColor(mAverageLineColor,0.2f)
+        yAxis.gridColor = getOpacityColor(mAverageLineColor, 0.2f)
         yAxis.gridLineWidth = 1f
         yAxis.setGridDashedLine(DashPathEffect(floatArrayOf(10f, 10f), 0f))
         yAxis.textSize = 12f
@@ -456,17 +460,19 @@ class ReportLineChartCard @JvmOverloads constructor(
         setChartListener()
     }
 
+    fun cancelHighlight() {
+        ll_title.visibility = View.VISIBLE
+        chart.highlightValue(null)
+        set1.setDrawIcons(false)
+    }
+
     fun setChartListener() {
         chart.onChartGestureListener = object : OnChartGestureListener {
             override fun onChartGestureEnd(
                 me: MotionEvent?,
                 lastPerformedGesture: ChartTouchListener.ChartGesture?
             ) {
-                if (me?.action == MotionEvent.ACTION_UP) {
-                    ll_title.visibility = View.VISIBLE
-                    chart.highlightValue(null)
-                    set1.setDrawIcons(false)
-                }
+                cancelHighlight()
             }
 
             override fun onChartFling(
@@ -475,6 +481,7 @@ class ReportLineChartCard @JvmOverloads constructor(
                 velocityX: Float,
                 velocityY: Float
             ) {
+                cancelHighlight()
             }
 
             override fun onChartSingleTapped(me: MotionEvent) {
@@ -484,13 +491,15 @@ class ReportLineChartCard @JvmOverloads constructor(
                 me: MotionEvent,
                 lastPerformedGesture: ChartTouchListener.ChartGesture?
             ) {
+                chart.disableScroll()
+                set1.setDrawVerticalHighlightIndicator(true)
+                set1.setDrawHorizontalHighlightIndicator(false)
             }
 
             override fun onChartScale(me: MotionEvent?, scaleX: Float, scaleY: Float) {
             }
 
             override fun onChartLongPressed(me: MotionEvent) {
-                chart.disableScroll()
                 val highlightByTouchPoint = chart.getHighlightByTouchPoint(me.x, me.y)
                 chart.highlightValue(highlightByTouchPoint, true)
             }
@@ -498,24 +507,26 @@ class ReportLineChartCard @JvmOverloads constructor(
             override fun onChartDoubleTapped(me: MotionEvent?) {
             }
 
+
             override fun onChartTranslate(me: MotionEvent?, dX: Float, dY: Float) {
             }
         }
         chart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
             override fun onNothingSelected() {
+                cancelHighlight()
             }
 
             override fun onValueSelected(e: Entry, h: Highlight?) {
                 ll_title.visibility = View.INVISIBLE
+                chart.highlightValue(null, false)
                 set1.setDrawIcons(true)
                 set1.iconsOffset = MPPointF(0f, 3f)
                 set1.values.forEach {
                     it.icon = null
                 }
                 e?.icon = drawableIcon
-//                chart.notifyDataSetChanged()
+                chart.highlightValue(h, false)
             }
-
         })
     }
 

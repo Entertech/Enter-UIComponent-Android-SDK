@@ -37,7 +37,7 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
     private boolean isViewActivity;
     private SurfaceHolder mSurfaceHolder;
     public static int BRAIN_QUEUE_LENGTH = 200;
-    public static int BRAIN_BUFFER_LENGTH = 2;
+    public int mBuffer = 2;
     private Paint mAxisPaint;
     private Paint mGridLinePaint;
     private Paint mBgPaint;
@@ -68,6 +68,7 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
             mRightPadding = typedArray.getDimension(R.styleable.HRVSurfaceView_hrvsf_rightPadding, ScreenUtil.dip2px(context, 5));
             mLineWidth = typedArray.getDimension(R.styleable.HRVSurfaceView_hrvsf_lineWidth, 3);
             mMaxValue = typedArray.getInteger(R.styleable.HRVSurfaceView_hrvsf_maxValue, mMaxValue);
+            mBuffer = typedArray.getInteger(R.styleable.HRVSurfaceView_hrvsf_buffer, mBuffer);
         }
         initPaint();
     }
@@ -123,8 +124,8 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
         }
         this.mSourceData.addAll(simpleData);
         simpleData.clear();
-        if (mSourceData.size() > BRAIN_BUFFER_LENGTH) {
-            for (int i = 0; i < mSourceData.size() - BRAIN_BUFFER_LENGTH; i++) {
+        if (mSourceData.size() > mBuffer) {
+            for (int i = 0; i < mSourceData.size() - mBuffer; i++) {
                 mSourceData.remove(0);
             }
         }
@@ -133,8 +134,8 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
 
     public synchronized void setData(double data) {
         this.mSourceData.add(data);
-        if (mSourceData.size() > BRAIN_BUFFER_LENGTH) {
-            for (int i = 0; i < mSourceData.size() - BRAIN_BUFFER_LENGTH; i++) {
+        if (mSourceData.size() > mBuffer) {
+            for (int i = 0; i < mSourceData.size() - mBuffer; i++) {
                 mSourceData.remove(0);
             }
         }
@@ -145,6 +146,10 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
         for (int i = 0; i < BRAIN_QUEUE_LENGTH; i++) {
             drawData.add(0.0);
         }
+    }
+
+    public void setBuffer(int buffer){
+        this.mBuffer = buffer;
     }
 
     @Override
@@ -216,7 +221,7 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
         float pointOffset = getWidth() * 1f / (sampleData.size() - 1);
         //获得canvas对象
         canvas.translate(mLeftPadding + mYAxisMargin, getHeight());
-        float time = (getHeight() / mMaxValue);
+        float time = (getHeight() / mMaxValue*1f);
         Path path = new Path();
         for (int i = 0; i < sampleData.size(); i++) {
             if (i == 0)

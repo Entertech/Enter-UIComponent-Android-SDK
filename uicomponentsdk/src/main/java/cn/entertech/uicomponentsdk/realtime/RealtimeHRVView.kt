@@ -27,6 +27,7 @@ class RealtimeHRVView @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var mBuffer: Int = 2
     private var mInfoIconRes: Int? = null
     private var mLineColor: Int = Color.parseColor("#ff4852")
     var mSelfView: View = LayoutInflater.from(context).inflate(R.layout.view_meditation_hrv, null)
@@ -66,6 +67,7 @@ class RealtimeHRVView @JvmOverloads constructor(
             mInfoUrl = INFO_URL
         }
         mTextFont = typeArray.getString(R.styleable.RealtimeHRVView_rhrvv_textFont)
+        mBuffer = typeArray.getInteger(R.styleable.RealtimeHRVView_rhrvv_buffer,mBuffer)
         mLineColor =
             typeArray.getColor(R.styleable.RealtimeHRVView_rhrvv_lineColor, mLineColor)
         initView()
@@ -95,6 +97,7 @@ class RealtimeHRVView @JvmOverloads constructor(
                 bgColor = (mBg as GradientDrawable).color.defaultColor
             }
         }
+        sf_hrv.setBuffer(mBuffer)
         sf_hrv.setBackgroundColor(bgColor)
         sf_hrv.setLineColor(mLineColor)
         sf_hrv.setLineWidth(mLineWidth)
@@ -132,7 +135,11 @@ class RealtimeHRVView @JvmOverloads constructor(
         mSelfView.findViewById<LottieAnimationView>(R.id.icon_loading).visibility = View.GONE
         mSelfView.findViewById<RelativeLayout>(R.id.rl_loading_cover).visibility = View.VISIBLE
         mSelfView.findViewById<TextView>(R.id.tv_disconnect_text).visibility = View.VISIBLE
-        appendHrv(24.0)
+        var sampleBrainData = ArrayList<Double>()
+        for (i in 0..200) {
+            sampleBrainData.add(java.util.Random().nextDouble() * 50)
+        }
+        mSelfView.findViewById<HRVSurfaceView>(R.id.sf_hrv).setSampleData(sampleBrainData)
     }
 
     fun showErrorMessage(error: String) {
@@ -145,6 +152,7 @@ class RealtimeHRVView @JvmOverloads constructor(
 
     fun hideSampleData() {
         mSelfView.findViewById<RelativeLayout>(R.id.rl_loading_cover).visibility = View.GONE
+        sf_hrv.hideSampleData()
     }
 
     fun setLineColor(color: Int) {

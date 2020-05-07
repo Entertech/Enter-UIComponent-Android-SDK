@@ -15,9 +15,9 @@ class ChartDemoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_chart_demo)
         var data = ArrayList<Double>()
         var data1 = ArrayList<Double>()
-        for (i in 0..1000) {
+        for (i in 0..2000) {
             data.add(0.2)
-            data1.add(Random().nextDouble() * 50+20)
+            data1.add(Random().nextDouble() * 90)
         }
          var brainwaves = ArrayList<ArrayList<Double>>()
         brainwaves.add(data)

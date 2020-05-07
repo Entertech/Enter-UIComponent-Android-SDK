@@ -323,7 +323,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
             fullScreenChart?.setData(mAttentionData, mRelaxationData, true)
             popWindow = PopupWindow(fullScreenChart, MATCH_PARENT, MATCH_PARENT)
             popWindow?.setBackgroundDrawable(mBg)
-            popWindow?.showAsDropDown(this, Gravity.CENTER, 0, 0)
+            popWindow?.showAtLocation(iv_menu, Gravity.CENTER, 0, 0)
             fullScreenChart?.findViewById<TextView>(R.id.tv_title)?.text =
                 context.getString(R.string.chart_full_screen_tip)
             fullScreenChart?.findViewById<ImageView>(R.id.iv_menu)
@@ -509,6 +509,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
         chart.setDrawGridBackground(false)
         // enable scaling and dragging
         chart.setDragEnabled(true)
+        chart.isHighlightPerDragEnabled = false
         chart.setMaxVisibleValueCount(100000)
 //        chart.setScaleEnabled(true)
         chart.setScaleXEnabled(true)
@@ -556,21 +557,22 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
         // add limit lines
     }
 
+    fun cancelHighlight(){
+        ll_title.visibility = View.VISIBLE
+        chart.highlightValue(null)
+        dataSets.map {
+            it as LineDataSet
+        }.forEach {
+            it.setDrawIcons(false)
+        }
+    }
     fun setChartListener() {
         chart.onChartGestureListener = object : OnChartGestureListener {
             override fun onChartGestureEnd(
                 me: MotionEvent?,
                 lastPerformedGesture: ChartTouchListener.ChartGesture?
             ) {
-                if (me?.action == MotionEvent.ACTION_UP) {
-                    ll_title.visibility = View.VISIBLE
-                    chart.highlightValue(null)
-                    dataSets.map {
-                        it as LineDataSet
-                    }.forEach {
-                        it.setDrawIcons(false)
-                    }
-                }
+                cancelHighlight()
             }
 
             override fun onChartFling(
@@ -579,6 +581,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
                 velocityX: Float,
                 velocityY: Float
             ) {
+                cancelHighlight()
             }
 
             override fun onChartSingleTapped(me: MotionEvent) {
@@ -588,12 +591,6 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
                 me: MotionEvent,
                 lastPerformedGesture: ChartTouchListener.ChartGesture?
             ) {
-            }
-
-            override fun onChartScale(me: MotionEvent?, scaleX: Float, scaleY: Float) {
-            }
-
-            override fun onChartLongPressed(me: MotionEvent) {
                 chart.disableScroll()
                 marker.setDataSets(dataSets)
                 dataSets.map {
@@ -602,6 +599,12 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
                     it.setDrawHorizontalHighlightIndicator(false)
                     it.setDrawVerticalHighlightIndicator(true)
                 }
+            }
+
+            override fun onChartScale(me: MotionEvent?, scaleX: Float, scaleY: Float) {
+            }
+
+            override fun onChartLongPressed(me: MotionEvent) {
                 val highlightByTouchPoint = chart.getHighlightByTouchPoint(me.x, me.y)
                 chart.highlightValue(highlightByTouchPoint, true)
             }
@@ -617,9 +620,11 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
         var iconViewRelaxation = ChartIconView(context)
         chart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
             override fun onNothingSelected() {
+                cancelHighlight()
             }
 
             override fun onValueSelected(e: Entry, h: Highlight?) {
+                chart.highlightValue(null,false)
                 iconViewAttention.color = mAttentionLineColor
                 iconViewRelaxation.color = mRelaxationLineColor
                 attentionDrawableIcon = iconViewAttention.toDrawable(context)
@@ -643,7 +648,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
                         it.icon = null
                     }
                 }
-                chart.notifyDataSetChanged()
+                chart.highlightValue(h,false)
             }
 
         })

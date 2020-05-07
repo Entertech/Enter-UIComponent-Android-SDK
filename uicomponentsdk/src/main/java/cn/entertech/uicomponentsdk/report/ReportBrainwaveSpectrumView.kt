@@ -429,7 +429,6 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
             set1.valueTextSize = 9f
             set1.setDrawValues(false)
             set1.lineWidth = 0f
-            set1.setDrawHighlightIndicators(true)
             set1.setDrawFilled(true)
             set1.setDrawCircles(false)
             set1.setMode(LineDataSet.Mode.CUBIC_BEZIER)
@@ -447,21 +446,22 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
 
     }
 
+    fun cancelHighlight(){
+        ll_title.visibility = View.VISIBLE
+        chart.highlightValue(null)
+        dataSets.map {
+            it as LineDataSet
+        }.forEach {
+            it.setDrawIcons(false)
+        }
+    }
     fun setChartListener() {
         chart.onChartGestureListener = object : OnChartGestureListener {
             override fun onChartGestureEnd(
                 me: MotionEvent?,
                 lastPerformedGesture: ChartTouchListener.ChartGesture?
             ) {
-                if (me?.action == MotionEvent.ACTION_UP) {
-                    ll_title.visibility = View.VISIBLE
-                    chart.highlightValue(null)
-                    dataSets.map {
-                        it as LineDataSet
-                    }.forEach {
-                        it.setDrawIcons(false)
-                    }
-                }
+                cancelHighlight()
             }
 
             override fun onChartFling(
@@ -470,6 +470,7 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
                 velocityX: Float,
                 velocityY: Float
             ) {
+                cancelHighlight()
             }
 
             override fun onChartSingleTapped(me: MotionEvent) {
@@ -479,12 +480,6 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
                 me: MotionEvent,
                 lastPerformedGesture: ChartTouchListener.ChartGesture?
             ) {
-            }
-
-            override fun onChartScale(me: MotionEvent?, scaleX: Float, scaleY: Float) {
-            }
-
-            override fun onChartLongPressed(me: MotionEvent) {
                 chart.disableScroll()
                 marker.setDataSets(dataSets)
                 dataSets.map {
@@ -495,6 +490,12 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
                     it.highLightColor = mHighlightLineColor
                     it.highlightLineWidth = mHighlightLineWidth
                 }
+            }
+
+            override fun onChartScale(me: MotionEvent?, scaleX: Float, scaleY: Float) {
+            }
+
+            override fun onChartLongPressed(me: MotionEvent) {
                 val highlightByTouchPoint = chart.getHighlightByTouchPoint(me.x, me.y)
                 chart.highlightValue(highlightByTouchPoint, true)
             }
@@ -514,9 +515,11 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
         var iconList = listOf<ChartIconView>(iconGamma, iconBeta, iconAlpha, icontheta, iconDelta)
         chart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
             override fun onNothingSelected() {
+                cancelHighlight()
             }
 
             override fun onValueSelected(e: Entry, h: Highlight?) {
+                chart.highlightValue(null,false)
                 ll_title.visibility = View.GONE
                 for (i in iconList.indices) {
                     iconList[i].color = mSpectrumColors!![i]
@@ -533,7 +536,7 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
                         }
                     }
                 }
-                chart.notifyDataSetChanged()
+                chart.highlightValue(h,false)
             }
 
         })

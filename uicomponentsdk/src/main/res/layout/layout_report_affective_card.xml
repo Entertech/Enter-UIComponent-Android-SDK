@@ -17,6 +17,7 @@
         <include layout="@layout/layout_common_card_title" />
 
         <LinearLayout
+                android:layout_marginTop="-4dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
