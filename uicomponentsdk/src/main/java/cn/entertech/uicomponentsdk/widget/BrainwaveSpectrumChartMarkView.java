@@ -38,7 +38,7 @@ public class BrainwaveSpectrumChartMarkView extends MarkerView {
     private final LinearLayout llBg;
     private List<ILineDataSet> dataSets;
 
-    public BrainwaveSpectrumChartMarkView(Context context, int[] iconColors, int valueColor,int divideLineColor, int markTitleColor, String[] markTitles) {
+    public BrainwaveSpectrumChartMarkView(Context context, int[] iconColors, int valueColor, int divideLineColor, int markTitleColor, String[] markTitles) {
         super(context, R.layout.layout_markview_brainwave_spectrum);
         tvColor1 = findViewById(R.id.tv_color_1);
         tvColor2 = findViewById(R.id.tv_color_2);
@@ -112,11 +112,11 @@ public class BrainwaveSpectrumChartMarkView extends MarkerView {
             List<Entry> entry5 = ((LineDataSet) dataSets.get(4)).getValues();
             for (int i = 0; i < entry1.size(); i++) {
                 if (e.getX() == entry1.get(i).getX()) {
-                    float value1 = entry1.get(i).getY() - entry2.get(i).getY();
-                    float value2 = entry2.get(i).getY() - entry3.get(i).getY();
-                    float value3 = entry3.get(i).getY() - entry4.get(i).getY();
-                    float value4 = entry4.get(i).getY() - entry5.get(i).getY();
-                    float value5 = entry5.get(i).getY();
+                    int value1 = Math.round(entry1.get(i).getY() - entry2.get(i).getY());
+                    int value2 = Math.round(entry2.get(i).getY() - entry3.get(i).getY());
+                    int value3 = Math.round(entry3.get(i).getY() - entry4.get(i).getY());
+                    int value4 = Math.round(entry4.get(i).getY() - entry5.get(i).getY());
+                    int value5 = 100 - value1 - value2 - value3 - value4;
                     tvValue1.setText(Utils.formatNumber(value1, 0, true) + "%");
                     tvValue2.setText(Utils.formatNumber(value2, 0, true) + "%");
                     tvValue3.setText(Utils.formatNumber(value3, 0, true) + "%");
