@@ -396,7 +396,7 @@ class ReportLineChartCard @JvmOverloads constructor(
 
 //         // set data
             chart.data = data
-            calNiceLabel(mData!!)
+            calNiceLabel(sampleData!!)
             chart.notifyDataSetChanged()
         }
     }
@@ -404,8 +404,26 @@ class ReportLineChartCard @JvmOverloads constructor(
     private fun calNiceLabel(data: List<Double>) {
         var min = data.min()
         var max = data.max()
-        var yAxisMax = (max!! / 0.9f)
-        var yAxisMin = (min!! * 0.9f)
+        var yAxisMax = (max!! / 1f)
+        var yAxisMin = (min!! * 1f)
+        if (min == max) {
+            if (min == 0.0) {
+                chart.axisLeft.axisMaximum = 100f
+                chart.axisLeft.axisMinimum = 0f
+                chart.axisLeft.mEntries = floatArrayOf(0f, 25f, 50f, 75f, 100f)
+                chart.axisLeft.mEntryCount = 5
+                return
+            } else {
+                yAxisMax = min + 10
+                if (yAxisMax > 100) {
+                    yAxisMax = 100.0
+                }
+                yAxisMin = min - 10
+                if (yAxisMin < 0) {
+                    yAxisMin = 0.0
+                }
+            }
+        }
         var interval = calNiceInterval(yAxisMin, yAxisMax)
         var firstLabel = floor(yAxisMin / interval) * interval
         var lastLabel = ceil(yAxisMax / interval) * interval
@@ -418,6 +436,7 @@ class ReportLineChartCard @JvmOverloads constructor(
         chart.axisLeft.axisMaximum = lastLabel.toFloat()
         chart.axisLeft.axisMinimum = firstLabel.toFloat()
         chart.axisLeft.mEntries = labels.toFloatArray()
+        chart.axisLeft.mEntryCount = labels.size
     }
 
 

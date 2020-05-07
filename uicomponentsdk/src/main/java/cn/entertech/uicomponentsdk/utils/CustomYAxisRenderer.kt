@@ -3,12 +3,14 @@ package cn.entertech.uicomponentsdk.utils
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Paint.Align
+import android.util.Log
 import com.github.mikephil.charting.components.LimitLine.LimitLabelPosition
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.renderer.YAxisRenderer
 import com.github.mikephil.charting.utils.Transformer
 import com.github.mikephil.charting.utils.Utils
 import com.github.mikephil.charting.utils.ViewPortHandler
+import java.util.*
 
 class CustomYAxisRenderer(
     viewPortHandler: ViewPortHandler?,
@@ -125,6 +127,10 @@ class CustomYAxisRenderer(
         if (mYAxis.isDrawZeroLineEnabled) {
             drawZeroLine(c)
         }
+    }
+
+
+    override fun computeAxisValues(min: Float, max: Float) {
     }
 
 }
