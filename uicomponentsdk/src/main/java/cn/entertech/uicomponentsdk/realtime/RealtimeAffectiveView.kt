@@ -96,7 +96,7 @@ class RealtimeAffectiveView @JvmOverloads constructor(
         val myGrad = tv_emotion_level.background as GradientDrawable
         myGrad.setColor(getOpacityColor(mMainColor, 0.2f))
 
-        icon_loading.loadGif("loading.gif")
+//        icon_loading.loadGif("loading.gif")
         setTextFont()
     }
 

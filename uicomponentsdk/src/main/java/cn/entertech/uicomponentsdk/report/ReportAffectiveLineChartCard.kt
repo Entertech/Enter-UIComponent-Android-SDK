@@ -53,7 +53,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
     private var mGridLineColor: Int = Color.parseColor("#E9EBF1")
     private var mLabelColor: Int = Color.parseColor("#9AA1A9")
 
-    private var mAverageLineColor: Int = Color.parseColor("#9AA1A9")
+    private var mAverageLineColor: Int = Color.parseColor("#11152E")
     private var mLineWidth: Float = 1.5f
     private var mAttentionData: List<Double> = ArrayList()
     private var mRelaxationData: List<Double> = ArrayList()
@@ -383,7 +383,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
 
         if (mData != null && mData!!.isNotEmpty()) {
             val ll1 = LimitLine(
-                average.toFloat(), "AVG:${if (average >= ATTENTION_Y_OFFSET) {
+                average.toFloat(), "Average:${if (average >= ATTENTION_Y_OFFSET) {
                     mRelaxationAverage
                 } else {
                     mAttentionAverage
@@ -402,6 +402,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
             var limitLine: LimitLine? = null
             if (it == 0f || it == 120f) {
                 limitLine = LimitLine(it, "0")
+                limitLine?.lineColor = getOpacityColor(mAverageLineColor,0.6f)
             } else {
                 var label = if (it > ATTENTION_Y_OFFSET) {
                     it - ATTENTION_Y_OFFSET
@@ -410,6 +411,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
                 }
                 limitLine = LimitLine(it, "${label.toInt()}")
                 limitLine?.enableDashedLine(10f, 10f, 0f)
+                limitLine?.lineColor = getOpacityColor(mAverageLineColor,0.2f)
             }
             limitLine?.lineWidth = 1f
             limitLine?.labelPosition = LimitLine.LimitLabelPosition.LEFT_TOP
@@ -417,7 +419,6 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
             limitLine?.xOffset = -20f
             limitLine?.yOffset = -4f
             limitLine?.textColor = mLabelColor
-            limitLine?.lineColor = getOpacityColor(mAverageLineColor,0.2f)
             chart.axisLeft.addLimitLine(limitLine)
         }
         val values = ArrayList<Entry>()
@@ -518,12 +519,14 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
         chart.setPinchZoom(true)
         val xAxis: XAxis = chart.xAxis
         // vertical grid lines
-        xAxis.setDrawAxisLine(false)
         xAxis.setDrawGridLines(false)
         xAxis.position = XAxis.XAxisPosition.BOTTOM
         val yAxis: YAxis = chart.axisLeft
         xAxis.setDrawLabels(false)
         chart.axisRight.isEnabled = false
+        xAxis.setDrawAxisLine(false)
+        xAxis.axisLineColor = getOpacityColor(mAverageLineColor, 0.6f)
+        xAxis.axisLineWidth = 1f
         yAxis.mAxisRange
         yAxis.axisMaximum = 225f
         yAxis.axisMinimum = 0f

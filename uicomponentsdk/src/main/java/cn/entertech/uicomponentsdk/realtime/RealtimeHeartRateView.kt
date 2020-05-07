@@ -71,15 +71,6 @@ class RealtimeHeartRateView @JvmOverloads constructor(
     }
 
     private fun initView() {
-        var stream: InputStream? = null
-        try {
-            stream = context.assets.open("heart_hit.gif")
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-        var gifMovieView = GifMovieView(context, stream)
-        gif_container.addView(gifMovieView)
-        icon_loading.loadGif("loading.gif")
         if (mInfoIconRes != null) {
             iv_heart_real_time_info.setImageResource(mInfoIconRes!!)
         }

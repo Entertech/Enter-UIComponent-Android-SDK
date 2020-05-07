@@ -154,22 +154,14 @@
                 android:background="@drawable/shape_meditation_loading_bg"
                 >
 
-            <!--<com.airbnb.lottie.LottieAnimationView-->
-                    <!--android:id="@+id/icon_loading_1"-->
-                    <!--android:layout_centerInParent="true"-->
-                    <!--android:layout_width="124dp"-->
-                    <!--android:layout_height="60dp"-->
-                    <!--app:lottie_fileName="loading.json"-->
-                    <!--app:lottie_autoPlay="true"-->
-                    <!--app:lottie_loop="true"-->
-                    <!--android:visibility="gone"-->
-                    <!--/>-->
-
-            <cn.entertech.uicomponentsdk.widget.GifMovieView
-                    android:id="@+id/icon_loading"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+            <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/icon_loading_1"
                     android:layout_centerInParent="true"
+                    android:layout_width="124dp"
+                    android:layout_height="60dp"
+                    app:lottie_fileName="loading.json"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
                     android:visibility="gone"
                     />
 

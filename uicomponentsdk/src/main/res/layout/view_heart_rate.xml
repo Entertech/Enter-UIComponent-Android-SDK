@@ -207,25 +207,17 @@
                 android:background="@drawable/shape_meditation_loading_bg"
                 >
 
-            <cn.entertech.uicomponentsdk.widget.GifMovieView
+            <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/icon_loading"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
                     android:layout_centerInParent="true"
+                    android:layout_width="124dp"
+                    android:layout_height="60dp"
+                    app:lottie_fileName="loading.json"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
                     android:visibility="gone"
                     />
 
-            <!--<WebView-->
-                    <!--android:id="@+id/icon_loading"-->
-                    <!--android:layout_width="72dp"-->
-                    <!--android:layout_height="72dp"-->
-                    <!--android:layout_centerInParent="true"-->
-                    <!--android:visibility="gone"-->
-                    <!--android:background="#00000000"-->
-
-                    <!--&gt;-->
-
-            <!--</WebView>-->
 
             <TextView
                     android:visibility="gone"

@@ -317,7 +317,7 @@ class ReportLineChartCard @JvmOverloads constructor(
         }
 
         if (mData != null && mData!!.isNotEmpty()) {
-            val ll1 = LimitLine(mAverageValue.toFloat(), "AVG:$mAverageValue")
+            val ll1 = LimitLine(mAverageValue.toFloat(), "Average:$mAverageValue")
             ll1.lineWidth = 1f
             ll1.enableDashedLine(10f, 10f, 0f)
             ll1.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
@@ -460,6 +460,8 @@ class ReportLineChartCard @JvmOverloads constructor(
         chart.extraTopOffset = 48f
         val xAxis: XAxis = chart.xAxis
         xAxis.setDrawAxisLine(true)
+        xAxis.axisLineColor = getOpacityColor(mAverageLineColor, 0.6f)
+        xAxis.axisLineWidth = 1f
         xAxis.setDrawGridLines(false)
         xAxis.position = XAxis.XAxisPosition.BOTTOM
         val yAxis: YAxis = chart.axisLeft

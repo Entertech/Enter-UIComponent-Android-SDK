@@ -64,7 +64,7 @@ class RealtimeBrainwaveSpectrumView @JvmOverloads constructor(
     }
 
     fun initView() {
-        icon_loading.loadGif("loading.gif")
+//        icon_loading.loadGif("loading.gif")
         if (mInfoIconRes != null) {
             iv_spectrum_real_time_info.setImageResource(mInfoIconRes!!)
         }

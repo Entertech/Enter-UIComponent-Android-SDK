@@ -170,13 +170,17 @@
                     <!--android:visibility="gone"-->
                     <!--/>-->
 
-            <cn.entertech.uicomponentsdk.widget.GifMovieView
+            <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/icon_loading"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="124dp"
+                    android:layout_height="60dp"
                     android:layout_centerInParent="true"
                     android:visibility="gone"
+                    app:lottie_autoPlay="true"
+                    app:lottie_fileName="loading.json"
+                    app:lottie_loop="true"
                     />
+
             <TextView
                     android:id="@+id/tv_disconnect_text_2"
                     android:layout_marginLeft="48dp"
