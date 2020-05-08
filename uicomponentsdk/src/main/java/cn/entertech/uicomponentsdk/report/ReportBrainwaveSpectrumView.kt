@@ -244,18 +244,17 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
 
     fun initBg() {
         if (mBg != null) {
-            rl_bg.background = mBg
-        } else {
-            mBg = rl_bg.background
-        }
-        if (mBg is ColorDrawable) {
-            bgColor = (mBg as ColorDrawable).color
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                bgColor = (mBg as GradientDrawable).color.defaultColor
+            if (mBg is ColorDrawable) {
+                bgColor = (mBg as ColorDrawable).color
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    bgColor = (mBg as GradientDrawable).color.defaultColor
+                }
             }
         }
-
+        if (bgColor != null) {
+            rl_bg.setBackgroundColor(bgColor)
+        }
     }
 
     fun initUnit() {
@@ -598,19 +597,12 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
         // axis range
         yAxis.axisMaximum = 105f
         yAxis.axisMinimum = 0f
-        yAxis.labelCount = 3
-        val ll1 = LimitLine(150f, "Upper Limit")
-        ll1.lineWidth = 4f
-        ll1.enableDashedLine(10f, 10f, 0f)
-        ll1.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
-        ll1.textSize = 10f
 
 
         // draw limit lines behind data instead of on top
         yAxis.setDrawLimitLinesBehindData(false)
         xAxis.setDrawLimitLinesBehindData(false)
         // add limit lines
-        yAxis.addLimitLine(ll1)
         setChartListener()
     }
 

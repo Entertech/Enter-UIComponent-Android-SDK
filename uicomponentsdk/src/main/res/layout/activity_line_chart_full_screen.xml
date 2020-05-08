@@ -16,7 +16,6 @@
             app:rlcc_lineColor="#FF6682"
             app:rlcc_markViewTitle="Heart rate"
             app:rlcc_markViewBgColor="#F1F5F6"
-            app:rlcc_background="#ffffff"
             app:rlcc_highlightLineColor="#DDE1EB"
             app:rlcc_highlightLineWidth="1.5"
             app:rlcc_xAxisUnit="Time(min)"

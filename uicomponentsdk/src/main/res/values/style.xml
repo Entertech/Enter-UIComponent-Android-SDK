@@ -281,6 +281,7 @@
         <attr name="rlcc_markViewTitle" format="string"/>
         <attr name="rlcc_markViewTitleColor" format="color"/>
         <attr name="rlcc_markViewValueColor" format="color"/>
+        <attr name="rlcc_averageLabelBgColor" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="ReportAffectiveLineChartCard">
@@ -308,6 +309,7 @@
         <attr name="ralcc_markViewTitleColor" format="color"/>
         <attr name="ralcc_markViewValueColor" format="color"/>
         <attr name="ralcc_markViewDivideLineColor" format="color"/>
+        <attr name="ralcc_averageLabelBgColor" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="ReportPressureView">

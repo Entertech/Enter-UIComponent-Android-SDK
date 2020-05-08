@@ -35,6 +35,7 @@ class LineChartFullScreenActivity : AppCompatActivity() {
         var averageLineColor = intent.getIntExtra("averageLineColor",Color.parseColor("#11152E"))
         var labelColor = intent.getIntExtra("labelColor",Color.parseColor("#9AA1A9"))
         var average = intent.getIntExtra("average",0)
+        var averageBgColor = intent.getIntExtra("averageBgColor",0)
         var lineColor = intent.getIntExtra("lineColor",Color.RED)
         line_chart.setLineWidth(lineWidth)
         line_chart.setPointCount(pointCount)
@@ -46,6 +47,7 @@ class LineChartFullScreenActivity : AppCompatActivity() {
         line_chart.mMarkViewTitleColor = markViewTitleColor
         line_chart.mMarkViewValueColor = markViewValueColor
         line_chart.mMarkViewTitle = markViewTitle
+        line_chart.mAverageLabelBgColor = averageBgColor
         line_chart.setGridLineColor(gridLineColor)
         line_chart.setXAxisUnit(xAxisUnit)
         line_chart.setTextColor(textColor)

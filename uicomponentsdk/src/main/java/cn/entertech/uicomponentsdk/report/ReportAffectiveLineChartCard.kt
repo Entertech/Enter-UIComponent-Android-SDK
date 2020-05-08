@@ -44,6 +44,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    var mAverageLabelBgColor: Int = Color.parseColor("#ffffff")
     private var popWindow: PopupWindow? = null
     private var fullScreenChart: ReportAffectiveLineChartCard? = null
     private lateinit var marker: AAndRLineChartMarkView
@@ -235,6 +236,10 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
             R.styleable.ReportAffectiveLineChartCard_ralcc_markViewDivideLineColor,
             mMarkViewDivideLineColor
         )
+        mAverageLabelBgColor = typeArray.getColor(
+            R.styleable.ReportAffectiveLineChartCard_ralcc_averageLabelBgColor,
+            mAverageLabelBgColor
+        )
         typeArray.recycle()
         initView()
     }
@@ -269,16 +274,16 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
 
     fun initBg() {
         if (mBg != null) {
-            rl_bg.background = mBg
-        } else {
-            mBg = rl_bg.background
-        }
-        if (mBg is ColorDrawable) {
-            bgColor = (mBg as ColorDrawable).color
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                bgColor = (mBg as GradientDrawable).color.defaultColor
+            if (mBg is ColorDrawable) {
+                bgColor = (mBg as ColorDrawable).color
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    bgColor = (mBg as GradientDrawable).color.defaultColor
+                }
             }
+        }
+        if (bgColor != null) {
+            rl_bg.setBackgroundColor(bgColor)
         }
     }
 
@@ -319,6 +324,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
                 intent.putExtra("textColor", mTextColor)
                 intent.putExtra("bgColor", bgColor)
                 intent.putExtra("averageLineColor", mAverageLineColor)
+                intent.putExtra("averageLabelBgColor", mAverageLabelBgColor)
                 intent.putExtra("labelColor", mLabelColor)
                 intent.putExtra("attentionAverage", mAttentionAverage)
                 intent.putExtra("relaxationAverage", mRelaxationAverage)
@@ -387,7 +393,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
             ll1.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
             ll1.textSize = 14f
             ll1.xOffset = 10f
-            ll1.yOffset = 10f
+            ll1.yOffset = 8f
             ll1.textColor = mTextColor
             ll1.lineColor = mAverageLineColor
             chart.axisLeft.addLimitLine(ll1)
@@ -497,6 +503,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
         chart.marker = marker
         chart.extraTopOffset = 64f
         chart.extraLeftOffset = 30f
+        chart.setYLimitLabelBgColor(mAverageLabelBgColor)
         // disable description text
         chart.getDescription().setEnabled(false)
         chart.legend.isEnabled = false

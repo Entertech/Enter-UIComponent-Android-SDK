@@ -4,7 +4,6 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Paint.Align
-import android.util.Log
 import com.github.mikephil.charting.components.LimitLine.LimitLabelPosition
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.renderer.YAxisRenderer
@@ -12,7 +11,6 @@ import com.github.mikephil.charting.utils.Transformer
 import com.github.mikephil.charting.utils.Utils
 import com.github.mikephil.charting.utils.ViewPortHandler
 import java.lang.Math.abs
-import java.util.*
 
 class CustomYAxisRenderer(
     viewPortHandler: ViewPortHandler?,
@@ -20,10 +18,11 @@ class CustomYAxisRenderer(
     trans: Transformer?
 ) : YAxisRenderer(viewPortHandler, yAxis, trans) {
     private var mLimitLineLabelBgPaint: Paint
+    var mLimitLabelBgColor = Color.parseColor("#ffffff")
 
     init {
         mLimitLineLabelBgPaint = Paint()
-        mLimitLineLabelBgPaint.color = getOpacityColor(Color.parseColor("#ffffff"),0.8F)
+        mLimitLineLabelBgPaint.color = getOpacityColor(mLimitLabelBgColor, 0.8F)
         mLimitLineLabelBgPaint.style = Paint.Style.FILL
         mLimitLineLabelBgPaint.strokeCap = Paint.Cap.ROUND
     }
@@ -82,9 +81,22 @@ class CustomYAxisRenderer(
                     var top = abs(mLimitLinePaint.fontMetrics.top)
                     var bottom = abs(mLimitLinePaint.fontMetrics.bottom)
                     var heightCenter = (yBaseLine - top + bottom + yBaseLine) / 2
-                    var textWidth = Utils.calcTextWidth(mLimitLinePaint,label)
-                    mLimitLineLabelBgPaint.strokeWidth = labelLineHeight+22
-                    c.drawLine(mViewPortHandler.contentRight() - xOffset,heightCenter,mViewPortHandler.contentRight() - xOffset-textWidth,heightCenter,mLimitLineLabelBgPaint)
+                    if (yBaseLine - top < mViewPortHandler.contentTop()) {
+                        heightCenter += mViewPortHandler.contentTop() - (yBaseLine - top)
+                    }
+                    if (yBaseLine + bottom > mViewPortHandler.contentBottom()) {
+                        heightCenter -= (yBaseLine + bottom - mViewPortHandler.contentBottom())
+                    }
+                    var textWidth = Utils.calcTextWidth(mLimitLinePaint, label)
+                    mLimitLineLabelBgPaint.strokeWidth = labelLineHeight + 22
+                    mLimitLineLabelBgPaint.color = getOpacityColor(mLimitLabelBgColor, 0.8F)
+                    c.drawLine(
+                        mViewPortHandler.contentRight() - xOffset,
+                        heightCenter,
+                        mViewPortHandler.contentRight() - xOffset - textWidth,
+                        heightCenter,
+                        mLimitLineLabelBgPaint
+                    )
                     mLimitLinePaint.textAlign = Align.RIGHT
                     c.drawText(
                         label,

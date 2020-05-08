@@ -24,4 +24,8 @@ public class CustomLineChart extends LineChart {
         mChartTouchListener = new CustomChartTouchListener(this, mViewPortHandler.getMatrixTouch(), 3f);
 
     }
+    public void setYLimitLabelBgColor(int color){
+        ((CustomYAxisRenderer)mAxisRendererLeft).setMLimitLabelBgColor(color);
+    }
+
 }

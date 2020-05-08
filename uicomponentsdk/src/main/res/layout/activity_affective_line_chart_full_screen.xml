@@ -19,7 +19,6 @@
             app:ralcc_markViewTitle1="Attention"
             app:ralcc_markViewTitle2="Relaxation"
             app:ralcc_markViewBgColor="#F1F5F6"
-            app:ralcc_background="#ffffff"
             app:ralcc_highlightLineColor="#DDE1EB"
             app:ralcc_highlightLineWidth="1.5"
             app:ralcc_xAxisUnit="Time(min)"

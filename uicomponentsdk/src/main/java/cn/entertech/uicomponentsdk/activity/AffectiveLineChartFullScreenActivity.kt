@@ -30,6 +30,7 @@ class AffectiveLineChartFullScreenActivity : AppCompatActivity() {
         var textColor = intent.getIntExtra("textColor", Color.parseColor("#333333"))
         var bgColor = intent.getIntExtra("bgColor", Color.WHITE)
         var averageLineColor = intent.getIntExtra("averageLineColor", Color.parseColor("#11152E"))
+        var averageLabelBgColor = intent.getIntExtra("averageLabelBgColor", Color.parseColor("#11152E"))
         var labelColor = intent.getIntExtra("labelColor", Color.parseColor("#9AA1A9"))
         var attentionAverage = intent.getIntExtra("attentionAverage",0)
         var relaxationAverage = intent.getIntExtra("relaxationAverage",0)
@@ -54,6 +55,7 @@ class AffectiveLineChartFullScreenActivity : AppCompatActivity() {
         line_affective_chart?.mMarkViewTitle2 = markViewTitle2
         line_affective_chart?.mMarkViewTitleColor = markViewTitleColor
         line_affective_chart?.mMarkViewValueColor = markViewValueColor
+        line_affective_chart?.mAverageLabelBgColor = averageLabelBgColor
         line_affective_chart?.setAverageLineColor(averageLineColor)
         line_affective_chart?.setLabelColor(labelColor)
         line_affective_chart?.setAttentionAverage(attentionAverage)

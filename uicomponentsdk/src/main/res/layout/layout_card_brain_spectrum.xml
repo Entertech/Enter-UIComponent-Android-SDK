@@ -107,6 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/sdk_time_unit"
+                android:layout_marginBottom="@dimen/activity_margin"
                 android:visibility="visible"
                 />
 
