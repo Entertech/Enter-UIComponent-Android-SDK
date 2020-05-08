@@ -2,6 +2,7 @@ package cn.entertech.uicomponentsdk.report
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.graphics.DashPathEffect
@@ -18,6 +19,7 @@ import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.TextView
 import cn.entertech.uicomponentsdk.R
+import cn.entertech.uicomponentsdk.activity.AffectiveLineChartFullScreenActivity
 import cn.entertech.uicomponentsdk.utils.*
 import cn.entertech.uicomponentsdk.widget.AAndRLineChartMarkView
 import cn.entertech.uicomponentsdk.widget.ChartIconView
@@ -88,42 +90,42 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
         val ATTENTION_Y_OFFSET = 120
     }
 
-    private var mMarkViewTitleColor: Int = Color.parseColor("#8F11152E")
+    var mMarkViewTitleColor: Int = Color.parseColor("#8F11152E")
         set(value) {
             field = value
             initView()
         }
-    private var mMarkViewValueColor: Int = Color.parseColor("#11152E")
+    var mMarkViewValueColor: Int = Color.parseColor("#11152E")
         set(value) {
             field = value
             initView()
         }
-    private var mMarkViewDivideLineColor: Int = Color.parseColor("#9AA1A9")
+    var mMarkViewDivideLineColor: Int = Color.parseColor("#9AA1A9")
         set(value) {
             field = value
             initView()
         }
-    private var mMarkViewTitle1: String? = "--"
+    var mMarkViewTitle1: String? = "--"
         set(value) {
             field = value
             initView()
         }
-    private var mMarkViewTitle2: String? = "--"
+    var mMarkViewTitle2: String? = "--"
         set(value) {
             field = value
             initView()
         }
-    private var mMarkViewBgColor: Int = Color.parseColor("#F1F5F6")
+    var mMarkViewBgColor: Int = Color.parseColor("#F1F5F6")
         set(value) {
             field = value
             initView()
         }
-    private var mHighlightLineWidth: Float = 1.5f
+    var mHighlightLineWidth: Float = 1.5f
         set(value) {
             field = value
             initView()
         }
-    private var mHighlightLineColor: Int = Color.parseColor("#11152E")
+    var mHighlightLineColor: Int = Color.parseColor("#11152E")
         set(value) {
             field = value
             initView()
@@ -131,6 +133,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
 
     var sets = HashMap<List<Double>, LineDataSet>()
 
+    var isFullScreen = false
 
     init {
         if (layoutId == null) {
@@ -297,43 +300,33 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
         }
 
         iv_menu.setOnClickListener {
-            (context as Activity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-            fullScreenChart =
-                ReportAffectiveLineChartCard(context, null, 0, R.layout.pop_card_attention)
-            fullScreenChart?.setLineWidth(mLineWidth)
-            fullScreenChart?.setRelaxationLineColor(mRelaxationLineColor)
-            fullScreenChart?.setAttentionLineColor(mAttentionLineColor)
-            fullScreenChart?.setTimeUnit(mTimeUnit)
-            fullScreenChart?.setPointCount(mPointCount)
-            fullScreenChart?.setXAxisUnit(mXAxisUnit)
-            fullScreenChart?.setGridLineColor(mGridLineColor)
-            fullScreenChart?.setTextColor(mTextColor)
-            fullScreenChart?.setBg(mBg)
-            fullScreenChart?.mHighlightLineColor = mHighlightLineColor
-            fullScreenChart?.mHighlightLineWidth = mHighlightLineWidth
-            fullScreenChart?.mMarkViewBgColor = mMarkViewBgColor
-            fullScreenChart?.mMarkViewTitle1 = mMarkViewTitle1
-            fullScreenChart?.mMarkViewTitle2 = mMarkViewTitle2
-            fullScreenChart?.mMarkViewTitleColor = mMarkViewTitleColor
-            fullScreenChart?.mMarkViewValueColor = mMarkViewValueColor
-            fullScreenChart?.setAverageLineColor(mAverageLineColor)
-            fullScreenChart?.setLabelColor(mLabelColor)
-            fullScreenChart?.setAttentionAverage(mAttentionAverage)
-            fullScreenChart?.setRelaxationAverage(mRelaxationAverage)
-            fullScreenChart?.setData(mAttentionData, mRelaxationData, true)
-            popWindow = PopupWindow(fullScreenChart, MATCH_PARENT, MATCH_PARENT)
-            popWindow?.setBackgroundDrawable(mBg)
-            popWindow?.showAtLocation(iv_menu, Gravity.CENTER, 0, 0)
-            fullScreenChart?.findViewById<TextView>(R.id.tv_title)?.text =
-                context.getString(R.string.chart_full_screen_tip)
-            fullScreenChart?.findViewById<ImageView>(R.id.iv_menu)
-                ?.setImageResource(R.drawable.vector_drawable_screen_shrink)
-            fullScreenChart?.findViewById<ImageView>(R.id.iv_menu)?.setOnClickListener {
-                (context as Activity).requestedOrientation =
-                    ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-                fullScreenChart = null
-                popWindow?.dismiss()
-                popWindow = null
+            if (isFullScreen) {
+                (context as Activity).finish()
+            } else {
+                var intent = Intent(context, AffectiveLineChartFullScreenActivity::class.java)
+                intent.putExtra("lineWidth", mLineWidth)
+                intent.putExtra("pointCount", mPointCount)
+                intent.putExtra("timeUnit", mTimeUnit)
+                intent.putExtra("highlightLineColor", mHighlightLineColor)
+                intent.putExtra("highlightLineWidth", mHighlightLineWidth)
+                intent.putExtra("markViewBgColor", mMarkViewBgColor)
+                intent.putExtra("markViewTitle1", mMarkViewTitle1)
+                intent.putExtra("markViewTitle2", mMarkViewTitle2)
+                intent.putExtra("markViewTitleColor", mMarkViewTitleColor)
+                intent.putExtra("markViewValueColor", mMarkViewValueColor)
+                intent.putExtra("gridLineColor", mGridLineColor)
+                intent.putExtra("xAxisUnit", mXAxisUnit)
+                intent.putExtra("textColor", mTextColor)
+                intent.putExtra("bgColor", bgColor)
+                intent.putExtra("averageLineColor", mAverageLineColor)
+                intent.putExtra("labelColor", mLabelColor)
+                intent.putExtra("attentionAverage", mAttentionAverage)
+                intent.putExtra("relaxationAverage", mRelaxationAverage)
+                intent.putExtra("attentionLineColor", mAttentionLineColor)
+                intent.putExtra("relaxationLineColor", mRelaxationLineColor)
+                intent.putExtra("attentionData", mAttentionData?.toDoubleArray())
+                intent.putExtra("relaxationData", mRelaxationData?.toDoubleArray())
+                context.startActivity(intent)
             }
         }
     }
@@ -393,6 +386,8 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
             ll1.enableDashedLine(10f, 10f, 0f)
             ll1.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
             ll1.textSize = 14f
+            ll1.xOffset = 10f
+            ll1.yOffset = 10f
             ll1.textColor = mTextColor
             ll1.lineColor = mAverageLineColor
             chart.axisLeft.addLimitLine(ll1)
@@ -402,7 +397,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
             var limitLine: LimitLine? = null
             if (it == 0f || it == 120f) {
                 limitLine = LimitLine(it, "0")
-                limitLine?.lineColor = getOpacityColor(mAverageLineColor,0.6f)
+                limitLine?.lineColor = getOpacityColor(mAverageLineColor, 0.6f)
             } else {
                 var label = if (it > ATTENTION_Y_OFFSET) {
                     it - ATTENTION_Y_OFFSET
@@ -411,7 +406,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
                 }
                 limitLine = LimitLine(it, "${label.toInt()}")
                 limitLine?.enableDashedLine(10f, 10f, 0f)
-                limitLine?.lineColor = getOpacityColor(mAverageLineColor,0.2f)
+                limitLine?.lineColor = getOpacityColor(mAverageLineColor, 0.2f)
             }
             limitLine?.lineWidth = 1f
             limitLine?.labelPosition = LimitLine.LimitLabelPosition.LEFT_TOP
@@ -490,7 +485,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
             context,
             mAttentionLineColor,
             mRelaxationLineColor,
-            getOpacityColor(mMarkViewDivideLineColor,0.3f),
+            getOpacityColor(mMarkViewDivideLineColor, 0.3f),
             mMarkViewTitle1,
             mMarkViewTitle2
         )
@@ -510,7 +505,6 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
         chart.setDrawGridBackground(false)
         // enable scaling and dragging
         chart.setDragEnabled(true)
-        chart.isHighlightPerDragEnabled = false
         chart.setMaxVisibleValueCount(100000)
 //        chart.setScaleEnabled(true)
         chart.setScaleXEnabled(true)
@@ -560,7 +554,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
         // add limit lines
     }
 
-    fun cancelHighlight(){
+    fun cancelHighlight() {
         ll_title.visibility = View.VISIBLE
         chart.highlightValue(null)
         dataSets.map {
@@ -569,12 +563,14 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
             it.setDrawIcons(false)
         }
     }
+
     fun setChartListener() {
         chart.onChartGestureListener = object : OnChartGestureListener {
             override fun onChartGestureEnd(
                 me: MotionEvent?,
                 lastPerformedGesture: ChartTouchListener.ChartGesture?
             ) {
+                chart.isDragEnabled = true
                 cancelHighlight()
             }
 
@@ -608,6 +604,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
             }
 
             override fun onChartLongPressed(me: MotionEvent) {
+                chart.isDragEnabled = false
                 val highlightByTouchPoint = chart.getHighlightByTouchPoint(me.x, me.y)
                 chart.highlightValue(highlightByTouchPoint, true)
             }
@@ -627,7 +624,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
             }
 
             override fun onValueSelected(e: Entry, h: Highlight?) {
-                chart.highlightValue(null,false)
+                chart.highlightValue(null, false)
                 iconViewAttention.color = mAttentionLineColor
                 iconViewRelaxation.color = mRelaxationLineColor
                 attentionDrawableIcon = iconViewAttention.toDrawable(context)
@@ -651,7 +648,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
                         it.icon = null
                     }
                 }
-                chart.highlightValue(h,false)
+                chart.highlightValue(h, false)
             }
 
         })

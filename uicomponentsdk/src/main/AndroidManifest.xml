@@ -1,2 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="cn.entertech.uicomponentsdk"/>
+        package="cn.entertech.uicomponentsdk">
+
+    <application>
+        <activity android:name=".activity.BrainwaveSpectrumLineChartActivity"
+                android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" ></activity>
+        <activity
+                android:name=".activity.AffectiveLineChartFullScreenActivity"
+                android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+        <activity
+                android:name=".activity.LineChartFullScreenActivity"
+                android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+    </application>
+
+</manifest>

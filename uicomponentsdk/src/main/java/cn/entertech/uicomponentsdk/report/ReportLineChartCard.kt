@@ -2,6 +2,7 @@ package cn.entertech.uicomponentsdk.report
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.graphics.DashPathEffect
@@ -18,6 +19,7 @@ import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.TextView
 import cn.entertech.uicomponentsdk.R
+import cn.entertech.uicomponentsdk.activity.LineChartFullScreenActivity
 import cn.entertech.uicomponentsdk.utils.*
 import cn.entertech.uicomponentsdk.widget.ChartIconView
 import cn.entertech.uicomponentsdk.widget.LineChartMarkView
@@ -46,33 +48,33 @@ class ReportLineChartCard @JvmOverloads constructor(
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
-    private var mMarkViewTitleColor: Int = Color.parseColor("#8F11152E")
+    var mMarkViewTitleColor: Int = Color.parseColor("#8F11152E")
         set(value) {
             field = value
             initView()
         }
 
-    private var mMarkViewValueColor: Int = Color.parseColor("#11152E")
+    var mMarkViewValueColor: Int = Color.parseColor("#11152E")
         set(value) {
             field = value
             initView()
         }
-    private var mMarkViewTitle: String? = "--"
+    var mMarkViewTitle: String? = "--"
         set(value) {
             field = value
             initView()
         }
-    private var mMarkViewBgColor: Int = Color.parseColor("#F1F5F6")
+    var mMarkViewBgColor: Int = Color.parseColor("#F1F5F6")
         set(value) {
             field = value
             initView()
         }
-    private var mHighlightLineWidth: Float = 1.5f
+    var mHighlightLineWidth: Float = 1.5f
         set(value) {
             field = value
             initView()
         }
-    private var mHighlightLineColor: Int = Color.parseColor("#11152E")
+    var mHighlightLineColor: Int = Color.parseColor("#11152E")
         set(value) {
             field = value
             initView()
@@ -104,6 +106,11 @@ class ReportLineChartCard @JvmOverloads constructor(
     var mTimeUnit: Int = 800
     var mPointCount: Int = 100
     var mTimeOfTwoPoint: Int = 0
+    var isFullScreen = false
+        set(value) {
+            field = value
+            initView()
+        }
 
     var bgColor = Color.WHITE
 
@@ -237,38 +244,29 @@ class ReportLineChartCard @JvmOverloads constructor(
             iv_menu.visibility = View.GONE
         }
         iv_menu.setOnClickListener {
-            (context as Activity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-            var affectiveView = ReportLineChartCard(context, null, 0, R.layout.pop_card_attention)
-            affectiveView.setLineColor(mLineColor)
-            affectiveView.setLineWidth(mLineWidth)
-            affectiveView.setPointCount(mPointCount)
-            affectiveView.setTimeUnit(mTimeUnit)
-            affectiveView.mHighlightLineColor = mHighlightLineColor
-            affectiveView.mHighlightLineWidth = mHighlightLineWidth
-            affectiveView.mMarkViewBgColor = mMarkViewBgColor
-            affectiveView.mMarkViewTitle = mMarkViewTitle
-            affectiveView.mMarkViewTitleColor = mMarkViewTitleColor
-            affectiveView.mMarkViewValueColor = mMarkViewValueColor
-            affectiveView.setGridLineColor(mGridLineColor)
-            affectiveView.setXAxisUnit(mXAxisUnit)
-            affectiveView.setTextColor(mTextColor)
-            affectiveView.setBg(mBg)
-            affectiveView.setAverageLineColor(mAverageLineColor)
-            affectiveView.setLabelColor(mLabelColor)
-            affectiveView.setAverage(mAverageValue)
-            affectiveView.setData(mData, true)
-            affectiveView.findViewById<TextView>(R.id.tv_title).text =
-                context.getString(R.string.chart_full_screen_tip)
-            var popWindow = PopupWindow(affectiveView, MATCH_PARENT, MATCH_PARENT)
-            affectiveView.findViewById<ImageView>(R.id.iv_menu)
-                .setImageResource(R.drawable.vector_drawable_screen_shrink)
-            affectiveView.findViewById<LinearLayout>(R.id.ll_legend).visibility = View.GONE
-            popWindow.setBackgroundDrawable(mBg)
-            popWindow.showAtLocation(iv_menu, Gravity.CENTER, 0, 0)
-            affectiveView.findViewById<ImageView>(R.id.iv_menu).setOnClickListener {
-                (context as Activity).requestedOrientation =
-                    ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-                popWindow.dismiss()
+            if (isFullScreen) {
+                (context as Activity).finish()
+            } else {
+                var intent = Intent(context, LineChartFullScreenActivity::class.java)
+                intent.putExtra("lineWidth", mLineWidth)
+                intent.putExtra("pointCount", mPointCount)
+                intent.putExtra("timeUnit", mTimeUnit)
+                intent.putExtra("highlightLineColor", mHighlightLineColor)
+                intent.putExtra("highlightLineWidth", mHighlightLineWidth)
+                intent.putExtra("markViewBgColor", mMarkViewBgColor)
+                intent.putExtra("markViewTitle", mMarkViewTitle)
+                intent.putExtra("markViewTitleColor", mMarkViewTitleColor)
+                intent.putExtra("markViewValueColor", mMarkViewValueColor)
+                intent.putExtra("gridLineColor", mGridLineColor)
+                intent.putExtra("xAxisUnit", mXAxisUnit)
+                intent.putExtra("textColor", mTextColor)
+                intent.putExtra("bgColor", bgColor)
+                intent.putExtra("averageLineColor", mAverageLineColor)
+                intent.putExtra("labelColor", mLabelColor)
+                intent.putExtra("average", mAverageValue)
+                intent.putExtra("lineColor", mLineColor)
+                intent.putExtra("lineData", mData?.toDoubleArray())
+                context.startActivity(intent)
             }
         }
     }
@@ -322,6 +320,8 @@ class ReportLineChartCard @JvmOverloads constructor(
             ll1.enableDashedLine(10f, 10f, 0f)
             ll1.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
             ll1.textSize = 14f
+            ll1.xOffset = 10f
+            ll1.yOffset = 10f
             ll1.textColor = mTextColor
             ll1.lineColor = mAverageLineColor
             chart.axisLeft.addLimitLine(ll1)
@@ -450,7 +450,6 @@ class ReportLineChartCard @JvmOverloads constructor(
         chart.isDragEnabled = true
         chart.isScaleXEnabled = true
         chart.isScaleYEnabled = false
-        chart.isHighlightPerDragEnabled = false
         val marker = LineChartMarkView(context, mLineColor, mMarkViewTitle)
         marker.chartView = chart
         marker.setMarkTitleColor(mMarkViewTitleColor)
@@ -493,6 +492,7 @@ class ReportLineChartCard @JvmOverloads constructor(
                 me: MotionEvent?,
                 lastPerformedGesture: ChartTouchListener.ChartGesture?
             ) {
+                chart.isDragEnabled = true
                 cancelHighlight()
             }
 
@@ -512,7 +512,6 @@ class ReportLineChartCard @JvmOverloads constructor(
                 me: MotionEvent,
                 lastPerformedGesture: ChartTouchListener.ChartGesture?
             ) {
-                chart.disableScroll()
                 set1.setDrawVerticalHighlightIndicator(true)
                 set1.setDrawHorizontalHighlightIndicator(false)
             }
@@ -521,6 +520,7 @@ class ReportLineChartCard @JvmOverloads constructor(
             }
 
             override fun onChartLongPressed(me: MotionEvent) {
+                chart.isDragEnabled = false
                 val highlightByTouchPoint = chart.getHighlightByTouchPoint(me.x, me.y)
                 chart.highlightValue(highlightByTouchPoint, true)
             }

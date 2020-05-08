@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activity.LineChartFullScreenActivity"
+        >
+
+    <cn.entertech.uicomponentsdk.report.ReportLineChartCard
+            app:rlcc_title="@string/chart_full_screen_tip"
+            app:rlcc_isTitleMenuIconShow="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:rlcc_titleMenuIcon="@drawable/vector_drawable_screen_shrink"
+            app:rlcc_lineColor="#FF6682"
+            app:rlcc_markViewTitle="Heart rate"
+            app:rlcc_markViewBgColor="#F1F5F6"
+            app:rlcc_background="#ffffff"
+            app:rlcc_highlightLineColor="#DDE1EB"
+            app:rlcc_highlightLineWidth="1.5"
+            app:rlcc_xAxisUnit="Time(min)"
+            android:id="@+id/line_chart"/>
+</LinearLayout>

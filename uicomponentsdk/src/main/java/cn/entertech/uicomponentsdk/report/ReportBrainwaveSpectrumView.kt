@@ -23,6 +23,8 @@ import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.TextView
 import cn.entertech.uicomponentsdk.R
+import cn.entertech.uicomponentsdk.activity.BrainwaveSpectrumLineChartActivity
+import cn.entertech.uicomponentsdk.activity.LineChartFullScreenActivity
 import cn.entertech.uicomponentsdk.utils.getOpacityColor
 import cn.entertech.uicomponentsdk.utils.toDrawable
 import cn.entertech.uicomponentsdk.widget.BrainwaveSpectrumChartMarkView
@@ -57,9 +59,10 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    var isFullScreen: Boolean = false
     private lateinit var marker: BrainwaveSpectrumChartMarkView
     private var dataSets: ArrayList<ILineDataSet> = ArrayList()
-    private var bgColor: Int = Color.WHITE
+    var bgColor: Int = Color.WHITE
     private var mXAxisUnit: String? = "Time(min)"
     private var mSelfView: View? = null
     private var mBrainwaveSpectrums: List<ArrayList<Double>>? = null
@@ -87,32 +90,32 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
         const val SPECTRUM_COLORS = "#FF6682,#5E75FF,#F7C77E,#5FC695,#FB9C98"
     }
 
-    private var mMarkViewTitleColor: Int = Color.parseColor("#8F11152E")
+    var mMarkViewTitleColor: Int = Color.parseColor("#8F11152E")
         set(value) {
             field = value
             initView()
         }
-    private var mMarkViewValueColor: Int = Color.parseColor("#11152E")
+    var mMarkViewValueColor: Int = Color.parseColor("#11152E")
         set(value) {
             field = value
             initView()
         }
-    private var mMarkViewBgColor: Int = Color.parseColor("#F1F5F6")
+    var mMarkViewBgColor: Int = Color.parseColor("#F1F5F6")
         set(value) {
             field = value
             initView()
         }
-    private var mHighlightLineWidth: Float = 1.5f
+    var mHighlightLineWidth: Float = 1.5f
         set(value) {
             field = value
             initView()
         }
-    private var mHighlightLineColor: Int = Color.parseColor("#DDE1EB")
+    var mHighlightLineColor: Int = Color.parseColor("#DDE1EB")
         set(value) {
             field = value
             initView()
         }
-    private var mMarkDivideLineColor: Int = Color.parseColor("#9AA1A9")
+    var mMarkDivideLineColor: Int = Color.parseColor("#9AA1A9")
         set(value) {
             field = value
             initView()
@@ -211,35 +214,30 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
             context.startActivity(Intent(Intent.ACTION_VIEW, uri))
         }
         iv_menu.setOnClickListener {
-            (context as Activity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-            var affectiveView =
-                ReportBrainwaveSpectrumView(context, null, 0, R.layout.pop_card_brain_spectrum)
-            affectiveView.setTimeUnit(mTimeUnit)
-            affectiveView.setPointCount(mPointCount)
-            affectiveView.setGridLineColor(mGridLineColor)
-            affectiveView.setXAxisUnit(mXAxisUnit)
-            affectiveView.setSpectrumColors(mSpectrumColors)
-            affectiveView.setTextColor(mTextColor)
-            affectiveView.setBg(mBg)
-            affectiveView.mHighlightLineColor = mHighlightLineColor
-            affectiveView.mHighlightLineWidth = mHighlightLineWidth
-            affectiveView.mMarkViewBgColor = mMarkViewBgColor
-            affectiveView.mMarkViewTitleColor = mMarkViewTitleColor
-            affectiveView.mMarkViewValueColor = mMarkViewValueColor
-            affectiveView.setLabelColor(mLabelColor)
-            affectiveView.setData(mBrainwaveSpectrums, true)
-            var popWindow = PopupWindow(affectiveView, MATCH_PARENT, MATCH_PARENT)
-            affectiveView.findViewById<TextView>(R.id.tv_title).text =
-                "Zoom in on the curve and slide to view it."
-            affectiveView.findViewById<ImageView>(R.id.iv_menu)
-                .setImageResource(R.drawable.vector_drawable_screen_shrink)
-            affectiveView.findViewById<ImageView>(R.id.iv_menu).setOnClickListener {
-                (context as Activity).requestedOrientation =
-                    ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-                popWindow.dismiss()
+            if (isFullScreen) {
+                (context as Activity).finish()
+            } else {
+                var intent = Intent(context, BrainwaveSpectrumLineChartActivity::class.java)
+                intent.putExtra("pointCount", mPointCount)
+                intent.putExtra("timeUnit", mTimeUnit)
+                intent.putExtra("highlightLineColor", mHighlightLineColor)
+                intent.putExtra("highlightLineWidth", mHighlightLineWidth)
+                intent.putExtra("markViewBgColor", mMarkViewBgColor)
+                intent.putExtra("markViewTitleColor", mMarkViewTitleColor)
+                intent.putExtra("markViewValueColor", mMarkViewValueColor)
+                intent.putExtra("spectrumColors", mSpectrumColors?.toIntArray())
+                intent.putExtra("gridLineColor", mGridLineColor)
+                intent.putExtra("xAxisUnit", mXAxisUnit)
+                intent.putExtra("textColor", mTextColor)
+                intent.putExtra("bgColor", bgColor)
+                intent.putExtra("labelColor", mLabelColor)
+                intent.putExtra("gammaData", mBrainwaveSpectrums!![0].toDoubleArray())
+                intent.putExtra("betaData",  mBrainwaveSpectrums!![1].toDoubleArray())
+                intent.putExtra("alphaData",  mBrainwaveSpectrums!![2].toDoubleArray())
+                intent.putExtra("thetaData",  mBrainwaveSpectrums!![3].toDoubleArray())
+                intent.putExtra("deltaData",  mBrainwaveSpectrums!![4].toDoubleArray())
+                context.startActivity(intent)
             }
-            popWindow.setBackgroundDrawable(mBg)
-            popWindow.showAtLocation(iv_menu, Gravity.CENTER, 0, 0)
         }
 
     }
@@ -461,6 +459,7 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
                 me: MotionEvent?,
                 lastPerformedGesture: ChartTouchListener.ChartGesture?
             ) {
+                chart.isDragEnabled = true
                 cancelHighlight()
             }
 
@@ -496,6 +495,7 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
             }
 
             override fun onChartLongPressed(me: MotionEvent) {
+                chart.isDragEnabled = false
                 val highlightByTouchPoint = chart.getHighlightByTouchPoint(me.x, me.y)
                 chart.highlightValue(highlightByTouchPoint, true)
             }

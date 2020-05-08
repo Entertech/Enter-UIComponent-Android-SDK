@@ -17,7 +17,7 @@ class ChartDemoActivity : AppCompatActivity() {
         var data1 = ArrayList<Double>()
         for (i in 0..2000) {
             data.add(0.2)
-            data1.add(Random().nextDouble() *9+57)
+            data1.add(Random().nextDouble() *100)
         }
         var brainwaves = ArrayList<ArrayList<Double>>()
         brainwaves.add(data)

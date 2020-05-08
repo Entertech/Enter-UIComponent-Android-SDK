@@ -1,6 +1,7 @@
 package cn.entertech.uicomponentsdk.utils
 
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Paint.Align
 import android.util.Log
@@ -10,6 +11,7 @@ import com.github.mikephil.charting.renderer.YAxisRenderer
 import com.github.mikephil.charting.utils.Transformer
 import com.github.mikephil.charting.utils.Utils
 import com.github.mikephil.charting.utils.ViewPortHandler
+import java.lang.Math.abs
 import java.util.*
 
 class CustomYAxisRenderer(
@@ -17,6 +19,15 @@ class CustomYAxisRenderer(
     yAxis: YAxis?,
     trans: Transformer?
 ) : YAxisRenderer(viewPortHandler, yAxis, trans) {
+    private var mLimitLineLabelBgPaint: Paint
+
+    init {
+        mLimitLineLabelBgPaint = Paint()
+        mLimitLineLabelBgPaint.color = getOpacityColor(Color.parseColor("#ffffff"),0.8F)
+        mLimitLineLabelBgPaint.style = Paint.Style.FILL
+        mLimitLineLabelBgPaint.strokeCap = Paint.Cap.ROUND
+    }
+
     override fun renderLimitLines(c: Canvas) {
         val limitLines = mYAxis.limitLines
         if (limitLines == null || limitLines.size <= 0) return
@@ -67,11 +78,18 @@ class CustomYAxisRenderer(
                 val yOffset = l.lineWidth + labelLineHeight + l.yOffset
                 val position = l.labelPosition
                 if (position == LimitLabelPosition.RIGHT_TOP) {
+                    var yBaseLine = pts[1] - yOffset + labelLineHeight
+                    var top = abs(mLimitLinePaint.fontMetrics.top)
+                    var bottom = abs(mLimitLinePaint.fontMetrics.bottom)
+                    var heightCenter = (yBaseLine - top + bottom + yBaseLine) / 2
+                    var textWidth = Utils.calcTextWidth(mLimitLinePaint,label)
+                    mLimitLineLabelBgPaint.strokeWidth = labelLineHeight+22
+                    c.drawLine(mViewPortHandler.contentRight() - xOffset,heightCenter,mViewPortHandler.contentRight() - xOffset-textWidth,heightCenter,mLimitLineLabelBgPaint)
                     mLimitLinePaint.textAlign = Align.RIGHT
                     c.drawText(
                         label,
                         mViewPortHandler.contentRight() - xOffset,
-                        pts[1] - yOffset + labelLineHeight, mLimitLinePaint
+                        yBaseLine, mLimitLinePaint
                     )
                 } else if (position == LimitLabelPosition.RIGHT_BOTTOM) {
                     mLimitLinePaint.textAlign = Align.RIGHT
