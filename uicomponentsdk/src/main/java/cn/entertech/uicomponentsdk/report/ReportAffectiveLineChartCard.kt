@@ -383,9 +383,9 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
         if (mData != null && mData!!.isNotEmpty()) {
             val ll1 = LimitLine(
                 average.toFloat(), "Average:${if (average >= ATTENTION_Y_OFFSET) {
-                    mRelaxationAverage
-                } else {
                     mAttentionAverage
+                } else {
+                    mRelaxationAverage
                 }}"
             )
             ll1.lineWidth = 1f
@@ -395,7 +395,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
             ll1.xOffset = 10f
             ll1.yOffset = 8f
             ll1.textColor = mTextColor
-            ll1.lineColor = mAverageLineColor
+            ll1.lineColor = mTextColor
             chart.axisLeft.addLimitLine(ll1)
         }
         var yLimitLineValues = listOf<Float>(0f, 120f, 30f, 60f, 90f, 150f, 180f, 220f)
@@ -403,7 +403,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
             var limitLine: LimitLine? = null
             if (it == 0f || it == 120f) {
                 limitLine = LimitLine(it, "0")
-                limitLine?.lineColor = getOpacityColor(mAverageLineColor, 0.6f)
+                limitLine?.lineColor = getOpacityColor(mTextColor, 0.6f)
             } else {
                 var label = if (it > ATTENTION_Y_OFFSET) {
                     it - ATTENTION_Y_OFFSET
@@ -500,6 +500,8 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
         marker.setMarkViewBgColor(mMarkViewBgColor)
         marker.setMarkViewValueColor(mMarkViewValueColor)
         chart.animateX(500)
+
+        chart.isHighlightPerDragEnabled = false
         chart.marker = marker
         chart.extraTopOffset = 64f
         chart.extraLeftOffset = 30f
@@ -526,7 +528,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
         xAxis.setDrawLabels(false)
         chart.axisRight.isEnabled = false
         xAxis.setDrawAxisLine(false)
-        xAxis.axisLineColor = getOpacityColor(mAverageLineColor, 0.6f)
+        xAxis.axisLineColor = getOpacityColor(mTextColor, 0.6f)
         xAxis.axisLineWidth = 1f
         yAxis.mAxisRange
         yAxis.axisMaximum = 225f
@@ -578,6 +580,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
                 lastPerformedGesture: ChartTouchListener.ChartGesture?
             ) {
                 chart.isDragEnabled = true
+                chart.isHighlightPerDragEnabled = false
                 cancelHighlight()
             }
 
@@ -611,6 +614,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
             }
 
             override fun onChartLongPressed(me: MotionEvent) {
+                chart.isHighlightPerDragEnabled = true
                 chart.isDragEnabled = false
                 val highlightByTouchPoint = chart.getHighlightByTouchPoint(me.x, me.y)
                 chart.highlightValue(highlightByTouchPoint, true)

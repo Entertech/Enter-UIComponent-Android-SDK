@@ -330,7 +330,7 @@ class ReportLineChartCard @JvmOverloads constructor(
             ll1.xOffset = 10f
             ll1.yOffset = 8f
             ll1.textColor = mTextColor
-            ll1.lineColor = mAverageLineColor
+            ll1.lineColor = mTextColor
             chart.axisLeft.addLimitLine(ll1)
         }
 
@@ -455,6 +455,7 @@ class ReportLineChartCard @JvmOverloads constructor(
         chart.setYLimitLabelBgColor(mAverageLabelBgColor)
         chart.animateX(500)
         chart.setDrawGridBackground(false)
+        chart.isHighlightPerDragEnabled = false
         chart.isDragEnabled = true
         chart.isScaleXEnabled = true
         chart.isScaleYEnabled = false
@@ -467,7 +468,7 @@ class ReportLineChartCard @JvmOverloads constructor(
         chart.extraTopOffset = 48f
         val xAxis: XAxis = chart.xAxis
         xAxis.setDrawAxisLine(true)
-        xAxis.axisLineColor = getOpacityColor(mAverageLineColor, 0.6f)
+        xAxis.axisLineColor = getOpacityColor(mTextColor, 0.6f)
         xAxis.axisLineWidth = 1f
         xAxis.setDrawGridLines(false)
         xAxis.position = XAxis.XAxisPosition.BOTTOM
@@ -478,7 +479,7 @@ class ReportLineChartCard @JvmOverloads constructor(
         yAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
         yAxis.setLabelCount(5, false)
         yAxis.setDrawGridLines(true)
-        yAxis.gridColor = getOpacityColor(mAverageLineColor, 0.2f)
+        yAxis.gridColor = getOpacityColor(mTextColor, 0.2f)
         yAxis.gridLineWidth = 1f
         yAxis.setGridDashedLine(DashPathEffect(floatArrayOf(10f, 10f), 0f))
         yAxis.textSize = 12f
@@ -501,6 +502,7 @@ class ReportLineChartCard @JvmOverloads constructor(
                 lastPerformedGesture: ChartTouchListener.ChartGesture?
             ) {
                 chart.isDragEnabled = true
+                chart.isHighlightPerDragEnabled = false
                 cancelHighlight()
             }
 
@@ -529,6 +531,7 @@ class ReportLineChartCard @JvmOverloads constructor(
 
             override fun onChartLongPressed(me: MotionEvent) {
                 chart.isDragEnabled = false
+                chart.isHighlightPerDragEnabled = true
                 val highlightByTouchPoint = chart.getHighlightByTouchPoint(me.x, me.y)
                 chart.highlightValue(highlightByTouchPoint, true)
             }

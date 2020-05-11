@@ -459,6 +459,7 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
                 lastPerformedGesture: ChartTouchListener.ChartGesture?
             ) {
                 chart.isDragEnabled = true
+                chart.isHighlightPerDragEnabled = false
                 cancelHighlight()
             }
 
@@ -495,6 +496,7 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
 
             override fun onChartLongPressed(me: MotionEvent) {
                 chart.isDragEnabled = false
+                chart.isHighlightPerDragEnabled = true
                 val highlightByTouchPoint = chart.getHighlightByTouchPoint(me.x, me.y)
                 chart.highlightValue(highlightByTouchPoint, true)
             }
@@ -559,6 +561,7 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
         // enable touch gestures
         chart.setTouchEnabled(true)
 
+        chart.isHighlightPerDragEnabled = false
         chart.setMaxVisibleValueCount(100000)
         chart.setDrawGridBackground(false)
         // enable scaling and dragging
