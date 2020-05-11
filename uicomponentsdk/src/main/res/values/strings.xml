@@ -37,6 +37,6 @@
     <string name="sdk_min">Min：</string>
     <string name="chart_full_screen_tip">Zoom in on the curve and slide to view it.</string>
     <string name="sdk_report_high">high</string>
-    <string name="sdk_report_nor">med</string>
+    <string name="sdk_report_nor">med.</string>
     <string name="sdk_report_low">low</string>
 </resources>
