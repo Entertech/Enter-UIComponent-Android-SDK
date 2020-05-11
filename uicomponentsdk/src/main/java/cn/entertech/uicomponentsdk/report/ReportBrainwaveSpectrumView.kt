@@ -528,7 +528,7 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
                 var iconDrawables = iconList.map { it.toDrawable(context) }
                 for (i in dataSets.indices) {
                     dataSets[i]?.setDrawIcons(true)
-                    dataSets[i]?.iconsOffset = MPPointF(0f, 3f)
+                    dataSets[i]?.iconsOffset = MPPointF(0f, 0f)
                     (dataSets[i]!! as LineDataSet)?.values.forEach {
                         if (it.x == e.x) {
                             it.icon = iconDrawables[i]
