@@ -13,6 +13,11 @@ class ChartDemoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chart_demo)
+        realtime_affective.showErrorMessage("Device not found")
+        realtime_hrv.showErrorMessage("Device not found")
+        realtime_heart.showErrorMessage("Device not found")
+        realtime_brainwave.showErrorMessage("Device not found")
+        realtime_brainwave_spectrum.showErrorMessage("Device not found")
         var data = ArrayList<Double>()
         var data1 = ArrayList<Double>()
         for (i in 0..2000) {

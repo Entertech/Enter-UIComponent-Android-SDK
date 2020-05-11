@@ -124,6 +124,13 @@ class RealtimeBrainwaveSpectrumView @JvmOverloads constructor(
         ppb_five.setPercent(percent)
     }
 
+    fun showErrorMessage(error:String){
+        rl_loading_cover_2.visibility = View.VISIBLE
+        icon_loading.visibility = View.GONE
+        tv_disconnect_text_2.visibility = View.VISIBLE
+        tv_disconnect_text_2.text = error
+    }
+
     fun showLoading() {
         rl_loading_cover_2.visibility = View.VISIBLE
         icon_loading.visibility = View.VISIBLE

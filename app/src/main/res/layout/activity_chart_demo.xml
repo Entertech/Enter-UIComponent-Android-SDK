@@ -21,6 +21,32 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+            <cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView
+                    android:id="@+id/realtime_affective"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:rav_affectiveType="Attention"/>
+
+            <cn.entertech.uicomponentsdk.realtime.RealtimeBrainwaveSpectrumView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/realtime_brainwave_spectrum"/>
+
+            <cn.entertech.uicomponentsdk.realtime.RealtimeBrainwaveView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/realtime_brainwave"/>
+
+            <cn.entertech.uicomponentsdk.realtime.RealtimeHeartRateView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:id="@+id/realtime_heart"/>
+
+            <cn.entertech.uicomponentsdk.realtime.RealtimeHRVView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:id="@+id/realtime_hrv"/>
+
             <cn.entertech.uicomponentsdk.report.ReportLineChartCard
                     app:rlcc_title="title"
                     app:rlcc_isTitleMenuIconShow="true"

@@ -158,6 +158,13 @@ class RealtimeHeartRateView @JvmOverloads constructor(
         setHeartValue(78)
     }
 
+    fun showErrorMessage(error:String){
+        icon_loading.visibility = View.GONE
+        rl_loading_cover.visibility = View.VISIBLE
+        tv_disconnect_text.visibility = View.VISIBLE
+        tv_disconnect_text.text = error
+        setHeartValue(0)
+    }
     fun hideDisconnectTip() {
         rl_loading_cover.visibility = View.GONE
     }

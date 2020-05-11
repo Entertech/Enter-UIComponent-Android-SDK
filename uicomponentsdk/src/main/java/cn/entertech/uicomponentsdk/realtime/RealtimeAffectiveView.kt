@@ -13,9 +13,12 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import android.graphics.drawable.GradientDrawable
+import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.utils.getOpacityColor
+import com.airbnb.lottie.LottieAnimationView
 import kotlinx.android.synthetic.main.view_meditation_emotion.view.*
 
 
@@ -165,7 +168,7 @@ class RealtimeAffectiveView @JvmOverloads constructor(
             }
             3 -> {
                 tv_title.text = context.getString(R.string.sdk_pleasure)
-                var stressScale = arrayOf(0, 1, 2, 3, 4,5)
+                var stressScale = arrayOf(0, 1, 2, 3, 4, 5)
                 var stressIndicatorItems = arrayListOf<EmotionIndicatorView.IndicateItem>()
                 stressIndicatorItems.add(
                     EmotionIndicatorView.IndicateItem(
@@ -233,14 +236,26 @@ class RealtimeAffectiveView @JvmOverloads constructor(
         tv_disconnect_text_1.typeface = typeface
     }
 
-    fun setValue(value:Float?){
-        when(mAffectiveType){
-            0->{setAttention(value)}
-            1->{setRelaxation(value)}
-            2->{setPressure(value)}
-            3->{setPleasure(value)}
-            4->{setArousal(value)}
-            5->{setCoherence(value)}
+    fun setValue(value: Float?) {
+        when (mAffectiveType) {
+            0 -> {
+                setAttention(value)
+            }
+            1 -> {
+                setRelaxation(value)
+            }
+            2 -> {
+                setPressure(value)
+            }
+            3 -> {
+                setPleasure(value)
+            }
+            4 -> {
+                setArousal(value)
+            }
+            5 -> {
+                setCoherence(value)
+            }
         }
     }
 
@@ -342,6 +357,7 @@ class RealtimeAffectiveView @JvmOverloads constructor(
         eiv_emotion.setValue(arousalValue)
         tv_emotion_value.text = "$arousalValue"
     }
+
     fun showDisconnectTip() {
         rl_loading_cover_1.visibility = View.VISIBLE
         icon_loading.visibility = View.GONE
@@ -353,6 +369,14 @@ class RealtimeAffectiveView @JvmOverloads constructor(
         rl_loading_cover_1.visibility = View.VISIBLE
         icon_loading.visibility = View.VISIBLE
         tv_disconnect_text_1.visibility = View.GONE
+    }
+
+    fun showErrorMessage(error: String) {
+        mSelfView.findViewById<RelativeLayout>(R.id.rl_loading_cover_1).visibility = View.VISIBLE
+        mSelfView.findViewById<LottieAnimationView>(R.id.icon_loading).visibility = View.GONE
+        mSelfView.findViewById<TextView>(R.id.tv_disconnect_text_1).visibility = View.VISIBLE
+        mSelfView.findViewById<TextView>(R.id.tv_disconnect_text_1).text = error
+        setValue(0f)
     }
 
     fun hideLoading() {

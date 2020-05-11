@@ -147,6 +147,13 @@ class RealtimeBrainwaveView @JvmOverloads constructor(
         mSelfView.findViewById<BrainWaveSurfaceView>(R.id.bsv_brainwave_right).setSampleData(sampleBrainData)
     }
 
+    fun showErrorMessage(error:String){
+        mSelfView.findViewById<RelativeLayout>(R.id.rl_loading_cover_1).visibility = View.VISIBLE
+        mSelfView.findViewById<LottieAnimationView>(R.id.icon_loading_1).visibility = View.GONE
+        mSelfView.findViewById<TextView>(R.id.tv_disconnect_text_1).visibility = View.VISIBLE
+        mSelfView.findViewById<TextView>(R.id.tv_disconnect_text_1).text = error
+    }
+
     fun hideDisconnectTip(){
         mSelfView.findViewById<RelativeLayout>(R.id.rl_loading_cover_1).visibility = View.GONE
         mSelfView.findViewById<LottieAnimationView>(R.id.icon_loading_1).visibility = View.GONE
