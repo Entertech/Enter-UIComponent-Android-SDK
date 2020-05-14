@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="136dp"
+        android:id="@+id/rl_bg"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        >
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+        <include layout="@layout/layout_common_card_title" />
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                >
+
+            <LinearLayout
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                <TextView
+                        android:textStyle="bold"
+                        android:id="@+id/tv_hrv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="25"
+                        android:textColor="@color/black"
+                        android:textSize="40sp"
+                        />
+
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/dp_4"
+                        android:orientation="vertical"
+                        >
+
+                    <TextView
+                            android:id="@+id/tv_unit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:text="ms"
+                            android:textColor="@color/colorUnit"
+                            android:textSize="12sp"
+                            />
+
+                    <TextView
+                            android:id="@+id/tv_level"
+                            android:paddingLeft="@dimen/activity_margin_half"
+                            android:paddingRight="@dimen/activity_margin_half"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="low"
+                            android:textColor="@color/colorHRVLevelText"
+                            android:background="@drawable/shape_hrv_level_bg"
+                            />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <cn.entertech.uicomponentsdk.realtime.EmotionIndicatorView
+                    android:id="@+id/eiv_hrv"
+                    android:layout_width="150dp"
+                    android:layout_height="70dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    app:eiv_textSize="10sp"
+                    app:eiv_textColor="#CC9E59"
+                    app:eiv_textBottomPadding="2dp"
+                    app:eiv_barWidth="6dp"
+                    />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/vector_drawable_hrv_bg_icon"
+                />
+    </RelativeLayout>
+
+    <ImageView
+            android:id="@+id/iv_arrow"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="right"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="11dp"
+            android:layout_marginRight="@dimen/activity_margin"
+            android:src="@drawable/vector_drawable_arrow_right_blue"
+            />
+</RelativeLayout>

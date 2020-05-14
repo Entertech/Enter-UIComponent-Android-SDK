@@ -21,6 +21,10 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+            <cn.entertech.uicomponentsdk.report.ReportCoherenceCard
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/coherence"/>
             <cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView
                     android:id="@+id/realtime_affective"
                     android:layout_width="match_parent"

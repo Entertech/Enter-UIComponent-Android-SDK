@@ -13,6 +13,7 @@ class ChartDemoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chart_demo)
+        coherence.setValue(78)
         realtime_affective.showErrorMessage("Device not found")
         realtime_hrv.showErrorMessage("Device not found")
         realtime_heart.showErrorMessage("Device not found")
