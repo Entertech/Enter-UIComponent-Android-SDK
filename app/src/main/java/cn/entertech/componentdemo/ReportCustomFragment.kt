@@ -49,10 +49,10 @@ class ReportCustomFragment : Fragment() {
 //            reportData.reportEEGDataEntity?.deltaCurve
 //        )
 
-        report_heart_rate.setData( reportData.reportHRDataEntity?.hrRec)
-
-//        report_hrv.setData(startTime!!, reportData.reportHRDataEntity?.hrvRec, reportData.reportHRDataEntity?.hrvAvg)
-        report_hrv.setData(reportData.reportHRDataEntity?.hrvRec)
+//        report_heart_rate.setData( reportData.reportHRDataEntity?.hrRec)
+//
+////        report_hrv.setData(startTime!!, reportData.reportHRDataEntity?.hrvRec, reportData.reportHRDataEntity?.hrvAvg)
+//        report_hrv.setData(reportData.reportHRDataEntity?.hrvRec)
 
         report_pressure.setData(startTime!!, reportData.reportPressureEnitty?.pressureRec)
     }

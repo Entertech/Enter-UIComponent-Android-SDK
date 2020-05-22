@@ -50,7 +50,7 @@ class ReportPressureView @JvmOverloads constructor(
         mIsShowInfoIcon = typeArray.getBoolean(R.styleable.ReportPressureView_rp_isShowInfoIcon, true)
         mInfoUrl = typeArray.getString(R.styleable.ReportPressureView_rp_infoUrl)
         if (mInfoUrl == null) {
-            mInfoUrl = ReportHeartRateView.INFO_URL
+            mInfoUrl = INFO_URL
         }
 
         mIsAbsoluteTime = typeArray.getBoolean(R.styleable.ReportPressureView_rp_isAbsoluteTimeAxis, false)

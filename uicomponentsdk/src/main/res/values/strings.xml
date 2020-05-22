@@ -15,8 +15,8 @@
     <string name="sdk_theta_wave">θ wave</string>
     <string name="sdk_delta_wave">δ wave</string>
     <string name="sdk_brainwave">Real-time Brainwave(EEG)</string>
-    <string name="sdk_brainwave_legend_right">Right Brain(FP2)</string>
-    <string name="sdk_brianwave_legend_left">LeftBrain(FP1)</string>
+    <string name="sdk_brainwave_legend_right">Right Brain</string>
+    <string name="sdk_brianwave_legend_left">Left Brain</string>
     <string name="sdk_heart_rate">Heart Rate</string>
     <string name="sdk_pressure">Pressure</string>
     <string name="sdk_relaxation">Relaxation</string>
@@ -24,10 +24,6 @@
     <string name="sdk_relaxation_and_attention">Relaxation&#038;Attention</string>
     <string name="sdk_brainwave_spectrum_chart_title">Each band power ratio(%)</string>
     <string name="sdk_hrv">Heart Rate Variability</string>
-    <string name="sdk_hrv_chart_title">HRV Value(ms)</string>
-    <string name="sdk_hr_chart_title">Heart Rate(bpm)</string>
-    <string name="sdk_attention_chart_title">Attention Index</string>
-    <string name="sdk_relaxation_chart_title">Relaxation Index</string>
     <string name="sdk_pressure_legend_low">Low</string>
     <string name="sdk_pressure_legend_high">High</string>
     <string name="sdk_hr_chart_legend_low">Low</string>
