@@ -30,30 +30,32 @@ class ReportCustomFragment : Fragment() {
 //        affective view
 
         var testData = ArrayList<Double>()
-        for (i in 0 .. 500){
-            testData.add(Random().nextDouble()*100)
+        for (i in 0..500) {
+            testData.add(Random().nextDouble() * 100)
         }
 //        report_attention.setData( reportData.reportAttentionEnitty?.attentionRec)
-        report_attention.setData(testData)
-        Log.d("####","attention rec size:"+reportData.reportAttentionEnitty?.attentionRec?.size)
+        report_attention.setData(testData, testData)
+        Log.d("####", "attention rec size:" + reportData.reportAttentionEnitty?.attentionRec?.size)
 //        report_relaxation.setData(reportData.reportRelaxationEnitty?.relaxationRec)
 
 //        brainwave spectrum view
 //
-//        report_brainwave_spectrum.setBrainwaveSpectrums(
-//            startTime!!,
-//            reportData.reportEEGDataEntity?.gammaCurve,
-//            reportData.reportEEGDataEntity?.betaCurve,
-//            reportData.reportEEGDataEntity?.alphaCurve,
-//            reportData.reportEEGDataEntity?.thetaCurve,
-//            reportData.reportEEGDataEntity?.deltaCurve
-//        )
 
-//        report_heart_rate.setData( reportData.reportHRDataEntity?.hrRec)
+        report_brainwave_spectrum.setData(
+            listOf(
+                reportData.reportEEGDataEntity?.gammaCurve as ArrayList<Double>,
+                reportData.reportEEGDataEntity?.betaCurve as ArrayList<Double>,
+                reportData.reportEEGDataEntity?.alphaCurve as ArrayList<Double>,
+                reportData.reportEEGDataEntity?.thetaCurve as ArrayList<Double>,
+                reportData.reportEEGDataEntity?.deltaCurve as ArrayList<Double>
+            )
+        )
+
+        report_heart_rate.setData(reportData.reportHRDataEntity?.hrRec)
 //
-////        report_hrv.setData(startTime!!, reportData.reportHRDataEntity?.hrvRec, reportData.reportHRDataEntity?.hrvAvg)
-//        report_hrv.setData(reportData.reportHRDataEntity?.hrvRec)
+//        report_hrv.setData(startTime!!, reportData.reportHRDataEntity?.hrvRec, reportData.reportHRDataEntity?.hrvAvg)
+        report_hrv.setData(reportData.reportHRDataEntity?.hrvRec)
 
-        report_pressure.setData(startTime!!, reportData.reportPressureEnitty?.pressureRec)
+        report_pressure.setData(reportData.reportPressureEnitty?.pressureRec)
     }
 }

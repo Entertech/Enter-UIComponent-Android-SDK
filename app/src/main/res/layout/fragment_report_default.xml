@@ -32,7 +32,7 @@
             <cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumView
                     android:id="@+id/chart_brainwave"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="250dp"
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:background="@color/white"
                     app:rbs_isTitleMenuIconShow="true"
@@ -65,6 +65,7 @@
                     app:rlcc_lineWidth="1dp"
                     app:rlcc_pointCount="100"
                     app:rlcc_timeUnit="400"
+                    app:rlcc_markViewTitle="@string/sdk_heart_rate"
                     app:rlcc_title="@string/sdk_heart_rate"
                     app:rlcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
                     app:rlcc_xAxisUnit="@string/sdk_time_unit" />
@@ -80,6 +81,7 @@
                     app:rlcc_lineWidth="1dp"
                     app:rlcc_pointCount="100"
                     app:rlcc_timeUnit="400"
+                    app:rlcc_markViewTitle="@string/sdk_hrv"
                     app:rlcc_title="@string/sdk_hrv"
                     app:rlcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
                     app:rlcc_xAxisUnit="@string/sdk_time_unit" />
@@ -105,6 +107,8 @@
                     app:ralcc_pointCount="100"
                     app:ralcc_relaxationLineColor="#4B5DCC"
                     app:ralcc_timeUnit="800"
+                    app:ralcc_markViewTitle1="@string/sdk_attention"
+                    app:ralcc_markViewTitle2="@string/sdk_relaxation"
                     app:ralcc_title="@string/sdk_relaxation_and_attention"
                     app:ralcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
                     app:ralcc_xAxisUnit="@string/sdk_time_unit" />
@@ -122,6 +126,7 @@
                     app:rlcc_isDrawFill="true"
                     app:rlcc_pointCount="100"
                     app:rlcc_timeUnit="800"
+                    app:rlcc_markViewTitle="@string/sdk_relaxation"
                     app:rlcc_title="@string/sdk_relaxation"
                     app:rlcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
                     app:rlcc_xAxisUnit="@string/sdk_time_unit" />
@@ -139,6 +144,7 @@
                     app:rlcc_pointCount="100"
                     app:rlcc_timeUnit="800"
                     app:rlcc_isDrawFill="true"
+                    app:rlcc_markViewTitle="@string/sdk_attention"
                     app:rlcc_title="@string/sdk_attention"
                     app:rlcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
                     app:rlcc_xAxisUnit="@string/sdk_time_unit" />
@@ -150,6 +156,12 @@
                     android:id="@+id/report_pressure"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:rpc_arrowColor="#F5F5F5"
+                    app:rpc_background="#FFFFFF"
+                    app:rpc_textColor="#11152E"
+                    app:rpc_levelTextColor="#402D30"
+                    app:rpc_levelBgColor="#FFE7E6"
+                    app:rpc_barBgColor="#DDE1EB"
                     />
         </LinearLayout>
     </ScrollView>

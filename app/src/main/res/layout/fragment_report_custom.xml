@@ -32,14 +32,14 @@
 
 
             <cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumView
-                    app:rbs_background="@drawable/shape_custom_widget_bg"
+                    app:rbs_spectrumColors="#FF6682,#FB9C98,#F7C77E,#5FC695,#5E75FF"
+                    app:rbs_timeUnit="400"
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
                     android:id="@+id/report_brainwave_spectrum"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:rbs_isAbsoluteTimeAxis="true"
-                    app:rbs_textColor="@color/white"
+                    app:rbs_pointCount="100"
                     >
 
             </cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumView>
@@ -54,33 +54,37 @@
                     android:layout_marginLeft="@dimen/activity_margin"
                     />
 
-            <cn.entertech.uicomponentsdk.report.ReportHeartRateView
+            <cn.entertech.uicomponentsdk.report.ReportLineChartCard
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
-                    app:rhr_isAbsoluteTimeAxis="true"
                     android:id="@+id/report_heart_rate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:rhr_background="@drawable/shape_custom_widget_bg"
-                    app:rhr_textColor="@color/white"
+                    app:rlcc_lineColor="#FF6682"
+                    app:rlcc_lineWidth="0.75dp"
+                    app:rlcc_pointCount="100"
+                    app:rlcc_timeUnit="400"
+                    app:rlcc_markViewTitle="心率"
                     >
 
-            </cn.entertech.uicomponentsdk.report.ReportHeartRateView>
+            </cn.entertech.uicomponentsdk.report.ReportLineChartCard>
 
 
-            <cn.entertech.uicomponentsdk.report.ReportHeartRateVariabilityView
+            <cn.entertech.uicomponentsdk.report.ReportLineChartCard
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:id="@+id/report_hrv"
-                    app:hrv_isAbsoluteTimeAxis="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
-                    app:hrv_textColor="@color/white"
-                    app:hrv_background="@drawable/shape_custom_widget_bg"
+                    app:rlcc_lineColor="#FFC56F"
+                    app:rlcc_lineWidth="0.75dp"
+                    app:rlcc_pointCount="100"
+                    app:rlcc_timeUnit="400"
+                    app:rlcc_markViewTitle="HRV"
                     >
 
-            </cn.entertech.uicomponentsdk.report.ReportHeartRateVariabilityView>
+            </cn.entertech.uicomponentsdk.report.ReportLineChartCard>
 
             <TextView
                     android:layout_width="wrap_content"
@@ -93,42 +97,42 @@
                     />
 
 
-            <cn.entertech.uicomponentsdk.report.ReportLineChartCard
+            <cn.entertech.uicomponentsdk.report.ReportAffectiveLineChartCard
                     android:id="@+id/report_attention"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
+                    app:ralcc_attentionLineColor="#5FC695"
+                    app:ralcc_isTitleMenuIconShow="true"
+                    app:ralcc_pointCount="100"
+                    app:ralcc_relaxationLineColor="#4B5DCC"
+                    app:ralcc_timeUnit="800"
+                    app:ralcc_lineWidth="0.75dp"
+                    app:ralcc_markViewTitle1="注意力"
+                    app:ralcc_markViewTitle2="放松度"
                     >
 
-            </cn.entertech.uicomponentsdk.report.ReportLineChartCard>
+            </cn.entertech.uicomponentsdk.report.ReportAffectiveLineChartCard>
+
 
             <cn.entertech.uicomponentsdk.report.ReportLineChartCard
-                    android:layout_marginTop="@dimen/activity_margin_half"
-                    android:id="@+id/report_relaxation"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/activity_margin"
-                    android:layout_marginRight="@dimen/activity_margin"
-                    >
-
-            </cn.entertech.uicomponentsdk.report.ReportLineChartCard>
-
-
-            <cn.entertech.uicomponentsdk.report.ReportPressureView
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
                     app:rp_background="@drawable/shape_custom_widget_bg"
-                    app:rp_isAbsoluteTimeAxis="true"
                     android:id="@+id/report_pressure"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/margin_vertical"
-                    app:rp_textColor="@color/white"
+                    app:rlcc_lineColor="#FF6682"
+                    app:rlcc_lineWidth="0.75dp"
+                    app:rlcc_pointCount="100"
+                    app:rlcc_timeUnit="800"
+                    app:rlcc_markViewTitle="压力水平"
                     >
 
-            </cn.entertech.uicomponentsdk.report.ReportPressureView>
+            </cn.entertech.uicomponentsdk.report.ReportLineChartCard>
 
         </LinearLayout>
     </ScrollView>

@@ -38,16 +38,16 @@ class ReportDefaultFragment : Fragment() {
         chart_attention.setAverage(reportData.reportAttentionEnitty?.attentionRec!!.average().toInt())
         chart_relaxation.setData(reportData.reportRelaxationEnitty?.relaxationRec)
         chart_attention.setData(reportData.reportAttentionEnitty?.attentionRec)
-        var spectrumList = listOf<List<Double>>(
-            reportData.reportEEGDataEntity!!.gammaCurve!!,
-            reportData.reportEEGDataEntity!!.betaCurve!!,
-            reportData.reportEEGDataEntity!!.alphaCurve!!,
-            reportData.reportEEGDataEntity!!.thetaCurve!!,
-            reportData.reportEEGDataEntity!!.deltaCurve!!
+        var spectrumList = listOf<ArrayList<Double>>(
+            reportData.reportEEGDataEntity!!.gammaCurve!! as ArrayList<Double>,
+            reportData.reportEEGDataEntity!!.betaCurve!! as ArrayList<Double>,
+            reportData.reportEEGDataEntity!!.alphaCurve!! as ArrayList<Double>,
+            reportData.reportEEGDataEntity!!.thetaCurve!! as ArrayList<Double>,
+            reportData.reportEEGDataEntity!!.deltaCurve!! as ArrayList<Double>
         )
-//        chart_brainwave.setData(
-//            spectrumList
-//        )
+        chart_brainwave.setData(
+            spectrumList
+        )
         chart_hr.setAverage(reportData.reportHRDataEntity?.hrAvg!!.toInt())
         chart_hr.setData(reportData.reportHRDataEntity?.hrRec)
 
