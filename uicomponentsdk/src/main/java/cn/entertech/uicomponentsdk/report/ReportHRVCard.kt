@@ -73,14 +73,14 @@ class ReportHRVCard @JvmOverloads constructor(
     }
     fun initIndicator() {
         var indicateItems = ArrayList<EmotionIndicatorView.IndicateItem>()
-        var item1 = EmotionIndicatorView.IndicateItem(0.43f, getOpacityColor(mIndicatorColor,0.2f))
-        var item2 = EmotionIndicatorView.IndicateItem(0.28f, getOpacityColor(mIndicatorColor,0.6f))
-        var item3 = EmotionIndicatorView.IndicateItem(0.29f, mIndicatorColor)
+        var item1 = EmotionIndicatorView.IndicateItem(0.14f, getOpacityColor(mIndicatorColor,0.2f))
+        var item2 = EmotionIndicatorView.IndicateItem(0.26f, getOpacityColor(mIndicatorColor,0.6f))
+        var item3 = EmotionIndicatorView.IndicateItem(0.6f, mIndicatorColor)
         indicateItems.add(item1)
         indicateItems.add(item2)
         indicateItems.add(item3)
         eiv_hrv.setIndicatorItems(indicateItems)
-        eiv_hrv.setScales(arrayOf(0, 30, 50, 70))
+        eiv_hrv.setScales(arrayOf(0, 7, 20, 50))
         eiv_hrv.setIndicatorColor(mIndicatorTriangleColor)
         eiv_hrv.setScaleTextColor(mIndicatorTextColor)
     }
@@ -115,8 +115,8 @@ class ReportHRVCard @JvmOverloads constructor(
         tv_hrv.text = "$value"
         eiv_hrv.setValue(value.toFloat())
         when (value) {
-            in 0..29 -> tv_level.text = context.getString(R.string.sdk_report_low)
-            in 50..70 -> tv_level.text = context.getString(R.string.sdk_report_high)
+            in 0..7 -> tv_level.text = context.getString(R.string.sdk_report_low)
+            in 20..50 -> tv_level.text = context.getString(R.string.sdk_report_high)
             else -> tv_level.text = context.getString(R.string.sdk_report_nor)
         }
     }
