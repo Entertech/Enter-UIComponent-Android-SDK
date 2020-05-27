@@ -48,6 +48,7 @@ class ReportLineChartCard @JvmOverloads constructor(
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
+    private var mSmallTitle: String? = ""
     var mAverageLabelBgColor: Int = Color.parseColor("#ffffff")
 
     var mMarkViewTitleColor: Int = Color.parseColor("#8F11152E")
@@ -138,6 +139,7 @@ class ReportLineChartCard @JvmOverloads constructor(
             R.styleable.ReportLineChartCard_rlcc_isTitleIconShow,
             mIsTitleIconShow
         )
+        mSmallTitle = typeArray.getString(R.styleable.ReportLineChartCard_rlcc_smallTitle)
         mIsTitleMenuIconShow = typeArray.getBoolean(
             R.styleable.ReportLineChartCard_rlcc_isTitleMenuIconShow,
             mIsTitleMenuIconShow
@@ -237,6 +239,11 @@ class ReportLineChartCard @JvmOverloads constructor(
         tv_title.visibility = View.VISIBLE
         tv_title.text = mTitle
         tv_title.setTextColor(mTextColor)
+        if (mSmallTitle!= null){
+            tv_small_title.visibility = View.VISIBLE
+            tv_small_title.text = mSmallTitle
+            tv_small_title.setTextColor(mTextColor)
+        }
         if (mIsTitleIconShow) {
             iv_icon.visibility = View.VISIBLE
             iv_icon.setImageDrawable(mTiltleIcon)

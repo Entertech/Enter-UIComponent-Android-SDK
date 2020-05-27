@@ -59,6 +59,7 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var mSmallTitle: String? = ""
     var isFullScreen: Boolean = false
     private lateinit var marker: BrainwaveSpectrumChartMarkView
     private var dataSets: ArrayList<ILineDataSet> = ArrayList()
@@ -139,6 +140,7 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
         mTextColor =
             typeArray.getColor(R.styleable.ReportBrainwaveSpectrumView_rbs_textColor, mTextColor)
         mBg = typeArray.getDrawable(R.styleable.ReportBrainwaveSpectrumView_rbs_background)
+        mSmallTitle = typeArray.getString(R.styleable.ReportBrainwaveSpectrumView_rbs_smallTitle)
         mTitleIcon = typeArray.getDrawable(R.styleable.ReportBrainwaveSpectrumView_rbs_titleIcon)
         mTitleMenuIcon =
             typeArray.getDrawable(R.styleable.ReportBrainwaveSpectrumView_rbs_titleMenuIcon)
@@ -189,7 +191,10 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
             R.styleable.ReportBrainwaveSpectrumView_rbs_markViewValueColor,
             mMarkViewValueColor
         )
-        mMarkDivideLineColor = typeArray.getColor(R.styleable.ReportBrainwaveSpectrumView_rbs_markViewDivideLineColor,mMarkDivideLineColor)
+        mMarkDivideLineColor = typeArray.getColor(
+            R.styleable.ReportBrainwaveSpectrumView_rbs_markViewDivideLineColor,
+            mMarkDivideLineColor
+        )
 
         initView()
     }
@@ -202,6 +207,11 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
             iv_icon.setImageDrawable(mTitleIcon)
         } else {
             iv_icon.visibility = View.GONE
+        }
+        if (mSmallTitle != null) {
+            tv_small_title.visibility = View.VISIBLE
+            tv_small_title.text = mSmallTitle
+            tv_small_title.setTextColor(mTextColor)
         }
         if (mIsShowTitleMenuIcon) {
             iv_menu.visibility = View.VISIBLE
@@ -232,10 +242,10 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
                 intent.putExtra("bgColor", bgColor)
                 intent.putExtra("labelColor", mLabelColor)
                 intent.putExtra("gammaData", mBrainwaveSpectrums!![0].toDoubleArray())
-                intent.putExtra("betaData",  mBrainwaveSpectrums!![1].toDoubleArray())
-                intent.putExtra("alphaData",  mBrainwaveSpectrums!![2].toDoubleArray())
-                intent.putExtra("thetaData",  mBrainwaveSpectrums!![3].toDoubleArray())
-                intent.putExtra("deltaData",  mBrainwaveSpectrums!![4].toDoubleArray())
+                intent.putExtra("betaData", mBrainwaveSpectrums!![1].toDoubleArray())
+                intent.putExtra("alphaData", mBrainwaveSpectrums!![2].toDoubleArray())
+                intent.putExtra("thetaData", mBrainwaveSpectrums!![3].toDoubleArray())
+                intent.putExtra("deltaData", mBrainwaveSpectrums!![4].toDoubleArray())
                 context.startActivity(intent)
             }
         }
@@ -443,7 +453,7 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
 
     }
 
-    fun cancelHighlight(){
+    fun cancelHighlight() {
         ll_title.visibility = View.VISIBLE
         chart.highlightValue(null)
         dataSets.map {
@@ -452,6 +462,7 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
             it.setDrawIcons(false)
         }
     }
+
     fun setChartListener() {
         chart.onChartGestureListener = object : OnChartGestureListener {
             override fun onChartGestureEnd(
@@ -520,7 +531,7 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
             }
 
             override fun onValueSelected(e: Entry, h: Highlight?) {
-                chart.highlightValue(null,false)
+                chart.highlightValue(null, false)
                 ll_title.visibility = View.GONE
                 for (i in iconList.indices) {
                     iconList[i].color = mSpectrumColors!![i]
@@ -537,7 +548,7 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
                         }
                     }
                 }
-                chart.highlightValue(h,false)
+                chart.highlightValue(h, false)
             }
 
         })
@@ -549,8 +560,8 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
 
         marker = BrainwaveSpectrumChartMarkView(
             context,
-            mSpectrumColors!!.toIntArray(),mMarkViewValueColor,
-            getOpacityColor(mMarkDivideLineColor,0.3f),mMarkViewTitleColor,
+            mSpectrumColors!!.toIntArray(), mMarkViewValueColor,
+            getOpacityColor(mMarkDivideLineColor, 0.3f), mMarkViewTitleColor,
             arrayOf("γ", "β", "α", "θ", "δ")
         )
         marker.setMarkViewBgColor(mMarkViewBgColor)

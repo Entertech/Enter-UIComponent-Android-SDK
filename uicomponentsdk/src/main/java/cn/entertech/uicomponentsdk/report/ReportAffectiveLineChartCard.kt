@@ -44,6 +44,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var mSmallTitle: String? = ""
     var mAverageLabelBgColor: Int = Color.parseColor("#ffffff")
     private var popWindow: PopupWindow? = null
     private var fullScreenChart: ReportAffectiveLineChartCard? = null
@@ -160,6 +161,9 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
         mIsTitleIconShow = typeArray.getBoolean(
             R.styleable.ReportAffectiveLineChartCard_ralcc_isTitleIconShow,
             mIsTitleIconShow
+        )
+        mSmallTitle = typeArray.getString(
+            R.styleable.ReportAffectiveLineChartCard_ralcc_smallTitle
         )
         mIsTitleMenuIconShow = typeArray.getBoolean(
             R.styleable.ReportAffectiveLineChartCard_ralcc_isTitleMenuIconShow,
@@ -296,6 +300,12 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
             iv_icon.setImageDrawable(mTiltleIcon)
         } else {
             iv_icon.visibility = View.GONE
+        }
+
+        if (mSmallTitle != null) {
+            tv_small_title.visibility = View.VISIBLE
+            tv_small_title.text = mSmallTitle
+            tv_small_title.setTextColor(mTextColor)
         }
         if (mIsTitleMenuIconShow) {
             iv_menu.setImageDrawable(mTitleMenuIcon)

@@ -192,6 +192,7 @@
     <declare-styleable name="ReportBrainwaveSpectrumView">
         <attr name="rbs_isTitleIconShow" format="boolean" />
         <attr name="rbs_title" format="string" />
+        <attr name="rbs_smallTitle" format="string" />
         <attr name="rbs_titleIcon" format="reference" />
         <attr name="rbs_isTitleMenuIconShow" format="boolean" />
         <attr name="rbs_titleMenuIcon" format="reference" />
@@ -282,6 +283,7 @@
         <attr name="rlcc_markViewTitleColor" format="color"/>
         <attr name="rlcc_markViewValueColor" format="color"/>
         <attr name="rlcc_averageLabelBgColor" format="color"/>
+        <attr name="rlcc_smallTitle" format="string" />
     </declare-styleable>
 
     <declare-styleable name="ReportAffectiveLineChartCard">
@@ -310,6 +312,7 @@
         <attr name="ralcc_markViewValueColor" format="color"/>
         <attr name="ralcc_markViewDivideLineColor" format="color"/>
         <attr name="ralcc_averageLabelBgColor" format="color"/>
+        <attr name="ralcc_smallTitle" format="string" />
     </declare-styleable>
 
     <declare-styleable name="ReportPressureView">

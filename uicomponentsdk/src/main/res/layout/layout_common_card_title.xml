@@ -49,6 +49,16 @@
             android:visibility="gone"
             />
 
+    <TextView
+            android:id="@+id/tv_small_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:visibility="gone"
+            android:layout_marginRight="@dimen/activity_margin"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/iv_menu"
+            />
 
     <ImageView
             android:id="@+id/iv_fullscreen"

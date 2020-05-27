@@ -32,6 +32,7 @@
     <string name="sdk_max">最大值：</string>
     <string name="sdk_min">最小值：</string>
     <string name="chart_full_screen_tip">缩放或拖动查看曲线</string>
+    <string name="sdk_chart_title">在冥想中的变化</string>
     <string name="sdk_report_high">高</string>
     <string name="sdk_report_nor">中等</string>
     <string name="sdk_report_low">低</string>
