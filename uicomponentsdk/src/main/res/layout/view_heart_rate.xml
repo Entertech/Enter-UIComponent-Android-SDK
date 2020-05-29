@@ -65,21 +65,21 @@
                         android:orientation="vertical"
                         android:layout_gravity="center_vertical"
                         >
-                    <RelativeLayout
-                            android:id="@+id/gif_container"
-                            android:layout_width="28dp"
+<!--                    <RelativeLayout-->
+<!--                            android:id="@+id/gif_container"-->
+<!--                            android:layout_width="28dp"-->
+<!--                            android:layout_height="24.3dp"-->
+<!--                            >-->
+
+<!--                    </RelativeLayout>-->
+
+                    <com.airbnb.lottie.LottieAnimationView
+                            android:layout_width="27dp"
                             android:layout_height="24.3dp"
-                            >
-
-                    </RelativeLayout>
-
-                    <!--<com.airbnb.lottie.LottieAnimationView-->
-                            <!--android:layout_width="27dp"-->
-                            <!--android:layout_height="24.3dp"-->
-                            <!--app:lottie_fileName="heart_bit.json"-->
-                            <!--app:lottie_autoPlay="true"-->
-                            <!--app:lottie_loop="true"-->
-                            <!--/>-->
+                            app:lottie_fileName="heart_bit.json"
+                            app:lottie_autoPlay="true"
+                            app:lottie_loop="true"
+                            />
 
                     <TextView
                             android:id="@+id/tv_unit"

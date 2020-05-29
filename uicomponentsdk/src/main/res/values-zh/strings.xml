@@ -14,7 +14,7 @@
     <string name="sdk_alpha_wave">α 波</string>
     <string name="sdk_theta_wave">θ 波</string>
     <string name="sdk_delta_wave">δ 波</string>
-    <string name="sdk_brainwave">实时脑波频谱(EEG)</string>
+    <string name="sdk_brainwave">实时脑波(EEG)</string>
     <string name="sdk_brainwave_legend_right">右脑波</string>
     <string name="sdk_brianwave_legend_left">左脑波</string>
     <string name="sdk_heart_rate">心率</string>
