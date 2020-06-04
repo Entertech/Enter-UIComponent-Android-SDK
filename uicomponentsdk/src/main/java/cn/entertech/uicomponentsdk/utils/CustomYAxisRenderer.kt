@@ -87,6 +87,7 @@ class CustomYAxisRenderer(
                     if (yBaseLine + bottom > mViewPortHandler.contentBottom()) {
                         heightCenter -= (yBaseLine + bottom - mViewPortHandler.contentBottom())
                     }
+                    yBaseLine = (heightCenter * 2 + top - bottom) / 2
                     var textWidth = Utils.calcTextWidth(mLimitLinePaint, label)
                     mLimitLineLabelBgPaint.strokeWidth = labelLineHeight + 22
                     mLimitLineLabelBgPaint.color = getOpacityColor(mLimitLabelBgColor, 0.8F)

@@ -48,7 +48,7 @@ class ReportDefaultFragment : Fragment() {
         chart_brainwave.setData(
             spectrumList
         )
-        chart_hr.setAverage(reportData.reportHRDataEntity?.hrAvg!!.toInt())
+        chart_hr.setAverage(99)
         chart_hr.setData(reportData.reportHRDataEntity?.hrRec)
 
         chart_hrv.setAverage(reportData.reportHRDataEntity?.hrvAvg!!.toInt())
