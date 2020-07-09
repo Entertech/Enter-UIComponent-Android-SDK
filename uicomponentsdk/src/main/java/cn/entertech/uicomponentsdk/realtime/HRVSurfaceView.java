@@ -115,7 +115,7 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
         if (data == null) {
             return;
         }
-        Log.d("#####", "receive brian data is... " + data.toString());
+//        Log.d("#####", "receive brian data is... " + data.toString());
         List<Double> simpleData = new ArrayList<>();
         for (int i = 0; i < data.size(); i++) {
             if (i % 10 == 0) {
@@ -207,7 +207,7 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
         //获得canvas对象
         canvas.translate(mLeftPadding + mYAxisMargin, getHeight());
         path.reset();
-        Log.d("####", "draw data is " + drawData.toString());
+//        Log.d("####", "draw data is " + drawData.toString());
         for (int i = 0; i < drawData.size(); i++) {
             if (i == 0)
                 path.moveTo(i * pointOffset, (float) (-(drawData.get(i))));
