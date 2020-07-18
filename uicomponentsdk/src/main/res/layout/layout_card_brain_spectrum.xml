@@ -53,8 +53,8 @@
                     android:gravity="left"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginTop="48dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="51dp"
+                    android:layout_marginBottom="25dp"
                     android:orientation="vertical"
                     >
 
@@ -62,6 +62,7 @@
                         android:id="@+id/legend_gamma"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
+                        android:gravity="top"
                         android:layout_weight="1"
                         app:clv_legend="γ"
                         />
@@ -70,6 +71,7 @@
                         android:id="@+id/legend_beta"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
+                        android:gravity="center_vertical"
                         android:layout_weight="1"
                         app:clv_legend="β"
                         />
@@ -78,6 +80,7 @@
                         android:id="@+id/legend_alpha"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
+                        android:gravity="center_vertical"
                         android:layout_weight="1"
                         app:clv_legend="α"
                         />
@@ -86,12 +89,14 @@
                         android:id="@+id/legend_theta"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
+                        android:gravity="center_vertical"
                         android:layout_weight="1"
                         app:clv_legend="θ"
                         />
 
                 <cn.entertech.uicomponentsdk.widget.ChartLegendView
                         android:id="@+id/legend_delta"
+                        android:gravity="bottom"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_weight="1"

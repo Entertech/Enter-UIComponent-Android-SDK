@@ -427,6 +427,7 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
 //            set1.setDrawHighlightIndicators(false)
 //            set1.setDrawHorizontalHighlightIndicator(false)
             set1.setDrawVerticalHighlightIndicator(true)
+            set1.color = mSpectrumColors!![i]
             set1.highLightColor = mHighlightLineColor
             set1.highlightLineWidth = mHighlightLineWidth
             set1.formLineWidth = 0f
