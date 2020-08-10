@@ -79,7 +79,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     app:hcpb_barColor="@color/colorRelaxationBar"
-                    app:hcpb_text="Relaxation"
+                    app:hcpb_text="@string/sdk_relaxation"
                     app:hcpb_textSize="16sp"
                     />
         </RelativeLayout>
@@ -158,7 +158,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     app:hcpb_barColor="@color/colorAttentionBar"
-                    app:hcpb_text="Attention"
+                    app:hcpb_text="@string/sdk_attention"
                     app:hcpb_textSize="16sp"
                     />
         </RelativeLayout>

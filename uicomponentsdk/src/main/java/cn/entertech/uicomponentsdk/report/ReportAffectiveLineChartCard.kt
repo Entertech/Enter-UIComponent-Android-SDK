@@ -392,7 +392,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
 
         if (mData != null && mData!!.isNotEmpty()) {
             val ll1 = LimitLine(
-                average.toFloat(), "Average:${if (average >= ATTENTION_Y_OFFSET) {
+                average.toFloat(), "${context.getString(R.string.sdk_report_average)}${if (average >= ATTENTION_Y_OFFSET) {
                     mAttentionAverage
                 } else {
                     mRelaxationAverage

@@ -329,7 +329,7 @@ class ReportLineChartCard @JvmOverloads constructor(
         }
 
         if (mData != null && mData!!.isNotEmpty()) {
-            val ll1 = LimitLine(mAverageValue.toFloat(), "Average:$mAverageValue")
+            val ll1 = LimitLine(mAverageValue.toFloat(), "${context.getString(R.string.sdk_report_average)}$mAverageValue")
             ll1.lineWidth = 1f
             ll1.enableDashedLine(10f, 10f, 0f)
             ll1.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP

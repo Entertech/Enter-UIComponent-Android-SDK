@@ -181,11 +181,11 @@ class ReportBrainwaveSpectrumPieView @JvmOverloads constructor(
         if (sum != 0) {
             deltaPercent = 100 - sum
         }
-        legend_gamma.setText("γ wave ${gammaPercent}%")
-        legend_beta.setText("β wave ${betaPercent}%")
-        legend_alpha.setText("α wave ${alphaPercent}%")
-        legend_theta.setText("θ wave ${thetaPercent}%")
-        legend_delta.setText("δ wave ${deltaPercent}%")
+        legend_gamma.setText("${context.getString(R.string.sdk_gamma_wave)} ${gammaPercent}%")
+        legend_beta.setText("${context.getString(R.string.sdk_beta_wave)} ${betaPercent}%")
+        legend_alpha.setText("${context.getString(R.string.sdk_alpha_wave)} ${alphaPercent}%")
+        legend_theta.setText("${context.getString(R.string.sdk_theta_wave)} ${thetaPercent}%")
+        legend_delta.setText("${context.getString(R.string.sdk_delta_wave)} ${deltaPercent}%")
         val entries = java.util.ArrayList<PieEntry>()
         for (percent in percents) {
             entries.add(PieEntry(percent))

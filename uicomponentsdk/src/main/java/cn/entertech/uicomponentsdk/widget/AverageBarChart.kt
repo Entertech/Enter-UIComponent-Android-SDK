@@ -99,7 +99,7 @@ class AverageBarChart @JvmOverloads constructor(
     private fun onDrawLegendText(canvas: Canvas?) {
         canvas?.save()
         canvas?.translate(0f, height.toFloat())
-        var legend = "Last 7 times ->"
+        var legend = context.getString(R.string.last_7_time)
         var textBound = Rect()
         mLegendTextPaint.getTextBounds(legend, 0, legend.length, textBound)
         legendTextWidth = textBound.width()
@@ -219,7 +219,7 @@ class AverageBarChart @JvmOverloads constructor(
         mAverageTextPaint.color = mSecondTextColor
         mAverageTextPaint.textSize = ScreenUtil.dip2px(context, 12f).toFloat()
         canvas?.drawText(
-            "Average",
+            "${context.getString(R.string.sdk_report_average_2)}",
             0f,
             -transferAverage * scaleHeight - ScreenUtil.dip2px(context, 10f),
             mAverageTextPaint

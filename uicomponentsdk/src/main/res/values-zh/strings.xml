@@ -36,4 +36,11 @@
     <string name="sdk_report_high">高</string>
     <string name="sdk_report_nor">中等</string>
     <string name="sdk_report_low">低</string>
+    <string name="sdk_report_average">平均值：</string>
+    <string name="sdk_report_average_2">平均值</string>
+    <string name="sdk_report_last_7_time_tip_head"></string>
+    <string name="sdk_report_last_7_time_tip_foot_1">高于前七次平均值</string>
+    <string name="sdk_report_last_7_time_tip_foot_2">低于前七次平均值</string>
+    <string name="sdk_report_last_7_time_tip_foot_3">等于前七次平均值</string>
+    <string name="last_7_time"><![CDATA[最近七次->]]></string>
 </resources>

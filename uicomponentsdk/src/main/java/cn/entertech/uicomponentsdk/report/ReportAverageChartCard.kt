@@ -139,13 +139,13 @@ class ReportAverageChartCard @JvmOverloads constructor(
         var average = values.average()
         var lastValue = values[values.size - 1]
         if (lastValue > average) {
-            tv_tip.text = "The $mTag is higher than the average of last 7 times. "
+            tv_tip.text = "${context.getString(R.string.sdk_report_last_7_time_tip_head)} $mTag ${context.getString(R.string.sdk_report_last_7_time_tip_foot_1)}"
             iv_arrow.setImageResource(R.drawable.vector_drawable_report_average_arrow_up)
         } else if (lastValue < average) {
-            tv_tip.text = "The $mTag is low than the average of last 7 times. "
+            tv_tip.text = "${context.getString(R.string.sdk_report_last_7_time_tip_head)} $mTag ${context.getString(R.string.sdk_report_last_7_time_tip_foot_2)}"
             iv_arrow.setImageResource(R.drawable.vector_drawable_report_average_arrow_down)
         } else {
-            tv_tip.text = "The $mTag is the same as the average of last 7 times. "
+            tv_tip.text = "${context.getString(R.string.sdk_report_last_7_time_tip_head)} $mTag ${context.getString(R.string.sdk_report_last_7_time_tip_foot_3)}"
             iv_arrow.setImageResource(R.mipmap.ic_average_equal)
         }
 
