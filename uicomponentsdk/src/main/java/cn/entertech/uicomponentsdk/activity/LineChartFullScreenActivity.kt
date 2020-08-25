@@ -34,7 +34,7 @@ class LineChartFullScreenActivity : AppCompatActivity() {
         var bgColor = intent.getIntExtra("bgColor",Color.WHITE)
         var averageLineColor = intent.getIntExtra("averageLineColor",Color.parseColor("#11152E"))
         var labelColor = intent.getIntExtra("labelColor",Color.parseColor("#9AA1A9"))
-        var average = intent.getIntExtra("average",0)
+        var average = intent.getStringExtra("average")
         var averageBgColor = intent.getIntExtra("averageBgColor",0)
         var lineColor = intent.getIntExtra("lineColor",Color.RED)
         line_chart.setLineWidth(lineWidth)

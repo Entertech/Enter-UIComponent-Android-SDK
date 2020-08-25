@@ -3,7 +3,6 @@ package cn.entertech.uicomponentsdk.report
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.graphics.DashPathEffect
 import android.graphics.drawable.ColorDrawable
@@ -11,13 +10,9 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.util.AttributeSet
-import android.util.Log
 import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.PopupWindow
-import android.widget.TextView
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.activity.LineChartFullScreenActivity
 import cn.entertech.uicomponentsdk.utils.*
@@ -38,6 +33,7 @@ import com.github.mikephil.charting.utils.MPPointF
 import com.github.mikephil.charting.utils.Utils
 import kotlinx.android.synthetic.main.layout_card_attention.view.*
 import kotlinx.android.synthetic.main.layout_common_card_title.view.*
+import java.lang.Exception
 import java.util.*
 import kotlin.math.ceil
 import kotlin.math.floor
@@ -86,7 +82,7 @@ class ReportLineChartCard @JvmOverloads constructor(
     private lateinit var drawableIcon: Drawable
     private var mAverageLineColor: Int = Color.parseColor("#11152E")
     private var mIsDrawFill: Boolean = false
-    private var mAverageValue: Int = 0
+    private var mAverageValue: String = "0"
     private var mXAxisUnit: String? = "Time(min)"
     private var mLineWidth: Float = 1.5f
     private var mLineColor: Int = Color.RED
@@ -239,7 +235,7 @@ class ReportLineChartCard @JvmOverloads constructor(
         tv_title.visibility = View.VISIBLE
         tv_title.text = mTitle
         tv_title.setTextColor(mTextColor)
-        if (mSmallTitle!= null){
+        if (mSmallTitle != null) {
             tv_small_title.visibility = View.VISIBLE
             tv_small_title.text = mSmallTitle
             tv_small_title.setTextColor(mTextColor)
@@ -329,7 +325,15 @@ class ReportLineChartCard @JvmOverloads constructor(
         }
 
         if (mData != null && mData!!.isNotEmpty()) {
-            val ll1 = LimitLine(mAverageValue.toFloat(), "${context.getString(R.string.sdk_report_average)}$mAverageValue")
+            var average = 0f
+            try {
+                average = java.lang.Float.parseFloat(mAverageValue)
+            } catch (e: Exception) {
+            }
+            val ll1 = LimitLine(
+                average,
+                "${context.getString(R.string.sdk_report_average)}$mAverageValue"
+            )
             ll1.lineWidth = 1f
             ll1.enableDashedLine(10f, 10f, 0f)
             ll1.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
@@ -604,7 +608,7 @@ class ReportLineChartCard @JvmOverloads constructor(
         initView()
     }
 
-    fun setAverage(value: Int) {
+    fun setAverage(value: String) {
         this.mAverageValue = value
         initView()
     }

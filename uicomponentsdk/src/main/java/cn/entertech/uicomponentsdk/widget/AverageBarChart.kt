@@ -13,6 +13,7 @@ class AverageBarChart @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     def: Int = 0
 ) : View(context, attributeSet, def) {
+    private var isValueFloat: Boolean = false
     private lateinit var mAverageValueTextPaint: Paint
     private var mUnit: String? = ""
     private var mIsShowUnit: Boolean = false
@@ -20,7 +21,7 @@ class AverageBarChart @JvmOverloads constructor(
     private var barWidth: Float = 0f
     private var scaleHeight: Float = 0f
     private lateinit var mAverageLinePaint: Paint
-    private var mValues = listOf<Int>()
+    private var mValues = listOf<Float>()
     private var mTransferValues = ArrayList<Int>()
     private lateinit var mBarPaint: Paint
     private var legendTextWidth: Int = 0
@@ -148,7 +149,11 @@ class AverageBarChart @JvmOverloads constructor(
         mBarPaint.color = mBarValueBgColor
         canvas?.drawRect(valueRect, mBarPaint)
         mBarPaint.color = mPrimaryTextColor
-        var lastValue = mValues[i]
+        var lastValue = if (isValueFloat) {
+            mValues[i]
+        } else {
+            mValues[i].toInt()
+        }
         var lastValueTextBound = Rect()
         mBarPaint.getTextBounds(
             "$lastValue",
@@ -171,7 +176,7 @@ class AverageBarChart @JvmOverloads constructor(
         )
     }
 
-    fun setValues(values: List<Int>) {
+    fun setValues(values: List<Float>) {
         if (values == null || values.isEmpty()) {
             return
         }
@@ -179,7 +184,12 @@ class AverageBarChart @JvmOverloads constructor(
         transferValues(values)
     }
 
-    private fun transferValues(values: List<Int>) {
+    fun setIsValueFloat(isValueFloat: Boolean) {
+        this.isValueFloat = isValueFloat
+        invalidate()
+    }
+
+    private fun transferValues(values: List<Float>) {
         mTransferValues.clear()
         var max = values.max()
         var min = values.min()
@@ -279,18 +289,18 @@ class AverageBarChart @JvmOverloads constructor(
         invalidate()
     }
 
-    fun setBgColor(bgColor:Int?){
+    fun setBgColor(bgColor: Int?) {
         this.mBackground = bgColor
         invalidate()
     }
 
-    fun setPrimaryTextColor(color:Int){
+    fun setPrimaryTextColor(color: Int) {
         this.mPrimaryTextColor = color
         initPaint()
         invalidate()
     }
 
-    fun setSecondTextColor(color:Int){
+    fun setSecondTextColor(color: Int) {
         this.mSecondTextColor = color
         initPaint()
         invalidate()

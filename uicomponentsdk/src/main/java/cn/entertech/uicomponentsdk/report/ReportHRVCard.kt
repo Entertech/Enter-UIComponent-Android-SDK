@@ -111,9 +111,9 @@ class ReportHRVCard @JvmOverloads constructor(
             }
         }
     }
-    fun setValue(value: Int) {
+    fun setValue(value: Float) {
         tv_hrv.text = "$value"
-        eiv_hrv.setValue(value.toFloat())
+        eiv_hrv.setValue(value)
         when (value) {
             in 0..7 -> tv_level.text = context.getString(R.string.sdk_report_low)
             in 20..50 -> tv_level.text = context.getString(R.string.sdk_report_high)
