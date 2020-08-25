@@ -21,7 +21,7 @@
     <string name="sdk_pressure">Pressure</string>
     <string name="sdk_relaxation">Relaxation</string>
     <string name="sdk_pleasure">Pleasure</string>
-    <string name="sdk_relaxation_and_attention">Relaxation&#038;Attention</string>
+    <string name="sdk_relaxation_and_attention">Relaxation &#038; Attention</string>
     <string name="sdk_brainwave_spectrum_chart_title">Each band power ratio(%)</string>
     <string name="sdk_hrv">Heart Rate Variability</string>
     <string name="sdk_pressure_legend_low">Low</string>
