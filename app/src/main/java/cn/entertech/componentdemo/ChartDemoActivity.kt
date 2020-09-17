@@ -34,7 +34,7 @@ class ChartDemoActivity : AppCompatActivity() {
         report_brainwave_spectrum_pie.setData(brainwaves)
         line_chart.setAttentionAverage(77)
         line_chart.setRelaxationAverage(60)
-        line_chart1.setAverage(60)
+        line_chart1.setAverage("60")
         line_chart1.setData(data1)
         line_chart.setData(data, data1)
 //        line_chart.setOnClickListener {

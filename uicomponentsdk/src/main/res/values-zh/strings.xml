@@ -21,7 +21,7 @@
     <string name="sdk_pressure">压力水平</string>
     <string name="sdk_relaxation">放松度</string>
     <string name="sdk_pleasure">愉悦度</string>
-    <string name="sdk_relaxation_and_attention">放松度&#038;专注度</string>
+    <string name="sdk_relaxation_and_attention">专注度&#038;放松度</string>
     <string name="sdk_brainwave_spectrum_chart_title">Each band power ratio(%)</string>
     <string name="sdk_hrv">心率变异性</string>
     <string name="sdk_pressure_legend_low">低</string>

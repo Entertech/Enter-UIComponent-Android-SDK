@@ -34,8 +34,8 @@ class ReportDefaultFragment : Fragment() {
         chart_relaxation_and_attention.setAttentionAverage( reportData.reportAttentionEnitty?.attentionRec!!.average().toInt())
         chart_relaxation_and_attention.setRelaxationAverage( reportData.reportRelaxationEnitty?.relaxationRec!!.average().toInt())
         chart_relaxation_and_attention.setData( reportData.reportAttentionEnitty?.attentionRec, reportData.reportRelaxationEnitty?.relaxationRec)
-        chart_relaxation.setAverage(reportData.reportRelaxationEnitty?.relaxationRec!!.average().toInt())
-        chart_attention.setAverage(reportData.reportAttentionEnitty?.attentionRec!!.average().toInt())
+        chart_relaxation.setAverage("${reportData.reportRelaxationEnitty?.relaxationRec!!.average().toInt()}")
+        chart_attention.setAverage("${reportData.reportAttentionEnitty?.attentionRec!!.average().toInt()}")
         chart_relaxation.setData(reportData.reportRelaxationEnitty?.relaxationRec)
         chart_attention.setData(reportData.reportAttentionEnitty?.attentionRec)
         var spectrumList = listOf<ArrayList<Double>>(
@@ -48,10 +48,10 @@ class ReportDefaultFragment : Fragment() {
         chart_brainwave.setData(
             spectrumList
         )
-        chart_hr.setAverage(99)
+        chart_hr.setAverage("99")
         chart_hr.setData(reportData.reportHRDataEntity?.hrRec)
 
-        chart_hrv.setAverage(reportData.reportHRDataEntity?.hrvAvg!!.toInt())
+        chart_hrv.setAverage("${reportData.reportHRDataEntity?.hrvAvg!!.toInt()}")
         chart_hrv.setData(reportData.reportHRDataEntity?.hrvRec)
 
         report_pressure.setValue(reportData.reportPressureEnitty?.pressureAvg!!.toInt())
