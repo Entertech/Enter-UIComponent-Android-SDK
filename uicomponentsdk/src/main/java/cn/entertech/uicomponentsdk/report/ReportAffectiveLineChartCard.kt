@@ -408,7 +408,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
             ll1.lineColor = mTextColor
             chart.axisLeft.addLimitLine(ll1)
         }
-        var yLimitLineValues = listOf<Float>(0f, 120f, 30f, 60f, 90f, 150f, 180f, 220f)
+        var yLimitLineValues = listOf<Float>(0f, 120f, 30f, 70f, 100f, 150f, 190f, 220f)
         yLimitLineValues.forEach {
             var limitLine: LimitLine? = null
             if (it == 0f || it == 120f) {
