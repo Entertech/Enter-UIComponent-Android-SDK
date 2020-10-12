@@ -221,6 +221,20 @@ class RealtimeAffectiveView @JvmOverloads constructor(
                 eiv_emotion.setScales(stressScale)
                 eiv_emotion.setIndicatorItems(stressIndicatorItems)
             }
+            6 -> {
+                tv_title.text = context.getString(R.string.sdk_sleep_state)
+                var stressScale = arrayOf(0, 100)
+                var stressIndicatorItems = arrayListOf<EmotionIndicatorView.IndicateItem>()
+
+                stressIndicatorItems.add(
+                    EmotionIndicatorView.IndicateItem(
+                        1f,
+                        getOpacityColor(mMainColor, 0.5f)
+                    )
+                )
+                eiv_emotion.setScales(stressScale)
+                eiv_emotion.setIndicatorItems(stressIndicatorItems)
+            }
         }
     }
 
@@ -255,6 +269,9 @@ class RealtimeAffectiveView @JvmOverloads constructor(
             }
             5 -> {
                 setCoherence(value)
+            }
+            6 -> {
+                setSleepState(value)
             }
         }
     }
@@ -356,6 +373,15 @@ class RealtimeAffectiveView @JvmOverloads constructor(
         tv_emotion_level.text = valueLevel
         eiv_emotion.setValue(arousalValue)
         tv_emotion_value.text = "$arousalValue"
+    }
+
+    fun setSleepState(value: Float?) {
+        if (value == null) {
+            return
+        }
+        tv_emotion_level.text = "--"
+        eiv_emotion.setValue(value)
+        tv_emotion_value.text = "${value.toInt()}"
     }
 
     fun showDisconnectTip() {
