@@ -114,7 +114,7 @@ class RealtimeHRVView @JvmOverloads constructor(
         tv_title.typeface = typeface
     }
 
-    fun appendHrv(data: Double?) {
+    fun appendHrv(data: List<Double>?) {
         if (data == null){
             return
         }
@@ -147,7 +147,7 @@ class RealtimeHRVView @JvmOverloads constructor(
         mSelfView.findViewById<RelativeLayout>(R.id.rl_loading_cover).visibility = View.VISIBLE
         mSelfView.findViewById<TextView>(R.id.tv_disconnect_text).visibility = View.VISIBLE
         mSelfView.findViewById<TextView>(R.id.tv_disconnect_text).text = error
-        appendHrv(0.0)
+        appendHrv(listOf(0.0))
     }
 
     fun hideSampleData() {

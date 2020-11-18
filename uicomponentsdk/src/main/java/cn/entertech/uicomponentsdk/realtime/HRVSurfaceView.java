@@ -38,6 +38,7 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
     private SurfaceHolder mSurfaceHolder;
     public static int BRAIN_QUEUE_LENGTH = 200;
     public int mBuffer = 2;
+    public int mListBuffer = 18;
     private Paint mAxisPaint;
     private Paint mGridLinePaint;
     private Paint mBgPaint;
@@ -111,20 +112,12 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
 //        this.getHolder().setFormat(PixelFormat.TRANSPARENT);
     }
 
-    public synchronized void setData(ArrayList<Double> data) {
+    public synchronized void setData(List<Double> data) {
         if (data == null) {
             return;
         }
-//        Log.d("#####", "receive brian data is... " + data.toString());
-        List<Double> simpleData = new ArrayList<>();
-        for (int i = 0; i < data.size(); i++) {
-            if (i % 10 == 0) {
-                simpleData.add(data.get(i));
-            }
-        }
-        this.mSourceData.addAll(simpleData);
-        simpleData.clear();
-        if (mSourceData.size() > mBuffer) {
+        this.mSourceData.addAll(data);
+        if (mSourceData.size() > mListBuffer) {
             for (int i = 0; i < mSourceData.size() - mBuffer; i++) {
                 mSourceData.remove(0);
             }
@@ -172,7 +165,7 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
         while (isViewActivity) {
             draw();
             try {
-                Thread.sleep(400);
+                Thread.sleep(200);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
