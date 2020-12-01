@@ -10,227 +10,257 @@
         >
 
     <LinearLayout
+            android:id="@+id/ll_mark_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
         <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_margin_half"
-                android:layout_marginTop="@dimen/activity_margin_half"
-                android:layout_marginRight="@dimen/activity_margin_half"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 >
 
-            <TextView
-                    android:id="@+id/tv_color_1"
-                    android:layout_width="8dp"
-                    android:layout_height="8dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/shape_chart_highlight_icon_outside"
-                    />
-
-            <TextView
-                    android:id="@+id/tv_title_1"
+            <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:textSize="10sp"
-                    android:text="mark title"
+                    android:layout_marginLeft="@dimen/activity_margin_half"
+                    android:layout_marginTop="@dimen/activity_margin_half"
+                    android:layout_marginRight="@dimen/activity_margin_half"
+                    android:orientation="horizontal"
+                    >
+
+                <TextView
+                        android:id="@+id/tv_color_1"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/shape_chart_highlight_icon_outside"
+                        />
+
+                <TextView
+                        android:id="@+id/tv_title_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:textSize="10sp"
+                        android:text="mark title"
+                        />
+            </LinearLayout>
+
+            <TextView
+                    android:id="@+id/tv_value_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="@dimen/activity_margin_half"
+                    android:text="mark value"
+                    android:textSize="16sp"
                     />
         </LinearLayout>
 
-        <TextView
-                android:id="@+id/tv_value_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="4dp"
+        <View
+                android:tag="divideLine1"
+                android:layout_marginRight="@dimen/activity_margin_half"
+                android:layout_marginLeft="@dimen/activity_margin_half"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/activity_margin_half"
                 android:layout_marginBottom="@dimen/activity_margin_half"
-                android:text="mark value"
-                android:textSize="16sp"
+                android:background="#9AA1A9"
                 />
+
     </LinearLayout>
-
-    <View
-            android:tag="divideLine1"
-            android:layout_marginRight="@dimen/activity_margin_half"
-            android:layout_marginLeft="@dimen/activity_margin_half"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/activity_margin_half"
-            android:layout_marginBottom="@dimen/activity_margin_half"
-            android:background="#9AA1A9"
-            />
-
     <LinearLayout
+            android:id="@+id/ll_mark_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="horizontal">
 
         <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_margin_half"
-                android:layout_marginTop="@dimen/activity_margin_half"
-                android:layout_marginRight="@dimen/activity_margin_half"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 >
 
-            <TextView
-                    android:id="@+id/tv_color_2"
-                    android:layout_width="8dp"
-                    android:layout_height="8dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/shape_chart_highlight_icon_outside"
-                    />
-
-            <TextView
-                    android:id="@+id/tv_title_2"
+            <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:textSize="10sp"
-                    android:text="mark title"
+                    android:layout_marginLeft="@dimen/activity_margin_half"
+                    android:layout_marginTop="@dimen/activity_margin_half"
+                    android:layout_marginRight="@dimen/activity_margin_half"
+                    android:orientation="horizontal"
+                    >
+
+                <TextView
+                        android:id="@+id/tv_color_2"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/shape_chart_highlight_icon_outside"
+                        />
+
+                <TextView
+                        android:id="@+id/tv_title_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:textSize="10sp"
+                        android:text="mark title"
+                        />
+            </LinearLayout>
+
+            <TextView
+                    android:id="@+id/tv_value_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="@dimen/activity_margin_half"
+                    android:text="mark value"
+                    android:textSize="16sp"
                     />
         </LinearLayout>
-
-        <TextView
-                android:id="@+id/tv_value_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="4dp"
+        <View
+                android:tag="divideLine2"
+                android:layout_marginRight="@dimen/activity_margin_half"
+                android:layout_marginLeft="@dimen/activity_margin_half"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/activity_margin_half"
                 android:layout_marginBottom="@dimen/activity_margin_half"
-                android:text="mark value"
-                android:textSize="16sp"
+                android:background="#9AA1A9"
                 />
-    </LinearLayout>
-    <View
-            android:tag="divideLine2"
-            android:layout_marginRight="@dimen/activity_margin_half"
-            android:layout_marginLeft="@dimen/activity_margin_half"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/activity_margin_half"
-            android:layout_marginBottom="@dimen/activity_margin_half"
-            android:background="#9AA1A9"
-            />
 
+    </LinearLayout>
     <LinearLayout
+            android:id="@+id/ll_mark_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="horizontal">
 
         <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_margin_half"
-                android:layout_marginTop="@dimen/activity_margin_half"
-                android:layout_marginRight="@dimen/activity_margin_half"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 >
 
-            <TextView
-                    android:id="@+id/tv_color_3"
-                    android:layout_width="8dp"
-                    android:layout_height="8dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/shape_chart_highlight_icon_outside"
-                    />
-
-            <TextView
-                    android:id="@+id/tv_title_3"
+            <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:textSize="10sp"
-                    android:text="mark title"
+                    android:layout_marginLeft="@dimen/activity_margin_half"
+                    android:layout_marginTop="@dimen/activity_margin_half"
+                    android:layout_marginRight="@dimen/activity_margin_half"
+                    android:orientation="horizontal"
+                    >
+
+                <TextView
+                        android:id="@+id/tv_color_3"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/shape_chart_highlight_icon_outside"
+                        />
+
+                <TextView
+                        android:id="@+id/tv_title_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:textSize="10sp"
+                        android:text="mark title"
+                        />
+            </LinearLayout>
+
+            <TextView
+                    android:id="@+id/tv_value_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="@dimen/activity_margin_half"
+                    android:text="mark value"
+                    android:textSize="16sp"
                     />
         </LinearLayout>
-
-        <TextView
-                android:id="@+id/tv_value_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="4dp"
+        <View
+                android:tag="divideLine3"
+                android:layout_marginRight="@dimen/activity_margin_half"
+                android:layout_marginLeft="@dimen/activity_margin_half"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/activity_margin_half"
                 android:layout_marginBottom="@dimen/activity_margin_half"
-                android:text="mark value"
-                android:textSize="16sp"
+                android:background="#9AA1A9"
                 />
-    </LinearLayout>
-    <View
-            android:tag="divideLine3"
-            android:layout_marginRight="@dimen/activity_margin_half"
-            android:layout_marginLeft="@dimen/activity_margin_half"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/activity_margin_half"
-            android:layout_marginBottom="@dimen/activity_margin_half"
-            android:background="#9AA1A9"
-            />
 
+    </LinearLayout>
     <LinearLayout
+            android:id="@+id/ll_mark_4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="horizontal">
 
         <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_margin_half"
-                android:layout_marginTop="@dimen/activity_margin_half"
-                android:layout_marginRight="@dimen/activity_margin_half"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 >
 
-            <TextView
-                    android:id="@+id/tv_color_4"
-                    android:layout_width="8dp"
-                    android:layout_height="8dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/shape_chart_highlight_icon_outside"
-                    />
-
-            <TextView
-                    android:id="@+id/tv_title_4"
+            <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:textSize="10sp"
-                    android:text="mark title"
+                    android:layout_marginLeft="@dimen/activity_margin_half"
+                    android:layout_marginTop="@dimen/activity_margin_half"
+                    android:layout_marginRight="@dimen/activity_margin_half"
+                    android:orientation="horizontal"
+                    >
+
+                <TextView
+                        android:id="@+id/tv_color_4"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/shape_chart_highlight_icon_outside"
+                        />
+
+                <TextView
+                        android:id="@+id/tv_title_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:textSize="10sp"
+                        android:text="mark title"
+                        />
+            </LinearLayout>
+
+            <TextView
+                    android:id="@+id/tv_value_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="@dimen/activity_margin_half"
+                    android:text="4"
+                    android:textSize="16sp"
                     />
         </LinearLayout>
-
-        <TextView
-                android:id="@+id/tv_value_4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="4dp"
+        <View
+                android:tag="divideLine4"
+                android:layout_marginRight="@dimen/activity_margin_half"
+                android:layout_marginLeft="@dimen/activity_margin_half"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/activity_margin_half"
                 android:layout_marginBottom="@dimen/activity_margin_half"
-                android:text="4"
-                android:textSize="16sp"
+                android:background="#9AA1A9"
                 />
-    </LinearLayout>
-    <View
-            android:tag="divideLine4"
-            android:layout_marginRight="@dimen/activity_margin_half"
-            android:layout_marginLeft="@dimen/activity_margin_half"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/activity_margin_half"
-            android:layout_marginBottom="@dimen/activity_margin_half"
-            android:background="#9AA1A9"
-            />
 
+    </LinearLayout>
     <LinearLayout
+            android:id="@+id/ll_mark_5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"

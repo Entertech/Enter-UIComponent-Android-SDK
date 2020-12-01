@@ -4,6 +4,11 @@
               android:layout_height="wrap_content"
               android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:paddingLeft="@dimen/activity_margin"
+        android:paddingRight="@dimen/activity_margin"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
+        android:background="@drawable/shape_brain_legend_select"
         android:id="@+id/ll_bg"
         >
 
@@ -25,8 +30,8 @@
             android:textSize="12sp"
             android:fontFamily="sans-serif"
             android:textStyle="normal"
-            android:textColor="#666666"
-            android:text="γ wave"
+            android:textColor="#ffffff"
+            android:text="γ"
             />
 
 </LinearLayout>

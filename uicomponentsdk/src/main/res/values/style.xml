@@ -215,6 +215,32 @@
         <attr name="rbs_markViewDivideLineColor" format="color"/>
     </declare-styleable>
 
+    <declare-styleable name="ReportOptionalBrainwaveSpectrumView">
+        <attr name="robs_isTitleIconShow" format="boolean" />
+        <attr name="robs_title" format="string" />
+        <attr name="robs_smallTitle" format="string" />
+        <attr name="robs_titleIcon" format="reference" />
+        <attr name="robs_isTitleMenuIconShow" format="boolean" />
+        <attr name="robs_titleMenuIcon" format="reference" />
+        <attr name="robs_mainColor" format="color" />
+        <attr name="robs_textColor" format="color" />
+        <attr name="robs_isAbsoluteTimeAxis" format="boolean" />
+        <attr name="robs_background" format="color|reference" />
+        <attr name="robs_pointCount" format="integer" />
+        <attr name="robs_spectrumColors" format="string" />
+        <attr name="robs_timeUnit" format="integer" />
+        <attr name="robs_gridLineColor" format="color" />
+        <attr name="robs_labelColor" format="color" />
+        <attr name="robs_xAxisUnit" format="string" />
+        <attr name="robs_highlightLineColor" format="color"/>
+        <attr name="robs_highlightLineWidth" format="float"/>
+        <attr name="robs_markViewBgColor" format="color"/>
+        <attr name="robs_markViewTitleColor" format="color"/>
+        <attr name="robs_markViewValueColor" format="color"/>
+        <attr name="robs_markViewDivideLineColor" format="color"/>
+        <attr name="robs_lineWidth" format="dimension"/>
+    </declare-styleable>
+
 
     <declare-styleable name="ReportBrainwaveSpectrumPieView">
         <attr name="rbsp_isTitleIconShow" format="boolean" />

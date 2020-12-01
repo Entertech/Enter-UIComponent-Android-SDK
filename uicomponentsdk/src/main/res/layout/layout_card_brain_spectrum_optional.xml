@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:id="@+id/rl_bg"
+        >
+
+    <LinearLayout
+            android:layout_marginTop="@dimen/activity_margin_half"
+            android:id="@+id/ll_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/activity_margin"
+            >
+
+
+        <include layout="@layout/layout_common_card_title" />
+
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <cn.entertech.uicomponentsdk.widget.OptionalBrainChartLegendView
+                    android:id="@+id/legend_gamma"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    app:clv_legend="γ"/>
+
+            <cn.entertech.uicomponentsdk.widget.OptionalBrainChartLegendView
+                    android:id="@+id/legend_beta"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginRight="4dp"
+                    app:clv_legend="β"/>
+
+            <cn.entertech.uicomponentsdk.widget.OptionalBrainChartLegendView
+                    android:id="@+id/legend_alpha"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginRight="4dp"
+                    app:clv_legend="α"/>
+
+            <cn.entertech.uicomponentsdk.widget.OptionalBrainChartLegendView
+                    android:id="@+id/legend_theta"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginRight="4dp"
+                    app:clv_legend="θ"/>
+
+            <cn.entertech.uicomponentsdk.widget.OptionalBrainChartLegendView
+                    android:id="@+id/legend_delta"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:clv_legend="δ"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_marginTop="@dimen/margin_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+        <cn.entertech.uicomponentsdk.widget.CustomLineChart
+                android:id="@+id/chart"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:layout_marginBottom="@dimen/activity_margin"
+                />
+
+        <TextView
+                android:id="@+id/tv_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/sdk_time_unit"
+                android:layout_marginBottom="@dimen/activity_margin"
+                android:visibility="visible"
+                />
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+            android:id="@+id/rl_no_data_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorLoadingCoverBg"
+            android:visibility="gone"
+            >
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="48dp"
+                android:layout_marginRight="48dp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center_horizontal"
+                android:text="@string/sdk_meditation_no_device_tip_1"
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                />
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activity.BrainwaveSpectrumLineChartActivity"
+        >
+
+
+    <cn.entertech.uicomponentsdk.report.ReportOptionalBrainwaveSpectrumView
+            android:id="@+id/brainwave_chart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:robs_isTitleIconShow="false"
+            app:robs_spectrumColors="#FF6682,#5E75FF,#F7C77E,#5FC695,#FB9C98"
+            app:robs_isTitleMenuIconShow="true"
+            app:robs_highlightLineColor="#DDE1EB"
+            app:robs_highlightLineWidth="1.5"
+            app:robs_timeUnit="400"
+            app:robs_smallTitle="@string/chart_full_screen_tip"
+            app:robs_titleMenuIcon="@drawable/vector_drawable_screen_shrink"
+            app:robs_title="@string/sdk_chart_title"
+            />
+
+</LinearLayout>

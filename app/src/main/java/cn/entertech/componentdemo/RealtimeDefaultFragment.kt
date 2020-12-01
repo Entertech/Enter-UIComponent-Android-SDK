@@ -38,7 +38,7 @@ class RealtimeDefaultFragment : Fragment() {
                         leftBrainwave.add(Random().nextDouble() * 100)
                         rightBrainwave.add(Random().nextDouble() * 100)
                     }
-                    realtime_hrv.appendHrv(Random().nextDouble() * 50)
+                    realtime_hrv.appendHrv(listOf(Random().nextDouble() * 50))
                     brainwave_view.setRightBrainwave(rightBrainwave)
                     brainwave_view.setLeftBrainwave(leftBrainwave)
                 }

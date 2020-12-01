@@ -29,20 +29,20 @@
                     android:layout_marginLeft="@dimen/activity_margin"
                     />
 
-            <cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumView
+            <cn.entertech.uicomponentsdk.report.ReportOptionalBrainwaveSpectrumView
                     android:id="@+id/chart_brainwave"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
+                    android:layout_height="300dp"
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:background="@color/white"
-                    app:rbs_isTitleMenuIconShow="true"
-                    app:rbs_isTitleIconShow="false"
-                    app:rbs_spectrumColors="#FF6682,#FB9C98,#F7C77E,#5FC695,#5E75FF"
-                    app:rbs_timeUnit="400"
-                    app:rbs_xAxisUnit="@string/sdk_time_unit"
-                    app:rbs_pointCount="100"
-                    app:rbs_title="@string/sdk_brainwave_spectrum"
-                    app:rbs_titleMenuIcon="@drawable/vector_drawable_full_screen"
+                    app:robs_isTitleMenuIconShow="true"
+                    app:robs_isTitleIconShow="false"
+                    app:robs_spectrumColors="#FF6682,#FB9C98,#F7C77E,#5FC695,#5E75FF"
+                    app:robs_timeUnit="400"
+                    app:robs_xAxisUnit="@string/sdk_time_unit"
+                    app:robs_pointCount="100"
+                    app:robs_title="@string/sdk_brainwave_spectrum"
+                    app:robs_titleMenuIcon="@drawable/vector_drawable_full_screen"
                     />
             <TextView
                     android:layout_width="wrap_content"

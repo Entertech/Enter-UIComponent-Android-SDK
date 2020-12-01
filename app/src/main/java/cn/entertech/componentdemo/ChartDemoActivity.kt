@@ -46,7 +46,7 @@ class ChartDemoActivity : AppCompatActivity() {
         var timerTask: TimerTask = object : TimerTask() {
             override fun run() {
                 runOnUiThread {
-                    hrv.appendHrv(Random().nextDouble() * 50)
+                    hrv.appendHrv(listOf(Random().nextDouble() * 50))
                 }
             }
 

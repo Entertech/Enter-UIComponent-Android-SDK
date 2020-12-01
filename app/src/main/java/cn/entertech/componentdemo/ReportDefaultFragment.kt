@@ -39,11 +39,11 @@ class ReportDefaultFragment : Fragment() {
         chart_relaxation.setData(reportData.reportRelaxationEnitty?.relaxationRec)
         chart_attention.setData(reportData.reportAttentionEnitty?.attentionRec)
         var spectrumList = listOf<ArrayList<Double>>(
-            reportData.reportEEGDataEntity!!.gammaCurve!! as ArrayList<Double>,
-            reportData.reportEEGDataEntity!!.betaCurve!! as ArrayList<Double>,
-            reportData.reportEEGDataEntity!!.alphaCurve!! as ArrayList<Double>,
-            reportData.reportEEGDataEntity!!.thetaCurve!! as ArrayList<Double>,
-            reportData.reportEEGDataEntity!!.deltaCurve!! as ArrayList<Double>
+            reportData.reportEEGDataEntity!!.gammaCurve!!.map { it*100.0 } as ArrayList<Double>,
+            reportData.reportEEGDataEntity!!.betaCurve!!.map { it*100.0 } as ArrayList<Double>,
+            reportData.reportEEGDataEntity!!.alphaCurve!!.map { it*100.0 } as ArrayList<Double>,
+            reportData.reportEEGDataEntity!!.thetaCurve!!.map { it*100.0 } as ArrayList<Double>,
+            reportData.reportEEGDataEntity!!.deltaCurve!!.map { it*100.0 } as ArrayList<Double>
         )
         chart_brainwave.setData(
             spectrumList
