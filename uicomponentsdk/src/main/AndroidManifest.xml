@@ -3,8 +3,13 @@
         package="cn.entertech.uicomponentsdk">
 
     <application>
-        <activity android:name=".activity.BrainwaveOptionalLineChartActivity"
-                android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"></activity>
+        <activity android:name=".activity.MultipleLineChartFullScreenActivity"
+                android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+
+        </activity>
+        <activity
+                android:name=".activity.BrainwaveOptionalLineChartActivity"
+                android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
                 android:name=".activity.BrainwaveSpectrumLineChartActivity"
                 android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />

@@ -33,7 +33,7 @@ public class CustomChartTouchListener extends ChartTouchListener<BarLineChartBas
     /**
      * matrix for saving the original matrix state
      */
-    private Matrix mSavedMatrix = new Matrix();
+    public Matrix mSavedMatrix = new Matrix();
 
     /**
      * point where the touch action started
