@@ -6,14 +6,14 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import cn.entertech.uicomponentsdk.R
-import kotlinx.android.synthetic.main.activity_multiple_line_chart_full_screen.*
+import kotlinx.android.synthetic.main.activity_hrv_line_chart_full_screen.*
 
-class MultipleLineChartFullScreenActivity : AppCompatActivity() {
+class HRVLineChartFullScreenActivity : AppCompatActivity() {
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_multiple_line_chart_full_screen)
+        setContentView(R.layout.activity_hrv_line_chart_full_screen)
 
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         var lineData = intent.getDoubleArrayExtra("lineData")
@@ -34,6 +34,7 @@ class MultipleLineChartFullScreenActivity : AppCompatActivity() {
         var averageLineColor = intent.getIntExtra("averageLineColor", Color.parseColor("#11152E"))
         var labelColor = intent.getIntExtra("labelColor", Color.parseColor("#9AA1A9"))
         var average = intent.getStringExtra("average")
+        var cohTime = intent.getStringExtra("cohTime")
         var averageBgColor = intent.getIntExtra("averageBgColor",0)
         var lineColor = intent.getIntExtra("lineColor", Color.RED)
         var secondLineColor = intent.getIntExtra("secondLineColor", Color.GREEN)
@@ -54,6 +55,7 @@ class MultipleLineChartFullScreenActivity : AppCompatActivity() {
         line_chart.bgColor = bgColor
         line_chart.setAverageLineColor(averageLineColor)
         line_chart.setLabelColor(labelColor)
+        line_chart.setCohTime(cohTime)
         line_chart.setAverage(average)
         line_chart.setLineColor(lineColor)
         line_chart.setSecondLineColor(secondLineColor)

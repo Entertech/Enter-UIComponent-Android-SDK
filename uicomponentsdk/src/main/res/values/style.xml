@@ -313,32 +313,34 @@
         <attr name="rlcc_smallTitle" format="string" />
     </declare-styleable>
 
-    <declare-styleable name="ReportMultipleLineChartCard">
-        <attr name="rmlcc_isTitleIconShow" format="boolean" />
-        <attr name="rmlcc_title" format="string" />
-        <attr name="rmlcc_titleIcon" format="reference" />
-        <attr name="rmlcc_isTitleMenuIconShow" format="boolean" />
-        <attr name="rmlcc_titleMenuIcon" format="reference" />
-        <attr name="rmlcc_mainColor" format="color" />
-        <attr name="rmlcc_textColor" format="color" />
-        <attr name="rmlcc_background" format="color|reference" />
-        <attr name="rmlcc_pointCount" format="integer" />
-        <attr name="rmlcc_lineColor" format="color" />
-        <attr name="rmlcc_secondLineColor" format="color" />
-        <attr name="rmlcc_timeUnit" format="integer" />
-        <attr name="rmlcc_lineWidth" format="dimension" />
-        <attr name="rmlcc_gridLineColor" format="color" />
-        <attr name="rmlcc_labelColor" format="color" />
-        <attr name="rmlcc_xAxisUnit" format="string" />
-        <attr name="rmlcc_isDrawFill" format="boolean" />
-        <attr name="rmlcc_highlightLineColor" format="color"/>
-        <attr name="rmlcc_highlightLineWidth" format="float"/>
-        <attr name="rmlcc_markViewBgColor" format="color"/>
-        <attr name="rmlcc_markViewTitle" format="string"/>
-        <attr name="rmlcc_markViewTitleColor" format="color"/>
-        <attr name="rmlcc_markViewValueColor" format="color"/>
-        <attr name="rmlcc_averageLabelBgColor" format="color"/>
-        <attr name="rmlcc_smallTitle" format="string" />
+    <declare-styleable name="ReportHRVLineChartCard">
+        <attr name="rhlcc_isTitleIconShow" format="boolean" />
+        <attr name="rhlcc_title" format="string" />
+        <attr name="rhlcc_titleIcon" format="reference" />
+        <attr name="rhlcc_isTitleMenuIconShow" format="boolean" />
+        <attr name="rhlcc_titleMenuIcon" format="reference" />
+        <attr name="rhlcc_menuIconBg" format="reference" />
+        <attr name="rhlcc_isShowMenuIconBg" format="boolean" />
+        <attr name="rhlcc_mainColor" format="color" />
+        <attr name="rhlcc_textColor" format="color" />
+        <attr name="rhlcc_background" format="color|reference" />
+        <attr name="rhlcc_pointCount" format="integer" />
+        <attr name="rhlcc_lineColor" format="color" />
+        <attr name="rhlcc_secondLineColor" format="color" />
+        <attr name="rhlcc_timeUnit" format="integer" />
+        <attr name="rhlcc_lineWidth" format="dimension" />
+        <attr name="rhlcc_gridLineColor" format="color" />
+        <attr name="rhlcc_labelColor" format="color" />
+        <attr name="rhlcc_xAxisUnit" format="string" />
+        <attr name="rhlcc_isDrawFill" format="boolean" />
+        <attr name="rhlcc_highlightLineColor" format="color"/>
+        <attr name="rhlcc_highlightLineWidth" format="float"/>
+        <attr name="rhlcc_markViewBgColor" format="color"/>
+        <attr name="rhlcc_markViewTitle" format="string"/>
+        <attr name="rhlcc_markViewTitleColor" format="color"/>
+        <attr name="rhlcc_markViewValueColor" format="color"/>
+        <attr name="rhlcc_averageLabelBgColor" format="color"/>
+        <attr name="rhlcc_smallTitle" format="string" />
     </declare-styleable>
 
     <declare-styleable name="ReportAffectiveLineChartCard">

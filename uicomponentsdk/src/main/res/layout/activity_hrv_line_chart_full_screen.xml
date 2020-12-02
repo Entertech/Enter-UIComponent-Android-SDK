@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activity.LineChartFullScreenActivity"
+        >
+
+    <cn.entertech.uicomponentsdk.report.ReportHRVLineChartCard
+            app:rhlcc_title="@string/sdk_chart_title"
+            app:rhlcc_isTitleMenuIconShow="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:rhlcc_titleMenuIcon="@drawable/vector_drawable_screen_shrink"
+            app:rhlcc_lineColor="#FF6682"
+            app:rhlcc_markViewTitle="Heart rate"
+            app:rhlcc_markViewBgColor="#F1F5F6"
+            app:rhlcc_highlightLineColor="#DDE1EB"
+            app:rhlcc_highlightLineWidth="1.5"
+            app:rhlcc_xAxisUnit="Time(min)"
+            app:rhlcc_smallTitle="@string/chart_full_screen_tip"
+            android:id="@+id/line_chart"/>
+</LinearLayout>

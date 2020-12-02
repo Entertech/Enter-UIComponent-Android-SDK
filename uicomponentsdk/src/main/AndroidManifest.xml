@@ -3,7 +3,7 @@
         package="cn.entertech.uicomponentsdk">
 
     <application>
-        <activity android:name=".activity.MultipleLineChartFullScreenActivity"
+        <activity android:name=".activity.HRVLineChartFullScreenActivity"
                 android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
 
         </activity>

@@ -20,6 +20,7 @@ public class LineChartMarkView extends MarkerView {
     private final TextView tvColor;
     private final TextView tvMarkTitle;
     private final LinearLayout llBg;
+    private float yOffset;
 
     public LineChartMarkView(Context context, int color, String markText) {
         super(context, R.layout.layout_markview);
@@ -33,7 +34,7 @@ public class LineChartMarkView extends MarkerView {
 
     @Override
     public MPPointF getOffsetForDrawingAtPoint(float posX, float posY) {
-        return new MPPointF(super.getOffsetForDrawingAtPoint(posX, posY).getX(), -posY);
+        return new MPPointF(super.getOffsetForDrawingAtPoint(posX, posY).getX(), -posY+yOffset);
     }
 
     @Override
@@ -41,6 +42,9 @@ public class LineChartMarkView extends MarkerView {
         return new MPPointF(-getWidth() / 2, 0);
     }
 
+    public void setYOffset(float yOffset){
+        this.yOffset = yOffset;
+    }
     public void setTextViewColor(TextView textView, int color) {
         ((GradientDrawable) (textView.getBackground())).setColor(color);
     }

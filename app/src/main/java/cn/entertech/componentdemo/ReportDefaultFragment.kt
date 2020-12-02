@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import cn.entertech.uicomponentsdk.report.file.ReportFileHelper
 import kotlinx.android.synthetic.main.fragment_report_default.*
 import kotlinx.android.synthetic.main.fragment_report_default.report_pressure
@@ -74,7 +75,9 @@ class ReportDefaultFragment : Fragment() {
         }
         chart_hrv.isShowDetail = false
         chart_hrv.setData(reportData.reportHRDataEntity?.hrvRec, hrvSecondLine,false)
-
+        chart_hrv.setOnClickListener {
+            Toast.makeText(activity!!,"sfs",Toast.LENGTH_SHORT).show()
+        }
         report_pressure.setValue(reportData.reportPressureEnitty?.pressureAvg!!.toInt())
     }
 }
