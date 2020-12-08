@@ -38,10 +38,12 @@
                         android:layout_marginLeft="4dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2min 34s"
+                        android:text="--min --s"
                         android:textSize="18sp"/>
             </LinearLayout>
             <LinearLayout
+                    android:id="@+id/ll_legend"
+                    android:visibility="visible"
                     android:layout_marginTop="@dimen/activity_margin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

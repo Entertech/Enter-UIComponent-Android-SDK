@@ -35,6 +35,8 @@
                     android:layout_height="300dp"
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:background="@color/white"
+                    app:robs_isShowMenuIconBg="true"
+                    app:robs_menuIconBg="@drawable/vector_drawable_brainwave_spectrum_right_icon"
                     app:robs_isTitleMenuIconShow="true"
                     app:robs_isTitleIconShow="false"
                     app:robs_spectrumColors="#FF6682,#FB9C98,#F7C77E,#5FC695,#5E75FF"
@@ -70,7 +72,7 @@
                     app:rlcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
                     app:rlcc_xAxisUnit="@string/sdk_time_unit" />
 
-            <cn.entertech.uicomponentsdk.report.ReportHRVLineChartCard
+            <cn.entertech.uicomponentsdk.report.ReportHRLineChartCard
                     android:id="@+id/chart_hrv"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
@@ -82,9 +84,9 @@
                     app:rhlcc_lineColor="#FFC56F"
                     app:rhlcc_lineWidth="1dp"
                     app:rhlcc_pointCount="200"
-                    app:rhlcc_timeUnit="200"
+                    app:rhlcc_timeUnit="400"
                     app:rhlcc_markViewTitle="@string/sdk_hrv"
-                    app:rhlcc_title="@string/sdk_hrv"
+                    app:rhlcc_title="@string/sdk_heart_rate"
                     app:rhlcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
                     app:rhlcc_xAxisUnit="@string/sdk_time_unit" />
 

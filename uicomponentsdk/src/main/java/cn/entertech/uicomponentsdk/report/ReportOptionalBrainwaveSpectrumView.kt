@@ -39,10 +39,22 @@ import com.github.mikephil.charting.listener.ChartTouchListener
 import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.MPPointF
+import kotlinx.android.synthetic.main.layout_card_brain_spectrum.view.*
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.*
+import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.chart
+import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.legend_alpha
+import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.legend_beta
+import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.legend_delta
+import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.legend_gamma
+import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.legend_theta
+import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.ll_title
+import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.rl_bg
+import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.rl_no_data_cover
+import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.tv_unit
 import kotlinx.android.synthetic.main.layout_common_card_title.view.*
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.min
 
 class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
     context: Context,
@@ -72,6 +84,9 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
     private var mInfoUrl: String? = null
     private var mGridLineColor: Int = Color.parseColor("#E9EBF1")
     private var mLabelColor: Int = Color.parseColor("#9AA1A9")
+
+    private var mTitleMenuIconBg: Drawable? = null
+    private var mIsTitleMenuIconBgShow: Boolean = true
 
     /*数据时间间隔：单位毫秒*/
     var mTimeUnit: Int = 400
@@ -126,24 +141,46 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
             R.styleable.ReportOptionalBrainwaveSpectrumView
         )
         mTitleText = typeArray.getString(R.styleable.ReportOptionalBrainwaveSpectrumView_robs_title)
-        mXAxisUnit = typeArray.getString(R.styleable.ReportOptionalBrainwaveSpectrumView_robs_xAxisUnit)
+        mXAxisUnit =
+            typeArray.getString(R.styleable.ReportOptionalBrainwaveSpectrumView_robs_xAxisUnit)
         mMainColor =
-            typeArray.getColor(R.styleable.ReportOptionalBrainwaveSpectrumView_robs_mainColor, mMainColor)
+            typeArray.getColor(
+                R.styleable.ReportOptionalBrainwaveSpectrumView_robs_mainColor,
+                mMainColor
+            )
         mTextColor =
-            typeArray.getColor(R.styleable.ReportOptionalBrainwaveSpectrumView_robs_textColor, mTextColor)
+            typeArray.getColor(
+                R.styleable.ReportOptionalBrainwaveSpectrumView_robs_textColor,
+                mTextColor
+            )
         mBg = typeArray.getDrawable(R.styleable.ReportOptionalBrainwaveSpectrumView_robs_background)
-        mSmallTitle = typeArray.getString(R.styleable.ReportOptionalBrainwaveSpectrumView_robs_smallTitle)
-        mTitleIcon = typeArray.getDrawable(R.styleable.ReportOptionalBrainwaveSpectrumView_robs_titleIcon)
+        mSmallTitle =
+            typeArray.getString(R.styleable.ReportOptionalBrainwaveSpectrumView_robs_smallTitle)
+        mTitleIcon =
+            typeArray.getDrawable(R.styleable.ReportOptionalBrainwaveSpectrumView_robs_titleIcon)
         mTitleMenuIcon =
             typeArray.getDrawable(R.styleable.ReportOptionalBrainwaveSpectrumView_robs_titleMenuIcon)
         mIsShowTitleIcon =
-            typeArray.getBoolean(R.styleable.ReportOptionalBrainwaveSpectrumView_robs_isTitleIconShow, true)
+            typeArray.getBoolean(
+                R.styleable.ReportOptionalBrainwaveSpectrumView_robs_isTitleIconShow,
+                true
+            )
         mIsShowTitleMenuIcon = typeArray.getBoolean(
             R.styleable.ReportOptionalBrainwaveSpectrumView_robs_isTitleMenuIconShow,
             true
         )
+        mIsTitleMenuIconBgShow = typeArray.getBoolean(
+            R.styleable.ReportOptionalBrainwaveSpectrumView_robs_isShowMenuIconBg,
+            mIsTitleMenuIconBgShow
+        )
+        mTitleMenuIconBg =
+            typeArray.getDrawable(R.styleable.ReportOptionalBrainwaveSpectrumView_robs_menuIconBg)
+
         mLabelColor =
-            typeArray.getColor(R.styleable.ReportOptionalBrainwaveSpectrumView_robs_labelColor, mLabelColor)
+            typeArray.getColor(
+                R.styleable.ReportOptionalBrainwaveSpectrumView_robs_labelColor,
+                mLabelColor
+            )
         mGridLineColor = typeArray.getColor(
             R.styleable.ReportOptionalBrainwaveSpectrumView_robs_gridLineColor,
             mGridLineColor
@@ -153,11 +190,18 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
             mInfoUrl = INFO_URL
         }
         mTimeUnit =
-            typeArray.getInteger(R.styleable.ReportOptionalBrainwaveSpectrumView_robs_timeUnit, mTimeUnit)
+            typeArray.getInteger(
+                R.styleable.ReportOptionalBrainwaveSpectrumView_robs_timeUnit,
+                mTimeUnit
+            )
 
         mPointCount =
-            typeArray.getInteger(R.styleable.ReportOptionalBrainwaveSpectrumView_robs_pointCount, 100)
-        var color = typeArray.getString(R.styleable.ReportOptionalBrainwaveSpectrumView_robs_spectrumColors)
+            typeArray.getInteger(
+                R.styleable.ReportOptionalBrainwaveSpectrumView_robs_pointCount,
+                100
+            )
+        var color =
+            typeArray.getString(R.styleable.ReportOptionalBrainwaveSpectrumView_robs_spectrumColors)
         if (color == null) {
             color = SPECTRUM_COLORS
         }
@@ -187,7 +231,10 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
             R.styleable.ReportOptionalBrainwaveSpectrumView_robs_markViewDivideLineColor,
             mMarkDivideLineColor
         )
-        mLineWidth = typeArray.getDimension(R.styleable.ReportOptionalBrainwaveSpectrumView_robs_lineWidth,mLineWidth)
+        mLineWidth = typeArray.getDimension(
+            R.styleable.ReportOptionalBrainwaveSpectrumView_robs_lineWidth,
+            mLineWidth
+        )
 
         initView()
     }
@@ -215,6 +262,12 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
         iv_info.setOnClickListener {
             var uri = Uri.parse(mInfoUrl)
             context.startActivity(Intent(Intent.ACTION_VIEW, uri))
+        }
+        if (mIsTitleMenuIconBgShow) {
+            rl_corner_icon_bg.visibility = View.VISIBLE
+            iv_corner_icon_bg.setImageDrawable(mTitleMenuIconBg)
+        } else {
+            rl_corner_icon_bg.visibility = View.GONE
         }
         iv_menu.setOnClickListener {
             if (isFullScreen) {
@@ -281,31 +334,31 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
             legend_delta.setLegendIconColor(mSpectrumColors!![4])
         }
         legend_gamma.setOnClickListener {
-            if (isLegendClickable() || !legend_gamma.mIsChecked){
+            if (isLegendClickable() || !legend_gamma.mIsChecked) {
                 legend_gamma.setCheck(!legend_gamma.mIsChecked)
                 initChartIsShowList()
             }
         }
         legend_beta.setOnClickListener {
-            if (isLegendClickable() || !legend_beta.mIsChecked){
+            if (isLegendClickable() || !legend_beta.mIsChecked) {
                 legend_beta.setCheck(!legend_beta.mIsChecked)
                 initChartIsShowList()
             }
         }
         legend_alpha.setOnClickListener {
-            if (isLegendClickable() || !legend_alpha.mIsChecked){
+            if (isLegendClickable() || !legend_alpha.mIsChecked) {
                 legend_alpha.setCheck(!legend_alpha.mIsChecked)
                 initChartIsShowList()
             }
         }
         legend_theta.setOnClickListener {
-            if (isLegendClickable() || !legend_theta.mIsChecked){
+            if (isLegendClickable() || !legend_theta.mIsChecked) {
                 legend_theta.setCheck(!legend_theta.mIsChecked)
                 initChartIsShowList()
             }
         }
         legend_delta.setOnClickListener {
-            if (isLegendClickable() || !legend_delta.mIsChecked){
+            if (isLegendClickable() || !legend_delta.mIsChecked) {
                 legend_delta.setCheck(!legend_delta.mIsChecked)
                 initChartIsShowList()
             }
@@ -390,7 +443,33 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
         var alphaAverage = ArrayList<Double>()
         var thetaAverage = ArrayList<Double>()
         var deltaAverage = ArrayList<Double>()
+        var minValue = listOf<Double>(
+            brainwaveSpectrums[1].min() ?: 0.0,
+            brainwaveSpectrums[1].min() ?: 0.0,
+            brainwaveSpectrums[2].min() ?: 0.0,
+            brainwaveSpectrums[3].min() ?: 0.0,
+            brainwaveSpectrums[4].min() ?: 0.0
+        ).min()
+        var maxValue = listOf<Double>(
+            brainwaveSpectrums[1].max() ?: 0.0,
+            brainwaveSpectrums[1].max() ?: 0.0,
+            brainwaveSpectrums[2].max() ?: 0.0,
+            brainwaveSpectrums[3].max() ?: 0.0,
+            brainwaveSpectrums[4].max() ?: 0.0
+        ).max()
+        maxValue = maxValue!! + 4.0
+        if (maxValue > 120.0) {
+            maxValue = 120.0
+        }
+        minValue = minValue!! - 4.0
+        if (minValue < 0) {
+            minValue = 0.0
+        }
+        chart.axisLeft.axisMaximum = maxValue?.toFloat()
+        chart.axisLeft.axisMinimum = minValue?.toFloat()
+
         for (i in brainwaveSpectrums[0]!!.indices) {
+
             if (i % sample == 0) {
                 gammaAverage.add(brainwaveSpectrums[0]!![i])
                 betaAverage.add(brainwaveSpectrums[1]!![i])
@@ -427,7 +506,14 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
             currentMin += minOffset
         }
 
-        var yLimitLineValues = listOf<Float>(0f, 25f, 50f, 75f, 100f)
+        var yLimitLineDelta = ((maxValue!! - minValue!!) / 4f).toFloat()
+
+        var yLimitLineValues = listOf<Float>(
+            minValue.toFloat() + yLimitLineDelta,
+            minValue.toFloat() + 2 * yLimitLineDelta,
+            minValue.toFloat() + 3 * yLimitLineDelta,
+            minValue.toFloat() + 4 * yLimitLineDelta
+        )
         yLimitLineValues.forEach {
             var limitLine: LimitLine? = null
             limitLine = LimitLine(it, "")
@@ -619,7 +705,7 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
         chart.setPinchZoom(true)
         val xAxis: XAxis = chart.xAxis
         // vertical grid lines
-        xAxis.setDrawAxisLine(false)
+        xAxis.setDrawAxisLine(true)
         xAxis.setDrawGridLines(false)
 //        xAxis.enableGridDashedLine(10f, 10f, 0f)
 //        xAxis.setLabelCount(8)
@@ -642,8 +728,6 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
         yAxis.setDrawLabels(false)
         yAxis.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART)
         // axis range
-        yAxis.axisMaximum = 105f
-        yAxis.axisMinimum = 0f
 
 
         // draw limit lines behind data instead of on top
@@ -700,7 +784,8 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
         this.mTextColor = color
         initView()
     }
-    fun setLineWidth(lineWidth:Float){
+
+    fun setLineWidth(lineWidth: Float) {
         this.mLineWidth = lineWidth
         initView()
     }

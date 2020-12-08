@@ -63,20 +63,22 @@ class ReportDefaultFragment : Fragment() {
         chart_hr.setAverage("99")
         chart_hr.setData(reportData.reportHRDataEntity?.hrRec)
 
-        chart_hrv.setAverage("${reportData.reportHRDataEntity?.hrvAvg!!.toInt()}")
+//        chart_hrv.setAverage("${reportData.reportHRDataEntity?.hrvAvg!!.toInt()}")
         var hrvSecondLine = ArrayList<Double>()
-        var hrvSecondLineSize = reportData.reportHRDataEntity!!.hrvRec!!.size / 9f.toInt()
+        var hrvSecondLineSize = reportData.reportHRDataEntity!!.hrRec!!.size / 9f.toInt()
         for (i in 0 until hrvSecondLineSize) {
-            if (i>=hrvSecondLineSize/4 && i<hrvSecondLineSize/2){
+            if (i >= hrvSecondLineSize / 4 && i < hrvSecondLineSize / 2) {
                 hrvSecondLine.add(1.0)
-            }else{
+            } else {
                 hrvSecondLine.add(0.0)
             }
         }
+        chart_hrv.isShowYAxisLabels(false)
+        chart_hrv.isShowLegend(false)
         chart_hrv.isShowDetail = false
-        chart_hrv.setData(reportData.reportHRDataEntity?.hrvRec, hrvSecondLine,false)
+        chart_hrv.setData(reportData.reportHRDataEntity?.hrRec, hrvSecondLine, false)
         chart_hrv.setOnClickListener {
-            Toast.makeText(activity!!,"sfs",Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity!!, "sfs", Toast.LENGTH_SHORT).show()
         }
         report_pressure.setValue(reportData.reportPressureEnitty?.pressureAvg!!.toInt())
     }

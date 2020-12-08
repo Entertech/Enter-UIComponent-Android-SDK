@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.util.AttributeSet
+import android.util.Log
 import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout
@@ -46,12 +47,15 @@ import kotlin.collections.ArrayList
 import kotlin.math.ceil
 import kotlin.math.floor
 
-class ReportHRVLineChartCard @JvmOverloads constructor(
+class ReportHRLineChartCard @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
+    private var mIsDrawYAxisLabels: Boolean = true
+    private var mChartExtraTopOffset: Float = 22f.dp()
+    private var mIsShowAverage: Boolean = false
     private var mCohTime: String = "--"
     private var set2: LineDataSet? = null
     private var mSampleSecondData: java.util.ArrayList<Double>? = null
@@ -152,92 +156,92 @@ class ReportHRVLineChartCard @JvmOverloads constructor(
         addView(mSelfView)
         var typeArray = context.obtainStyledAttributes(
             attributeSet,
-            R.styleable.ReportHRVLineChartCard
+            R.styleable.ReportHRLineChartCard
         )
         mMainColor =
-            typeArray.getColor(R.styleable.ReportHRVLineChartCard_rhlcc_mainColor, mMainColor)
+            typeArray.getColor(R.styleable.ReportHRLineChartCard_rhlcc_mainColor, mMainColor)
         mTextColor =
-            typeArray.getColor(R.styleable.ReportHRVLineChartCard_rhlcc_textColor, mTextColor)
-        mBg = typeArray.getDrawable(R.styleable.ReportHRVLineChartCard_rhlcc_background)
+            typeArray.getColor(R.styleable.ReportHRLineChartCard_rhlcc_textColor, mTextColor)
+        mBg = typeArray.getDrawable(R.styleable.ReportHRLineChartCard_rhlcc_background)
 
-        mSmallTitle = typeArray.getString(R.styleable.ReportHRVLineChartCard_rhlcc_smallTitle)
+        mSmallTitle = typeArray.getString(R.styleable.ReportHRLineChartCard_rhlcc_smallTitle)
 
-        mTitle = typeArray.getString(R.styleable.ReportHRVLineChartCard_rhlcc_title)
+        mTitle = typeArray.getString(R.styleable.ReportHRLineChartCard_rhlcc_title)
         mIsTitleIconShow = typeArray.getBoolean(
-            R.styleable.ReportHRVLineChartCard_rhlcc_isTitleIconShow,
+            R.styleable.ReportHRLineChartCard_rhlcc_isTitleIconShow,
             mIsTitleIconShow
         )
         mTitleIcon =
-            typeArray.getDrawable(R.styleable.ReportHRVLineChartCard_rhlcc_titleIcon)
+            typeArray.getDrawable(R.styleable.ReportHRLineChartCard_rhlcc_titleIcon)
         mIsTitleMenuIconShow = typeArray.getBoolean(
-            R.styleable.ReportHRVLineChartCard_rhlcc_isTitleMenuIconShow,
+            R.styleable.ReportHRLineChartCard_rhlcc_isTitleMenuIconShow,
             mIsTitleMenuIconShow
         )
         mTitleMenuIcon =
-            typeArray.getDrawable(R.styleable.ReportHRVLineChartCard_rhlcc_titleMenuIcon)
+            typeArray.getDrawable(R.styleable.ReportHRLineChartCard_rhlcc_titleMenuIcon)
         mIsTitleMenuIconBgShow = typeArray.getBoolean(
-            R.styleable.ReportHRVLineChartCard_rhlcc_isShowMenuIconBg,
+            R.styleable.ReportHRLineChartCard_rhlcc_isShowMenuIconBg,
             mIsTitleMenuIconBgShow
         )
         mTitleMenuIconBg =
-            typeArray.getDrawable(R.styleable.ReportHRVLineChartCard_rhlcc_menuIconBg)
+            typeArray.getDrawable(R.styleable.ReportHRLineChartCard_rhlcc_menuIconBg)
 
         mPointCount =
             typeArray.getInteger(
-                R.styleable.ReportHRVLineChartCard_rhlcc_pointCount,
+                R.styleable.ReportHRLineChartCard_rhlcc_pointCount,
                 mPointCount
             )
         mLineColor =
-            typeArray.getColor(R.styleable.ReportHRVLineChartCard_rhlcc_lineColor, mLineColor)
+            typeArray.getColor(R.styleable.ReportHRLineChartCard_rhlcc_lineColor, mLineColor)
         mSecondLineColor = typeArray.getColor(
-            R.styleable.ReportHRVLineChartCard_rhlcc_secondLineColor,
+            R.styleable.ReportHRLineChartCard_rhlcc_secondLineColor,
             mSecondLineColor
         )
         mLabelColor =
             typeArray.getColor(
-                R.styleable.ReportHRVLineChartCard_rhlcc_labelColor,
+                R.styleable.ReportHRLineChartCard_rhlcc_labelColor,
                 mLabelColor
             )
         mGridLineColor =
             typeArray.getColor(
-                R.styleable.ReportHRVLineChartCard_rhlcc_gridLineColor,
+                R.styleable.ReportHRLineChartCard_rhlcc_gridLineColor,
                 mGridLineColor
             )
         mTimeUnit =
-            typeArray.getInteger(R.styleable.ReportHRVLineChartCard_rhlcc_timeUnit, mTimeUnit)
+            typeArray.getInteger(R.styleable.ReportHRLineChartCard_rhlcc_timeUnit, mTimeUnit)
         mLineWidth =
             typeArray.getDimension(
-                R.styleable.ReportHRVLineChartCard_rhlcc_lineWidth,
+                R.styleable.ReportHRLineChartCard_rhlcc_lineWidth,
                 mLineWidth
             )
-        mXAxisUnit = typeArray.getString(R.styleable.ReportHRVLineChartCard_rhlcc_xAxisUnit)
+        mXAxisUnit = typeArray.getString(R.styleable.ReportHRLineChartCard_rhlcc_xAxisUnit)
         mIsDrawFill =
-            typeArray.getBoolean(R.styleable.ReportHRVLineChartCard_rhlcc_isDrawFill, false)
+            typeArray.getBoolean(R.styleable.ReportHRLineChartCard_rhlcc_isDrawFill, false)
 
         mHighlightLineColor = typeArray.getColor(
-            R.styleable.ReportHRVLineChartCard_rhlcc_highlightLineColor,
+            R.styleable.ReportHRLineChartCard_rhlcc_highlightLineColor,
             mHighlightLineColor
         )
         mHighlightLineWidth = typeArray.getFloat(
-            R.styleable.ReportHRVLineChartCard_rhlcc_highlightLineWidth,
+            R.styleable.ReportHRLineChartCard_rhlcc_highlightLineWidth,
             mHighlightLineWidth
         )
         mMarkViewBgColor = typeArray.getColor(
-            R.styleable.ReportHRVLineChartCard_rhlcc_markViewBgColor,
+            R.styleable.ReportHRLineChartCard_rhlcc_markViewBgColor,
             mMarkViewBgColor
         )
         mMarkViewTitle =
-            typeArray.getString(R.styleable.ReportHRVLineChartCard_rhlcc_markViewTitle)
+            typeArray.getString(R.styleable.ReportHRLineChartCard_rhlcc_markViewTitle)
         mMarkViewTitleColor = typeArray.getColor(
-            R.styleable.ReportHRVLineChartCard_rhlcc_markViewTitleColor,
+            R.styleable.ReportHRLineChartCard_rhlcc_markViewTitleColor,
             mMarkViewTitleColor
         )
         mMarkViewValueColor = typeArray.getColor(
-            R.styleable.ReportHRVLineChartCard_rhlcc_markViewValueColor,
+            R.styleable.ReportHRLineChartCard_rhlcc_markViewValueColor,
             mMarkViewValueColor
         )
         mAverageLabelBgColor = typeArray.getColor(
-            R.styleable.ReportHRVLineChartCard_rhlcc_averageLabelBgColor,
+            R.styleable.ReportHRLineChartCard_rhlcc_averageLabelBgColor,
             mAverageLabelBgColor
         )
         typeArray.recycle()
@@ -311,7 +315,7 @@ class ReportHRVLineChartCard @JvmOverloads constructor(
         tv_coh_time_value.text = mCohTime
         (tv_legend_icon.background as GradientDrawable).setColor(mSecondLineColor)
         tv_legend_text.setTextColor(mTextColor)
-        if (!mIsTitleMenuIconBgShow){
+        if (!mIsTitleMenuIconBgShow) {
             iv_menu.setOnClickListener {
                 if (isFullScreen) {
                     (context as Activity).finish()
@@ -364,12 +368,12 @@ class ReportHRVLineChartCard @JvmOverloads constructor(
         if (firstLineData == null || secondLineData == null) {
             return null
         }
-        var newSecondLineData = ArrayList<Double>()
-        for (data in secondLineData) {
-            for (i in 0..8) {
-                newSecondLineData.add(data)
-            }
-        }
+        var newSecondLineData = secondLineData as ArrayList<Double>
+//        for (data in secondLineData) {
+//            for (i in 0..8) {
+//                newSecondLineData.add(data)
+//            }
+//        }
         if (newSecondLineData.size > firstLineData.size) {
             newSecondLineData =
                 newSecondLineData.subList(0, firstLineData.size) as ArrayList<Double>
@@ -425,50 +429,69 @@ class ReportHRVLineChartCard @JvmOverloads constructor(
             chart.xAxis.addLimitLine(llXAxis)
             currentMin += minOffset
         }
-
-        if (mFirstData != null && mFirstData!!.isNotEmpty()) {
-            var average = 0f
-            try {
-                average = java.lang.Float.parseFloat(mAverageValue)
-            } catch (e: Exception) {
-            }
-            val ll1 = LimitLine(
-                average,
-                "${context.getString(R.string.sdk_report_average)}$mAverageValue"
-            )
-            ll1.lineWidth = 1f
-            ll1.enableDashedLine(10f, 10f, 0f)
-            ll1.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
-            ll1.textSize = 14f
-            ll1.xOffset = 10f
-            ll1.yOffset = 8f
-            ll1.textColor = mTextColor
-            ll1.lineColor = mTextColor
-            chart.axisLeft.addLimitLine(ll1)
-        }
-
-        val values = ArrayList<Entry>()
-        val secondLineValues = ArrayList<Entry>()
-        var isFindFirstPointInSecondLine = false
-        for (i in mSampleData!!.indices) {
-            values.add(Entry(i.toFloat(), mSampleData!![i].toFloat()))
-            if (mSampleSecondData!![i] != 0.0) {
-                if (!isFindFirstPointInSecondLine) {
-                    secondLineStartIndexOfFirstLine = i
-                    isFindFirstPointInSecondLine = true
+        if (mIsShowAverage){
+            if (mFirstData != null && mFirstData!!.isNotEmpty()) {
+                var average = 0f
+                try {
+                    average = java.lang.Float.parseFloat(mAverageValue)
+                } catch (e: Exception) {
                 }
-                secondLineValues.add(Entry(i.toFloat(), mSampleData!![i].toFloat()))
+                val ll1 = LimitLine(
+                    average,
+                    "${context.getString(R.string.sdk_report_average)}$mAverageValue"
+                )
+                ll1.lineWidth = 1f
+                ll1.enableDashedLine(10f, 10f, 0f)
+                ll1.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
+                ll1.textSize = 14f
+                ll1.xOffset = 10f
+                ll1.yOffset = 8f
+                ll1.textColor = mTextColor
+                ll1.lineColor = mTextColor
+                chart.axisLeft.addLimitLine(ll1)
             }
         }
 
         val dataSets = ArrayList<ILineDataSet>()
+        val values = ArrayList<Entry>()
+        var tempLineValues: ArrayList<Entry>? = null
+        var isFindFirstPointInSecondLine = false
+        for (i in mSampleData!!.indices) {
+            values.add(Entry(i.toFloat(), mSampleData!![i].toFloat()))
+        }
+
         set1 = initDataSet(values, mLineColor)
-        set2 = initDataSet(secondLineValues, mSecondLineColor)
         if (set1 != null) {
             dataSets.add(set1!!) // add the data sets
         }
-        if (set2 != null) {
-            dataSets.add(set2!!) // add the data sets
+        for (i in mSampleData!!.indices) {
+            if (mSampleSecondData!![i] != 0.0) {
+                if (i == 0 || (i - 1 >= 0 && mSampleSecondData!![i - 1] == 0.0)) {
+                    if (!isFindFirstPointInSecondLine) {
+                        secondLineStartIndexOfFirstLine = i
+                        isFindFirstPointInSecondLine = true
+                    }
+                    tempLineValues = ArrayList()
+                }
+                tempLineValues?.add(Entry(i.toFloat(), mSampleData!![i].toFloat()))
+                if (i == mSampleData!!.size - 1) {
+                    if (tempLineValues?.size ?: 0 > 5) {
+                        var set = initDataSet(tempLineValues!!, mSecondLineColor)
+                        if (set != null) {
+                            dataSets.add(set)
+                        }
+                    }
+                }
+            } else {
+                if (i - 1 >= 0 && mSampleSecondData!![i - 1] != 0.0) {
+                    if (tempLineValues?.size ?: 0 > 5) {
+                        var set = initDataSet(tempLineValues!!, mSecondLineColor)
+                        if (set != null) {
+                            dataSets.add(set)
+                        }
+                    }
+                }
+            }
         }
 
         // create a data object with the data sets
@@ -478,12 +501,12 @@ class ReportHRVLineChartCard @JvmOverloads constructor(
         chart.data = data
         calNiceLabel(mSampleData!!)
         if (isShowDetail) {
-            if (set2 == null) {
+            if (dataSets.size <= 1) {
                 secondLineStartIndexOfFirstLine = 0
             }
-            chart.zoom(mSampleData!!.size / mPointCount * 1f, 1f, 0f, 0f)
             chart.viewTreeObserver.addOnGlobalLayoutListener {
                 if (ViewCompat.isLaidOut(chart) && isFirstIn) {
+                    chart.zoom(mSampleData!!.size * 1f / mPointCount, 1f, 0f, 0f)
                     var deltaX = chart.viewPortHandler.contentWidth() / mPointCount
                     if (mSampleData!!.size - secondLineStartIndexOfFirstLine < mPointCount) {
                         secondLineStartIndexOfFirstLine = mSampleData!!.size - mPointCount * 5 / 4
@@ -520,7 +543,7 @@ class ReportHRVLineChartCard @JvmOverloads constructor(
         } else {
             // create a dataset and give it a type
             set1 = LineDataSet(values, "")
-            set1.setDrawIcons(true)
+            set1.setDrawIcons(false)
             // draw dashed line
 //            set1.enableDashedLine(10f, 5f, 0f)
             // black lines and points
@@ -629,7 +652,7 @@ class ReportHRVLineChartCard @JvmOverloads constructor(
         marker.setMarkViewBgColor(mMarkViewBgColor)
         marker.setMarkViewValueColor(mMarkViewValueColor)
         chart.marker = marker
-        chart.extraTopOffset = 22f.dp()
+        chart.extraTopOffset = mChartExtraTopOffset
         val xAxis: XAxis = chart.xAxis
         xAxis.setDrawAxisLine(true)
         xAxis.axisLineColor = getOpacityColor(mTextColor, 0.6f)
@@ -640,6 +663,7 @@ class ReportHRVLineChartCard @JvmOverloads constructor(
         xAxis.setDrawLabels(false)
         chart.axisRight.isEnabled = false
         chart.setMaxVisibleValueCount(100000)
+        yAxis.setDrawLabels(mIsDrawYAxisLabels)
         yAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
         yAxis.setLabelCount(5, false)
         yAxis.setDrawGridLines(true)
@@ -776,6 +800,7 @@ class ReportHRVLineChartCard @JvmOverloads constructor(
 
     fun setAverage(value: String) {
         this.mAverageValue = value
+        this.mIsShowAverage = true
         initView()
     }
 
@@ -796,6 +821,22 @@ class ReportHRVLineChartCard @JvmOverloads constructor(
 
     fun setCohTime(time: String) {
         this.mCohTime = time
+        initView()
+    }
+
+    fun isShowLegend(isShowLegend: Boolean) {
+        if (!isShowLegend){
+            mChartExtraTopOffset = 12f.dp()
+            mSelfView?.findViewById<LinearLayout>(R.id.ll_legend)?.visibility = View.GONE
+        }else{
+            mChartExtraTopOffset = 22f.dp()
+            mSelfView?.findViewById<LinearLayout>(R.id.ll_legend)?.visibility = View.VISIBLE
+        }
+        initView()
+    }
+
+    fun isShowYAxisLabels(flag:Boolean){
+        this.mIsDrawYAxisLabels = flag
         initView()
     }
 }

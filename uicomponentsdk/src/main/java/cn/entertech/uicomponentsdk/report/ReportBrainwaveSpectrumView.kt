@@ -49,6 +49,8 @@ import kotlinx.android.synthetic.main.layout_card_brain_spectrum.view.legend_alp
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum.view.legend_delta
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum.view.legend_gamma
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum.view.legend_theta
+import kotlinx.android.synthetic.main.layout_card_brain_spectrum.view.ll_title
+import kotlinx.android.synthetic.main.layout_card_brain_spectrum.view.rl_bg
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum.view.rl_no_data_cover
 import kotlinx.android.synthetic.main.layout_common_card_title.view.*
 import java.util.*

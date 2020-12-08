@@ -216,6 +216,8 @@
     </declare-styleable>
 
     <declare-styleable name="ReportOptionalBrainwaveSpectrumView">
+        <attr name="robs_menuIconBg" format="reference" />
+        <attr name="robs_isShowMenuIconBg" format="boolean" />
         <attr name="robs_isTitleIconShow" format="boolean" />
         <attr name="robs_title" format="string" />
         <attr name="robs_smallTitle" format="string" />
@@ -313,7 +315,7 @@
         <attr name="rlcc_smallTitle" format="string" />
     </declare-styleable>
 
-    <declare-styleable name="ReportHRVLineChartCard">
+    <declare-styleable name="ReportHRLineChartCard">
         <attr name="rhlcc_isTitleIconShow" format="boolean" />
         <attr name="rhlcc_title" format="string" />
         <attr name="rhlcc_titleIcon" format="reference" />
