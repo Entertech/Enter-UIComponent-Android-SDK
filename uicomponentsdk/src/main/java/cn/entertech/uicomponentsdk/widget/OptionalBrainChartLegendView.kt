@@ -1,16 +1,20 @@
 package cn.entertech.uicomponentsdk.widget
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import cn.entertech.uicomponentsdk.R
+import cn.entertech.uicomponentsdk.utils.getOpacityColor
 import kotlinx.android.synthetic.main.layout_optional_brain_chart_legend.view.*
 
 
@@ -25,7 +29,8 @@ class OptionalBrainChartLegendView @JvmOverloads constructor(
     var mIsChecked = true
     var mColor = Color.parseColor("#5167f8")
     var mLegend = ""
-    var self: View = LayoutInflater.from(context).inflate(R.layout.layout_optional_brain_chart_legend, null)
+    var self: View =
+        LayoutInflater.from(context).inflate(R.layout.layout_optional_brain_chart_legend, null)
 
     init {
         var typeArray = context.obtainStyledAttributes(attributeSet, R.styleable.ChartLegendView)
@@ -44,15 +49,18 @@ class OptionalBrainChartLegendView @JvmOverloads constructor(
     fun initView() {
         self.findViewById<TextView>(R.id.tv_text).text = mLegend
         val gradientDrawable =
-            self.findViewById<TextView>(R.id.tv_icon).background as GradientDrawable
-        gradientDrawable.setColor(mColor)
-        self.findViewById<TextView>(R.id.tv_icon).background = gradientDrawable
-        if (mIsChecked){
-            self.findViewById<TextView>(R.id.tv_text).setTextColor(Color.WHITE)
-            self.findViewById<LinearLayout>(R.id.ll_bg).background = ContextCompat.getDrawable(context,R.drawable.shape_brain_legend_select)
-        }else{
-            self.findViewById<TextView>(R.id.tv_text).setTextColor(Color.parseColor("#666666"))
-            self.findViewById<LinearLayout>(R.id.ll_bg).background = ContextCompat.getDrawable(context,R.drawable.shape_brain_legend_unselect)
+            self.findViewById<LinearLayout>(R.id.ll_bg).background as GradientDrawable
+        gradientDrawable.setColor(getOpacityColor(mColor, 0.2f))
+        self.findViewById<LinearLayout>(R.id.ll_bg).background = gradientDrawable
+        self.findViewById<TextView>(R.id.tv_text).setTextColor(mColor)
+        self.findViewById<ImageView>(R.id.iv_icon).imageTintList =
+            ColorStateList.valueOf(mColor)
+        if (mIsChecked) {
+            self.findViewById<TextView>(R.id.tv_legend_bg).visibility = View.VISIBLE
+            self.findViewById<ImageView>(R.id.iv_icon).setImageDrawable(ContextCompat.getDrawable(context,R.drawable.vector_drawable_brain_legend_select))
+        } else {
+            self.findViewById<ImageView>(R.id.iv_icon).setImageDrawable(ContextCompat.getDrawable(context,R.drawable.vector_drawable_brain_legend_unselect))
+            self.findViewById<TextView>(R.id.tv_legend_bg).visibility = View.GONE
         }
 //        self.findViewById<LinearLayout>(R.id.ll_bg).setOnClickListener {
 //            mIsChecked = !mIsChecked
@@ -75,11 +83,11 @@ class OptionalBrainChartLegendView @JvmOverloads constructor(
         initView()
     }
 
-    fun addOnCheckListener(listener:((Boolean)->Unit)){
+    fun addOnCheckListener(listener: ((Boolean) -> Unit)) {
         this.mOnCheckListener = listener
     }
 
-    fun setCheck(isChecked:Boolean){
+    fun setCheck(isChecked: Boolean) {
         this.mIsChecked = isChecked
         initView()
     }

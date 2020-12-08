@@ -19,11 +19,11 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.activity.BrainwaveOptionalLineChartActivity
-import cn.entertech.uicomponentsdk.activity.BrainwaveSpectrumLineChartActivity
 import cn.entertech.uicomponentsdk.utils.dp
 import cn.entertech.uicomponentsdk.utils.getOpacityColor
 import cn.entertech.uicomponentsdk.utils.toDrawable
 import cn.entertech.uicomponentsdk.widget.ChartIconView
+import cn.entertech.uicomponentsdk.widget.OptionalBrainChartLegendView
 import cn.entertech.uicomponentsdk.widget.OptionalBrainwaveSpectrumChartMarkView
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.LimitLine
@@ -39,7 +39,6 @@ import com.github.mikephil.charting.listener.ChartTouchListener
 import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.MPPointF
-import kotlinx.android.synthetic.main.layout_card_brain_spectrum.view.*
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.*
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.chart
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.legend_alpha
@@ -54,7 +53,6 @@ import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.t
 import kotlinx.android.synthetic.main.layout_common_card_title.view.*
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.math.min
 
 class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
     context: Context,
@@ -93,6 +91,7 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
     var mPointCount: Int = 100
     var mTimeOfTwoPoint: Int = 0
 
+    var legendIsCheckList = listOf(true,false,true,false,true)
     companion object {
         const val INFO_URL = "https://www.notion.so/Attention-84fef81572a848efbf87075ab67f4cfe"
         const val SPECTRUM_COLORS = "#FF6682,#5E75FF,#F7C77E,#5FC695,#FB9C98"
@@ -293,6 +292,7 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
                 intent.putExtra("alphaData", mBrainwaveSpectrums!![2].toDoubleArray())
                 intent.putExtra("thetaData", mBrainwaveSpectrums!![3].toDoubleArray())
                 intent.putExtra("deltaData", mBrainwaveSpectrums!![4].toDoubleArray())
+                intent.putExtra("isLegendShowList", legendIsCheckList.toBooleanArray())
                 context.startActivity(intent)
             }
         }
@@ -324,7 +324,6 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
         }
     }
 
-    var chartIsShowList: List<Boolean>? = null
     fun initLegend() {
         if (mSpectrumColors != null) {
             legend_gamma.setLegendIconColor(mSpectrumColors!![0])
@@ -332,6 +331,9 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
             legend_alpha.setLegendIconColor(mSpectrumColors!![2])
             legend_theta.setLegendIconColor(mSpectrumColors!![3])
             legend_delta.setLegendIconColor(mSpectrumColors!![4])
+        }
+        for (i in legendIsCheckList.indices){
+            (ll_legend_parent.getChildAt(i) as OptionalBrainChartLegendView).setCheck(legendIsCheckList[i])
         }
         legend_gamma.setOnClickListener {
             if (isLegendClickable() || !legend_gamma.mIsChecked) {
@@ -363,18 +365,11 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
                 initChartIsShowList()
             }
         }
-        chartIsShowList = listOf(
-            legend_gamma.mIsChecked,
-            legend_beta.mIsChecked,
-            legend_alpha.mIsChecked,
-            legend_theta.mIsChecked,
-            legend_delta.mIsChecked
-        )
     }
 
     fun isLegendClickable(): Boolean {
         var isCheckCount = 0
-        for (isChecked in chartIsShowList!!) {
+        for (isChecked in legendIsCheckList!!) {
             if (isChecked) {
                 isCheckCount++
             }
@@ -383,7 +378,7 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
     }
 
     fun initChartIsShowList() {
-        chartIsShowList = listOf(
+        legendIsCheckList = listOf(
             legend_gamma.mIsChecked,
             legend_beta.mIsChecked,
             legend_alpha.mIsChecked,
@@ -532,7 +527,7 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
         dataSets.clear()
         chart.clear()
         for (i in 0..4) {
-            if (chartIsShowList?.get(i) == false) {
+            if (!legendIsCheckList?.get(i)) {
                 continue
             }
             val values = ArrayList<Entry>()
@@ -700,7 +695,7 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
 //        chart.setScaleEnabled(true)
         chart.setScaleXEnabled(true)
         chart.setScaleYEnabled(false)
-        chart.extraTopOffset = 60f
+        chart.extraTopOffset = 24f.dp()
         // force pinch zoom along both axis
         chart.setPinchZoom(true)
         val xAxis: XAxis = chart.xAxis

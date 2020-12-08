@@ -35,6 +35,7 @@ class BrainwaveOptionalLineChartActivity : AppCompatActivity() {
         var thetaData = intent.getDoubleArrayExtra("thetaData").toList() as ArrayList
         var deltaData = intent.getDoubleArrayExtra("deltaData").toList() as ArrayList
         var spectrumColors = intent.getIntArrayExtra("spectrumColors").toList() as ArrayList
+        var isLegendShowList = intent.getBooleanArrayExtra("isLegendShowList").toList() as ArrayList
 
         brainwave_chart.setPointCount(pointCount)
         brainwave_chart.setTimeUnit(timeUnit)
@@ -47,6 +48,7 @@ class BrainwaveOptionalLineChartActivity : AppCompatActivity() {
         brainwave_chart.mMarkViewValueColor = markViewValueColor
         brainwave_chart.setGridLineColor(gridLineColor)
         brainwave_chart.setXAxisUnit(xAxisUnit)
+        brainwave_chart.legendIsCheckList = isLegendShowList
         brainwave_chart.setTextColor(textColor)
         brainwave_chart.setSpectrumColors(spectrumColors)
         brainwave_chart.bgColor = bgColor
