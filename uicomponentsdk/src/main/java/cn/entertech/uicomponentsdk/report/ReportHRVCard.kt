@@ -99,7 +99,7 @@ class ReportHRVCard @JvmOverloads constructor(
             iv_icon.visibility = View.GONE
         }
         iv_icon.setImageResource(R.drawable.vector_drawable_title_icon_hrv)
-        tv_title.text = context.getString(R.string.sdk_hrv)
+        tv_title.text = context.getString(R.string.sdk_hrv_simple)
         tv_title.setTextColor(mTextColor)
     }
 

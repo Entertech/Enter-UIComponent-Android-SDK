@@ -24,6 +24,7 @@
     <string name="sdk_relaxation_and_attention">Attention &#038; Relaxation</string>
     <string name="sdk_brainwave_spectrum_chart_title">Each band power ratio(%)</string>
     <string name="sdk_hrv">Heart Rate Variability</string>
+    <string name="sdk_hrv_simple">HRV</string>
     <string name="sdk_pressure_legend_low">Low</string>
     <string name="sdk_pressure_legend_high">High</string>
     <string name="sdk_hr_chart_legend_low">Low</string>
