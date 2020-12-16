@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              tools:context=".ReportDefaultFragment"
-              android:orientation="vertical"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ReportDefaultFragment"
         >
 
     <ScrollView
@@ -22,11 +22,11 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginTop="@dimen/margin_vertical"
                     android:text="脑电波频谱占比"
                     android:textColor="@color/colorDefaultBlack"
                     android:textSize="32sp"
-                    android:layout_marginTop="@dimen/margin_vertical"
-                    android:layout_marginLeft="@dimen/activity_margin"
                     />
 
             <cn.entertech.uicomponentsdk.report.ReportOptionalBrainwaveSpectrumView
@@ -36,24 +36,25 @@
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:background="@color/white"
                     app:robs_isShowMenuIconBg="true"
-                    app:robs_menuIconBg="@drawable/vector_drawable_brainwave_spectrum_right_icon"
-                    app:robs_isTitleMenuIconShow="true"
                     app:robs_isTitleIconShow="false"
+                    app:robs_isTitleMenuIconShow="true"
+                    app:robs_menuIconBg="@drawable/vector_drawable_brainwave_spectrum_right_icon"
+                    app:robs_pointCount="100"
                     app:robs_spectrumColors="#FF6682,#FB9C98,#F7C77E,#5FC695,#5E75FF"
                     app:robs_timeUnit="400"
-                    app:robs_xAxisUnit="@string/sdk_time_unit"
-                    app:robs_pointCount="100"
                     app:robs_title="@string/sdk_brainwave_spectrum"
                     app:robs_titleMenuIcon="@drawable/vector_drawable_full_screen"
+                    app:robs_xAxisUnit="@string/sdk_time_unit"
                     />
+
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginTop="@dimen/margin_vertical"
                     android:text="心率"
                     android:textColor="@color/colorDefaultBlack"
                     android:textSize="32sp"
-                    android:layout_marginTop="@dimen/margin_vertical"
-                    android:layout_marginLeft="@dimen/activity_margin"
                     />
 
             <cn.entertech.uicomponentsdk.report.ReportLineChartCard
@@ -65,12 +66,13 @@
                     app:rlcc_isTitleMenuIconShow="true"
                     app:rlcc_lineColor="#FF6682"
                     app:rlcc_lineWidth="1dp"
+                    app:rlcc_markViewTitle="@string/sdk_heart_rate"
                     app:rlcc_pointCount="100"
                     app:rlcc_timeUnit="400"
-                    app:rlcc_markViewTitle="@string/sdk_heart_rate"
                     app:rlcc_title="@string/sdk_heart_rate"
                     app:rlcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
-                    app:rlcc_xAxisUnit="@string/sdk_time_unit" />
+                    app:rlcc_xAxisUnit="@string/sdk_time_unit"
+                    />
 
             <cn.entertech.uicomponentsdk.report.ReportHRLineChartCard
                     android:id="@+id/chart_hrv"
@@ -79,25 +81,26 @@
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:background="@color/white"
                     app:rhlcc_isShowMenuIconBg="false"
-                    app:rhlcc_menuIconBg="@drawable/vector_drawable_brainwave_spectrum_right_icon"
                     app:rhlcc_isTitleMenuIconShow="true"
                     app:rhlcc_lineColor="#FFC56F"
                     app:rhlcc_lineWidth="1dp"
+                    app:rhlcc_markViewTitle="@string/sdk_hrv"
+                    app:rhlcc_menuIconBg="@drawable/vector_drawable_brainwave_spectrum_right_icon"
                     app:rhlcc_pointCount="200"
                     app:rhlcc_timeUnit="400"
-                    app:rhlcc_markViewTitle="@string/sdk_hrv"
                     app:rhlcc_title="@string/sdk_heart_rate"
                     app:rhlcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
-                    app:rhlcc_xAxisUnit="@string/sdk_time_unit" />
+                    app:rhlcc_xAxisUnit="@string/sdk_time_unit"
+                    />
 
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginTop="@dimen/margin_vertical"
                     android:text="情绪"
                     android:textColor="@color/colorDefaultBlack"
                     android:textSize="32sp"
-                    android:layout_marginTop="@dimen/margin_vertical"
-                    android:layout_marginLeft="@dimen/activity_margin"
                     />
 
             <cn.entertech.uicomponentsdk.report.ReportAffectiveLineChartCard
@@ -108,14 +111,15 @@
                     android:background="@color/white"
                     app:ralcc_attentionLineColor="#5FC695"
                     app:ralcc_isTitleMenuIconShow="true"
+                    app:ralcc_markViewTitle1="@string/sdk_attention"
+                    app:ralcc_markViewTitle2="@string/sdk_relaxation"
                     app:ralcc_pointCount="100"
                     app:ralcc_relaxationLineColor="#4B5DCC"
                     app:ralcc_timeUnit="800"
-                    app:ralcc_markViewTitle1="@string/sdk_attention"
-                    app:ralcc_markViewTitle2="@string/sdk_relaxation"
                     app:ralcc_title="@string/sdk_relaxation_and_attention"
                     app:ralcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
-                    app:ralcc_xAxisUnit="@string/sdk_time_unit" />
+                    app:ralcc_xAxisUnit="@string/sdk_time_unit"
+                    />
 
 
             <cn.entertech.uicomponentsdk.report.ReportLineChartCard
@@ -124,16 +128,17 @@
                     android:layout_height="250dp"
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:background="@color/white"
+                    app:rlcc_isDrawFill="true"
                     app:rlcc_isTitleMenuIconShow="true"
                     app:rlcc_lineColor="#4B5DCC"
                     app:rlcc_lineWidth="1dp"
-                    app:rlcc_isDrawFill="true"
+                    app:rlcc_markViewTitle="@string/sdk_relaxation"
                     app:rlcc_pointCount="100"
                     app:rlcc_timeUnit="800"
-                    app:rlcc_markViewTitle="@string/sdk_relaxation"
                     app:rlcc_title="@string/sdk_relaxation"
                     app:rlcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
-                    app:rlcc_xAxisUnit="@string/sdk_time_unit" />
+                    app:rlcc_xAxisUnit="@string/sdk_time_unit"
+                    />
 
 
             <cn.entertech.uicomponentsdk.report.ReportLineChartCard
@@ -142,43 +147,53 @@
                     android:layout_height="250dp"
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:background="@color/white"
+                    app:rlcc_isDrawFill="true"
                     app:rlcc_isTitleMenuIconShow="true"
                     app:rlcc_lineColor="#5FC695"
                     app:rlcc_lineWidth="1dp"
+                    app:rlcc_markViewTitle="@string/sdk_attention"
                     app:rlcc_pointCount="100"
                     app:rlcc_timeUnit="800"
-                    app:rlcc_isDrawFill="true"
-                    app:rlcc_markViewTitle="@string/sdk_attention"
                     app:rlcc_title="@string/sdk_attention"
                     app:rlcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
-                    app:rlcc_xAxisUnit="@string/sdk_time_unit" />
-
+                    app:rlcc_xAxisUnit="@string/sdk_time_unit"
+                    />
 
 
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_vertical"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="@dimen/margin_vertical">
+                    >
 
-                <cn.entertech.uicomponentsdk.report.ReportPressureCard
-                        android:layout_marginTop="@dimen/activity_margin_half"
-                        android:id="@+id/report_pressure"
+                <cn.entertech.uicomponentsdk.report.ReportHRVCard
+                        android:id="@+id/report_hrv"
                         android:layout_width="0dp"
+                        android:layout_height="141dp"
                         android:layout_weight="1"
-                        android:layout_height="200dp"
-                        app:rpc_arrowColor="#F5F5F5"
-                        app:rpc_background="#FFFFFF"
-                        app:rpc_textColor="#11152E"
-                        app:rpc_levelTextColor="#402D30"
-                        app:rpc_levelBgColor="#FFE7E6"
-                        app:rpc_barBgColor="#DDE1EB"
-                        app:rpc_barWidth="48dp"
-                        app:rpc_barScaleLength="56dp"
-                        app:rpc_isShowTitleIcon="true"
-
+                        app:rchrv_textColor="@color/black"
+                        app:rchrv_arrowColor="@color/black"
+                        app:rchrv_background="#cccccc"
+                        app:rchrv_unitTextColor="@color/black"
                         />
+
             </LinearLayout>
+            <cn.entertech.uicomponentsdk.report.ReportPressureCard
+                    android:id="@+id/report_pressure"
+                    android:layout_width="match_parent"
+                    android:layout_height="141dp"
+                    android:layout_marginTop="@dimen/activity_margin_half"
+                    app:rpc_arrowColor="#F5F5F5"
+                    app:rpc_background="#FFFFFF"
+                    app:rpc_barBgColor="#DDE1EB"
+                    app:rpc_barScaleLength="56dp"
+                    app:rpc_barWidth="48dp"
+                    app:rpc_isShowTitleIcon="true"
+                    app:rpc_levelBgColor="#FFE7E6"
+                    app:rpc_levelTextColor="#402D30"
+                    app:rpc_textColor="#11152E"
+                    />
         </LinearLayout>
     </ScrollView>
 

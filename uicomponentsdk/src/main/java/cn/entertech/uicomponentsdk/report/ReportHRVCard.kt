@@ -23,6 +23,7 @@ class ReportHRVCard @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var mIsShortCard: Boolean = false
     private var mArrowColor: Int = Color.parseColor("#ffffff")
     private var mLevelBgColor: Int = Color.parseColor("#40392F")
     private var mIndicatorTriangleColor: Int = Color.parseColor("#FFE4BB")
@@ -35,7 +36,7 @@ class ReportHRVCard @JvmOverloads constructor(
         LayoutInflater.from(context).inflate(R.layout.layout_report_hrv_card, null)
 
     init {
-        var layoutParams = LayoutParams(MATCH_PARENT, ScreenUtil.dip2px(context, 136f))
+        var layoutParams = LayoutParams(MATCH_PARENT,MATCH_PARENT)
         mSelfView.layoutParams = layoutParams
         addView(mSelfView)
 
@@ -71,10 +72,15 @@ class ReportHRVCard @JvmOverloads constructor(
         initValueText()
         initIndicator()
     }
+
     fun initIndicator() {
+        if (mIsShortCard){
+            eiv_hrv.visibility = View.GONE
+            return
+        }
         var indicateItems = ArrayList<EmotionIndicatorView.IndicateItem>()
-        var item1 = EmotionIndicatorView.IndicateItem(0.14f, getOpacityColor(mIndicatorColor,0.2f))
-        var item2 = EmotionIndicatorView.IndicateItem(0.26f, getOpacityColor(mIndicatorColor,0.6f))
+        var item1 = EmotionIndicatorView.IndicateItem(0.14f, getOpacityColor(mIndicatorColor, 0.2f))
+        var item2 = EmotionIndicatorView.IndicateItem(0.26f, getOpacityColor(mIndicatorColor, 0.6f))
         var item3 = EmotionIndicatorView.IndicateItem(0.6f, mIndicatorColor)
         indicateItems.add(item1)
         indicateItems.add(item2)
@@ -84,9 +90,14 @@ class ReportHRVCard @JvmOverloads constructor(
         eiv_hrv.setIndicatorColor(mIndicatorTriangleColor)
         eiv_hrv.setScaleTextColor(mIndicatorTextColor)
     }
+
     fun initTitle() {
         iv_arrow.setColorFilter(mArrowColor)
-        iv_icon.visibility = View.VISIBLE
+        if (!mIsShortCard) {
+            iv_icon.visibility = View.VISIBLE
+        } else {
+            iv_icon.visibility = View.GONE
+        }
         iv_icon.setImageResource(R.drawable.vector_drawable_title_icon_hrv)
         tv_title.text = context.getString(R.string.sdk_hrv)
         tv_title.setTextColor(mTextColor)
@@ -96,9 +107,17 @@ class ReportHRVCard @JvmOverloads constructor(
         tv_unit.setTextColor(mUnitTextColor)
         tv_hrv.setTextColor(mTextColor)
         tv_level.setTextColor(mTextColor)
+        tv_level_2.setTextColor(mTextColor)
         if (mLevelBgColor != null) {
             var bg = tv_level.background as GradientDrawable
             bg.setColor(mLevelBgColor)
+        }
+        if (!mIsShortCard) {
+            ll_value_tip_1.visibility = View.VISIBLE
+            ll_value_tip_2.visibility = View.GONE
+        } else {
+            ll_value_tip_1.visibility = View.GONE
+            ll_value_tip_2.visibility = View.VISIBLE
         }
     }
 
@@ -111,6 +130,7 @@ class ReportHRVCard @JvmOverloads constructor(
             }
         }
     }
+
     fun setValue(value: Float) {
         tv_hrv.text = "$value"
         eiv_hrv.setValue(value)
@@ -120,4 +140,11 @@ class ReportHRVCard @JvmOverloads constructor(
             else -> tv_level.text = context.getString(R.string.sdk_report_nor)
         }
     }
+
+    fun setIsShortCard(isShow: Boolean) {
+        mIsShortCard = isShow
+        initView()
+    }
+
+
 }

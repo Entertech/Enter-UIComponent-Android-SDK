@@ -83,6 +83,7 @@ class ReportDefaultFragment : Fragment() {
             Toast.makeText(activity!!, "sfs", Toast.LENGTH_SHORT).show()
         }
         report_pressure.setValue(reportData.reportPressureEnitty?.pressureAvg!!.toInt())
-
+        report_hrv.setIsShortCard(false)
+        report_hrv.setValue(10f)
     }
 }
