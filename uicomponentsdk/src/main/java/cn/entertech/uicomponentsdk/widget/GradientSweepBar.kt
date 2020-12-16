@@ -164,4 +164,15 @@ class GradientSweepBar @JvmOverloads constructor(
         mTextPaint.color = mTextColor
         invalidate()
     }
+
+    fun setBarWidth(width:Float){
+        this.mBarWidth = width
+        initPaint()
+        invalidate()
+    }
+
+    fun setScaleLineLength(width: Float){
+        this.mScaleLineLength = width
+        invalidate()
+    }
 }

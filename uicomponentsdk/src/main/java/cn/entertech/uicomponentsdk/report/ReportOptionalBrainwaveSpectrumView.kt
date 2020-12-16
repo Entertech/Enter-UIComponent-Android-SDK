@@ -785,4 +785,9 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
         initView()
     }
 
+    fun setLegendShowList(lists:List<Boolean>){
+        this.legendIsCheckList = lists
+        initView()
+    }
+
 }

@@ -492,6 +492,9 @@
         <attr name="rpc_levelBgColor" format="color" />
         <attr name="rpc_levelTextColor" format="color" />
         <attr name="rpc_barBgColor" format="color" />
+        <attr name="rpc_barWidth" format="dimension" />
+        <attr name="rpc_barScaleLength" format="dimension" />
+        <attr name="rpc_isShowTitleIcon" format="boolean" />
     </declare-styleable>
 
 

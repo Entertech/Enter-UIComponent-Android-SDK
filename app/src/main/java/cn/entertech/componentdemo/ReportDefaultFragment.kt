@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import cn.entertech.uicomponentsdk.report.file.ReportFileHelper
+import cn.entertech.uicomponentsdk.utils.dp
 import kotlinx.android.synthetic.main.fragment_report_default.*
 import kotlinx.android.synthetic.main.fragment_report_default.report_pressure
 import java.util.*
@@ -57,6 +58,7 @@ class ReportDefaultFragment : Fragment() {
             reportData.reportEEGDataEntity!!.thetaCurve!!.map { it * 100.0 } as ArrayList<Double>,
             reportData.reportEEGDataEntity!!.deltaCurve!!.map { it * 100.0 } as ArrayList<Double>
         )
+        chart_brainwave.setLegendShowList(listOf(true,true,true,true,true))
         chart_brainwave.setData(
             spectrumList
         )
@@ -81,5 +83,6 @@ class ReportDefaultFragment : Fragment() {
             Toast.makeText(activity!!, "sfs", Toast.LENGTH_SHORT).show()
         }
         report_pressure.setValue(reportData.reportPressureEnitty?.pressureAvg!!.toInt())
+
     }
 }

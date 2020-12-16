@@ -155,18 +155,30 @@
 
 
 
-            <cn.entertech.uicomponentsdk.report.ReportPressureCard
-                    android:layout_marginTop="@dimen/activity_margin_half"
-                    android:id="@+id/report_pressure"
+            <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:rpc_arrowColor="#F5F5F5"
-                    app:rpc_background="#FFFFFF"
-                    app:rpc_textColor="#11152E"
-                    app:rpc_levelTextColor="#402D30"
-                    app:rpc_levelBgColor="#FFE7E6"
-                    app:rpc_barBgColor="#DDE1EB"
-                    />
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="@dimen/margin_vertical">
+
+                <cn.entertech.uicomponentsdk.report.ReportPressureCard
+                        android:layout_marginTop="@dimen/activity_margin_half"
+                        android:id="@+id/report_pressure"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="200dp"
+                        app:rpc_arrowColor="#F5F5F5"
+                        app:rpc_background="#FFFFFF"
+                        app:rpc_textColor="#11152E"
+                        app:rpc_levelTextColor="#402D30"
+                        app:rpc_levelBgColor="#FFE7E6"
+                        app:rpc_barBgColor="#DDE1EB"
+                        app:rpc_barWidth="48dp"
+                        app:rpc_barScaleLength="56dp"
+                        app:rpc_isShowTitleIcon="true"
+
+                        />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
