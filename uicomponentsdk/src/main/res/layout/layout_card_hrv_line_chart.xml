@@ -39,11 +39,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="--min --s"
-                        android:textSize="18sp"/>
+                        android:textSize="24sp"/>
             </LinearLayout>
+
+            <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_coh_time_value_2"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--min --s"
+                    android:textSize="24sp"/>
             <LinearLayout
                     android:id="@+id/ll_legend"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:layout_marginTop="@dimen/activity_margin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

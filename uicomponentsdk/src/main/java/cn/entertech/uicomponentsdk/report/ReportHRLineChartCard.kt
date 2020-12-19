@@ -14,6 +14,7 @@ import android.util.Log
 import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.core.view.ViewCompat
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.activity.HRVLineChartFullScreenActivity
@@ -53,6 +54,7 @@ class ReportHRLineChartCard @JvmOverloads constructor(
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
+    private var mIsShowLegend: Boolean = false
     private var mIsDrawYAxisLabels: Boolean = true
     private var mChartExtraTopOffset: Float = 22f.dp()
     private var mIsShowAverage: Boolean = false
@@ -253,8 +255,23 @@ class ReportHRLineChartCard @JvmOverloads constructor(
         initBg()
         initTitle()
         initTimeUnit()
+        initLegned()
         initChart()
         initChartIcon()
+    }
+
+    fun initLegned(){
+        if (!mIsShowLegend){
+//            mChartExtraTopOffset = 12f.dp()
+            mSelfView?.findViewById<LinearLayout>(R.id.ll_legend)?.visibility = View.GONE
+            mSelfView?.findViewById<TextView>(R.id.tv_coh_time_value)?.visibility = View.GONE
+            mSelfView?.findViewById<TextView>(R.id.tv_coh_time_value_2)?.visibility = View.VISIBLE
+        }else{
+//            mChartExtraTopOffset = 22f.dp()
+            mSelfView?.findViewById<LinearLayout>(R.id.ll_legend)?.visibility = View.VISIBLE
+            mSelfView?.findViewById<TextView>(R.id.tv_coh_time_value)?.visibility = View.VISIBLE
+            mSelfView?.findViewById<TextView>(R.id.tv_coh_time_value_2)?.visibility = View.GONE
+        }
     }
 
     fun initTimeUnit() {
@@ -312,7 +329,9 @@ class ReportHRLineChartCard @JvmOverloads constructor(
         }
         tv_coh_time_title.setTextColor(mTextColor)
         tv_coh_time_value.setTextColor(mSecondLineColor)
+        tv_coh_time_value_2.setTextColor(mSecondLineColor)
         tv_coh_time_value.text = mCohTime
+        tv_coh_time_value_2.text = mCohTime
         (tv_legend_icon.background as GradientDrawable).setColor(mSecondLineColor)
         tv_legend_text.setTextColor(mTextColor)
         if (!mIsTitleMenuIconBgShow) {
@@ -825,15 +844,10 @@ class ReportHRLineChartCard @JvmOverloads constructor(
     }
 
     fun isShowLegend(isShowLegend: Boolean) {
-        if (!isShowLegend){
-            mChartExtraTopOffset = 12f.dp()
-            mSelfView?.findViewById<LinearLayout>(R.id.ll_legend)?.visibility = View.GONE
-        }else{
-            mChartExtraTopOffset = 22f.dp()
-            mSelfView?.findViewById<LinearLayout>(R.id.ll_legend)?.visibility = View.VISIBLE
-        }
+        this.mIsShowLegend = isShowLegend
         initView()
     }
+
 
     fun isShowYAxisLabels(flag:Boolean){
         this.mIsDrawYAxisLabels = flag
