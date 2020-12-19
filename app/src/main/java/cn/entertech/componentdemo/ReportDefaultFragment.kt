@@ -75,6 +75,7 @@ class ReportDefaultFragment : Fragment() {
                 hrvSecondLine.add(0.0)
             }
         }
+        chart_hrv.isChartEnable(false)
         chart_hrv.isShowYAxisLabels(false)
         chart_hrv.isShowLegend(false)
         chart_hrv.isShowDetail = false

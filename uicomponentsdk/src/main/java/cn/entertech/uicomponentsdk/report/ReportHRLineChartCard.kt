@@ -54,6 +54,7 @@ class ReportHRLineChartCard @JvmOverloads constructor(
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
+    private var mIsChartEnable: Boolean = true
     private var mIsShowLegend: Boolean = false
     private var mIsDrawYAxisLabels: Boolean = true
     private var mChartExtraTopOffset: Float = 22f.dp()
@@ -260,13 +261,13 @@ class ReportHRLineChartCard @JvmOverloads constructor(
         initChartIcon()
     }
 
-    fun initLegned(){
-        if (!mIsShowLegend){
+    fun initLegned() {
+        if (!mIsShowLegend) {
 //            mChartExtraTopOffset = 12f.dp()
             mSelfView?.findViewById<LinearLayout>(R.id.ll_legend)?.visibility = View.GONE
             mSelfView?.findViewById<TextView>(R.id.tv_coh_time_value)?.visibility = View.GONE
             mSelfView?.findViewById<TextView>(R.id.tv_coh_time_value_2)?.visibility = View.VISIBLE
-        }else{
+        } else {
 //            mChartExtraTopOffset = 22f.dp()
             mSelfView?.findViewById<LinearLayout>(R.id.ll_legend)?.visibility = View.VISIBLE
             mSelfView?.findViewById<TextView>(R.id.tv_coh_time_value)?.visibility = View.VISIBLE
@@ -448,7 +449,7 @@ class ReportHRLineChartCard @JvmOverloads constructor(
             chart.xAxis.addLimitLine(llXAxis)
             currentMin += minOffset
         }
-        if (mIsShowAverage){
+        if (mIsShowAverage) {
             if (mFirstData != null && mFirstData!!.isNotEmpty()) {
                 var average = 0f
                 try {
@@ -656,14 +657,14 @@ class ReportHRLineChartCard @JvmOverloads constructor(
 //        chart.setBackgroundColor(bgColor)
         chart.description.isEnabled = false
         chart.legend.isEnabled = false
-        chart.setTouchEnabled(true)
+        chart.setTouchEnabled(mIsChartEnable)
         chart.setYLimitLabelBgColor(mAverageLabelBgColor)
         chart.animateX(500)
         chart.setDrawGridBackground(false)
         chart.isHighlightPerDragEnabled = false
-        chart.isDragEnabled = true
-        chart.isScaleXEnabled = true
-        chart.isScaleYEnabled = false
+        chart.isDragEnabled = mIsChartEnable
+        chart.isScaleXEnabled = mIsChartEnable
+        chart.isScaleYEnabled = mIsChartEnable
         val marker = LineChartMarkView(context, mLineColor, mMarkViewTitle)
         marker.chartView = chart
         marker.setYOffset(10f.dp())
@@ -849,8 +850,13 @@ class ReportHRLineChartCard @JvmOverloads constructor(
     }
 
 
-    fun isShowYAxisLabels(flag:Boolean){
+    fun isShowYAxisLabels(flag: Boolean) {
         this.mIsDrawYAxisLabels = flag
+        initView()
+    }
+
+    fun isChartEnable(isChartEnable: Boolean) {
+        this.mIsChartEnable = isChartEnable
         initView()
     }
 }
