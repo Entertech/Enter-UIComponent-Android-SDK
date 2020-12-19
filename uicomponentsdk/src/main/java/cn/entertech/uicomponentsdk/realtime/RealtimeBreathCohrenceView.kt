@@ -13,7 +13,6 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -22,11 +21,12 @@ import cn.entertech.uicomponentsdk.utils.ScreenUtil
 import com.airbnb.lottie.LottieAnimationView
 import kotlinx.android.synthetic.main.view_meditation_hrv.view.*
 
-class RealtimeHRVView @JvmOverloads constructor(
+class RealtimeBreathCohrenceView @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var mIsShowXAxis: Boolean = false
     private var mMaxValue: Int = 50
     private var mRefreshTime: Int = 200
     private var mBuffer: Int = 2
@@ -54,26 +54,26 @@ class RealtimeHRVView @JvmOverloads constructor(
         mSelfView.layoutParams = layoutParams
         addView(mSelfView)
         var typeArray = context.obtainStyledAttributes(attributeSet,
-            R.styleable.RealtimeHRVView
+            R.styleable.RealtimeBreathCohrenceView
         )
-        mMainColor = typeArray.getColor(R.styleable.RealtimeHRVView_rhrvv_mainColor, mMainColor)
-        mTextColor = typeArray.getColor(R.styleable.RealtimeHRVView_rhrvv_textColor, mTextColor)
-        mAxisColor = typeArray.getColor(R.styleable.RealtimeHRVView_rhrvv_axisColor, mAxisColor)
-        mGridLineColor = typeArray.getColor(R.styleable.RealtimeHRVView_rhrvv_gridLineColor, mGridLineColor)
-        mBg = typeArray.getDrawable(R.styleable.RealtimeHRVView_rhrvv_background)
-        mLineWidth = typeArray.getDimension(R.styleable.RealtimeHRVView_rhrvv_lineWidth,mLineWidth)
-        mIsShowInfoIcon = typeArray.getBoolean(R.styleable.RealtimeHRVView_rhrvv_isShowInfoIcon, true)
-        mTitleText = typeArray.getString(R.styleable.RealtimeHRVView_rhrvv_titleText)
-        mInfoUrl = typeArray.getString(R.styleable.RealtimeHRVView_rhrvv_infoUrl)
+        mMainColor = typeArray.getColor(R.styleable.RealtimeBreathCohrenceView_rhrvv_mainColor, mMainColor)
+        mTextColor = typeArray.getColor(R.styleable.RealtimeBreathCohrenceView_rhrvv_textColor, mTextColor)
+        mAxisColor = typeArray.getColor(R.styleable.RealtimeBreathCohrenceView_rhrvv_axisColor, mAxisColor)
+        mGridLineColor = typeArray.getColor(R.styleable.RealtimeBreathCohrenceView_rhrvv_gridLineColor, mGridLineColor)
+        mBg = typeArray.getDrawable(R.styleable.RealtimeBreathCohrenceView_rhrvv_background)
+        mLineWidth = typeArray.getDimension(R.styleable.RealtimeBreathCohrenceView_rhrvv_lineWidth,mLineWidth)
+        mIsShowInfoIcon = typeArray.getBoolean(R.styleable.RealtimeBreathCohrenceView_rhrvv_isShowInfoIcon, true)
+        mTitleText = typeArray.getString(R.styleable.RealtimeBreathCohrenceView_rhrvv_titleText)
+        mInfoUrl = typeArray.getString(R.styleable.RealtimeBreathCohrenceView_rhrvv_infoUrl)
         if (mInfoUrl == null) {
             mInfoUrl = INFO_URL
         }
-        mTextFont = typeArray.getString(R.styleable.RealtimeHRVView_rhrvv_textFont)
-        mBuffer = typeArray.getInteger(R.styleable.RealtimeHRVView_rhrvv_buffer,mBuffer)
-        mMaxValue = typeArray.getInteger(R.styleable.RealtimeHRVView_rhrvv_maxValue,mMaxValue)
-        mRefreshTime = typeArray.getInteger(R.styleable.RealtimeHRVView_rhrvv_refreshTime,mRefreshTime)
+        mTextFont = typeArray.getString(R.styleable.RealtimeBreathCohrenceView_rhrvv_textFont)
+        mBuffer = typeArray.getInteger(R.styleable.RealtimeBreathCohrenceView_rhrvv_buffer,mBuffer)
+        mMaxValue = typeArray.getInteger(R.styleable.RealtimeBreathCohrenceView_rhrvv_maxValue,mMaxValue)
+        mRefreshTime = typeArray.getInteger(R.styleable.RealtimeBreathCohrenceView_rhrvv_refreshTime,mRefreshTime)
         mLineColor =
-            typeArray.getColor(R.styleable.RealtimeHRVView_rhrvv_lineColor, mLineColor)
+            typeArray.getColor(R.styleable.RealtimeBreathCohrenceView_rhrvv_lineColor, mLineColor)
         initView()
     }
 
@@ -102,13 +102,13 @@ class RealtimeHRVView @JvmOverloads constructor(
             }
         }
         sf_hrv.setRefreshTime(mRefreshTime)
+        sf_hrv.isDrawXAxis(mIsShowXAxis)
         sf_hrv.setBuffer(mBuffer)
         sf_hrv.setBackgroundColor(bgColor)
         sf_hrv.setLineColor(mLineColor)
         sf_hrv.setLineWidth(mLineWidth)
         sf_hrv.setGridLineColor(mGridLineColor)
         sf_hrv.setAxisColor(mAxisColor)
-        sf_hrv.setMaxValue(mMaxValue)
         setTextFont()
     }
 
@@ -124,7 +124,7 @@ class RealtimeHRVView @JvmOverloads constructor(
         if (data == null){
             return
         }
-        mSelfView.findViewById<HRVSurfaceView>(R.id.sf_hrv).setData(data)
+        mSelfView.findViewById<BreathCoherenceSurfaceView>(R.id.sf_hrv).setData(data)
     }
 
     fun showLoadingCover() {
@@ -145,7 +145,7 @@ class RealtimeHRVView @JvmOverloads constructor(
         for (i in 0..200) {
             sampleBrainData.add(java.util.Random().nextDouble() * 50)
         }
-        mSelfView.findViewById<HRVSurfaceView>(R.id.sf_hrv).setSampleData(sampleBrainData)
+        mSelfView.findViewById<BreathCoherenceSurfaceView>(R.id.sf_hrv).setSampleData(sampleBrainData)
     }
 
     fun showErrorMessage(error: String) {
@@ -190,6 +190,11 @@ class RealtimeHRVView @JvmOverloads constructor(
         this.mIsShowInfoIcon = flag
         this.mInfoUrl = url
         this.mInfoIconRes = res
+        initView()
+    }
+
+    fun setIsShowXAxis(flag: Boolean){
+        this.mIsShowXAxis = flag
         initView()
     }
 }

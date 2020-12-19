@@ -21,7 +21,7 @@ import java.util.List;
 import cn.entertech.uicomponentsdk.R;
 import cn.entertech.uicomponentsdk.utils.ScreenUtil;
 
-public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
+public class BreathCoherenceSurfaceView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
     private Context mContext;
     private float mLineWidth;
     private float mRightPadding;
@@ -33,8 +33,9 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
     private int mBgColor = Color.parseColor("#f2f4fb");
     private Paint mCruvePaint;
     private List<Double> mSourceData = new ArrayList<>();
-    List<Double> drawData = new ArrayList<>();
+    List<Double> realData = new ArrayList<>();
     List<Double> sampleData = new ArrayList<>();
+    List<Double> screenData = new ArrayList<>();
     private boolean isViewActivity;
     private SurfaceHolder mSurfaceHolder;
     public static int BRAIN_QUEUE_LENGTH = 35;
@@ -44,37 +45,38 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
     private Paint mGridLinePaint;
     private Paint mBgPaint;
     private boolean isShowSampleData = false;
-    private int mMaxValue = 90;
-    private int mMinValue = 60;
+    private int mMaxValue = -1;
+    private int mMinValue = -1;
     private Paint mYAxisLabelPaint;
     private int mYAxisMargin;
     private int mRefreshTime = 200;
     private int offset = 10;
+    private boolean mIsDrawXAxis = true;
 
-    public HRVSurfaceView(Context context) {
+    public BreathCoherenceSurfaceView(Context context) {
         this(context, null);
     }
 
-    public HRVSurfaceView(Context context, AttributeSet attrs) {
+    public BreathCoherenceSurfaceView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public HRVSurfaceView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public BreathCoherenceSurfaceView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.mContext = context;
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.HRVSurfaceView);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.BreathCoherenceSurfaceView);
         if (typedArray != null) {
-            mLineColor = typedArray.getColor(R.styleable.HRVSurfaceView_hrvsf_lineColor, mLineColor);
-            mBgColor = typedArray.getColor(R.styleable.HRVSurfaceView_hrvsf_bgColor, mBgColor);
-            mAxisColor = typedArray.getColor(R.styleable.HRVSurfaceView_hrvsf_yAxisColor, mAxisColor);
-            mGridLineColor = typedArray.getColor(R.styleable.HRVSurfaceView_hrvsf_gridLineColor, mGridLineColor);
-            mGridLineCount = typedArray.getInteger(R.styleable.HRVSurfaceView_hrvsf_gridLineCount, mGridLineCount);
-            mLeftPadding = typedArray.getDimension(R.styleable.HRVSurfaceView_hrvsf_leftPadding, ScreenUtil.dip2px(context, 5));
-            mRightPadding = typedArray.getDimension(R.styleable.HRVSurfaceView_hrvsf_rightPadding, ScreenUtil.dip2px(context, 5));
-            mLineWidth = typedArray.getDimension(R.styleable.HRVSurfaceView_hrvsf_lineWidth, 3);
-            mMaxValue = typedArray.getInteger(R.styleable.HRVSurfaceView_hrvsf_maxValue, mMaxValue);
-            mBuffer = typedArray.getInteger(R.styleable.HRVSurfaceView_hrvsf_buffer, mBuffer);
-            mRefreshTime = typedArray.getInteger(R.styleable.HRVSurfaceView_hrvsf_refreshTime, mRefreshTime);
+            mLineColor = typedArray.getColor(R.styleable.BreathCoherenceSurfaceView_hrvsf_lineColor, mLineColor);
+            mBgColor = typedArray.getColor(R.styleable.BreathCoherenceSurfaceView_hrvsf_bgColor, mBgColor);
+            mAxisColor = typedArray.getColor(R.styleable.BreathCoherenceSurfaceView_hrvsf_yAxisColor, mAxisColor);
+            mGridLineColor = typedArray.getColor(R.styleable.BreathCoherenceSurfaceView_hrvsf_gridLineColor, mGridLineColor);
+            mGridLineCount = typedArray.getInteger(R.styleable.BreathCoherenceSurfaceView_hrvsf_gridLineCount, mGridLineCount);
+            mLeftPadding = typedArray.getDimension(R.styleable.BreathCoherenceSurfaceView_hrvsf_leftPadding, ScreenUtil.dip2px(context, 5));
+            mRightPadding = typedArray.getDimension(R.styleable.BreathCoherenceSurfaceView_hrvsf_rightPadding, ScreenUtil.dip2px(context, 5));
+            mLineWidth = typedArray.getDimension(R.styleable.BreathCoherenceSurfaceView_hrvsf_lineWidth, 3);
+            mMaxValue = typedArray.getInteger(R.styleable.BreathCoherenceSurfaceView_hrvsf_maxValue, mMaxValue);
+            mBuffer = typedArray.getInteger(R.styleable.BreathCoherenceSurfaceView_hrvsf_buffer, mBuffer);
+            mRefreshTime = typedArray.getInteger(R.styleable.BreathCoherenceSurfaceView_hrvsf_refreshTime, mRefreshTime);
         }
         initPaint();
     }
@@ -142,7 +144,7 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
 
     private void initData() {
         for (int i = 0; i < BRAIN_QUEUE_LENGTH; i++) {
-            drawData.add(0.0);
+            realData.add(0.0);
         }
     }
 
@@ -183,7 +185,9 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
         canvas.drawRect(0, 0, getWidth(), getHeight(), mBgPaint);
 //        canvas.drawColor(mBgColor,PorterDuff.Mode.CLEAR);
         float lineOffset = (getWidth() - (mLeftPadding + mRightPadding) - mYAxisMargin) / 4;
-        canvas.drawLine(mLeftPadding + mYAxisMargin, getHeight() - 0.5f, getWidth() - mRightPadding, getHeight() - 0.5f, mAxisPaint);
+        if (mIsDrawXAxis) {
+            canvas.drawLine(mLeftPadding + mYAxisMargin, getHeight() - 0.5f, getWidth() - mRightPadding, getHeight() - 0.5f, mAxisPaint);
+        }
         for (int i = 0; i < (mGridLineCount + 1); i++) {
             if (i == 0) {
                 canvas.drawLine(mLeftPadding + mYAxisMargin, 0, mLeftPadding + mYAxisMargin, getHeight(), mAxisPaint);
@@ -200,16 +204,16 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
     Path path = new Path();
 
     public void onDrawHrv(Canvas canvas) {
-        float pointOffset = getWidth() * 1f / (drawData.size() - 1);
+        float pointOffset = getWidth() * 1f / (screenData.size() - 1);
         dealData();
         //获得canvas对象
         canvas.translate(mLeftPadding + mYAxisMargin, getHeight());
         path.reset();
 //        Log.d("####", "draw data is " + drawData.toString());
-        for (int i = 0; i < drawData.size(); i++) {
+        for (int i = 0; i < screenData.size(); i++) {
             if (i == 0)
-                path.moveTo(i * pointOffset, (float) (-(drawData.get(i))));
-            path.lineTo(i * pointOffset, (float) (-(drawData.get(i))));
+                path.moveTo(i * pointOffset, (float) (-(screenData.get(i))));
+            path.lineTo(i * pointOffset, (float) (-(screenData.get(i))));
         }
         canvas.drawPath(path, mCruvePaint);
 
@@ -251,35 +255,38 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
     }
 
     public void dealData() {
-        int max = Collections.max(mSourceData).intValue();
-        int min = Collections.min(mSourceData).intValue();
-        if (max > mMaxValue) {
-            mMaxValue = max +offset ;
-        }
-        if (min < mMinValue && min != 0) {
-            mMinValue = min-offset;
+        if (mSourceData.size() == 0) {
+            realData.add(0.0);
+            realData.remove(0);
+        } else {
+            if (mSourceData.get(0) == 0) {
+                realData.add(0.0);
+            } else {
+                realData.add((mSourceData.get(0)));
+            }
+            mSourceData.remove(0);
+            realData.remove(0);
+            List<Double> tempList = new ArrayList<>();
+            int mMaxValue = Collections.max(realData).intValue()+1;
+            int mMinValue = Collections.min(realData).intValue()-1;
             if (mMinValue < 0){
                 mMinValue = 0;
             }
-        }
-        if (mSourceData.size() == 0) {
-            drawData.add(0.0);
-            drawData.remove(0);
-        } else {
-            float times = (mMaxValue-mMinValue) * 1.0f / (getHeight());
-//            if (mSourceData.get(0) == 0.0) {
-//                drawData.add(1.0);
-//                mSourceData.remove(0);
-//                drawData.remove(0);
-//            } else {
-            if (mSourceData.get(0) == 0){
-                drawData.add(0.0);
-            }else{
-                drawData.add((mSourceData.get(0)-mMinValue) / times);
+            float times =(getHeight())/ (mMaxValue - mMinValue) * 1.0f ;
+            screenData.clear();
+            if (times != 0) {
+                for (int i = 0; i < realData.size(); i++) {
+                    if (realData.get(i) != 0) {
+                        screenData.add((realData.get(i) - mMinValue) * times);
+                    } else {
+                        screenData.add(0.0);
+                    }
+                }
+            } else {
+                for (int i = 0; i < realData.size(); i++) {
+                    screenData.add(0.0);
+                }
             }
-            mSourceData.remove(0);
-            drawData.remove(0);
-//            }
         }
     }
 
@@ -327,6 +334,11 @@ public class HRVSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
     public void setBackgroundColor(int color) {
         this.mBgColor = color;
         mBgPaint.setColor(mBgColor);
+        invalidate();
+    }
+
+    public void isDrawXAxis(boolean flag) {
+        this.mIsDrawXAxis = flag;
         invalidate();
     }
 

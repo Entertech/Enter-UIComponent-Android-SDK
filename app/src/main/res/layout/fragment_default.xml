@@ -279,7 +279,7 @@
 
             </cn.entertech.uicomponentsdk.realtime.RealtimeBrainwaveView>
 
-            <cn.entertech.uicomponentsdk.realtime.RealtimeHRVView
+            <cn.entertech.uicomponentsdk.realtime.RealtimeBreathCohrenceView
                     android:id="@+id/realtime_hrv"
                     app:rhrvv_titleText="HRV"
                     android:layout_marginTop="@dimen/activity_margin_half"

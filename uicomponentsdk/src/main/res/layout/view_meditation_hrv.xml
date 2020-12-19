@@ -53,7 +53,7 @@
 
             </RelativeLayout>
 
-            <cn.entertech.uicomponentsdk.realtime.HRVSurfaceView
+            <cn.entertech.uicomponentsdk.realtime.BreathCoherenceSurfaceView
                     android:id="@+id/sf_hrv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -61,7 +61,6 @@
                     android:layout_marginTop="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
                     android:layout_marginBottom="14dp"
-                    app:hrvsf_maxValue="120"
                     />
 
         </LinearLayout>

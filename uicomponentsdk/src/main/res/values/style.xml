@@ -13,7 +13,7 @@
         <attr name="bwsf_maxValue" format="integer" />
     </declare-styleable>
 
-    <declare-styleable name="HRVSurfaceView">
+    <declare-styleable name="BreathCoherenceSurfaceView">
         <attr name="hrvsf_lineColor" format="color" />
         <attr name="hrvsf_lineWidth" format="dimension" />
         <attr name="hrvsf_yAxisColor" format="color" />
@@ -128,7 +128,7 @@
     </declare-styleable>
 
 
-    <declare-styleable name="RealtimeHRVView">
+    <declare-styleable name="RealtimeBreathCohrenceView">
         <attr name="rhrvv_background" format="reference|color" />
         <attr name="rhrvv_mainColor" format="color" />
         <attr name="rhrvv_textColor" format="color" />

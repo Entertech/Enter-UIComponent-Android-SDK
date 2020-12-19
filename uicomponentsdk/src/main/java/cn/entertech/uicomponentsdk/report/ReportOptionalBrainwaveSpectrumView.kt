@@ -271,31 +271,33 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
             rl_corner_icon_bg.visibility = View.GONE
         }
         iv_menu.setOnClickListener {
-            if (isFullScreen) {
-                (context as Activity).finish()
-            } else {
-                var intent = Intent(context, BrainwaveOptionalLineChartActivity::class.java)
-                intent.putExtra("pointCount", mPointCount)
-                intent.putExtra("timeUnit", mTimeUnit)
-                intent.putExtra("highlightLineColor", mHighlightLineColor)
-                intent.putExtra("highlightLineWidth", mHighlightLineWidth)
-                intent.putExtra("lineWidth", mLineWidth)
-                intent.putExtra("markViewBgColor", mMarkViewBgColor)
-                intent.putExtra("markViewTitleColor", mMarkViewTitleColor)
-                intent.putExtra("markViewValueColor", mMarkViewValueColor)
-                intent.putExtra("spectrumColors", mSpectrumColors?.toIntArray())
-                intent.putExtra("gridLineColor", mGridLineColor)
-                intent.putExtra("xAxisUnit", mXAxisUnit)
-                intent.putExtra("textColor", mTextColor)
-                intent.putExtra("bgColor", bgColor)
-                intent.putExtra("labelColor", mLabelColor)
-                intent.putExtra("gammaData", mBrainwaveSpectrums!![0].toDoubleArray())
-                intent.putExtra("betaData", mBrainwaveSpectrums!![1].toDoubleArray())
-                intent.putExtra("alphaData", mBrainwaveSpectrums!![2].toDoubleArray())
-                intent.putExtra("thetaData", mBrainwaveSpectrums!![3].toDoubleArray())
-                intent.putExtra("deltaData", mBrainwaveSpectrums!![4].toDoubleArray())
-                intent.putExtra("isLegendShowList", legendIsCheckList.toBooleanArray())
-                context.startActivity(intent)
+            if (!mIsTitleMenuIconBgShow) {
+                if (isFullScreen) {
+                    (context as Activity).finish()
+                } else {
+                    var intent = Intent(context, BrainwaveOptionalLineChartActivity::class.java)
+                    intent.putExtra("pointCount", mPointCount)
+                    intent.putExtra("timeUnit", mTimeUnit)
+                    intent.putExtra("highlightLineColor", mHighlightLineColor)
+                    intent.putExtra("highlightLineWidth", mHighlightLineWidth)
+                    intent.putExtra("lineWidth", mLineWidth)
+                    intent.putExtra("markViewBgColor", mMarkViewBgColor)
+                    intent.putExtra("markViewTitleColor", mMarkViewTitleColor)
+                    intent.putExtra("markViewValueColor", mMarkViewValueColor)
+                    intent.putExtra("spectrumColors", mSpectrumColors?.toIntArray())
+                    intent.putExtra("gridLineColor", mGridLineColor)
+                    intent.putExtra("xAxisUnit", mXAxisUnit)
+                    intent.putExtra("textColor", mTextColor)
+                    intent.putExtra("bgColor", bgColor)
+                    intent.putExtra("labelColor", mLabelColor)
+                    intent.putExtra("gammaData", mBrainwaveSpectrums!![0].toDoubleArray())
+                    intent.putExtra("betaData", mBrainwaveSpectrums!![1].toDoubleArray())
+                    intent.putExtra("alphaData", mBrainwaveSpectrums!![2].toDoubleArray())
+                    intent.putExtra("thetaData", mBrainwaveSpectrums!![3].toDoubleArray())
+                    intent.putExtra("deltaData", mBrainwaveSpectrums!![4].toDoubleArray())
+                    intent.putExtra("isLegendShowList", legendIsCheckList.toBooleanArray())
+                    context.startActivity(intent)
+                }
             }
         }
 
@@ -537,9 +539,9 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
             dataSets.add(set1) // add the data sets
         }
         // create a data object with the data sets
-        maxValue = maxValue?:100f + 10f
-        minValue = minValue?:0f
-        drawYLimit(maxValue,minValue)
+        maxValue = maxValue ?: 100f + 10f
+        minValue = minValue ?: 0f
+        drawYLimit(maxValue, minValue)
         chart.axisLeft.axisMaximum = maxValue
         chart.axisLeft.axisMinimum = minValue
         val data = LineData(dataSets)
@@ -549,7 +551,7 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
         chart.notifyDataSetChanged()
     }
 
-    fun drawYLimit(maxValue:Float,minValue:Float){
+    fun drawYLimit(maxValue: Float, minValue: Float) {
         var yLimitLineDelta = ((maxValue!! - minValue!!) / 4f)
 
         var yLimitLineValues = listOf<Float>(
