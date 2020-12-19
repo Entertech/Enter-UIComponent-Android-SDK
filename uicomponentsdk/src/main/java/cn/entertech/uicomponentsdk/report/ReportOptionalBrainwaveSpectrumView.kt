@@ -59,6 +59,7 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var mIsChartEnable: Boolean = true
     private var mLineWidth: Float = 1f.dp()
     private var sampleData: java.util.ArrayList<java.util.ArrayList<Double>>? = null
     private var mSmallTitle: String? = ""
@@ -685,16 +686,16 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
         chart.getDescription().setEnabled(false)
         chart.legend.isEnabled = false
         // enable touch gestures
-        chart.setTouchEnabled(true)
+        chart.setTouchEnabled(mIsChartEnable)
 
         chart.isHighlightPerDragEnabled = false
         chart.setMaxVisibleValueCount(100000)
         chart.setDrawGridBackground(false)
         // enable scaling and dragging
-        chart.setDragEnabled(true)
+        chart.setDragEnabled(mIsChartEnable)
 //        chart.setScaleEnabled(true)
-        chart.setScaleXEnabled(true)
-        chart.setScaleYEnabled(false)
+        chart.setScaleXEnabled(mIsChartEnable)
+        chart.setScaleYEnabled(mIsChartEnable)
         chart.extraTopOffset = 24f.dp()
         // force pinch zoom along both axis
         chart.setPinchZoom(true)
@@ -790,4 +791,8 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
         initView()
     }
 
+    fun isChartEnable(isChartEnable: Boolean) {
+        this.mIsChartEnable = isChartEnable
+        initView()
+    }
 }
