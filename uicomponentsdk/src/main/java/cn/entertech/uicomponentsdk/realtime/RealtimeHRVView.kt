@@ -27,6 +27,8 @@ class RealtimeHRVView @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var mMaxValue: Int = 50
+    private var mRefreshTime: Int = 200
     private var mBuffer: Int = 2
     private var mInfoIconRes: Int? = null
     private var mLineColor: Int = Color.parseColor("#ff4852")
@@ -68,6 +70,8 @@ class RealtimeHRVView @JvmOverloads constructor(
         }
         mTextFont = typeArray.getString(R.styleable.RealtimeHRVView_rhrvv_textFont)
         mBuffer = typeArray.getInteger(R.styleable.RealtimeHRVView_rhrvv_buffer,mBuffer)
+        mMaxValue = typeArray.getInteger(R.styleable.RealtimeHRVView_rhrvv_maxValue,mMaxValue)
+        mRefreshTime = typeArray.getInteger(R.styleable.RealtimeHRVView_rhrvv_refreshTime,mRefreshTime)
         mLineColor =
             typeArray.getColor(R.styleable.RealtimeHRVView_rhrvv_lineColor, mLineColor)
         initView()
@@ -97,12 +101,14 @@ class RealtimeHRVView @JvmOverloads constructor(
                 bgColor = (mBg as GradientDrawable).color.defaultColor
             }
         }
+        sf_hrv.setRefreshTime(mRefreshTime)
         sf_hrv.setBuffer(mBuffer)
         sf_hrv.setBackgroundColor(bgColor)
         sf_hrv.setLineColor(mLineColor)
         sf_hrv.setLineWidth(mLineWidth)
         sf_hrv.setGridLineColor(mGridLineColor)
         sf_hrv.setAxisColor(mAxisColor)
+        sf_hrv.setMaxValue(mMaxValue)
         setTextFont()
     }
 

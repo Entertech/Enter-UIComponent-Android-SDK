@@ -24,6 +24,7 @@
         <attr name="hrvsf_bgColor" format="color" />
         <attr name="hrvsf_maxValue" format="integer" />
         <attr name="hrvsf_buffer" format="integer" />
+        <attr name="hrvsf_refreshTime" format="integer" />
     </declare-styleable>
 
     <declare-styleable name="EmotionIndicatorView">
@@ -140,6 +141,8 @@
         <attr name="rhrvv_lineWidth" format="dimension" />
         <attr name="rhrvv_titleText" format="string" />
         <attr name="rhrvv_buffer" format="integer" />
+        <attr name="rhrvv_maxValue" format="integer" />
+        <attr name="rhrvv_refreshTime" format="integer" />
     </declare-styleable>
 
 

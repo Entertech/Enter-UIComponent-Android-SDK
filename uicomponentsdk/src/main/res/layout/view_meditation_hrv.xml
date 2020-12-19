@@ -61,7 +61,7 @@
                     android:layout_marginTop="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
                     android:layout_marginBottom="14dp"
-                    app:hrvsf_maxValue="50"
+                    app:hrvsf_maxValue="120"
                     />
 
         </LinearLayout>

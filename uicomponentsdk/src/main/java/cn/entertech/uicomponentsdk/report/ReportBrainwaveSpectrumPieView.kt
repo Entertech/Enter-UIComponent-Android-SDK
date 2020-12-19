@@ -107,8 +107,11 @@ class ReportBrainwaveSpectrumPieView @JvmOverloads constructor(
         if (mIsShowTitleMenuIcon) {
             iv_menu.visibility = View.VISIBLE
             iv_menu.setImageDrawable(mTitleMenuIcon)
+            iv_menu_icon.setImageDrawable(mTitleMenuIcon)
+            iv_menu_icon.visibility = View.VISIBLE
         } else {
             iv_menu.visibility = View.GONE
+            iv_menu_icon.visibility = View.GONE
         }
         if (mBg != null) {
             ll_bg.background = mBg

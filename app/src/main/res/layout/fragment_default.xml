@@ -286,6 +286,7 @@
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
                     android:layout_width="match_parent"
+                    app:rhrvv_maxValue="120"
                     android:layout_height="200dp"/>
             <TextView
                     android:layout_marginTop="32dp"

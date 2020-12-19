@@ -93,7 +93,7 @@
                             android:paddingRight="@dimen/activity_margin_half"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="low"
+                            android:text="ms"
                             android:textColor="@color/colorUnit"
                             />
                 </LinearLayout>
