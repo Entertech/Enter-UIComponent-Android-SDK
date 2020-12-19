@@ -92,7 +92,8 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
     var mPointCount: Int = 100
     var mTimeOfTwoPoint: Int = 0
 
-    var legendIsCheckList = listOf(true,false,true,false,true)
+    var legendIsCheckList = listOf(true, false, true, false, true)
+
     companion object {
         const val INFO_URL = "https://www.notion.so/Attention-84fef81572a848efbf87075ab67f4cfe"
         const val SPECTRUM_COLORS = "#FF6682,#5E75FF,#F7C77E,#5FC695,#FB9C98"
@@ -333,8 +334,10 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
             legend_theta.setLegendIconColor(mSpectrumColors!![3])
             legend_delta.setLegendIconColor(mSpectrumColors!![4])
         }
-        for (i in legendIsCheckList.indices){
-            (ll_legend_parent.getChildAt(i) as OptionalBrainChartLegendView).setCheck(legendIsCheckList[i])
+        for (i in legendIsCheckList.indices) {
+            (ll_legend_parent.getChildAt(i) as OptionalBrainChartLegendView).setCheck(
+                legendIsCheckList[i]
+            )
         }
         legend_gamma.setOnClickListener {
             if (isLegendClickable() || !legend_gamma.mIsChecked) {
@@ -439,30 +442,6 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
         var alphaAverage = ArrayList<Double>()
         var thetaAverage = ArrayList<Double>()
         var deltaAverage = ArrayList<Double>()
-        var minValue = listOf<Double>(
-            brainwaveSpectrums[1].min() ?: 0.0,
-            brainwaveSpectrums[1].min() ?: 0.0,
-            brainwaveSpectrums[2].min() ?: 0.0,
-            brainwaveSpectrums[3].min() ?: 0.0,
-            brainwaveSpectrums[4].min() ?: 0.0
-        ).min()
-        var maxValue = listOf<Double>(
-            brainwaveSpectrums[1].max() ?: 0.0,
-            brainwaveSpectrums[1].max() ?: 0.0,
-            brainwaveSpectrums[2].max() ?: 0.0,
-            brainwaveSpectrums[3].max() ?: 0.0,
-            brainwaveSpectrums[4].max() ?: 0.0
-        ).max()
-        maxValue = maxValue!! + 4.0
-        if (maxValue > 120.0) {
-            maxValue = 120.0
-        }
-        minValue = minValue!! - 4.0
-        if (minValue < 0) {
-            minValue = 0.0
-        }
-        chart.axisLeft.axisMaximum = maxValue?.toFloat()
-        chart.axisLeft.axisMinimum = minValue?.toFloat()
 
         for (i in brainwaveSpectrums[0]!!.indices) {
 
@@ -502,24 +481,6 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
             currentMin += minOffset
         }
 
-        var yLimitLineDelta = ((maxValue!! - minValue!!) / 4f).toFloat()
-
-        var yLimitLineValues = listOf<Float>(
-            minValue.toFloat() + yLimitLineDelta,
-            minValue.toFloat() + 2 * yLimitLineDelta,
-            minValue.toFloat() + 3 * yLimitLineDelta,
-            minValue.toFloat() + 4 * yLimitLineDelta
-        )
-        yLimitLineValues.forEach {
-            var limitLine: LimitLine? = null
-            limitLine = LimitLine(it, "")
-            limitLine?.enableDashedLine(10f, 10f, 0f)
-            limitLine?.lineWidth = 1f
-            limitLine?.yOffset = -4f
-            limitLine?.textColor = mLabelColor
-            limitLine?.lineColor = mGridLineColor
-            chart.axisLeft.addLimitLine(limitLine)
-        }
         chartInvalidate()
     }
 
@@ -527,12 +488,26 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
     fun chartInvalidate() {
         dataSets.clear()
         chart.clear()
+        var maxValue: Float? = null
+        var minValue: Float? = null
         for (i in 0..4) {
             if (!legendIsCheckList?.get(i)) {
                 continue
             }
             val values = ArrayList<Entry>()
             for (j in sampleData!![i].indices) {
+                if (maxValue == null) {
+                    maxValue = sampleData!![i][0].toFloat()
+                }
+                if (minValue == null) {
+                    minValue = sampleData!![i][0].toFloat()
+                }
+                if (sampleData!![i][j].toFloat() > maxValue) {
+                    maxValue = sampleData!![i][j].toFloat()
+                }
+                if (sampleData!![i][j].toFloat() < minValue) {
+                    minValue = sampleData!![i][j].toFloat()
+                }
                 values.add(Entry(j.toFloat(), sampleData!![i][j].toFloat()))
             }
 
@@ -562,11 +537,38 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
             dataSets.add(set1) // add the data sets
         }
         // create a data object with the data sets
+        maxValue = maxValue?:100f + 10f
+        minValue = minValue?:0f
+        drawYLimit(maxValue,minValue)
+        chart.axisLeft.axisMaximum = maxValue
+        chart.axisLeft.axisMinimum = minValue
         val data = LineData(dataSets)
         marker.setDataSets(dataSets)
         // set data
         chart.data = data
         chart.notifyDataSetChanged()
+    }
+
+    fun drawYLimit(maxValue:Float,minValue:Float){
+        var yLimitLineDelta = ((maxValue!! - minValue!!) / 4f)
+
+        var yLimitLineValues = listOf<Float>(
+            minValue + yLimitLineDelta,
+            minValue + 2 * yLimitLineDelta,
+            minValue + 3 * yLimitLineDelta,
+            minValue + 4 * yLimitLineDelta
+        )
+        chart.axisLeft.removeAllLimitLines()
+        yLimitLineValues.forEach {
+            var limitLine: LimitLine? = null
+            limitLine = LimitLine(it, "")
+            limitLine?.enableDashedLine(10f, 10f, 0f)
+            limitLine?.lineWidth = 1f
+            limitLine?.yOffset = -4f
+            limitLine?.textColor = mLabelColor
+            limitLine?.lineColor = mGridLineColor
+            chart.axisLeft.addLimitLine(limitLine)
+        }
     }
 
     fun cancelHighlight() {
@@ -786,7 +788,7 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
         initView()
     }
 
-    fun setLegendShowList(lists:List<Boolean>){
+    fun setLegendShowList(lists: List<Boolean>) {
         this.legendIsCheckList = lists
         initView()
     }

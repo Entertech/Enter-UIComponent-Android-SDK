@@ -58,7 +58,7 @@ class ReportDefaultFragment : Fragment() {
             reportData.reportEEGDataEntity!!.thetaCurve!!.map { it * 100.0 } as ArrayList<Double>,
             reportData.reportEEGDataEntity!!.deltaCurve!!.map { it * 100.0 } as ArrayList<Double>
         )
-        chart_brainwave.isChartEnable(false)
+        chart_brainwave.isChartEnable(true)
         chart_brainwave.setLegendShowList(listOf(true,true,true,true,true))
         chart_brainwave.setData(
             spectrumList
