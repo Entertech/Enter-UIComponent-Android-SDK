@@ -574,7 +574,7 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
     }
 
     fun cancelHighlight() {
-        ll_title.visibility = View.VISIBLE
+        ll_legend_parent.visibility = View.VISIBLE
         chart.highlightValue(null)
         dataSets.map {
             it as LineDataSet
@@ -652,7 +652,7 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
 
             override fun onValueSelected(e: Entry, h: Highlight?) {
                 chart.highlightValue(null, false)
-                ll_title.visibility = View.GONE
+                ll_legend_parent.visibility = View.GONE
                 for (i in iconList.indices) {
                     iconList[i].color = mSpectrumColors!![i]
                 }
@@ -700,7 +700,7 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
 //        chart.setScaleEnabled(true)
         chart.setScaleXEnabled(mIsChartEnable)
         chart.setScaleYEnabled(false)
-        chart.extraTopOffset = 24f.dp()
+        chart.extraTopOffset = 21f.dp()
         // force pinch zoom along both axis
         chart.setPinchZoom(true)
         val xAxis: XAxis = chart.xAxis
@@ -731,7 +731,7 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
 
 
         // draw limit lines behind data instead of on top
-        yAxis.setDrawLimitLinesBehindData(false)
+        yAxis.setDrawLimitLinesBehindData(true)
         xAxis.setDrawLimitLinesBehindData(false)
         // add limit lines
         setChartListener()
