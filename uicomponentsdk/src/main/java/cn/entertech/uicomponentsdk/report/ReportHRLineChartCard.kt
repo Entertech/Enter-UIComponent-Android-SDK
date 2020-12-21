@@ -263,12 +263,12 @@ class ReportHRLineChartCard @JvmOverloads constructor(
 
     fun initLegned() {
         if (!mIsShowLegend) {
-//            mChartExtraTopOffset = 12f.dp()
+            mChartExtraTopOffset = 24f.dp()
             mSelfView?.findViewById<LinearLayout>(R.id.ll_legend)?.visibility = View.GONE
             mSelfView?.findViewById<TextView>(R.id.tv_coh_time_value)?.visibility = View.GONE
             mSelfView?.findViewById<TextView>(R.id.tv_coh_time_value_2)?.visibility = View.VISIBLE
         } else {
-//            mChartExtraTopOffset = 22f.dp()
+            mChartExtraTopOffset = 24f.dp()
             mSelfView?.findViewById<LinearLayout>(R.id.ll_legend)?.visibility = View.VISIBLE
             mSelfView?.findViewById<TextView>(R.id.tv_coh_time_value)?.visibility = View.VISIBLE
             mSelfView?.findViewById<TextView>(R.id.tv_coh_time_value_2)?.visibility = View.GONE
@@ -664,7 +664,7 @@ class ReportHRLineChartCard @JvmOverloads constructor(
         chart.isHighlightPerDragEnabled = false
         chart.isDragEnabled = mIsChartEnable
         chart.isScaleXEnabled = mIsChartEnable
-        chart.isScaleYEnabled = mIsChartEnable
+        chart.isScaleYEnabled = false
         val marker = LineChartMarkView(context, mLineColor, mMarkViewTitle)
         marker.chartView = chart
         marker.setYOffset(10f.dp())

@@ -699,7 +699,7 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
         chart.setDragEnabled(mIsChartEnable)
 //        chart.setScaleEnabled(true)
         chart.setScaleXEnabled(mIsChartEnable)
-        chart.setScaleYEnabled(mIsChartEnable)
+        chart.setScaleYEnabled(false)
         chart.extraTopOffset = 24f.dp()
         // force pinch zoom along both axis
         chart.setPinchZoom(true)
