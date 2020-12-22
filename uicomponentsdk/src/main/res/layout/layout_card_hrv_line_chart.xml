@@ -53,7 +53,7 @@
             <LinearLayout
                     android:id="@+id/ll_legend"
                     android:visibility="gone"
-                    android:layout_marginTop="@dimen/activity_margin"
+                    android:layout_marginTop="@dimen/activity_margin_half"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/activity_margin"

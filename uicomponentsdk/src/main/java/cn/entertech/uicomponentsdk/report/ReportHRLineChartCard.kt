@@ -263,12 +263,12 @@ class ReportHRLineChartCard @JvmOverloads constructor(
 
     fun initLegned() {
         if (!mIsShowLegend) {
-            mChartExtraTopOffset = 24f.dp()
+            mChartExtraTopOffset = 26f.dp()
             mSelfView?.findViewById<LinearLayout>(R.id.ll_legend)?.visibility = View.GONE
             mSelfView?.findViewById<TextView>(R.id.tv_coh_time_value)?.visibility = View.GONE
             mSelfView?.findViewById<TextView>(R.id.tv_coh_time_value_2)?.visibility = View.VISIBLE
         } else {
-            mChartExtraTopOffset = 24f.dp()
+            mChartExtraTopOffset = 26f.dp()
             mSelfView?.findViewById<LinearLayout>(R.id.ll_legend)?.visibility = View.VISIBLE
             mSelfView?.findViewById<TextView>(R.id.tv_coh_time_value)?.visibility = View.VISIBLE
             mSelfView?.findViewById<TextView>(R.id.tv_coh_time_value_2)?.visibility = View.GONE
