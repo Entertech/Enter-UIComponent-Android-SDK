@@ -23,6 +23,7 @@ class ReportAverageChartCard @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var mIsAverageInt: Boolean = false
     private var mBarHighLightColor: Int = Color.parseColor("#FFE4BB")
     private var mTag: String? = ""
     private var mUnit: String? = ""
@@ -118,6 +119,7 @@ class ReportAverageChartCard @JvmOverloads constructor(
     }
 
     fun initChart() {
+        average_bar_chart.setAverageInt(mIsAverageInt)
         average_bar_chart.setUnit(mUnit)
         average_bar_chart.setBarColor(mBarColor)
         average_bar_chart.setPrimaryTextColor(mMainColor)
@@ -160,5 +162,10 @@ class ReportAverageChartCard @JvmOverloads constructor(
 
     fun setTipTextColor(color:Int){
         tv_tip.setTextColor(color)
+    }
+
+    fun setAverageInt(flag:Boolean){
+        this.mIsAverageInt = flag
+        initView()
     }
 }

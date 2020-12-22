@@ -45,4 +45,8 @@
     <string name="sdk_report_last_7_time_tip_foot_3">is the same as the average of last 7 times.</string>
     <string name="last_7_time"><![CDATA[Last 7 times ->]]></string>
     <string name="sdk_sleep_state">Sleep State</string>
+    <string name="sdk_mins">min</string>
+    <string name="sdk_second">s</string>
+    <string name="sdk_hour">hour</string>
+    <string name="sdk_hours">hours</string>
 </resources>

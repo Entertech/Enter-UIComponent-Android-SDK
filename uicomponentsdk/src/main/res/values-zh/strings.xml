@@ -45,4 +45,8 @@
     <string name="sdk_report_last_7_time_tip_foot_3">等于前七次平均值</string>
     <string name="last_7_time"><![CDATA[最近七次->]]></string>
     <string name="sdk_sleep_state">睡眠状态</string>
+    <string name="sdk_mins">分</string>
+    <string name="sdk_second">秒</string>
+    <string name="sdk_hour">时</string>
+    <string name="sdk_hours">时</string>
 </resources>

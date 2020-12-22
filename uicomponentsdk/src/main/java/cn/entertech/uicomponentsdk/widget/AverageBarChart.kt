@@ -6,13 +6,16 @@ import android.util.AttributeSet
 import android.view.View
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.utils.ScreenUtil
+import cn.entertech.uicomponentsdk.utils.TimeUtils
 import cn.entertech.uicomponentsdk.utils.getOpacityColor
+import java.text.DecimalFormat
 
 class AverageBarChart @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     def: Int = 0
 ) : View(context, attributeSet, def) {
+    private var mIsAverageInt: Boolean = false
     private var isValueFloat: Boolean = false
     private lateinit var mAverageValueTextPaint: Paint
     private var mUnit: String? = ""
@@ -149,10 +152,15 @@ class AverageBarChart @JvmOverloads constructor(
         mBarPaint.color = mBarValueBgColor
         canvas?.drawRect(valueRect, mBarPaint)
         mBarPaint.color = mPrimaryTextColor
-        var lastValue = if (isValueFloat) {
+        var lastValue:Number = if (isValueFloat) {
             mValues[i]
         } else {
             mValues[i].toInt()
+        }
+        if (mUnit == "second"){
+            var decimalFormat = DecimalFormat(".0")
+            var average = decimalFormat.format(lastValue.toInt() / 60F)
+            lastValue = java.lang.Float.parseFloat(average)
         }
         var lastValueTextBound = Rect()
         mBarPaint.getTextBounds(
@@ -237,6 +245,12 @@ class AverageBarChart @JvmOverloads constructor(
 
         var averageRect = Rect()
         var averageFormatString = String.format("%.1f", average)
+        if (mIsAverageInt) {
+            averageFormatString = "${average.toInt()}"
+        }
+        if (mUnit != null && mUnit == "second") {
+            averageFormatString = TimeUtils.second2FormatString(context, average.toInt())
+        }
         mAverageValueTextPaint.getTextBounds(
             "$averageFormatString",
             0,
@@ -255,7 +269,7 @@ class AverageBarChart @JvmOverloads constructor(
             mAverageValueTextPaint
         )
 
-        if (mUnit != null && mUnit != "") {
+        if (mUnit != null && mUnit != "" && mUnit != "second") {
             canvas?.drawText(
                 mUnit,
                 averageValueTextWidth + 8f,
@@ -306,4 +320,8 @@ class AverageBarChart @JvmOverloads constructor(
         invalidate()
     }
 
+    fun setAverageInt(flag: Boolean) {
+        this.mIsAverageInt = flag
+        invalidate()
+    }
 }

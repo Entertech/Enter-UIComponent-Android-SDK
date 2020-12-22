@@ -18,6 +18,7 @@
             app:robs_highlightLineColor="#DDE1EB"
             app:robs_highlightLineWidth="1.5"
             app:robs_timeUnit="400"
+            app:robs_isShowMenuIconBg="false"
             app:robs_smallTitle="@string/chart_full_screen_tip"
             app:robs_titleMenuIcon="@drawable/vector_drawable_screen_shrink"
             app:robs_title="@string/sdk_chart_title"

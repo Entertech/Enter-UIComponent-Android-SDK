@@ -270,8 +270,8 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
         } else {
             rl_corner_icon_bg.visibility = View.GONE
         }
-        iv_menu.setOnClickListener {
-            if (!mIsTitleMenuIconBgShow) {
+        if (!mIsTitleMenuIconBgShow) {
+            iv_menu.setOnClickListener {
                 if (isFullScreen) {
                     (context as Activity).finish()
                 } else {
