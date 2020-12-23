@@ -476,7 +476,9 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
             llXAxis.textColor = mLabelColor
             if (currentMin == 0) {
                 llXAxis.xOffset = -3f
-            } else {
+            }else if (currentMin < totalMin && currentMin > totalMin * 7f / 8) {
+                llXAxis.xOffset = 5f
+            }else {
                 llXAxis.xOffset = -1f
             }
             chart.xAxis.addLimitLine(llXAxis)

@@ -443,7 +443,9 @@ class ReportHRLineChartCard @JvmOverloads constructor(
             llXAxis.textColor = mLabelColor
             if (currentMin == 0) {
                 llXAxis.xOffset = -3f
-            } else {
+            } else if (currentMin < totalMin && currentMin > totalMin * 7f / 8) {
+                llXAxis.xOffset = 5f
+            }else{
                 llXAxis.xOffset = -1f
             }
             chart.xAxis.addLimitLine(llXAxis)
@@ -627,12 +629,12 @@ class ReportHRLineChartCard @JvmOverloads constructor(
                 chart.axisLeft.mEntryCount = 5
                 return
             }
-        }else {
-            yAxisMax = max + (max-min)/8f
+        } else {
+            yAxisMax = max + (max - min) / 8f
 //            if (yAxisMax > 100) {
 //                yAxisMax = 100.0
 //            }
-            yAxisMin = min - (max-min)/8f
+            yAxisMin = min - (max - min) / 8f
             if (yAxisMin < 0) {
                 yAxisMin = 0.0
             }

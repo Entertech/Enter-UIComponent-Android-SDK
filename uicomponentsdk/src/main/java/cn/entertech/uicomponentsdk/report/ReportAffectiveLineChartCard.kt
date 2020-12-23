@@ -383,6 +383,8 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
             llXAxis.textColor = mLabelColor
             if (currentMin == 0) {
                 llXAxis.xOffset = -3f
+            } else if (currentMin < totalMin && currentMin > totalMin * 7f / 8) {
+                llXAxis.xOffset = 5f
             } else {
                 llXAxis.xOffset = -1f
             }
@@ -392,7 +394,8 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
 
         if (mData != null && mData!!.isNotEmpty()) {
             val ll1 = LimitLine(
-                average.toFloat(), "${context.getString(R.string.sdk_report_average)}${if (average >= ATTENTION_Y_OFFSET) {
+                average.toFloat(),
+                "${context.getString(R.string.sdk_report_average)}${if (average >= ATTENTION_Y_OFFSET) {
                     mAttentionAverage
                 } else {
                     mRelaxationAverage
