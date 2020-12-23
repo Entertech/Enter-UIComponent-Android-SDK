@@ -29,6 +29,7 @@
             <cn.entertech.uicomponentsdk.widget.OptionalBrainChartLegendView
                     android:id="@+id/legend_gamma"
                     android:layout_width="0dp"
+                    android:gravity="center_horizontal"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginRight="4dp"
@@ -40,6 +41,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:gravity="center_horizontal"
                     android:layout_marginRight="4dp"
                     app:clv_legend="β"/>
 
@@ -47,6 +49,7 @@
                     android:id="@+id/legend_alpha"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
                     android:layout_weight="1"
                     android:layout_marginRight="4dp"
                     app:clv_legend="α"/>
@@ -55,6 +58,7 @@
                     android:id="@+id/legend_theta"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
                     android:layout_weight="1"
                     android:layout_marginRight="4dp"
                     app:clv_legend="θ"/>
@@ -63,6 +67,7 @@
                     android:id="@+id/legend_delta"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
                     android:layout_weight="1"
                     app:clv_legend="δ"/>
         </LinearLayout>
