@@ -626,15 +626,15 @@ class ReportHRLineChartCard @JvmOverloads constructor(
                 chart.axisLeft.mEntries = floatArrayOf(0f, 25f, 50f, 75f, 100f)
                 chart.axisLeft.mEntryCount = 5
                 return
-            } else {
-                yAxisMax = min + 10
-                if (yAxisMax > 100) {
-                    yAxisMax = 100.0
-                }
-                yAxisMin = min - 10
-                if (yAxisMin < 0) {
-                    yAxisMin = 0.0
-                }
+            }
+        }else {
+            yAxisMax = max + (max-min)/8f
+//            if (yAxisMax > 100) {
+//                yAxisMax = 100.0
+//            }
+            yAxisMin = min - (max-min)/8f
+            if (yAxisMin < 0) {
+                yAxisMin = 0.0
             }
         }
         var interval = calNiceInterval(yAxisMin, yAxisMax)

@@ -29,7 +29,7 @@
                         android:id="@+id/tv_coh_time_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Coherence Time:"
+                        android:text="Coherence Time"
                         android:gravity="left"
                         android:textSize="14sp"
                         android:layout_marginLeft="@dimen/activity_margin"/>

@@ -46,7 +46,7 @@
                     android:layout_height="150dp"
                     android:id="@+id/realtime_heart"/>
 
-            <cn.entertech.uicomponentsdk.realtime.RealtimeBreathCohrenceView
+            <cn.entertech.uicomponentsdk.realtime.RealtimeBreathCoherenceView
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:id="@+id/realtime_hrv"/>
@@ -86,7 +86,7 @@
                     app:ralcc_xAxisUnit="Time(min)"
                     android:id="@+id/line_chart"/>
 
-                <cn.entertech.uicomponentsdk.realtime.RealtimeBreathCohrenceView
+                <cn.entertech.uicomponentsdk.realtime.RealtimeBreathCoherenceView
                         app:rhrvv_background="@drawable/shape_attention_bg"
                         app:rhrvv_lineColor="#FFC56F"
                         android:layout_width="match_parent"

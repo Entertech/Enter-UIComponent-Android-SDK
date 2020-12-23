@@ -21,7 +21,7 @@ import cn.entertech.uicomponentsdk.utils.ScreenUtil
 import com.airbnb.lottie.LottieAnimationView
 import kotlinx.android.synthetic.main.view_meditation_hrv.view.*
 
-class RealtimeBreathCohrenceView @JvmOverloads constructor(
+class RealtimeBreathCoherenceView @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -54,26 +54,26 @@ class RealtimeBreathCohrenceView @JvmOverloads constructor(
         mSelfView.layoutParams = layoutParams
         addView(mSelfView)
         var typeArray = context.obtainStyledAttributes(attributeSet,
-            R.styleable.RealtimeBreathCohrenceView
+            R.styleable.RealtimeBreathCoherenceView
         )
-        mMainColor = typeArray.getColor(R.styleable.RealtimeBreathCohrenceView_rhrvv_mainColor, mMainColor)
-        mTextColor = typeArray.getColor(R.styleable.RealtimeBreathCohrenceView_rhrvv_textColor, mTextColor)
-        mAxisColor = typeArray.getColor(R.styleable.RealtimeBreathCohrenceView_rhrvv_axisColor, mAxisColor)
-        mGridLineColor = typeArray.getColor(R.styleable.RealtimeBreathCohrenceView_rhrvv_gridLineColor, mGridLineColor)
-        mBg = typeArray.getDrawable(R.styleable.RealtimeBreathCohrenceView_rhrvv_background)
-        mLineWidth = typeArray.getDimension(R.styleable.RealtimeBreathCohrenceView_rhrvv_lineWidth,mLineWidth)
-        mIsShowInfoIcon = typeArray.getBoolean(R.styleable.RealtimeBreathCohrenceView_rhrvv_isShowInfoIcon, true)
-        mTitleText = typeArray.getString(R.styleable.RealtimeBreathCohrenceView_rhrvv_titleText)
-        mInfoUrl = typeArray.getString(R.styleable.RealtimeBreathCohrenceView_rhrvv_infoUrl)
+        mMainColor = typeArray.getColor(R.styleable.RealtimeBreathCoherenceView_rhrvv_mainColor, mMainColor)
+        mTextColor = typeArray.getColor(R.styleable.RealtimeBreathCoherenceView_rhrvv_textColor, mTextColor)
+        mAxisColor = typeArray.getColor(R.styleable.RealtimeBreathCoherenceView_rhrvv_axisColor, mAxisColor)
+        mGridLineColor = typeArray.getColor(R.styleable.RealtimeBreathCoherenceView_rhrvv_gridLineColor, mGridLineColor)
+        mBg = typeArray.getDrawable(R.styleable.RealtimeBreathCoherenceView_rhrvv_background)
+        mLineWidth = typeArray.getDimension(R.styleable.RealtimeBreathCoherenceView_rhrvv_lineWidth,mLineWidth)
+        mIsShowInfoIcon = typeArray.getBoolean(R.styleable.RealtimeBreathCoherenceView_rhrvv_isShowInfoIcon, true)
+        mTitleText = typeArray.getString(R.styleable.RealtimeBreathCoherenceView_rhrvv_titleText)
+        mInfoUrl = typeArray.getString(R.styleable.RealtimeBreathCoherenceView_rhrvv_infoUrl)
         if (mInfoUrl == null) {
             mInfoUrl = INFO_URL
         }
-        mTextFont = typeArray.getString(R.styleable.RealtimeBreathCohrenceView_rhrvv_textFont)
-        mBuffer = typeArray.getInteger(R.styleable.RealtimeBreathCohrenceView_rhrvv_buffer,mBuffer)
-        mMaxValue = typeArray.getInteger(R.styleable.RealtimeBreathCohrenceView_rhrvv_maxValue,mMaxValue)
-        mRefreshTime = typeArray.getInteger(R.styleable.RealtimeBreathCohrenceView_rhrvv_refreshTime,mRefreshTime)
+        mTextFont = typeArray.getString(R.styleable.RealtimeBreathCoherenceView_rhrvv_textFont)
+        mBuffer = typeArray.getInteger(R.styleable.RealtimeBreathCoherenceView_rhrvv_buffer,mBuffer)
+        mMaxValue = typeArray.getInteger(R.styleable.RealtimeBreathCoherenceView_rhrvv_maxValue,mMaxValue)
+        mRefreshTime = typeArray.getInteger(R.styleable.RealtimeBreathCoherenceView_rhrvv_refreshTime,mRefreshTime)
         mLineColor =
-            typeArray.getColor(R.styleable.RealtimeBreathCohrenceView_rhrvv_lineColor, mLineColor)
+            typeArray.getColor(R.styleable.RealtimeBreathCoherenceView_rhrvv_lineColor, mLineColor)
         initView()
     }
 
@@ -153,7 +153,7 @@ class RealtimeBreathCohrenceView @JvmOverloads constructor(
         mSelfView.findViewById<RelativeLayout>(R.id.rl_loading_cover).visibility = View.VISIBLE
         mSelfView.findViewById<TextView>(R.id.tv_disconnect_text).visibility = View.VISIBLE
         mSelfView.findViewById<TextView>(R.id.tv_disconnect_text).text = error
-        appendHrv(listOf(0.0))
+//        appendHrv(listOf(0.0))
     }
 
     fun hideSampleData() {

@@ -128,7 +128,7 @@
     </declare-styleable>
 
 
-    <declare-styleable name="RealtimeBreathCohrenceView">
+    <declare-styleable name="RealtimeBreathCoherenceView">
         <attr name="rhrvv_background" format="reference|color" />
         <attr name="rhrvv_mainColor" format="color" />
         <attr name="rhrvv_textColor" format="color" />

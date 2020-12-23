@@ -539,8 +539,11 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
             dataSets.add(set1) // add the data sets
         }
         // create a data object with the data sets
-        maxValue = maxValue ?: 100f + 10f
-        minValue = minValue ?: 0f
+        maxValue = maxValue!! +(maxValue!!-minValue!!)/8f
+        minValue = minValue!! - (maxValue!!-minValue!!)/8f
+        if (minValue<0){
+            minValue = 0f
+        }
         drawYLimit(maxValue, minValue)
         chart.axisLeft.axisMaximum = maxValue
         chart.axisLeft.axisMinimum = minValue
