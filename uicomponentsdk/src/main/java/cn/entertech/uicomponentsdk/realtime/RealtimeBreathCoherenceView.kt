@@ -101,6 +101,7 @@ class RealtimeBreathCoherenceView @JvmOverloads constructor(
                 bgColor = (mBg as GradientDrawable).color.defaultColor
             }
         }
+        sf_hrv.setMaxValue(mMaxValue)
         sf_hrv.setRefreshTime(mRefreshTime)
         sf_hrv.isDrawXAxis(mIsShowXAxis)
         sf_hrv.setBuffer(mBuffer)
@@ -142,8 +143,8 @@ class RealtimeBreathCoherenceView @JvmOverloads constructor(
         mSelfView.findViewById<RelativeLayout>(R.id.rl_loading_cover).visibility = View.VISIBLE
         mSelfView.findViewById<TextView>(R.id.tv_disconnect_text).visibility = View.VISIBLE
         var sampleBrainData = ArrayList<Double>()
-        for (i in 0..200) {
-            sampleBrainData.add(java.util.Random().nextDouble() * 50)
+        for (i in 0..35) {
+            sampleBrainData.add(java.util.Random().nextDouble() * 10+60)
         }
         mSelfView.findViewById<BreathCoherenceSurfaceView>(R.id.sf_hrv).setSampleData(sampleBrainData)
     }

@@ -588,12 +588,14 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
         }
     }
 
+    var isDrag = false
     fun setChartListener() {
         chart.onChartGestureListener = object : OnChartGestureListener {
             override fun onChartGestureEnd(
                 me: MotionEvent?,
                 lastPerformedGesture: ChartTouchListener.ChartGesture?
             ) {
+                isDrag = false
                 chart.isDragEnabled = true
                 chart.isHighlightPerDragEnabled = false
                 cancelHighlight()
@@ -605,6 +607,7 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
                 velocityX: Float,
                 velocityY: Float
             ) {
+                isDrag = true
                 cancelHighlight()
             }
 
@@ -631,6 +634,9 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
             }
 
             override fun onChartLongPressed(me: MotionEvent) {
+                if (isDrag){
+                    return
+                }
                 chart.isDragEnabled = false
                 chart.isHighlightPerDragEnabled = true
                 val highlightByTouchPoint = chart.getHighlightByTouchPoint(me.x, me.y)

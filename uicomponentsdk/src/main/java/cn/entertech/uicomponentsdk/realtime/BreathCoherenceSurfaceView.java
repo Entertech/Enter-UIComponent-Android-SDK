@@ -13,7 +13,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,7 +21,7 @@ import java.util.List;
 import cn.entertech.uicomponentsdk.R;
 import cn.entertech.uicomponentsdk.utils.ScreenUtil;
 
-public class BreathCoherenceSurfaceView extends View {
+public class BreathCoherenceSurfaceView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
     private Context mContext;
     private float mLineWidth;
     private float mRightPadding;
@@ -39,7 +38,7 @@ public class BreathCoherenceSurfaceView extends View {
     List<Double> screenData = new ArrayList<>();
     private boolean isViewActivity;
     private SurfaceHolder mSurfaceHolder;
-    public static int BRAIN_QUEUE_LENGTH = 35;
+    public static int BRAIN_QUEUE_LENGTH = 100;
     public int mBuffer = 2;
     public int mListBuffer = 2;
     private Paint mAxisPaint;
@@ -84,8 +83,8 @@ public class BreathCoherenceSurfaceView extends View {
 
     private void initPaint() {
 
-//        mSurfaceHolder = getHolder();
-//        mSurfaceHolder.addCallback(this);
+        mSurfaceHolder = getHolder();
+        mSurfaceHolder.addCallback(this);
         setFocusable(true);
         setKeepScreenOn(true);
         setFocusableInTouchMode(true);
@@ -109,7 +108,7 @@ public class BreathCoherenceSurfaceView extends View {
         mGridLinePaint.setColor(mGridLineColor);
         mGridLinePaint.setStrokeWidth(3);
         initData();
-//        mSurfaceHolder.setFormat(PixelFormat.RGBA_8888);
+        mSurfaceHolder.setFormat(PixelFormat.RGBA_8888);
 
         mYAxisLabelPaint = new Paint();
         mYAxisLabelPaint.setColor(Color.parseColor("#9AA1A9"));
@@ -130,7 +129,6 @@ public class BreathCoherenceSurfaceView extends View {
                 mSourceData.remove(0);
             }
         }
-        invalidate();
     }
 
 
@@ -154,43 +152,33 @@ public class BreathCoherenceSurfaceView extends View {
         this.mBuffer = buffer;
     }
 
-//    @Override
-//    public void surfaceCreated(SurfaceHolder holder) {
-//        isViewActivity = true;
-//        new Thread(this).start();
-//    }
-//
-//    @Override
-//    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-//    }
-//
-//    @Override
-//    public void surfaceDestroyed(SurfaceHolder holder) {
-//        isViewActivity = false;
-//    }
-//
-//    @Override
-//    public void run() {
-////        while (isViewActivity) {
-//            draw();
-////            try {
-////                Thread.sleep(mRefreshTime);
-////            } catch (InterruptedException e) {
-////                e.printStackTrace();
-////            }
-////        }
-//    }
-
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+        isViewActivity = true;
+        new Thread(this).start();
+    }
 
     @Override
-    protected void onDraw(Canvas canvas) {
-        onDrawBg(canvas);
-        if (isShowSampleData) {
-            onDrawSampleData(canvas);
-        } else {
-            onDrawHrv(canvas);
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        isViewActivity = false;
+    }
+
+    @Override
+    public void run() {
+        while (isViewActivity) {
+            draw();
+            try {
+                Thread.sleep(mRefreshTime);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
+
 
     public void onDrawBg(Canvas canvas) {
         mYAxisMargin = ScreenUtil.dip2px(mContext, 0);
@@ -221,7 +209,7 @@ public class BreathCoherenceSurfaceView extends View {
         //获得canvas对象
         canvas.translate(mLeftPadding + mYAxisMargin, getHeight());
         path.reset();
-//        Log.d("####", "draw data is " + screenData.toString());
+//        Log.d("####", "draw data is " + drawData.toString());
         for (int i = 0; i < screenData.size(); i++) {
             if (i == 0)
                 path.moveTo(i * pointOffset, (float) (-(screenData.get(i))));
@@ -268,36 +256,40 @@ public class BreathCoherenceSurfaceView extends View {
 
     public void dealData() {
         if (mSourceData.size() == 0) {
-            realData.add(0.0);
-            realData.remove(0);
+//            realData.add(0.0);
+//            realData.remove(0);
         } else {
             if (mSourceData.get(0) == 0) {
-                realData.add(0.0);
+                mSourceData.remove(0);
             } else {
                 realData.add((mSourceData.get(0)));
+                mSourceData.remove(0);
+                realData.remove(0);
             }
-            mSourceData.remove(0);
-            realData.remove(0);
-            List<Double> tempList = new ArrayList<>();
-            int mMaxValue = Collections.max(realData).intValue()+1;
-            int mMinValue = Collections.min(realData).intValue()-1;
-            if (mMinValue < 0){
-                mMinValue = 0;
-            }
-            float times =(getHeight())/ (mMaxValue - mMinValue) * 1.0f ;
-            screenData.clear();
-            if (times != 0) {
-                for (int i = 0; i < realData.size(); i++) {
-                    if (realData.get(i) != 0) {
-                        screenData.add((realData.get(i) - mMinValue) * times);
-                    } else {
+        }
+        List<Double> tempList = new ArrayList<>();
+        int mMaxValue = Collections.max(realData).intValue() + 1;
+        int mMinValue = Collections.min(realData).intValue() - 1;
+        if (mMinValue < 0) {
+            mMinValue = 0;
+        }
+        float times = (getHeight()) / (mMaxValue - mMinValue) * 1.0f;
+        screenData.clear();
+        if (times != 0) {
+            for (int i = 0; i < realData.size(); i++) {
+                if (realData.get(i) != 0) {
+                    screenData.add((realData.get(i) - mMinValue) * times);
+                } else {
+                    if (i - 1 >= 0) {
+                        screenData.add((realData.get(i - 1) - mMinValue) * times);
+                    }else{
                         screenData.add(0.0);
                     }
                 }
-            } else {
-                for (int i = 0; i < realData.size(); i++) {
-                    screenData.add(0.0);
-                }
+            }
+        } else {
+            for (int i = 0; i < realData.size(); i++) {
+                screenData.add(0.0);
             }
         }
     }
@@ -357,6 +349,4 @@ public class BreathCoherenceSurfaceView extends View {
     public void hideSampleData() {
         this.isShowSampleData = false;
     }
-
-
 }

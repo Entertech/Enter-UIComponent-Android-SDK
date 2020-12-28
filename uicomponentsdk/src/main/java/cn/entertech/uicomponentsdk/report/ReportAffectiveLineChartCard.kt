@@ -585,13 +585,14 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
             it.setDrawIcons(false)
         }
     }
-
+    var isDrag = false
     fun setChartListener() {
         chart.onChartGestureListener = object : OnChartGestureListener {
             override fun onChartGestureEnd(
                 me: MotionEvent?,
                 lastPerformedGesture: ChartTouchListener.ChartGesture?
             ) {
+                isDrag = false
                 chart.isDragEnabled = true
                 chart.isHighlightPerDragEnabled = false
                 cancelHighlight()
@@ -603,6 +604,8 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
                 velocityX: Float,
                 velocityY: Float
             ) {
+
+                isDrag = true
                 cancelHighlight()
             }
 
@@ -627,6 +630,9 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
             }
 
             override fun onChartLongPressed(me: MotionEvent) {
+                if (isDrag){
+                    return
+                }
                 chart.isHighlightPerDragEnabled = true
                 chart.isDragEnabled = false
                 val highlightByTouchPoint = chart.getHighlightByTouchPoint(me.x, me.y)

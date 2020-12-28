@@ -388,19 +388,23 @@ class ReportHRLineChartCard @JvmOverloads constructor(
         if (firstLineData == null || secondLineData == null) {
             return null
         }
-        var newSecondLineData = secondLineData as ArrayList<Double>
+        var newSecondLineData = ArrayList<Double>()
 //        for (data in secondLineData) {
 //            for (i in 0..8) {
 //                newSecondLineData.add(data)
 //            }
 //        }
-        if (newSecondLineData.size > firstLineData.size) {
-            newSecondLineData =
-                newSecondLineData.subList(0, firstLineData.size) as ArrayList<Double>
-        } else if (newSecondLineData.size < firstLineData.size) {
-            var deltaSize = firstLineData.size - newSecondLineData.size
-            for (i in 0 until deltaSize) {
-                newSecondLineData.add(newSecondLineData[newSecondLineData.size - 1])
+        if (secondLineData.size >= firstLineData.size) {
+            for (i in firstLineData.indices) {
+                newSecondLineData.add(secondLineData[i])
+            }
+        } else if (secondLineData.size < firstLineData.size) {
+            for (i in firstLineData.indices) {
+                if (i < secondLineData.size) {
+                    newSecondLineData.add(secondLineData[i])
+                } else {
+                    newSecondLineData.add(secondLineData[secondLineData.size - 1])
+                }
             }
         }
         for (i in newSecondLineData.indices) {
@@ -445,7 +449,7 @@ class ReportHRLineChartCard @JvmOverloads constructor(
                 llXAxis.xOffset = -3f
             } else if (currentMin < totalMin && currentMin > totalMin * 7f / 8) {
                 llXAxis.xOffset = 5f
-            }else{
+            } else {
                 llXAxis.xOffset = -1f
             }
             chart.xAxis.addLimitLine(llXAxis)
@@ -706,12 +710,15 @@ class ReportHRLineChartCard @JvmOverloads constructor(
         set2?.setDrawIcons(false)
     }
 
+    var isDrag = false
+
     fun setChartListener() {
         chart.onChartGestureListener = object : OnChartGestureListener {
             override fun onChartGestureEnd(
                 me: MotionEvent?,
                 lastPerformedGesture: ChartTouchListener.ChartGesture?
             ) {
+                isDrag = false
                 chart.isDragEnabled = true
                 chart.isHighlightPerDragEnabled = false
                 cancelHighlight()
@@ -723,6 +730,7 @@ class ReportHRLineChartCard @JvmOverloads constructor(
                 velocityX: Float,
                 velocityY: Float
             ) {
+                isDrag = true
                 cancelHighlight()
             }
 
@@ -743,6 +751,9 @@ class ReportHRLineChartCard @JvmOverloads constructor(
             }
 
             override fun onChartLongPressed(me: MotionEvent) {
+                if (isDrag) {
+                    return
+                }
                 chart.isDragEnabled = false
                 chart.isHighlightPerDragEnabled = true
                 val highlightByTouchPoint = chart.getHighlightByTouchPoint(me.x, me.y)
