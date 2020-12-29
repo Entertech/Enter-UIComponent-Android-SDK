@@ -88,5 +88,8 @@ class ReportDefaultFragment : Fragment() {
         report_pressure.setValue(reportData.reportPressureEnitty?.pressureAvg!!.toInt())
         report_hrv.setIsShortCard(false)
         report_hrv.setValue(10f)
+
+        last_time.setIsValueFloat(true)
+        last_time.setValues(listOf(10.4f,10.4f))
     }
 }

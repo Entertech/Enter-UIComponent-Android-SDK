@@ -80,7 +80,7 @@ class AverageBarChart @JvmOverloads constructor(
         mBarPaint.color = mBarColor
         mBarPaint.style = Paint.Style.FILL
         mBarPaint.pathEffect = CornerPathEffect(15f)
-        mBarPaint.textSize = ScreenUtil.dip2px(context, 10f).toFloat()
+        mBarPaint.textSize = ScreenUtil.dip2px(context, 9f).toFloat()
         mBarPaint.textAlign = Paint.Align.CENTER
 
         mAverageLinePaint = Paint(Paint.ANTI_ALIAS_FLAG)
