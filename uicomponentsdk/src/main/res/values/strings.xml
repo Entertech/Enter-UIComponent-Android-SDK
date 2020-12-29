@@ -41,7 +41,7 @@
     <string name="sdk_report_average_2">Average</string>
     <string name="sdk_report_last_7_time_tip_head">The</string>
     <string name="sdk_report_last_7_time_tip_foot_1">is higher than the average of last 7 times.</string>
-    <string name="sdk_report_last_7_time_tip_foot_2">is low than the average of last 7 times.</string>
+    <string name="sdk_report_last_7_time_tip_foot_2">is lower than the average of last 7 times.</string>
     <string name="sdk_report_last_7_time_tip_foot_3">is the same as the average of last 7 times.</string>
     <string name="last_7_time"><![CDATA[Last 7 times ->]]></string>
     <string name="sdk_sleep_state">Sleep State</string>
