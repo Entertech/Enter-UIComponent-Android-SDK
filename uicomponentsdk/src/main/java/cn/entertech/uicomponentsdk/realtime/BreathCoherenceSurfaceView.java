@@ -107,7 +107,7 @@ public class BreathCoherenceSurfaceView extends SurfaceView implements SurfaceHo
         mGridLinePaint.setStyle(Paint.Style.STROKE);
         mGridLinePaint.setColor(mGridLineColor);
         mGridLinePaint.setStrokeWidth(3);
-        initData();
+//        initData();
         mSurfaceHolder.setFormat(PixelFormat.RGBA_8888);
 
         mYAxisLabelPaint = new Paint();
@@ -204,7 +204,7 @@ public class BreathCoherenceSurfaceView extends SurfaceView implements SurfaceHo
     Path path = new Path();
 
     public void onDrawHrv(Canvas canvas) {
-        float pointOffset = getWidth() * 1f / (screenData.size() - 1);
+        float pointOffset = getWidth() * 1f / BRAIN_QUEUE_LENGTH;
         dealData();
         //获得canvas对象
         canvas.translate(mLeftPadding + mYAxisMargin, getHeight());
@@ -264,7 +264,9 @@ public class BreathCoherenceSurfaceView extends SurfaceView implements SurfaceHo
             } else {
                 realData.add((mSourceData.get(0)));
                 mSourceData.remove(0);
-                realData.remove(0);
+                if (realData.size()>BRAIN_QUEUE_LENGTH){
+                    realData.remove(0);
+                }
             }
         }
         List<Double> tempList = new ArrayList<>();
