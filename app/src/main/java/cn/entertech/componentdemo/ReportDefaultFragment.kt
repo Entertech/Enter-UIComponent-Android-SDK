@@ -89,7 +89,7 @@ class ReportDefaultFragment : Fragment() {
         report_hrv.setIsShortCard(false)
         report_hrv.setValue(10f)
 
-        last_time.setIsValueFloat(true)
-        last_time.setValues(listOf(10.4f,10.4f))
+        last_time.setIsValueFloat(false)
+        last_time.setValues(listOf(10f,8f))
     }
 }

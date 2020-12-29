@@ -3,6 +3,7 @@ package cn.entertech.uicomponentsdk.widget
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.utils.ScreenUtil
@@ -80,7 +81,7 @@ class AverageBarChart @JvmOverloads constructor(
         mBarPaint.color = mBarColor
         mBarPaint.style = Paint.Style.FILL
         mBarPaint.pathEffect = CornerPathEffect(15f)
-        mBarPaint.textSize = ScreenUtil.dip2px(context, 9f).toFloat()
+        mBarPaint.textSize = ScreenUtil.dip2px(context, 10f).toFloat()
         mBarPaint.textAlign = Paint.Align.CENTER
 
         mAverageLinePaint = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -169,6 +170,11 @@ class AverageBarChart @JvmOverloads constructor(
             "$lastValue".length - 1,
             lastValueTextBound
         )
+        if (lastValueTextBound.width() >= 30){
+            mBarPaint.textSize = ScreenUtil.dip2px(context, 8f).toFloat()
+        }else{
+            mBarPaint.textSize = ScreenUtil.dip2px(context, 10f).toFloat()
+        }
         var lastValueDescent = Math.abs(mBarPaint.fontMetrics.descent)
         var offset =
             (Math.abs(mBarPaint.fontMetrics.ascent) + Math.abs(mBarPaint.fontMetrics.descent)) / 2f - lastValueDescent
