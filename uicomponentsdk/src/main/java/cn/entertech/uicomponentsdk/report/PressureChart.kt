@@ -14,7 +14,7 @@ import java.util.*
 
 class PressureChart @JvmOverloads constructor(context: Context, attributeSet: AttributeSet? = null, def: Int = 0) :
     View(context, attributeSet, def) {
-    var mBaseColor: String = "ff6682"
+    var mBaseColor: String? = "ff6682"
     var mValue: List<Double> = ArrayList()
     var mTimeStampLsit: ArrayList<String> = ArrayList()
     lateinit var curvePaint: Paint

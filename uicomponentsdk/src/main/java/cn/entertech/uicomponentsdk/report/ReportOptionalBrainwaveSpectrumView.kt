@@ -309,7 +309,7 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
                 bgColor = (mBg as ColorDrawable).color
             } else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    bgColor = (mBg as GradientDrawable).color.defaultColor
+                    bgColor = (mBg as GradientDrawable).color!!.defaultColor
                 }
             }
         }

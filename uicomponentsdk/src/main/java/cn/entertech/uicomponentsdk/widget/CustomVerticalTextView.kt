@@ -79,7 +79,7 @@ class CustomVerticalTextView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas?) {
         canvas?.translate(mTextTop, measuredHeight / 2f)
         canvas?.rotate(-90f)
-        canvas?.drawText(mText, 0f, 0f, mPaint)
+        canvas?.drawText(mText!!, 0f, 0f, mPaint)
     }
 
     fun setText(text:String){

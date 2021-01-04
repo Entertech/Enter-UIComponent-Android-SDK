@@ -18,6 +18,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.utils.ScreenUtil
+import cn.entertech.uicomponentsdk.utils.toWebView
 import com.airbnb.lottie.LottieAnimationView
 import kotlinx.android.synthetic.main.view_meditation_hrv.view.*
 
@@ -82,8 +83,9 @@ class RealtimeBreathCoherenceView @JvmOverloads constructor(
             iv_brain_real_time_info.setImageResource(mInfoIconRes!!)
         }
         iv_brain_real_time_info.setOnClickListener {
-            var uri = Uri.parse(mInfoUrl)
-            context.startActivity(Intent(Intent.ACTION_VIEW, uri))
+            if (mInfoUrl !=null){
+                toWebView(context,mInfoUrl!!,context.getString(R.string.sdk_breath_coherence))
+            }
         }
 
         tv_title.setTextColor(mMainColor)
@@ -98,7 +100,7 @@ class RealtimeBreathCoherenceView @JvmOverloads constructor(
             bgColor = (mBg as ColorDrawable).color
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                bgColor = (mBg as GradientDrawable).color.defaultColor
+                bgColor = (mBg as GradientDrawable).color!!.defaultColor
             }
         }
         sf_hrv.setMaxValue(mMaxValue)

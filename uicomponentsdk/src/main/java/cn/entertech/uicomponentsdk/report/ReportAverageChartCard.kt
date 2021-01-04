@@ -15,6 +15,7 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import cn.entertech.uicomponentsdk.R
+import cn.entertech.uicomponentsdk.utils.toWebView
 import kotlinx.android.synthetic.main.layout_average_bar_card.view.*
 import kotlinx.android.synthetic.main.layout_common_card_title.view.*
 
@@ -109,10 +110,9 @@ class ReportAverageChartCard @JvmOverloads constructor(
         } else {
             iv_menu.visibility = View.GONE
         }
-        if (mIsMenuIconInfo) {
+        if (mIsMenuIconInfo&&mInfoUrl != null ) {
             iv_menu.setOnClickListener {
-                var uri = Uri.parse(mInfoUrl)
-                context.startActivity(Intent(Intent.ACTION_VIEW, uri))
+                toWebView(context,mInfoUrl!!,context.getString(R.string.last_7_time))
             }
         }
         initChart()

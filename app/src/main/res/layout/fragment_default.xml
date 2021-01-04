@@ -288,6 +288,8 @@
                     android:layout_width="match_parent"
                     app:rhrvv_maxValue="120"
                     app:rhrvv_buffer="35"
+                    app:rhrvv_isShowInfoIcon="true"
+                    app:rhrvv_infoUrl="https://www.notion.so/Brainwave-Power-Graph-6f2a784b347d4d7d98b9fd0da89de454"
                     android:layout_height="200dp"/>
             <TextView
                     android:layout_marginTop="32dp"

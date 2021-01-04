@@ -95,7 +95,7 @@ class HalfCircleProgressBar @JvmOverloads constructor(
         mTextPaint.textAlign = Paint.Align.CENTER
         mTextPaint.typeface = Typeface.DEFAULT_BOLD
         canvas?.drawText(
-            mText,
+            mText!!,
             0f,
             0f - (width / 2f).coerceAtMost(height.toFloat()) / 10f,
             mTextPaint

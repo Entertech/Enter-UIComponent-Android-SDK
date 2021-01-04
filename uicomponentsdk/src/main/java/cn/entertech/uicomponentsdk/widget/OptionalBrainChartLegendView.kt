@@ -28,7 +28,7 @@ class OptionalBrainChartLegendView @JvmOverloads constructor(
     private var mOnCheckListener: ((Boolean) -> Unit)? = null
     var mIsChecked = true
     var mColor = Color.parseColor("#5167f8")
-    var mLegend = ""
+    var mLegend:String? = ""
     var self: View =
         LayoutInflater.from(context).inflate(R.layout.layout_optional_brain_chart_legend, null)
 

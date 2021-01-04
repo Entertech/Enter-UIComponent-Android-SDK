@@ -20,7 +20,7 @@ class ChartLegendView @JvmOverloads constructor(
 ) :
     LinearLayout(context, attributeSet, def) {
     var mColor = Color.parseColor("#5167f8")
-    var mLegend = ""
+    var mLegend :String ?= ""
     var self: View = LayoutInflater.from(context).inflate(R.layout.layout_chart_legend, null)
 
     init {

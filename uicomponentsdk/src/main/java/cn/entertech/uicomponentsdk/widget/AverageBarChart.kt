@@ -277,7 +277,7 @@ class AverageBarChart @JvmOverloads constructor(
 
         if (mUnit != null && mUnit != "" && mUnit != "second") {
             canvas?.drawText(
-                mUnit,
+                mUnit!!,
                 averageValueTextWidth + 8f,
                 -transferAverage * scaleHeight + averageValueTextHeight + ScreenUtil.dip2px(
                     context,

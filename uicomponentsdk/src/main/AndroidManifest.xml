@@ -2,8 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
         package="cn.entertech.uicomponentsdk">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application>
-        <activity android:name=".activity.HRVLineChartFullScreenActivity"
+        <activity
+                android:name=".activity.HRVLineChartFullScreenActivity"
                 android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
 
         </activity>
@@ -19,6 +21,9 @@
         <activity
                 android:name=".activity.LineChartFullScreenActivity"
                 android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+        <activity
+                android:name=".activity.WebActivity"
+                android:theme="@style/ProgressBarStyle" />
     </application>
 
 </manifest>
