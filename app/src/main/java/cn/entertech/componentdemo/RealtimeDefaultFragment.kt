@@ -23,11 +23,11 @@ class RealtimeDefaultFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         attention_tip1.showDisconnectTip()
         attention_tip2.showLoading()
-        realtime_brainwave_spectrum.setDeltaWavePercent(0.2f)
-        realtime_brainwave_spectrum.setAlphaWavePercent(0.5f)
-        realtime_brainwave_spectrum.setThetaWavePercent(0.1f)
-        realtime_brainwave_spectrum.setGammaWavePercent(0.02f)
-        realtime_brainwave_spectrum.setBetaWavePercent(0.18f)
+        realtime_brainwave_spectrum.setDeltaWavePercent(80f)
+        realtime_brainwave_spectrum.setAlphaWavePercent(90f)
+        realtime_brainwave_spectrum.setThetaWavePercent(80f)
+        realtime_brainwave_spectrum.setGammaWavePercent(90f)
+        realtime_brainwave_spectrum.setBetaWavePercent(100f)
         var timer = Timer()
         var timerTask:TimerTask = object: TimerTask() {
             override fun run() {

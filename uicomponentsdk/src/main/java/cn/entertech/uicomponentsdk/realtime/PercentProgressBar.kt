@@ -8,7 +8,6 @@ import android.util.AttributeSet
 import android.view.View
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.utils.ScreenUtil
-import kotlin.math.abs
 
 class PercentProgressBar @JvmOverloads constructor(
     context: Context,
@@ -32,25 +31,48 @@ class PercentProgressBar @JvmOverloads constructor(
     var mLeftPadding: Float = 16f
     var mRightPadding: Float = 16f
     var mPercent: Float = 0f
+    var mDBValue: Float = 0f
+
+    companion object {
+        const val MAX_VALUE = 120
+        const val POWER_MODE_DB = "db"
+        const val POWER_MODE_RATE = "rate"
+    }
+
+    var mPowerMode: String = POWER_MODE_DB
 
     init {
-        var typeArray = context.obtainStyledAttributes(attributeSet,
-            R.styleable.PercentProgressBar
-        )
+        var typeArray = context.obtainStyledAttributes(attributeSet, R.styleable.PercentProgressBar)
         mLabelText = typeArray.getString(R.styleable.PercentProgressBar_ppb_labelText)
-        mLabelTextColor = typeArray.getColor(R.styleable.PercentProgressBar_ppb_labelTextColor, mLabelTextColor)
-        mLabelTextSize = typeArray.getDimension(R.styleable.PercentProgressBar_ppb_labelTextSize, mLabelTextSize)
+        mLabelTextColor =
+            typeArray.getColor(R.styleable.PercentProgressBar_ppb_labelTextColor, mLabelTextColor)
+        mLabelTextSize =
+            typeArray.getDimension(R.styleable.PercentProgressBar_ppb_labelTextSize, mLabelTextSize)
 
         mPercent = typeArray.getFloat(R.styleable.PercentProgressBar_ppb_percent, 0f)
-        mPercentTextColor = typeArray.getColor(R.styleable.PercentProgressBar_ppb_percentTextColor, mPercentTextColor)
-        mPercentTextSize = typeArray.getDimension(R.styleable.PercentProgressBar_ppb_percentTextSize, mPercentTextSize)
+        mPercentTextColor = typeArray.getColor(
+            R.styleable.PercentProgressBar_ppb_percentTextColor,
+            mPercentTextColor
+        )
+        mPercentTextSize = typeArray.getDimension(
+            R.styleable.PercentProgressBar_ppb_percentTextSize,
+            mPercentTextSize
+        )
 
         mBarColor = typeArray.getColor(R.styleable.PercentProgressBar_ppb_barColor, mBarColor)
         mBarHeight = typeArray.getDimension(R.styleable.PercentProgressBar_ppb_barWidth, mBarHeight)
-        mBarLeftPadding = typeArray.getDimension(R.styleable.PercentProgressBar_ppb_barLeftPadding, mBarLeftPadding)
-        mBarRightPadding = typeArray.getDimension(R.styleable.PercentProgressBar_ppb_barRightPadding, mBarRightPadding)
-        mLeftPadding = typeArray.getDimension(R.styleable.PercentProgressBar_ppb_leftPadding, mLeftPadding)
-        mRightPadding = typeArray.getDimension(R.styleable.PercentProgressBar_ppb_rightPadding, mRightPadding)
+        mBarLeftPadding = typeArray.getDimension(
+            R.styleable.PercentProgressBar_ppb_barLeftPadding,
+            mBarLeftPadding
+        )
+        mBarRightPadding = typeArray.getDimension(
+            R.styleable.PercentProgressBar_ppb_barRightPadding,
+            mBarRightPadding
+        )
+        mLeftPadding =
+            typeArray.getDimension(R.styleable.PercentProgressBar_ppb_leftPadding, mLeftPadding)
+        mRightPadding =
+            typeArray.getDimension(R.styleable.PercentProgressBar_ppb_rightPadding, mRightPadding)
         typeArray?.recycle()
         initPaint()
     }
@@ -80,15 +102,40 @@ class PercentProgressBar @JvmOverloads constructor(
     var percentTextWidth: Float = 0f
     var barMaxWidth: Float = 0f
 
-
-    fun formatNum(number: Float): Float? {
-        return String.format("%.1f", number).toFloat()
+    fun transformDB2Rate(value:Float):Float{
+        var rate = 0f
+        if (value in 0f..70f) {
+            rate = value / 70 * 1f / 10
+        } else if (value in 70f..100f) {
+            rate = (value - 70) / 30 * 4 / 5 + 1f / 10
+        } else if (value > 100f){
+            rate = (value - 100) / 20 * 1 / 10 + 9f / 10
+        }
+        if (rate > 1f){
+            rate = 1f
+        }
+        return rate
     }
 
+    fun formatNum(number: Float): Float? {
+        var value = 0f
+        try {
+            value = String.format("%.1f", number).toFloat()
+        } catch (e: Exception) {
+
+        } finally {
+            return value
+        }
+    }
     override fun onDraw(canvas: Canvas) {
-        var percentText = "${formatNum(mPercent * 100)}%"
-        labelTextWidth = mLabelTextPaint.measureText(mLabelText)
-        percentTextWidth = mLabelTextPaint.measureText(percentText)
+        var percentText = ""
+        if (mPowerMode == POWER_MODE_DB) {
+            mPercent = transformDB2Rate(mDBValue)
+        } else {
+            percentText = "${formatNum(mPercent * 100)}%"
+        }
+        labelTextWidth = mLabelTextPaint?.measureText(mLabelText)
+        percentTextWidth = mLabelTextPaint?.measureText(percentText)
         barMaxWidth =
             mWidth - labelTextWidth - percentTextWidth - mLeftPadding - mRightPadding - mBarLeftPadding - mBarRightPadding
         var labelTextBaseline =
@@ -97,7 +144,7 @@ class PercentProgressBar @JvmOverloads constructor(
             )
 
         var percentTextBaseline =
-            (abs(mPercentTextPaint.ascent()) + abs(mPercentTextPaint.descent())) / 2 - Math.abs(
+            (Math.abs(mPercentTextPaint.ascent()) + Math.abs(mPercentTextPaint.descent())) / 2 - Math.abs(
                 mPercentTextPaint.descent()
             )
         canvas.translate(0f, mHeight / 2f)
@@ -112,20 +159,20 @@ class PercentProgressBar @JvmOverloads constructor(
     }
 
     private fun drawBar(canvas: Canvas) {
-        canvas.drawCircle(
+        canvas?.drawCircle(
             labelTextWidth + mBarHeight / 2 + mBarLeftPadding + mLeftPadding,
             0f,
             mBarHeight / 2,
             mBarPaint
         )
-        canvas.drawLine(
+        canvas?.drawLine(
             labelTextWidth + mBarHeight / 2 + mBarLeftPadding + mLeftPadding,
             0f,
             labelTextWidth + mBarLeftPadding + barMaxWidth * mPercent - mBarHeight / 2 + mLeftPadding,
             0f,
             mBarPaint
         )
-        canvas.drawCircle(
+        canvas?.drawCircle(
             labelTextWidth + mBarLeftPadding + barMaxWidth * mPercent - mBarHeight / 2 + mLeftPadding,
             0f,
             mBarHeight / 2,
@@ -140,13 +187,24 @@ class PercentProgressBar @JvmOverloads constructor(
         mPercent = value
         invalidate()
     }
+
+    fun setDBValue(db: Float?) {
+        if (db == null) {
+            return
+        }
+        this.mDBValue = db
+        invalidate()
+    }
     fun setBarColor(color:Int){
         this.mBarColor = color
         this.mBarPaint.color = mBarColor
         invalidate()
     }
-
-    fun setLabelTextColor(color:Int){
+    fun setPowerMode(mode: String) {
+        this.mPowerMode = mode
+        invalidate()
+    }
+    fun setLabelTextColor(color:Int) {
         this.mLabelTextColor = color
         this.mLabelTextPaint.color = mLabelTextColor
         invalidate()

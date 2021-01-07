@@ -147,7 +147,7 @@ class RealtimeAffectiveView @JvmOverloads constructor(
             }
             2 -> {
                 tv_title.text = context.getString(R.string.sdk_pressure)
-                var stressScale = arrayOf(0, 1, 2, 3, 4, 5)
+                var stressScale = arrayOf(0,20,70,100)
                 var stressIndicatorItems = arrayListOf<EmotionIndicatorView.IndicateItem>()
                 stressIndicatorItems.add(
                     EmotionIndicatorView.IndicateItem(
@@ -313,17 +313,16 @@ class RealtimeAffectiveView @JvmOverloads constructor(
         if (value == null) {
             return
         }
-        var pressureValue = String.format("%.1f", value / 20f).toFloat()
-        var valueLevel = if (pressureValue >= 0 && pressureValue < 1) {
+        var valueLevel = if (value >= 0 && value < 20) {
             context.getString(R.string.sdk_low)
-        } else if (pressureValue >= 1 && pressureValue < 3.5) {
+        } else if (value >= 20 && value < 70) {
             context.getString(R.string.sdk_normal)
         } else {
             context.getString(R.string.sdk_high)
         }
         tv_emotion_level.text = valueLevel
-        eiv_emotion.setValue(pressureValue)
-        tv_emotion_value.text = "$pressureValue"
+        eiv_emotion.setValue(value)
+        tv_emotion_value.text = "${value.toInt()}"
     }
 
     fun setPleasure(value: Float?) {

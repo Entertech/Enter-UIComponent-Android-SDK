@@ -105,23 +105,23 @@ class RealtimeBrainwaveSpectrumView @JvmOverloads constructor(
 
 
     fun setGammaWavePercent(percent: Float?) {
-        ppb_one.setPercent(percent)
+        ppb_one.setDBValue(percent)
     }
 
     fun setBetaWavePercent(percent: Float?) {
-        ppb_two.setPercent(percent)
+        ppb_two.setDBValue(percent)
     }
 
     fun setAlphaWavePercent(percent: Float?) {
-        ppb_three.setPercent(percent)
+        ppb_three.setDBValue(percent)
     }
 
     fun setThetaWavePercent(percent: Float?) {
-        ppb_four.setPercent(percent)
+        ppb_four.setDBValue(percent)
     }
 
     fun setDeltaWavePercent(percent: Float?) {
-        ppb_five.setPercent(percent)
+        ppb_five.setDBValue(percent)
     }
 
     fun showErrorMessage(error:String){
