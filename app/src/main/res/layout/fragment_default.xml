@@ -279,17 +279,20 @@
 
             </cn.entertech.uicomponentsdk.realtime.RealtimeBrainwaveView>
 
-            <cn.entertech.uicomponentsdk.realtime.RealtimeBreathCoherenceView
+            <cn.entertech.uicomponentsdk.realtime.RealtimeLineChartView
                     android:id="@+id/realtime_hrv"
-                    app:rhrvv_titleText="HRV"
+                    app:rlcv_titleText="HRV"
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
                     android:layout_width="match_parent"
-                    app:rhrvv_maxValue="120"
-                    app:rhrvv_buffer="35"
-                    app:rhrvv_isShowInfoIcon="true"
-                    app:rhrvv_infoUrl="https://www.notion.so/Brainwave-Power-Graph-6f2a784b347d4d7d98b9fd0da89de454"
+                    app:rlcv_maxValue="120"
+                    app:rlcv_buffer="2"
+                    app:rlcv_screenPointCount="25"
+                    app:rlcv_lineColor="#ff0000,#00ff00,#0000ff"
+                    app:rlcv_refreshTime="600"
+                    app:rlcv_isShowInfoIcon="true"
+                    app:rlcv_infoUrl="https://www.notion.so/Brainwave-Power-Graph-6f2a784b347d4d7d98b9fd0da89de454"
                     android:layout_height="200dp"/>
             <TextView
                     android:layout_marginTop="32dp"
