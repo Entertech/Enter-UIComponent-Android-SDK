@@ -42,10 +42,10 @@ class RealtimeDefaultFragment : Fragment() {
                     Log.d("######","anim append data")
                     var hrvList = listOf(Random().nextDouble()*10+85.0,Random().nextDouble()*10+85.0)
                     var hrvList2 = listOf(Random().nextDouble()*10+45.0,Random().nextDouble()*10+45.0)
-                    var hrvList3 = listOf(Random().nextDouble()*10+45.0,Random().nextDouble()*10+45.0)
+//                    var hrvList3 = listOf(Random().nextDouble()*10+45.0,Random().nextDouble()*10+45.0)
                     realtime_hrv.appendData(0,hrvList)
                     realtime_hrv.appendData(1,hrvList2)
-                    realtime_hrv.appendData(2,hrvList3)
+//                    realtime_hrv.appendData(2,hrvList3)
                     brainwave_view.setRightBrainwave(rightBrainwave)
                     brainwave_view.setLeftBrainwave(leftBrainwave)
                 }

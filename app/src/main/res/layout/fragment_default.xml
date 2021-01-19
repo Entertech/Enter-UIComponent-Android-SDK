@@ -289,7 +289,7 @@
                     app:rlcv_maxValue="120"
                     app:rlcv_buffer="2"
                     app:rlcv_screenPointCount="25"
-                    app:rlcv_lineColor="#ff0000,#00ff00,#0000ff"
+                    app:rlcv_lineColor="#ff0000,#00ff00"
                     app:rlcv_refreshTime="600"
                     app:rlcv_isShowInfoIcon="true"
                     app:rlcv_infoUrl="https://www.notion.so/Brainwave-Power-Graph-6f2a784b347d4d7d98b9fd0da89de454"

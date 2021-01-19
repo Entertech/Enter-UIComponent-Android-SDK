@@ -1,29 +1,36 @@
 package cn.entertech.uicomponentsdk.realtime;
 
 import android.animation.Animator;
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.CornerPathEffect;
-import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.entertech.uicomponentsdk.R;
 import cn.entertech.uicomponentsdk.utils.ScreenUtil;
+
+import static android.graphics.BlurMaskFilter.Blur.NORMAL;
 
 public class RealtimeAnimLineChartView extends View {
     private Context mContext;
@@ -62,6 +69,10 @@ public class RealtimeAnimLineChartView extends View {
     private Timer timer = new Timer();
     String[] lineColors;
     int lineCount;
+    private Bitmap mBgBitmap;
+    private Paint mValueLabelBgPaint;
+    private Paint mTextPaint;
+    private int rightOffset;
 
     public RealtimeAnimLineChartView(Context context) {
         this(context, null);
@@ -93,6 +104,12 @@ public class RealtimeAnimLineChartView extends View {
 
     public void init() {
         initList();
+        initBgBitmap();
+        rightOffset = ScreenUtil.dip2px(mContext, 7f);
+    }
+
+    public void initBgBitmap() {
+        mBgBitmap = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.pic_realtime_chart_bg);
     }
 
     private void initList() {
@@ -151,6 +168,16 @@ public class RealtimeAnimLineChartView extends View {
         mYAxisLabelPaint.setColor(Color.parseColor("#9AA1A9"));
         mYAxisLabelPaint.setTextSize(ScreenUtil.dip2px(mContext, 12));
         mYAxisLabelPaint.setTextAlign(Paint.Align.RIGHT);
+
+        mValueLabelBgPaint = new Paint();
+        mValueLabelBgPaint.setColor(Color.parseColor("#ffffff"));
+        mValueLabelBgPaint.setMaskFilter(new BlurMaskFilter(4f, NORMAL));
+        mValueLabelBgPaint.setStyle(Paint.Style.FILL);
+
+        mTextPaint = new Paint();
+        mTextPaint.setStyle(Paint.Style.FILL);
+        mTextPaint.setTextAlign(Paint.Align.CENTER);
+        mTextPaint.setTextSize(ScreenUtil.dip2px(mContext, 12f));
     }
 
     public synchronized void setData(int lineIndex, List<Double> data) {
@@ -173,7 +200,7 @@ public class RealtimeAnimLineChartView extends View {
         }
         boolean isDataNotInit = false;
         for (int i = 0; i < mSourceDataList.size(); i++) {
-            if (mSourceDataList.get(i).size() == 0){
+            if (mSourceDataList.get(i).size() == 0) {
                 isDataNotInit = true;
                 break;
             }
@@ -211,14 +238,17 @@ public class RealtimeAnimLineChartView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         onDrawBg(canvas);
+        onDrawBgBitmap(canvas);
         if (isShowSampleData) {
             onDrawSampleData(canvas);
         } else {
             if (isTimerStart) {
                 onDrawHrv(canvas);
+                onDrawLeftRectCover(canvas);
+                onDrawRightRectCover(canvas);
+                onDrawLastPoint(canvas);
             }
         }
-        onDrawRectCover(canvas);
         if (canPlayAnim()) {
             startAnim();
         }
@@ -227,12 +257,12 @@ public class RealtimeAnimLineChartView extends View {
     public boolean canPlayAnim() {
         boolean isSourceDataAvailable = false;
         for (int i = 0; i < mSourceDataList.size(); i++) {
-            if (mSourceDataList.get(i).size() != 0 && Collections.max(mSourceDataList.get(i)) != 0){
+            if (mSourceDataList.get(i).size() != 0 && Collections.max(mSourceDataList.get(i)) != 0) {
                 isSourceDataAvailable = true;
                 break;
             }
         }
-        return !isAnim && isSourceDataAvailable && mScreenDataList.size() != 0  && mScreenDataList.get(0).size() > mScreenPointCount + 1;
+        return !isAnim && isSourceDataAvailable && mScreenDataList.size() != 0 && mScreenDataList.get(0).size() > mScreenPointCount + 1;
     }
 
     private float axisOffset = 0f;
@@ -250,27 +280,43 @@ public class RealtimeAnimLineChartView extends View {
 
     public void onDrawBg(Canvas canvas) {
         mYAxisMargin = ScreenUtil.dip2px(mContext, 0);
-        canvas.drawRect(0, 0, getWidth(), getHeight(), mBgPaint);
+        canvas.drawRect(0, 0, getWidth() - rightOffset, getHeight(), mBgPaint);
 //        canvas.drawColor(mBgColor,PorterDuff.Mode.CLEAR);
-        float lineOffset = (getWidth() - (mLeftPadding + mRightPadding) - mYAxisMargin) / 4;
-        if (mIsDrawXAxis) {
-            canvas.drawLine(mLeftPadding + mYAxisMargin, getHeight() - 0.5f, getWidth() - mRightPadding, getHeight() - 0.5f, mAxisPaint);
-        }
-        for (int i = 0; i < (mGridLineCount + 1); i++) {
-            if (i == 0) {
-                canvas.drawLine(mLeftPadding + mYAxisMargin, 0, mLeftPadding + mYAxisMargin, getHeight(), mAxisPaint);
-            } else {
-                //绘制长度为4的实线后再绘制长度为4的空白区域，0位间隔
-                mGridLinePaint.setPathEffect(new DashPathEffect(new float[]{8, 8}, 0));
-                canvas.drawLine(lineOffset * i, 0, lineOffset * i, getHeight(), mGridLinePaint);
-            }
-        }
+//        float lineOffset = (getWidth() - (mLeftPadding + mRightPadding) - mYAxisMargin) / 4;
+//        if (mIsDrawXAxis) {
+//            canvas.drawLine(mLeftPadding + mYAxisMargin, getHeight() - 0.5f, getWidth() - mRightPadding, getHeight() - 0.5f, mAxisPaint);
+//        }
+//        for (int i = 0; i < (mGridLineCount + 1); i++) {
+//            if (i == 0) {
+//                canvas.drawLine(mLeftPadding + mYAxisMargin, 0, mLeftPadding + mYAxisMargin, getHeight(), mAxisPaint);
+//            } else {
+//                //绘制长度为4的实线后再绘制长度为4的空白区域，0位间隔
+//                mGridLinePaint.setPathEffect(new DashPathEffect(new float[]{8, 8}, 0));
+//                canvas.drawLine(lineOffset * i, 0, lineOffset * i, getHeight(), mGridLinePaint);
+//            }
+//        }
 //        canvas.drawText("0", mYAxisMargin, getHeight() - 10, mYAxisLabelPaint);
 //        canvas.drawText("50", mYAxisMargin, 30, mYAxisLabelPaint);
     }
 
-    public void onDrawRectCover(Canvas canvas) {
-        canvas.drawRect(0, 0, mLeftPadding + mYAxisMargin, getHeight(), mBgPaint);
+    public void onDrawBgBitmap(Canvas canvas) {
+        Rect src = new Rect(0, 0, mBgBitmap.getWidth(), mBgBitmap.getHeight());
+        Rect dst = new Rect(0, 0, (int) (getWidth() - rightOffset), getHeight());
+        canvas.drawBitmap(mBgBitmap, src, dst, mBgPaint);
+    }
+
+    public void onDrawRectCover(Canvas canvas, RectF rectF) {
+        canvas.drawRect(rectF, mBgPaint);
+    }
+
+    public void onDrawLeftRectCover(Canvas canvas) {
+        RectF rectF = new RectF(0, 0, mLeftPadding + mYAxisMargin, getHeight());
+        onDrawRectCover(canvas, rectF);
+    }
+
+    public void onDrawRightRectCover(Canvas canvas) {
+        RectF rectF = new RectF(getWidth() - rightOffset, 0, getWidth(), getHeight());
+        onDrawRectCover(canvas, rectF);
     }
 
     Path path = new Path();
@@ -284,7 +330,7 @@ public class RealtimeAnimLineChartView extends View {
             }
         }
 
-        float pointOffset = getWidth() * 1f / mScreenPointCount;
+        float pointOffset = (getWidth() - rightOffset) * 1f / mScreenPointCount;
         //获得canvas对象
         canvas.translate(mLeftPadding + mYAxisMargin - axisOffset, getHeight());
         for (int i = 0; i < mScreenDataList.size(); i++) {
@@ -300,8 +346,47 @@ public class RealtimeAnimLineChartView extends View {
         canvas.restore();
     }
 
+    public void onDrawLastPoint(Canvas canvas) {
+        canvas.save();
+        canvas.translate(0, getHeight());
+        for (int i = 0; i < mScreenDataList.size(); i++) {
+            int lastPointIndex = 0;
+            if (mScreenDataList.get(0).size() >= mScreenPointCount) {
+                lastPointIndex = mScreenDataList.get(i).size() - 2;
+            } else {
+                lastPointIndex = mScreenDataList.get(i).size() - 1;
+            }
+            float lastPointX = getWidth() - rightOffset;
+            if (realtimeLastPointYMap.isEmpty()){
+                return;
+            }
+            float lastPointY = realtimeLastPointYMap.get(i);
+            canvas.drawCircle(lastPointX, lastPointY, ScreenUtil.dip2px(mContext, 7f), mValueLabelBgPaint);
+            mLinePaintList.get(i).setStyle(Paint.Style.FILL);
+            canvas.drawCircle(lastPointX, lastPointY, ScreenUtil.dip2px(mContext, 3f), mLinePaintList.get(i));
+            mLinePaintList.get(i).setStyle(Paint.Style.STROKE);
+            int rectWidth = ScreenUtil.dip2px(mContext, 40f);
+            int rectHeight = ScreenUtil.dip2px(mContext, 18f);
+            int rectTop = (int) (lastPointY - rectHeight / 2f);
+            int left = (int) lastPointX - ScreenUtil.dip2px(mContext, 7f) - ScreenUtil.dip2px(mContext, 3f) - rectWidth;
+            Rect valueTextRect = new Rect(left, rectTop, left + rectWidth, rectTop + rectHeight);
+            canvas.drawRect(valueTextRect, mValueLabelBgPaint);
+            drawText(canvas, valueTextRect, ((mRealDataList.get(i).get(lastPointIndex)).intValue()) + "", i);
+        }
+        canvas.restore();
+    }
+
+    public void drawText(Canvas canvas, Rect textBg, String text, int lineIndex) {
+        mTextPaint.setColor(Color.parseColor(lineColors[lineIndex]));
+        Paint.FontMetrics fontMetrics = mTextPaint.getFontMetrics();
+        float top = fontMetrics.top;
+        float bottom = fontMetrics.bottom;
+        int baseLineY = (int) (textBg.centerY() - top / 2 - bottom / 2);
+        canvas.drawText(text, textBg.centerX(), baseLineY, mTextPaint);
+    }
+
     public void onDrawSampleData(Canvas canvas) {
-        float pointOffset = getWidth() * 1f / (sampleData.size() - 1);
+        float pointOffset = (getWidth() - rightOffset) * 1f / (sampleData.size() - 1);
         //获得canvas对象
         canvas.translate(mLeftPadding + mYAxisMargin, getHeight());
         float time = (getHeight() / mMaxValue * 1f);
@@ -331,7 +416,7 @@ public class RealtimeAnimLineChartView extends View {
             }
         }
         ArrayList<Double> screenData = new ArrayList<>();
-        if (realData.isEmpty()){
+        if (realData.isEmpty()) {
             return screenData;
         }
         int mMaxValue = Collections.max(realData).intValue() + 1;
@@ -360,6 +445,11 @@ public class RealtimeAnimLineChartView extends View {
         return screenData;
     }
 
+    private float lastPointY = 0f;
+
+    private HashMap<Integer, Float> realtimeLastPointYMap = new HashMap<>();
+    private List<Animator> animators = new ArrayList<>();
+
     public void startAnim() {
         float pointWidthOffset = mWidth / mScreenPointCount;
         ObjectAnimator valueAnimator = ObjectAnimator.ofFloat(this, "axisOffset", 0, pointWidthOffset);
@@ -369,7 +459,6 @@ public class RealtimeAnimLineChartView extends View {
                 invalidate();
             }
         });
-        valueAnimator.setInterpolator(new LinearInterpolator());
         valueAnimator.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
@@ -390,8 +479,30 @@ public class RealtimeAnimLineChartView extends View {
             public void onAnimationRepeat(Animator animation) {
             }
         });
-        valueAnimator.setDuration(mRefreshTime);
-        valueAnimator.start();
+        animators.clear();
+        animators.add(valueAnimator);
+
+        int lastPointIndex = 0;
+        if (mScreenDataList.get(0).size() >= mScreenPointCount) {
+            for (int i = 0; i < mScreenDataList.size(); i++) {
+                lastPointIndex = mScreenDataList.get(0).size() - 2;
+                ObjectAnimator lastPointYAnimator = ObjectAnimator.ofFloat(this, "lastPointY", -mScreenDataList.get(i).get(lastPointIndex).floatValue(), -mScreenDataList.get(i).get(lastPointIndex + 1).floatValue());
+                final int finalI = i;
+                lastPointYAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        float lastPointY = (float)animation.getAnimatedValue();
+                        realtimeLastPointYMap.put(finalI,lastPointY);
+                    }
+                });
+                animators.add(lastPointYAnimator);
+            }
+        }
+        AnimatorSet animationSet = new AnimatorSet();
+        animationSet.playTogether(animators);
+        animationSet.setDuration(mRefreshTime);
+        animationSet.setInterpolator(new LinearInterpolator());
+        animationSet.start();
     }
 
     public void setSampleData(List<Double> sampleData) {
@@ -458,5 +569,13 @@ public class RealtimeAnimLineChartView extends View {
 
     public void hideSampleData() {
         this.isShowSampleData = false;
+    }
+
+    public float getLastPointY() {
+        return lastPointY;
+    }
+
+    public void setLastPointY(float lastPointY) {
+        this.lastPointY = lastPointY;
     }
 }
