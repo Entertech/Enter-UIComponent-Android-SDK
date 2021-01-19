@@ -171,6 +171,7 @@ class RealtimeLineChartView @JvmOverloads constructor(
                     layoutParams.gravity = Gravity.CENTER_HORIZONTAL
                     layoutParams.rightMargin = 8f.dp().toInt()
                 }
+                ll_legend_parent.removeAllViews()
                 for (i in colors!!.indices) {
                     var realtimeChartLegendView = RealtimeChartLegendView(context)
                     realtimeChartLegendView.layoutParams = layoutParams
