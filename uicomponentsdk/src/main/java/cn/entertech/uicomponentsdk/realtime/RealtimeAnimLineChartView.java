@@ -73,6 +73,8 @@ public class RealtimeAnimLineChartView extends View {
     private Paint mValueLabelBgPaint;
     private Paint mTextPaint;
     private int rightOffset;
+    private boolean isDrawValueText = false;
+    private List<Integer> showLineIndexs;
 
     public RealtimeAnimLineChartView(Context context) {
         this(context, null);
@@ -334,6 +336,9 @@ public class RealtimeAnimLineChartView extends View {
         //获得canvas对象
         canvas.translate(mLeftPadding + mYAxisMargin - axisOffset, getHeight());
         for (int i = 0; i < mScreenDataList.size(); i++) {
+            if (showLineIndexs != null && !showLineIndexs.contains(i)) {
+                continue;
+            }
             mLinePathList.get(i).reset();
 //        Log.d("####", "draw data is " + drawData.toString());
             for (int j = 0; j < mScreenDataList.get(i).size(); j++) {
@@ -350,6 +355,9 @@ public class RealtimeAnimLineChartView extends View {
         canvas.save();
         canvas.translate(0, getHeight());
         for (int i = 0; i < mScreenDataList.size(); i++) {
+            if (showLineIndexs != null && !showLineIndexs.contains(i)) {
+                continue;
+            }
             int lastPointIndex = 0;
             if (mScreenDataList.get(0).size() >= mScreenPointCount) {
                 lastPointIndex = mScreenDataList.get(i).size() - 2;
@@ -357,7 +365,7 @@ public class RealtimeAnimLineChartView extends View {
                 lastPointIndex = mScreenDataList.get(i).size() - 1;
             }
             float lastPointX = getWidth() - rightOffset;
-            if (realtimeLastPointYMap.isEmpty()){
+            if (realtimeLastPointYMap.isEmpty()) {
                 return;
             }
             float lastPointY = realtimeLastPointYMap.get(i);
@@ -365,13 +373,15 @@ public class RealtimeAnimLineChartView extends View {
             mLinePaintList.get(i).setStyle(Paint.Style.FILL);
             canvas.drawCircle(lastPointX, lastPointY, ScreenUtil.dip2px(mContext, 3f), mLinePaintList.get(i));
             mLinePaintList.get(i).setStyle(Paint.Style.STROKE);
-            int rectWidth = ScreenUtil.dip2px(mContext, 40f);
-            int rectHeight = ScreenUtil.dip2px(mContext, 18f);
-            int rectTop = (int) (lastPointY - rectHeight / 2f);
-            int left = (int) lastPointX - ScreenUtil.dip2px(mContext, 7f) - ScreenUtil.dip2px(mContext, 3f) - rectWidth;
-            Rect valueTextRect = new Rect(left, rectTop, left + rectWidth, rectTop + rectHeight);
-            canvas.drawRect(valueTextRect, mValueLabelBgPaint);
-            drawText(canvas, valueTextRect, ((mRealDataList.get(i).get(lastPointIndex)).intValue()) + "", i);
+            if (isDrawValueText) {
+                int rectWidth = ScreenUtil.dip2px(mContext, 40f);
+                int rectHeight = ScreenUtil.dip2px(mContext, 18f);
+                int rectTop = (int) (lastPointY - rectHeight / 2f);
+                int left = (int) lastPointX - ScreenUtil.dip2px(mContext, 7f) - ScreenUtil.dip2px(mContext, 3f) - rectWidth;
+                Rect valueTextRect = new Rect(left, rectTop, left + rectWidth, rectTop + rectHeight);
+                canvas.drawRect(valueTextRect, mValueLabelBgPaint);
+                drawText(canvas, valueTextRect, ((mRealDataList.get(i).get(lastPointIndex)).intValue()) + "", i);
+            }
         }
         canvas.restore();
     }
@@ -491,8 +501,8 @@ public class RealtimeAnimLineChartView extends View {
                 lastPointYAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator animation) {
-                        float lastPointY = (float)animation.getAnimatedValue();
-                        realtimeLastPointYMap.put(finalI,lastPointY);
+                        float lastPointY = (float) animation.getAnimatedValue();
+                        realtimeLastPointYMap.put(finalI, lastPointY);
                     }
                 });
                 animators.add(lastPointYAnimator);
@@ -577,5 +587,17 @@ public class RealtimeAnimLineChartView extends View {
 
     public void setLastPointY(float lastPointY) {
         this.lastPointY = lastPointY;
+    }
+
+    public void setDrawValueText(boolean enable) {
+        this.isDrawValueText = enable;
+    }
+
+    public boolean isDrawValueText() {
+        return isDrawValueText;
+    }
+
+    public void setLineShowIndexs(List<Integer> indexs) {
+        this.showLineIndexs = indexs;
     }
 }

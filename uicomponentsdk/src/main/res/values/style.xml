@@ -168,6 +168,7 @@
         <attr name="rlcv_isShowInfoIcon" format="boolean" />
         <attr name="rlcv_infoUrl" format="string" />
         <attr name="rlcv_lineColor" format="string" />
+        <attr name="rlcv_lineLegendText" format="string" />
         <attr name="rlcv_axisColor" format="color" />
         <attr name="rlcv_gridLineColor" format="color" />
         <attr name="rlcv_lineWidth" format="dimension" />
@@ -176,6 +177,7 @@
         <attr name="rlcv_maxValue" format="integer" />
         <attr name="rlcv_refreshTime" format="integer" />
         <attr name="rlcv_screenPointCount" format="integer" />
+        <attr name="rlcv_isDrawValueText" format="boolean" />
     </declare-styleable>
 
 
