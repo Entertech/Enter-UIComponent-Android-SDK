@@ -643,7 +643,16 @@ class ReportHRLineChartCard @JvmOverloads constructor(
                 yAxisMin = 0.0
             }
         }
-        var interval = calNiceInterval(yAxisMin, yAxisMax)
+        var interval = 0
+        try {
+            interval = calNiceInterval(yAxisMin, yAxisMax)
+        } catch (e: Exception) {
+            chart.axisLeft.axisMaximum = 100f
+            chart.axisLeft.axisMinimum = 0f
+            chart.axisLeft.mEntries = floatArrayOf(0f, 25f, 50f, 75f, 100f)
+            chart.axisLeft.mEntryCount = 5
+            return
+        }
         var firstLabel = floor(yAxisMin / interval) * interval
         var lastLabel = ceil(yAxisMax / interval) * interval
         var labels = ArrayList<Float>()
