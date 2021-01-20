@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -55,6 +56,7 @@ public class RealtimeAnimLineChartView extends View {
     List<ArrayList<Double>> mSourceDataList = new ArrayList<>();
     List<ArrayList<Double>> mRealDataList = new ArrayList<>();
     List<ArrayList<Double>> mScreenDataList = new ArrayList<>();
+    List<ArrayList<Double>> mScreenSampleDataList = new ArrayList<>();
     List<Paint> mLinePaintList = new ArrayList<>();
     List<Path> mLinePathList = new ArrayList<>();
     public static int SCREEN_POINT_COUNT = 100;
@@ -225,9 +227,9 @@ public class RealtimeAnimLineChartView extends View {
             switch (msg.what) {
                 case 0:
                     handler.removeMessages(0);
-                    if (!isDestroy){
+                    if (!isDestroy) {
                         invalidate();
-                        handler.sendEmptyMessageDelayed(0,mRefreshTime);
+                        handler.sendEmptyMessageDelayed(0, mRefreshTime);
                     }
                     break;
                 case 1:
@@ -240,7 +242,7 @@ public class RealtimeAnimLineChartView extends View {
 
     private void startTimer() {
         isTimerStart = true;
-        handler.sendEmptyMessageDelayed(0,mRefreshTime);
+        handler.sendEmptyMessageDelayed(0, mRefreshTime);
     }
 
     private void initData() {
@@ -253,7 +255,7 @@ public class RealtimeAnimLineChartView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         mWidth = getWidth();
-
+        initSampleData();
     }
 
     @Override
@@ -270,7 +272,7 @@ public class RealtimeAnimLineChartView extends View {
                 onDrawLastPoint(canvas);
             }
         }
-        if (canPlayAnim()) {
+        if (canPlayAnim() && !isShowSampleData) {
             startAnim();
         }
     }
@@ -415,18 +417,24 @@ public class RealtimeAnimLineChartView extends View {
     }
 
     public void onDrawSampleData(Canvas canvas) {
-        float pointOffset = (getWidth() - rightOffset) * 1f / (sampleData.size() - 1);
+        canvas.save();
+        float pointOffset = (getWidth() - rightOffset) * 1f / mScreenPointCount;
         //获得canvas对象
-        canvas.translate(mLeftPadding + mYAxisMargin, getHeight());
-        float time = (getHeight() / mMaxValue * 1f);
-        Path path = new Path();
-        for (int i = 0; i < sampleData.size(); i++) {
-            if (i == 0)
-                path.moveTo(i * pointOffset, (float) (-(sampleData.get(i) * time)));
-            path.lineTo(i * pointOffset, (float) (-(sampleData.get(i) * time)));
-
+        canvas.translate(mLeftPadding + mYAxisMargin - axisOffset, getHeight());
+        for (int i = 0; i < mScreenSampleDataList.size(); i++) {
+            if (showLineIndexs != null && !showLineIndexs.contains(i)) {
+                continue;
+            }
+            mLinePathList.get(i).reset();
+//        Log.d("####", "draw data is " + drawData.toString());
+            for (int j = 0; j < mScreenSampleDataList.get(i).size(); j++) {
+                if (j == 0)
+                    mLinePathList.get(i).moveTo(j * pointOffset, (float) (-(mScreenSampleDataList.get(i).get(j))));
+                mLinePathList.get(i).lineTo(j * pointOffset, (float) (-(mScreenSampleDataList.get(i).get(j))));
+            }
+            canvas.drawPath(mLinePathList.get(i), mLinePaintList.get(i));
         }
-        canvas.drawPath(path, mCurvePaint);
+        canvas.restore();
     }
 
     public ArrayList<Double> dealData(List<Double> mSourceData, List<Double> realData) {
@@ -534,10 +542,20 @@ public class RealtimeAnimLineChartView extends View {
         animationSet.start();
     }
 
-    public void setSampleData(List<Double> sampleData) {
-        this.sampleData = sampleData;
+    public void showSampleData() {
         this.isShowSampleData = true;
         invalidate();
+    }
+
+    public void initSampleData(){
+        mScreenSampleDataList.clear();
+        for (int i = 0; i < lineCount; i++) {
+            ArrayList<Double> data = new ArrayList<Double>();
+            for (int j = 0; j < mScreenPointCount; j++) {
+                data.add(new Random().nextDouble() * getHeight()-10);
+            }
+            mScreenSampleDataList.add(data);
+        }
     }
 
     //

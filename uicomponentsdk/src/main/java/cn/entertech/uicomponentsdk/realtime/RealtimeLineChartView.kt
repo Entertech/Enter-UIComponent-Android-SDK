@@ -230,12 +230,8 @@ class RealtimeLineChartView @JvmOverloads constructor(
         mSelfView.findViewById<LottieAnimationView>(R.id.icon_loading).visibility = View.GONE
         mSelfView.findViewById<RelativeLayout>(R.id.rl_loading_cover).visibility = View.VISIBLE
         mSelfView.findViewById<TextView>(R.id.tv_disconnect_text).visibility = View.VISIBLE
-        var sampleBrainData = ArrayList<Double>()
-        for (i in 0..35) {
-            sampleBrainData.add(java.util.Random().nextDouble() * 10 + 60)
-        }
         mSelfView.findViewById<RealtimeAnimLineChartView>(R.id.realtime_chart)
-            .setSampleData(sampleBrainData)
+            .showSampleData()
     }
 
     fun showErrorMessage(error: String) {
