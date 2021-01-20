@@ -16,9 +16,13 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.os.Handler;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
+
+import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -75,6 +79,7 @@ public class RealtimeAnimLineChartView extends View {
     private int rightOffset;
     private boolean isDrawValueText = false;
     private List<Integer> showLineIndexs;
+    private boolean isDestroy;
 
     public RealtimeAnimLineChartView(Context context) {
         this(context, null);
@@ -214,14 +219,28 @@ public class RealtimeAnimLineChartView extends View {
 
     private boolean isTimerStart;
 
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            switch (msg.what) {
+                case 0:
+                    handler.removeMessages(0);
+                    if (!isDestroy){
+                        invalidate();
+                        handler.sendEmptyMessageDelayed(0,mRefreshTime);
+                    }
+                    break;
+                case 1:
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
     private void startTimer() {
         isTimerStart = true;
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                invalidate();
-            }
-        }, 0, mRefreshTime);
+        handler.sendEmptyMessageDelayed(0,mRefreshTime);
     }
 
     private void initData() {
@@ -599,5 +618,12 @@ public class RealtimeAnimLineChartView extends View {
 
     public void setLineShowIndexs(List<Integer> indexs) {
         this.showLineIndexs = indexs;
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        isDestroy = false;
+        handler.removeCallbacksAndMessages(null);
     }
 }

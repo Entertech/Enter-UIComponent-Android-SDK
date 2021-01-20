@@ -234,7 +234,7 @@ class RealtimeLineChartView @JvmOverloads constructor(
         for (i in 0..35) {
             sampleBrainData.add(java.util.Random().nextDouble() * 10 + 60)
         }
-        mSelfView.findViewById<BreathCoherenceSurfaceView>(R.id.sf_hrv)
+        mSelfView.findViewById<RealtimeAnimLineChartView>(R.id.realtime_chart)
             .setSampleData(sampleBrainData)
     }
 
