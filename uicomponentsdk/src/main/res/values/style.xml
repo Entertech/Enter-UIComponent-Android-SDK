@@ -11,6 +11,7 @@
         <attr name="bwsf_rightPadding" format="dimension" />
         <attr name="bwsf_bgColor" format="color" />
         <attr name="bwsf_maxValue" format="integer" />
+        <attr name="bwsf_pointBgColor" format="color" />
     </declare-styleable>
 
     <declare-styleable name="BreathCoherenceSurfaceView">

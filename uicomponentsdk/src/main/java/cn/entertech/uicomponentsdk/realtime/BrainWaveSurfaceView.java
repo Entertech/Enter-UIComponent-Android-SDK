@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BrainWaveSurfaceView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
+    private int mPointBgColor = Color.parseColor("#11152E");
     private float mLineWidth;
     private float mRightPadding;
     private float mLeftPadding;
@@ -57,6 +58,7 @@ public class BrainWaveSurfaceView extends SurfaceView implements SurfaceHolder.C
             mRightPadding = typedArray.getDimension(R.styleable.BrainWaveSurfaceView_bwsf_rightPadding, ScreenUtil.dip2px(context, 5));
             mLineWidth = typedArray.getDimension(R.styleable.BrainWaveSurfaceView_bwsf_lineWidth, 3);
             mMaxValue = typedArray.getInteger(R.styleable.BrainWaveSurfaceView_bwsf_maxValue, mMaxValue);
+            mPointBgColor = typedArray.getColor(R.styleable.BrainWaveSurfaceView_bwsf_pointBgColor, mPointBgColor);
         }
         initPaint();
     }
