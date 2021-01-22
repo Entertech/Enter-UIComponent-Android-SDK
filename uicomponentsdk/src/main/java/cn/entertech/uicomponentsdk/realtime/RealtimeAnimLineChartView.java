@@ -12,6 +12,7 @@ import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.CornerPathEffect;
+import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
@@ -35,6 +36,7 @@ import java.util.TimerTask;
 import cn.entertech.uicomponentsdk.R;
 import cn.entertech.uicomponentsdk.utils.ScreenUtil;
 
+import static android.graphics.BlurMaskFilter.Blur.INNER;
 import static android.graphics.BlurMaskFilter.Blur.NORMAL;
 
 public class RealtimeAnimLineChartView extends View {
@@ -82,6 +84,9 @@ public class RealtimeAnimLineChartView extends View {
     private boolean isDrawValueText = false;
     private List<Integer> showLineIndexs;
     private boolean isDestroy;
+    private Paint mPointBgPaint;
+    private int mBgPointColor = Color.parseColor("#11152E");
+    private int mTextRectBg = Color.parseColor("#ffffff");
 
     public RealtimeAnimLineChartView(Context context) {
         this(context, null);
@@ -179,14 +184,19 @@ public class RealtimeAnimLineChartView extends View {
         mYAxisLabelPaint.setTextAlign(Paint.Align.RIGHT);
 
         mValueLabelBgPaint = new Paint();
-        mValueLabelBgPaint.setColor(Color.parseColor("#ffffff"));
-        mValueLabelBgPaint.setMaskFilter(new BlurMaskFilter(4f, NORMAL));
+        mValueLabelBgPaint.setColor(mTextRectBg);
+        mValueLabelBgPaint.setAlpha((int)(0.8*255));
         mValueLabelBgPaint.setStyle(Paint.Style.FILL);
 
         mTextPaint = new Paint();
         mTextPaint.setStyle(Paint.Style.FILL);
         mTextPaint.setTextAlign(Paint.Align.CENTER);
         mTextPaint.setTextSize(ScreenUtil.dip2px(mContext, 12f));
+
+        mPointBgPaint = new Paint();
+        mPointBgPaint.setColor(mBgPointColor);
+        mPointBgPaint.setStyle(Paint.Style.FILL);
+        mPointBgPaint.setAlpha((int)(1));
     }
 
     public synchronized void setData(int lineIndex, List<Double> data) {
@@ -304,6 +314,17 @@ public class RealtimeAnimLineChartView extends View {
     public void onDrawBg(Canvas canvas) {
         mYAxisMargin = ScreenUtil.dip2px(mContext, 0);
         canvas.drawRect(0, 0, getWidth() - rightOffset, getHeight(), mBgPaint);
+
+        float currentX = ScreenUtil.dip2px(mContext, 2f);
+        float currentY = ScreenUtil.dip2px(mContext, 2f);
+        while (currentY < getHeight()) {
+            while (currentX < getWidth()) {
+                canvas.drawCircle(currentX, currentY, ScreenUtil.dip2px(mContext, 1f), mPointBgPaint);
+                currentX = currentX + ScreenUtil.dip2px(mContext, 4f);
+            }
+            currentX = ScreenUtil.dip2px(mContext, 2f);
+            currentY = currentY + ScreenUtil.dip2px(mContext, 4f);
+        }
 //        canvas.drawColor(mBgColor,PorterDuff.Mode.CLEAR);
 //        float lineOffset = (getWidth() - (mLeftPadding + mRightPadding) - mYAxisMargin) / 4;
 //        if (mIsDrawXAxis) {
@@ -323,9 +344,9 @@ public class RealtimeAnimLineChartView extends View {
     }
 
     public void onDrawBgBitmap(Canvas canvas) {
-        Rect src = new Rect(0, 0, mBgBitmap.getWidth(), mBgBitmap.getHeight());
-        Rect dst = new Rect(0, 0, (int) (getWidth() - rightOffset), getHeight());
-        canvas.drawBitmap(mBgBitmap, src, dst, mBgPaint);
+//        Rect src = new Rect(0, 0, mBgBitmap.getWidth(), mBgBitmap.getHeight());
+//        Rect dst = new Rect(0, 0, (int) (getWidth() - rightOffset), getHeight());
+//        canvas.drawBitmap(mBgBitmap, src, dst, mBgPaint);
     }
 
     public void onDrawRectCover(Canvas canvas, RectF rectF) {
@@ -399,15 +420,16 @@ public class RealtimeAnimLineChartView extends View {
                 int rectHeight = ScreenUtil.dip2px(mContext, 18f);
                 int rectTop = (int) (lastPointY - rectHeight / 2f);
                 int left = (int) lastPointX - ScreenUtil.dip2px(mContext, 7f) - ScreenUtil.dip2px(mContext, 3f) - rectWidth;
-                Rect valueTextRect = new Rect(left, rectTop, left + rectWidth, rectTop + rectHeight);
-                canvas.drawRect(valueTextRect, mValueLabelBgPaint);
-                drawText(canvas, valueTextRect, ((mRealDataList.get(i).get(lastPointIndex)).intValue()) + "", i);
+                RectF valueTextRect = new RectF(left, rectTop, left + rectWidth, rectTop + rectHeight);
+                float rectRadius = ScreenUtil.dip2px(mContext,4f);
+                canvas.drawRoundRect(valueTextRect,rectRadius,rectRadius,mValueLabelBgPaint);
+                drawText(canvas, valueTextRect, ((mRealDataList.get(i).get(mRealDataList.get(i).size()-1)).intValue()) + "", i);
             }
         }
         canvas.restore();
     }
 
-    public void drawText(Canvas canvas, Rect textBg, String text, int lineIndex) {
+    public void drawText(Canvas canvas, RectF textBg, String text, int lineIndex) {
         mTextPaint.setColor(Color.parseColor(lineColors[lineIndex]));
         Paint.FontMetrics fontMetrics = mTextPaint.getFontMetrics();
         float top = fontMetrics.top;
@@ -436,7 +458,8 @@ public class RealtimeAnimLineChartView extends View {
         }
         canvas.restore();
     }
-
+    int realDataMaxValue = 0;
+    int realDataMinValue = 100;
     public ArrayList<Double> dealData(List<Double> mSourceData, List<Double> realData) {
         if (mSourceData.size() == 0) {
 //            realData.add(0.0);
@@ -456,19 +479,23 @@ public class RealtimeAnimLineChartView extends View {
         if (realData.isEmpty()) {
             return screenData;
         }
-        int mMaxValue = Collections.max(realData).intValue() + 1;
-        int mMinValue = Collections.min(realData).intValue() - 1;
-        if (mMinValue < 0) {
-            mMinValue = 0;
+        if (Collections.max(realData).intValue()>realDataMaxValue){
+            realDataMaxValue = Collections.max(realData).intValue() + 1;
         }
-        float times = (getHeight()) / (mMaxValue - mMinValue) * 1.0f;
+        if (Collections.min(realData).intValue()<realDataMinValue){
+            realDataMinValue = Collections.min(realData).intValue() - 1;
+        }
+        if (realDataMinValue < 0) {
+            realDataMinValue = 0;
+        }
+        float times = (getHeight()) / (realDataMaxValue - realDataMinValue) * 1.0f;
         if (times != 0) {
             for (int i = 0; i < realData.size(); i++) {
                 if (realData.get(i) != 0) {
-                    screenData.add((realData.get(i) - mMinValue) * times);
+                    screenData.add((realData.get(i) - realDataMinValue) * times);
                 } else {
                     if (i - 1 >= 0) {
-                        screenData.add((realData.get(i - 1) - mMinValue) * times);
+                        screenData.add((realData.get(i - 1) - realDataMinValue) * times);
                     } else {
                         screenData.add(0.0);
                     }
@@ -547,12 +574,12 @@ public class RealtimeAnimLineChartView extends View {
         invalidate();
     }
 
-    public void initSampleData(){
+    public void initSampleData() {
         mScreenSampleDataList.clear();
         for (int i = 0; i < lineCount; i++) {
             ArrayList<Double> data = new ArrayList<Double>();
             for (int j = 0; j < mScreenPointCount; j++) {
-                data.add(new Random().nextDouble() * getHeight()-10);
+                data.add(new Random().nextDouble() * getHeight() - 10);
             }
             mScreenSampleDataList.add(data);
         }
@@ -643,5 +670,19 @@ public class RealtimeAnimLineChartView extends View {
         super.onDetachedFromWindow();
         isDestroy = false;
         handler.removeCallbacksAndMessages(null);
+    }
+
+    public void setBgPointColor(int color){
+        this.mBgPointColor = color;
+        mPointBgPaint.setColor(mBgPointColor);
+        mPointBgPaint.setAlpha((int)(0.2f*255));
+        invalidate();
+    }
+
+    public void setTextRectBgColor(int color){
+        this.mTextRectBg = color;
+        mValueLabelBgPaint.setColor(mTextRectBg);
+        mValueLabelBgPaint.setAlpha((int)(0.8*255));
+        invalidate();
     }
 }

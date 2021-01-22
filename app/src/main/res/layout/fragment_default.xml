@@ -288,6 +288,8 @@
                     android:layout_width="match_parent"
                     app:rlcv_maxValue="120"
                     app:rlcv_buffer="10"
+                    app:rlcv_pointBgColor="#11152E"
+                    app:rlcv_textRectBgColor="#ffffff"
                     app:rlcv_isDrawValueText="true"
                     app:rlcv_screenPointCount="25"
                     app:rlcv_lineColor="#FF6682,#58B9E0,#FF6682,#58B9E0,#FF6682"

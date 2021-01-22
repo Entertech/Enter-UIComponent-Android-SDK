@@ -32,6 +32,8 @@ class RealtimeLineChartView @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var mTextRectBgColor: Int = Color.WHITE
+    private var mPointBgColor: Int = Color.parseColor("#11152E")
     private var mIsDrawValueText: Boolean = false
     private var mLineLegendText: String? = ""
     private var mScreenPointCount: Int = 100
@@ -93,6 +95,10 @@ class RealtimeLineChartView @JvmOverloads constructor(
             typeArray.getInteger(R.styleable.RealtimeLineChartView_rlcv_refreshTime, mRefreshTime)
         mLineColor =
             typeArray.getString(R.styleable.RealtimeLineChartView_rlcv_lineColor)
+        mPointBgColor =
+            typeArray.getColor(R.styleable.RealtimeLineChartView_rlcv_pointBgColor,mPointBgColor)
+        mTextRectBgColor =
+            typeArray.getColor(R.styleable.RealtimeLineChartView_rlcv_textRectBgColor,mTextRectBgColor)
         mLineLegendText =
             typeArray.getString(R.styleable.RealtimeLineChartView_rlcv_lineLegendText)
         mScreenPointCount = typeArray.getInteger(
@@ -138,6 +144,8 @@ class RealtimeLineChartView @JvmOverloads constructor(
         realtime_chart.setLineColor(mLineColor)
         realtime_chart.setLineWidth(mLineWidth)
         realtime_chart.setGridLineColor(mGridLineColor)
+        realtime_chart.setBgPointColor(mPointBgColor)
+        realtime_chart.setTextRectBgColor(mTextRectBgColor)
         realtime_chart.setAxisColor(mAxisColor)
         realtime_chart.setScreenPointCount(mScreenPointCount)
         realtime_chart.isDrawValueText = mIsDrawValueText
