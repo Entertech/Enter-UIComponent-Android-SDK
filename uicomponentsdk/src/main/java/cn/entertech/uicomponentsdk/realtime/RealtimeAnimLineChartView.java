@@ -557,7 +557,8 @@ public class RealtimeAnimLineChartView extends View {
         int lastPointIndex = 0;
         if (mScreenDataList.get(0).size() >= mScreenPointCount) {
             for (int i = 0; i < mScreenDataList.size(); i++) {
-                lastPointIndex = mScreenDataList.get(0).size() - 2;
+                lastPointIndex = mScreenDataList.get(i).size() - 2;
+
                 ObjectAnimator lastPointYAnimator = ObjectAnimator.ofFloat(this, "lastPointY", -mScreenDataList.get(i).get(lastPointIndex).floatValue(), -mScreenDataList.get(i).get(lastPointIndex + 1).floatValue());
                 final int finalI = i;
                 lastPointYAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
