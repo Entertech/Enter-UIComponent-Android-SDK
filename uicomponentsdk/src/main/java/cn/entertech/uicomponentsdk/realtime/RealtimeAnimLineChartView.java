@@ -368,6 +368,23 @@ public class RealtimeAnimLineChartView extends View {
     public void onDrawHrv(Canvas canvas) {
         canvas.save();
         if (!isAnim) {
+            if (!mRealDataList.get(0).isEmpty()){
+                realDataMinValue = mRealDataList.get(0).get(0).intValue();
+                realDataMaxValue = mRealDataList.get(0).get(0).intValue();
+            }
+            for (int i = 0; i < mSourceDataList.size(); i++) {
+                if (!mRealDataList.get(i).isEmpty()){
+                    if (Collections.max(mRealDataList.get(i)).intValue()>=realDataMaxValue){
+                        realDataMaxValue = Collections.max(mRealDataList.get(i)).intValue() + 1;
+                    }
+                    if (Collections.min(mRealDataList.get(i)).intValue()<=realDataMinValue){
+                        realDataMinValue = Collections.min(mRealDataList.get(i)).intValue() - 1;
+                    }
+                    if (realDataMinValue < 0) {
+                        realDataMinValue = 0;
+                    }
+                }
+            }
             mScreenDataList.clear();
             for (int i = 0; i < mSourceDataList.size(); i++) {
                 mScreenDataList.add(dealData(mSourceDataList.get(i), mRealDataList.get(i)));
@@ -458,8 +475,8 @@ public class RealtimeAnimLineChartView extends View {
         }
         canvas.restore();
     }
-    int realDataMaxValue = 0;
-    int realDataMinValue = 100;
+    int realDataMaxValue = 100;
+    int realDataMinValue = 0;
     public ArrayList<Double> dealData(List<Double> mSourceData, List<Double> realData) {
         if (mSourceData.size() == 0) {
 //            realData.add(0.0);
@@ -478,15 +495,6 @@ public class RealtimeAnimLineChartView extends View {
         ArrayList<Double> screenData = new ArrayList<>();
         if (realData.isEmpty()) {
             return screenData;
-        }
-        if (Collections.max(realData).intValue()>realDataMaxValue){
-            realDataMaxValue = Collections.max(realData).intValue() + 1;
-        }
-        if (Collections.min(realData).intValue()<realDataMinValue){
-            realDataMinValue = Collections.min(realData).intValue() - 1;
-        }
-        if (realDataMinValue < 0) {
-            realDataMinValue = 0;
         }
         float times = (getHeight()) / (realDataMaxValue - realDataMinValue) * 1.0f;
         if (times != 0) {

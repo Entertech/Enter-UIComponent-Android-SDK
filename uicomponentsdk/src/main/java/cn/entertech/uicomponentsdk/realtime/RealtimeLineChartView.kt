@@ -1,13 +1,11 @@
 package cn.entertech.uicomponentsdk.realtime
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
-import android.net.Uri
 import android.os.Build
 import android.util.AttributeSet
 import android.view.Gravity
@@ -22,7 +20,6 @@ import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.utils.ScreenUtil
 import cn.entertech.uicomponentsdk.utils.dp
 import cn.entertech.uicomponentsdk.utils.toWebView
-import cn.entertech.uicomponentsdk.widget.OptionalBrainChartLegendView
 import cn.entertech.uicomponentsdk.widget.RealtimeChartLegendView
 import com.airbnb.lottie.LottieAnimationView
 import kotlinx.android.synthetic.main.view_realtime_line_chart.view.*
