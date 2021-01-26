@@ -1,4 +1,4 @@
-# Enter-UI-Component-Android-SDK 
+# Enter-UI-Component-Android-SDK [![Download](https://api.bintray.com/packages/hzentertech/maven/uicomponentsdk/images/download.svg) ](https://bintray.com/hzentertech/maven/uicomponentsdk/_latestVersion)
 
 ## 简介
 
