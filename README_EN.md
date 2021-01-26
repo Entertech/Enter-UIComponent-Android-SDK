@@ -1,21 +1,20 @@
-[English Readme](/README_EN.md)
 # Enter-UI-Component-Android-SDK [![Download](https://api.bintray.com/packages/hzentertech/maven/uicomponentsdk/images/download.svg) ](https://bintray.com/hzentertech/maven/uicomponentsdk/_latestVersion)
 
-## 简介
+## Introduction
 
-简化了应用中UI的重复开发，包括情感云的实时体验和数据报表UI控件。
+Simplifies the repeated development of UI in the application, including real-time experience of affective cloud and data report UI controls.
 
-## 集成
+## Getting Started
 
-### Gradle 自动集成
+### Gradle
 
-在module的build.gradle文件下添加以下依赖
+Add the following dependencies under the module's build.gradle file
 
 ```groovy
 implementation 'cn.entertech:uicomponentsdk:1.2.2'
 ```
 
-在项目根目录的build.gradle文件下添加以下依赖地址
+Add the following dependency address under the build.gradle file in the project root directory
 
 ```groovy
 allprojects {
@@ -27,11 +26,11 @@ allprojects {
 }
 ```
 
-## 快速接入
-**实时控件**
+## How to use
+**Realtime Widget**
 
-以实时脑波为例
-### 1.在xml布局文件中声明控件
+Take real-time brain waves as an example
+### 1.Declare the widget in the xml layout file
 
 ```xml
 <cn.entertech.uicomponentsdk.realtime.RealtimeBrainwaveView
@@ -46,25 +45,25 @@ allprojects {
                     app:rbv_textColor="#ffffff"
                     app:rbv_leftBrainwaveColor="#ff4852"
                     app:rbv_rightBrainwaveColor="#0064ff"
-                    >
+                    />
 ```
 
-### 2.在代码文件中是指具体的值
+### 2.Refers to specific values in code
 
 ```kotlin
-//右脑波
+//right brainwave
 brainwave_view.setRightBrainwave(rightBrainwave)
-//左脑波
+//left brainwave
 brainwave_view.setLeftBrainwave(leftBrainwave)
 ```
 
-### 效果
+### Display
 <img src="https://github.com/Entertech/Enter-UIComponent-Android-SDK/blob/master/image/%E6%95%88%E6%9E%9C2.png" width="200"/>
 
-**报表控件**
+**Report Widget**
 
-以脑波报表为例
-### 1.在xml布局文件中声明控件
+Take real-time brain waves as an example
+### 1.Declare the widget in the xml layout file
 
 ```xml
 <cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumView
@@ -82,23 +81,23 @@ brainwave_view.setLeftBrainwave(leftBrainwave)
 
 ```
 
-### 2.在代码文件中是指具体的值
+### 2.Refers to specific values in code
 
 ```kotlin
 report_brainwave_spectrum.setBrainwaveSpectrums(
-            startTime!!, //体验开始时间
-            gammaCurve,  //γ占比曲线
-            betaCurve,   // β占比曲线
-            alphaCurve,  //α占比曲线
-            thetaCurve,  //θ占比曲线
-            deltaCurve   //δ占比曲线
+            startTime!!, //practice start time
+            gammaCurve,  //γ curve
+            betaCurve,   // β curve
+            alphaCurve,  //α curve
+            thetaCurve,  //θ curve
+            deltaCurve   //δ curve
      )
 
 ```
 
-### 效果
+### Display
 <img src="https://github.com/Entertech/Enter-UIComponent-Android-SDK/blob/master/image/%E6%95%88%E6%9E%9C1.png" width="200"/>
 
-## 详细API
-更多详细控件API可查看 [UI控件详细API说明](https://github.com/Entertech/Enter-UIComponent-Android-SDK/blob/master/Entertech%20UI%E6%8E%A7%E4%BB%B6%E8%AF%A6%E7%BB%86API%E8%AF%B4%E6%98%8E.md)
+## Detail API
+More detailed widgets API can be viewed [UI widgets detailed API description](https://github.com/Entertech/Enter-UIComponent-Android-SDK/blob/master/Entertech%20UI%E6%8E%A7%E4%BB%B6%E8%AF%A6%E7%BB%86API%E8%AF%B4%E6%98%8E.md)
 
