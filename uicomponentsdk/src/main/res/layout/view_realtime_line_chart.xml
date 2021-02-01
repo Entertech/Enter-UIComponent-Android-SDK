@@ -70,9 +70,9 @@
                     android:id="@+id/realtime_chart"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginLeft="@dimen/activity_margin_half"
                     android:layout_marginTop="@dimen/activity_margin"
-                    android:layout_marginRight="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin_half"
                     android:layout_marginBottom="14dp"
                     />
 

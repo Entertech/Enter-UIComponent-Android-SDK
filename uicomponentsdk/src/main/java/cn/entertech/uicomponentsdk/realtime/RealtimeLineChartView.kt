@@ -29,6 +29,7 @@ class RealtimeLineChartView @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var mWebTitle: String? = ""
     private var mTextRectBgColor: Int = Color.WHITE
     private var mPointBgColor: Int = Color.parseColor("#11152E")
     private var mIsDrawValueText: Boolean = false
@@ -112,9 +113,15 @@ class RealtimeLineChartView @JvmOverloads constructor(
         if (mInfoIconRes != null) {
             iv_brain_real_time_info.setImageResource(mInfoIconRes!!)
         }
+        if (mIsShowInfoIcon){
+            iv_brain_real_time_info.visibility = View.VISIBLE
+        }else{
+            iv_brain_real_time_info.visibility = View.GONE
+        }
+
         iv_brain_real_time_info.setOnClickListener {
             if (mInfoUrl != null) {
-                toWebView(context, mInfoUrl!!, context.getString(R.string.sdk_breath_coherence))
+                toWebView(context, mInfoUrl!!, mWebTitle!!)
             }
         }
 
@@ -276,11 +283,13 @@ class RealtimeLineChartView @JvmOverloads constructor(
     fun setIsShowInfoIcon(
         flag: Boolean,
         res: Int = R.drawable.vector_drawable_info_circle,
-        url: String = RealtimeHeartRateView.INFO_URL
+        url: String = RealtimeHeartRateView.INFO_URL,
+        webTitle:String = ""
     ) {
         this.mIsShowInfoIcon = flag
         this.mInfoUrl = url
         this.mInfoIconRes = res
+        this.mWebTitle = webTitle
         initView()
     }
 

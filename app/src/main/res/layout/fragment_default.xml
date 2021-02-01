@@ -279,6 +279,11 @@
 
             </cn.entertech.uicomponentsdk.realtime.RealtimeBrainwaveView>
 
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="暂停"
+                    android:id="@+id/btn_pause"/>
             <cn.entertech.uicomponentsdk.realtime.RealtimeLineChartView
                     android:id="@+id/realtime_hrv"
                     app:rlcv_titleText="HRV"
