@@ -86,6 +86,7 @@ public class RealtimeAnimLineChartView extends View {
     private Paint mPointBgPaint;
     private int mBgPointColor = Color.parseColor("#11152E");
     private int mTextRectBg = Color.parseColor("#ffffff");
+    private OnDrawLastValueListener mOnDrawLastValueListener;
 
     public RealtimeAnimLineChartView(Context context) {
         this(context, null);
@@ -388,6 +389,9 @@ public class RealtimeAnimLineChartView extends View {
         //获得canvas对象
         canvas.translate(mLeftPadding + mYAxisMargin - axisOffset, getHeight());
         for (int i = 0; i < mScreenDataList.size(); i++) {
+            if (mOnDrawLastValueListener != null && mScreenDataList.get(i).size() < mScreenPointCount) {
+                mOnDrawLastValueListener.onLastValueDraw(i, (mRealDataList.get(i).get(mRealDataList.get(i).size() - 1)).intValue());
+            }
             if (showLineIndexs != null && !showLineIndexs.contains(i)) {
                 continue;
             }
@@ -410,12 +414,6 @@ public class RealtimeAnimLineChartView extends View {
             if (showLineIndexs != null && !showLineIndexs.contains(i)) {
                 continue;
             }
-            int lastPointIndex = 0;
-            if (mScreenDataList.get(0).size() >= mScreenPointCount) {
-                lastPointIndex = mScreenDataList.get(i).size() - 2;
-            } else {
-                lastPointIndex = mScreenDataList.get(i).size() - 1;
-            }
             float lastPointX = getWidth() - rightOffset;
             if (realtimeLastPointYMap.isEmpty()) {
                 return;
@@ -434,6 +432,9 @@ public class RealtimeAnimLineChartView extends View {
                 float rectRadius = ScreenUtil.dip2px(mContext, 4f);
                 canvas.drawRoundRect(valueTextRect, rectRadius, rectRadius, mValueLabelBgPaint);
                 drawText(canvas, valueTextRect, ((mRealDataList.get(i).get(mRealDataList.get(i).size() - 1)).intValue()) + "", i);
+                if (mOnDrawLastValueListener != null) {
+                    mOnDrawLastValueListener.onLastValueDraw(i, (mRealDataList.get(i).get(mRealDataList.get(i).size() - 1)).intValue());
+                }
             }
         }
         canvas.restore();
@@ -597,7 +598,7 @@ public class RealtimeAnimLineChartView extends View {
 
     public void setLineWidth(float lineWidth) {
         this.mLineWidth = lineWidth;
-        if (mLinePaintList != null){
+        if (mLinePaintList != null) {
             for (int i = 0; i < mLinePaintList.size(); i++) {
                 mLinePaintList.get(i).setStrokeWidth(mLineWidth);
             }
@@ -671,6 +672,14 @@ public class RealtimeAnimLineChartView extends View {
 
     public void setLineShowIndexs(List<Integer> indexs) {
         this.showLineIndexs = indexs;
+    }
+
+    public interface OnDrawLastValueListener {
+        void onLastValueDraw(int index, int value);
+    }
+
+    public void setOnDrawLastValueListener(OnDrawLastValueListener lastValueListener) {
+        this.mOnDrawLastValueListener = lastValueListener;
     }
 
     @Override

@@ -17,6 +17,7 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import cn.entertech.uicomponentsdk.R
+import cn.entertech.uicomponentsdk.realtime.RealtimeAnimLineChartView.OnDrawLastValueListener
 import cn.entertech.uicomponentsdk.utils.ScreenUtil
 import cn.entertech.uicomponentsdk.utils.dp
 import cn.entertech.uicomponentsdk.utils.toWebView
@@ -29,6 +30,7 @@ class RealtimeLineChartView @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var mOnDrawLastValueListener: OnDrawLastValueListener? = null
     private var mWebTitle: String? = ""
     private var mTextRectBgColor: Int = Color.WHITE
     private var mPointBgColor: Int = Color.parseColor("#11152E")
@@ -151,6 +153,7 @@ class RealtimeLineChartView @JvmOverloads constructor(
         realtime_chart.setBgPointColor(mPointBgColor)
         realtime_chart.setTextRectBgColor(mTextRectBgColor)
         realtime_chart.setAxisColor(mAxisColor)
+        realtime_chart.setOnDrawLastValueListener(mOnDrawLastValueListener)
         realtime_chart.setScreenPointCount(mScreenPointCount)
         realtime_chart.isDrawValueText = mIsDrawValueText
         realtime_chart.init()
@@ -295,6 +298,11 @@ class RealtimeLineChartView @JvmOverloads constructor(
 
     fun setIsShowXAxis(flag: Boolean) {
         this.mIsShowXAxis = flag
+        initView()
+    }
+
+    fun setOnDrawLastValueListener(lastValueListener: OnDrawLastValueListener) {
+        this.mOnDrawLastValueListener = lastValueListener
         initView()
     }
 }

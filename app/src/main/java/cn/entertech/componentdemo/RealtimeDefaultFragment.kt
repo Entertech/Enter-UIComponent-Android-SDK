@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import cn.entertech.uicomponentsdk.realtime.RealtimeAnimLineChartView
 import kotlinx.android.synthetic.main.fragment_default.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -28,11 +29,6 @@ class RealtimeDefaultFragment : Fragment() {
         btn_pause.setOnClickListener {
             isShowData = !isShowData
         }
-        realtime_brainwave_spectrum.setDeltaWavePercent(80f)
-        realtime_brainwave_spectrum.setAlphaWavePercent(90f)
-        realtime_brainwave_spectrum.setThetaWavePercent(80f)
-        realtime_brainwave_spectrum.setGammaWavePercent(90f)
-        realtime_brainwave_spectrum.setBetaWavePercent(100f)
         var timer = Timer()
         timer.schedule(object : TimerTask() {
             override fun run() {
@@ -77,5 +73,25 @@ class RealtimeDefaultFragment : Fragment() {
             }
 
         }, 0, 600)
+
+        realtime_hrv.setOnDrawLastValueListener(RealtimeAnimLineChartView.OnDrawLastValueListener { index, value ->
+            when(index){
+                0->{
+                    realtime_brainwave_spectrum.setDeltaWavePercent(value.toFloat())
+                }
+                1->{
+                    realtime_brainwave_spectrum.setAlphaWavePercent(value.toFloat())
+                }
+                2->{
+                    realtime_brainwave_spectrum.setGammaWavePercent(value.toFloat())
+                }
+                3->{
+                    realtime_brainwave_spectrum.setThetaWavePercent(value.toFloat())
+                }
+                4->{
+                    realtime_brainwave_spectrum.setBetaWavePercent(value.toFloat())
+                }
+            }
+        })
     }
 }
