@@ -11,7 +11,7 @@ Simplifies the repeated development of UI in the application, including real-tim
 Add the following dependencies under the module's build.gradle file
 
 ```groovy
-implementation 'cn.entertech:uicomponentsdk:1.2.2'
+implementation 'cn.entertech:uicomponentsdk:1.2.6-alpha04'
 ```
 
 Add the following dependency address under the build.gradle file in the project root directory

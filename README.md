@@ -12,7 +12,7 @@
 在module的build.gradle文件下添加以下依赖
 
 ```groovy
-implementation 'cn.entertech:uicomponentsdk:1.2.2'
+implementation 'cn.entertech:uicomponentsdk:1.2.6-alpha04'
 ```
 
 在项目根目录的build.gradle文件下添加以下依赖地址
@@ -46,7 +46,7 @@ allprojects {
                     app:rbv_textColor="#ffffff"
                     app:rbv_leftBrainwaveColor="#ff4852"
                     app:rbv_rightBrainwaveColor="#0064ff"
-                    >
+                    />
 ```
 
 ### 2.在代码文件中是指具体的值
