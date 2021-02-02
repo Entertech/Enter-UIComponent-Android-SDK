@@ -24,6 +24,8 @@ import cn.entertech.uicomponentsdk.utils.toWebView
 import cn.entertech.uicomponentsdk.widget.RealtimeChartLegendView
 import com.airbnb.lottie.LottieAnimationView
 import kotlinx.android.synthetic.main.view_realtime_line_chart.view.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class RealtimeLineChartView @JvmOverloads constructor(
     context: Context,
@@ -241,12 +243,12 @@ class RealtimeLineChartView @JvmOverloads constructor(
         mSelfView.findViewById<RelativeLayout>(R.id.rl_loading_cover).visibility = View.GONE
     }
 
-    fun showSampleData() {
+    fun showSampleData(sampleData:List<List<Int>>) {
         mSelfView.findViewById<LottieAnimationView>(R.id.icon_loading).visibility = View.GONE
         mSelfView.findViewById<RelativeLayout>(R.id.rl_loading_cover).visibility = View.VISIBLE
         mSelfView.findViewById<TextView>(R.id.tv_disconnect_text).visibility = View.VISIBLE
         mSelfView.findViewById<RealtimeAnimLineChartView>(R.id.realtime_chart)
-            .showSampleData()
+            .showSampleData(sampleData)
     }
 
     fun showErrorMessage(error: String) {

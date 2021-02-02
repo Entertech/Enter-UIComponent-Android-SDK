@@ -291,7 +291,7 @@
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
                     android:layout_width="match_parent"
-                    app:rlcv_maxValue="120"
+                    app:rlcv_maxValue="100"
                     app:rlcv_buffer="10"
                     app:rlcv_pointBgColor="#11152E"
                     app:rlcv_textRectBgColor="#ffffff"

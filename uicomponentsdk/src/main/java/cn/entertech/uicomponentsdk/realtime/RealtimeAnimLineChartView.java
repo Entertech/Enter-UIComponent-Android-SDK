@@ -58,7 +58,7 @@ public class RealtimeAnimLineChartView extends View {
     List<ArrayList<Double>> mSourceDataList = new ArrayList<>();
     List<ArrayList<Double>> mRealDataList = new ArrayList<>();
     List<ArrayList<Double>> mScreenDataList = new ArrayList<>();
-    List<ArrayList<Double>> mScreenSampleDataList = new ArrayList<>();
+    List<List<Integer>> mScreenSampleDataList = new ArrayList<>();
     List<Paint> mLinePaintList = new ArrayList<>();
     List<Path> mLinePathList = new ArrayList<>();
     public static int SCREEN_POINT_COUNT = 100;
@@ -264,7 +264,7 @@ public class RealtimeAnimLineChartView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         mWidth = getWidth();
-        initSampleData();
+//        initSampleData();
     }
 
     @Override
@@ -454,6 +454,10 @@ public class RealtimeAnimLineChartView extends View {
         float pointOffset = (getWidth() - rightOffset) * 1f / mScreenPointCount;
         //获得canvas对象
         canvas.translate(mLeftPadding + mYAxisMargin - axisOffset, getHeight());
+        float time = 1;
+        if (mMaxValue > 0){
+            time = getHeight()*1f/mMaxValue;
+        }
         for (int i = 0; i < mScreenSampleDataList.size(); i++) {
             if (showLineIndexs != null && !showLineIndexs.contains(i)) {
                 continue;
@@ -462,8 +466,8 @@ public class RealtimeAnimLineChartView extends View {
 //        Log.d("####", "draw data is " + drawData.toString());
             for (int j = 0; j < mScreenSampleDataList.get(i).size(); j++) {
                 if (j == 0)
-                    mLinePathList.get(i).moveTo(j * pointOffset, (float) (-(mScreenSampleDataList.get(i).get(j))));
-                mLinePathList.get(i).lineTo(j * pointOffset, (float) (-(mScreenSampleDataList.get(i).get(j))));
+                    mLinePathList.get(i).moveTo(j * pointOffset, (float) (-(mScreenSampleDataList.get(i).get(j))*time));
+                mLinePathList.get(i).lineTo(j * pointOffset, (float) (-(mScreenSampleDataList.get(i).get(j))*time));
             }
             canvas.drawPath(mLinePathList.get(i), mLinePaintList.get(i));
         }
@@ -574,21 +578,22 @@ public class RealtimeAnimLineChartView extends View {
         animationSet.start();
     }
 
-    public void showSampleData() {
+    public void showSampleData(List<List<Integer>> sampleData) {
+        this.mScreenSampleDataList = sampleData;
         this.isShowSampleData = true;
         invalidate();
     }
 
-    public void initSampleData() {
-        mScreenSampleDataList.clear();
-        for (int i = 0; i < lineCount; i++) {
-            ArrayList<Double> data = new ArrayList<Double>();
-            for (int j = 0; j < mScreenPointCount; j++) {
-                data.add(new Random().nextDouble() * getHeight() - 10);
-            }
-            mScreenSampleDataList.add(data);
-        }
-    }
+//    public void initSampleData() {
+//        mScreenSampleDataList.clear();
+//        for (int i = 0; i < lineCount; i++) {
+//            ArrayList<Double> data = new ArrayList<Double>();
+//            for (int j = 0; j < mScreenPointCount; j++) {
+//                data.add(new Random().nextDouble() * getHeight() - 10);
+//            }
+//            mScreenSampleDataList.add(data);
+//        }
+//    }
 
     //
     public void setLineColor(String color) {
