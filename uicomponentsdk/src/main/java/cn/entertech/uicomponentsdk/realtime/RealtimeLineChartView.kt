@@ -32,6 +32,7 @@ class RealtimeLineChartView @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var mVerticalPadding: Int =1
     private var mOnDrawLastValueListener: OnDrawLastValueListener? = null
     private var mWebTitle: String? = ""
     private var mTextRectBgColor: Int = Color.WHITE
@@ -155,6 +156,7 @@ class RealtimeLineChartView @JvmOverloads constructor(
         realtime_chart.setBgPointColor(mPointBgColor)
         realtime_chart.setTextRectBgColor(mTextRectBgColor)
         realtime_chart.setAxisColor(mAxisColor)
+        realtime_chart.setVerticalPadding(mVerticalPadding)
         realtime_chart.setOnDrawLastValueListener(mOnDrawLastValueListener)
         realtime_chart.setScreenPointCount(mScreenPointCount)
         realtime_chart.isDrawValueText = mIsDrawValueText
@@ -305,6 +307,11 @@ class RealtimeLineChartView @JvmOverloads constructor(
 
     fun setOnDrawLastValueListener(lastValueListener: OnDrawLastValueListener) {
         this.mOnDrawLastValueListener = lastValueListener
+        initView()
+    }
+
+    fun setVerticalPadding(padding:Int){
+        this.mVerticalPadding = padding
         initView()
     }
 }

@@ -87,6 +87,7 @@ public class RealtimeAnimLineChartView extends View {
     private int mBgPointColor = Color.parseColor("#11152E");
     private int mTextRectBg = Color.parseColor("#ffffff");
     private OnDrawLastValueListener mOnDrawLastValueListener;
+    private int mVerticalPadding = 1;
 
     public RealtimeAnimLineChartView(Context context) {
         this(context, null);
@@ -369,10 +370,10 @@ public class RealtimeAnimLineChartView extends View {
             for (int i = 0; i < mSourceDataList.size(); i++) {
                 if (!mRealDataList.get(i).isEmpty()) {
                     if (Collections.max(mRealDataList.get(i)).intValue() >= realDataMaxValue) {
-                        realDataMaxValue = Collections.max(mRealDataList.get(i)).intValue() + 1;
+                        realDataMaxValue = Collections.max(mRealDataList.get(i)).intValue() + mVerticalPadding;
                     }
                     if (Collections.min(mRealDataList.get(i)).intValue() <= realDataMinValue) {
-                        realDataMinValue = Collections.min(mRealDataList.get(i)).intValue() - 1;
+                        realDataMinValue = Collections.min(mRealDataList.get(i)).intValue() - mVerticalPadding;
                     }
                     if (realDataMinValue < 0) {
                         realDataMinValue = 0;
@@ -705,6 +706,11 @@ public class RealtimeAnimLineChartView extends View {
         this.mTextRectBg = color;
         mValueLabelBgPaint.setColor(mTextRectBg);
         mValueLabelBgPaint.setAlpha((int) (0.8 * 255));
+        invalidate();
+    }
+
+    public void setVerticalPadding(int padding){
+        this.mVerticalPadding = padding;
         invalidate();
     }
 }

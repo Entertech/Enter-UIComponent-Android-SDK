@@ -73,7 +73,7 @@ class RealtimeDefaultFragment : Fragment() {
             }
 
         }, 0, 600)
-
+        realtime_hrv.setVerticalPadding(10)
         realtime_hrv.setOnDrawLastValueListener(RealtimeAnimLineChartView.OnDrawLastValueListener { index, value ->
             when(index){
                 0->{
