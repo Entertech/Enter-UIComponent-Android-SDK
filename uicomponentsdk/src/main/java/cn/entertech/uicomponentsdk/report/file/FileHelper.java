@@ -9,6 +9,7 @@ import java.util.Calendar;
 
 /**
  * Created by EnterTech on 2017/3/20.
+ * File Helper
  * 硬件读写文件帮助类
  */
 
@@ -39,6 +40,7 @@ public class FileHelper {
     }
 
     /**
+     * update date length
      * 更新文件数据长度
      *
      * @param file

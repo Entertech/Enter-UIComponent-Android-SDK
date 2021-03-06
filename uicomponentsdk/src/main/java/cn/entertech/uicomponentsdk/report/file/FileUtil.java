@@ -14,6 +14,7 @@ import java.io.*;
 public class FileUtil {
 
     /**
+     * getFilesDir
      * 获取私有文件存储路径，如脑波文件
      *
      * @return 私有文件存储路径
@@ -23,6 +24,7 @@ public class FileUtil {
     }
 
     /**
+     * getExternalFilesDir
      * 获取普通文件存储路径，如音乐
      *
      * @return 普通文件存储路径
@@ -32,6 +34,7 @@ public class FileUtil {
     }
 
     /**
+     * getScreenShotDir
      * 获取截图路径
      *
      * @return 截图路径
@@ -41,6 +44,7 @@ public class FileUtil {
     }
 
     /**
+     * getExternalCacheDir
      * 获取缓存文件存储路径，如音乐缓存
      *
      * @return 缓存文件存储路径
@@ -50,6 +54,7 @@ public class FileUtil {
     }
 
     /**
+     * readRaw
      * 读取app内部文件
      *
      * @param
@@ -72,6 +77,7 @@ public class FileUtil {
     }
 
     /**
+     * readFile
      * 读文件
      *
      * @param fileName
@@ -97,6 +103,7 @@ public class FileUtil {
     }
 
     /**
+     * writeFile
      * 写文件
      *
      * @param fileName

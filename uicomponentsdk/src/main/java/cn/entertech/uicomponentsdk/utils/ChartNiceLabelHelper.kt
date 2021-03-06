@@ -5,6 +5,7 @@ import kotlin.math.*
 val NICE_TICK_COUNT = 5
 
 /**
+ * cal nice interval
  * 友好坐标计算方式
  */
 fun calNiceInterval(min: Double, max: Double): Int {

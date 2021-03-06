@@ -87,6 +87,7 @@ public class MeditationReportDataAnalyzed implements BrainDataUnit {
     }
 
     /**
+     * addInterruptData
      * 补齐体验中断数据
      *
      * @param source

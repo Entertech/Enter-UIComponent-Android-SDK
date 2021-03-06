@@ -167,7 +167,6 @@ public class BrainWaveSurfaceView extends SurfaceView implements SurfaceHolder.C
             if (i == 0) {
                 canvas.drawLine(mLeftPadding, 0, mLeftPadding, getHeight(), mStartLinePaint);
             } else {
-                //绘制长度为4的实线后再绘制长度为4的空白区域，0位间隔
                 mGridLinePaint.setPathEffect(new DashPathEffect(new float[]{8, 8}, 0));
                 canvas.drawLine(lineOffset * i, 0, lineOffset * i, getHeight(), mGridLinePaint);
             }
@@ -177,7 +176,6 @@ public class BrainWaveSurfaceView extends SurfaceView implements SurfaceHolder.C
     public void onDrawBrainWave(Canvas canvas) {
         float pointOffset = getWidth() * 1f / (drawData.size() - 1);
         dealData();
-        //获得canvas对象
         canvas.translate(mLeftPadding, getHeight() / 2);
         Path path = new Path();
 //        Log.d("####","draw data is "+drawData.toString());
@@ -193,7 +191,6 @@ public class BrainWaveSurfaceView extends SurfaceView implements SurfaceHolder.C
 
     public void onDrawSampleData(Canvas canvas) {
         float pointOffset = getWidth() * 1f / (sampleData.size() - 1);
-        //获得canvas对象
         canvas.translate(mLeftPadding, getHeight() / 2);
         Path path = new Path();
         for (int i = 0; i < sampleData.size(); i++) {

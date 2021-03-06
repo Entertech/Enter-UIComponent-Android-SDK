@@ -11,6 +11,7 @@ import android.net.NetworkInfo;
 public class NetworkState {
 
     /**
+     * isNetworkConnected
      * 判断网络是否连接
      * @param context
      * @return
@@ -27,6 +28,7 @@ public class NetworkState {
     }
 
     /**
+     * isWifiConnected
      * 判断wifi是否可用
      * @param context
      * @return
@@ -43,6 +45,7 @@ public class NetworkState {
     }
 
     /**
+     * isMobileConnected
      * 判断移动网络是否可用
      * @param context
      * @return
@@ -59,6 +62,7 @@ public class NetworkState {
     }
 
     /**
+     * getConnectedType
      * 获取当前网络类型
      * @param context
      * @return

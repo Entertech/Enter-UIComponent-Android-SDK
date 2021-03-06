@@ -206,7 +206,6 @@ public class BreathCoherenceSurfaceView extends SurfaceView implements SurfaceHo
     public void onDrawHrv(Canvas canvas) {
         float pointOffset = getWidth() * 1f / BRAIN_QUEUE_LENGTH;
         dealData();
-        //获得canvas对象
         canvas.translate(mLeftPadding + mYAxisMargin, getHeight());
         path.reset();
 //        Log.d("####", "draw data is " + drawData.toString());

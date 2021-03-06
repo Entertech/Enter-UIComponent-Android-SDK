@@ -387,7 +387,6 @@ public class RealtimeAnimLineChartView extends View {
         }
 
         float pointOffset = (getWidth() - rightOffset) * 1f / mScreenPointCount;
-        //获得canvas对象
         canvas.translate(mLeftPadding + mYAxisMargin - axisOffset, getHeight());
         for (int i = 0; i < mScreenDataList.size(); i++) {
             if (mOnDrawLastValueListener != null && mScreenDataList.get(i).size() < mScreenPointCount) {
@@ -453,7 +452,6 @@ public class RealtimeAnimLineChartView extends View {
     public void onDrawSampleData(Canvas canvas) {
         canvas.save();
         float pointOffset = (getWidth() - rightOffset) * 1f / mScreenPointCount;
-        //获得canvas对象
         canvas.translate(mLeftPadding + mYAxisMargin - axisOffset, getHeight());
         float time = 1;
         if (mMaxValue > 0){

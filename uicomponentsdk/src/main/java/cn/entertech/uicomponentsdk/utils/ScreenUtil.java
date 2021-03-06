@@ -19,6 +19,7 @@ import java.lang.reflect.Method;
 public class ScreenUtil {
 
     /**
+     * setStateBarTransparent
      * 透明状态栏
      *
      * @param context
@@ -38,6 +39,7 @@ public class ScreenUtil {
 
 
     /**
+     * getNavigationBarHeight
      * 获取底部导航栏
      *
      * @param context
@@ -55,6 +57,7 @@ public class ScreenUtil {
     }
 
     /**
+     * checkDeviceHasNavigationBar
      * 判断是否有导航栏
      *
      * @param context
@@ -101,6 +104,7 @@ public class ScreenUtil {
     }
 
     /**
+     * getScreenHeight
      * 获取屏幕内容高度
      *
      * @param context
@@ -115,6 +119,7 @@ public class ScreenUtil {
     }
 
     /**
+     * getScreenWidth
      * 获得屏幕高度
      *
      * @param context
@@ -129,7 +134,7 @@ public class ScreenUtil {
     }
 
     /**
-     * dp转px
+     * dp to px
      *
      * @param context
      * @param dipValue
@@ -141,7 +146,7 @@ public class ScreenUtil {
     }
 
     /**
-     * px转dp
+     * px to dp
      *
      * @param context
      * @param pxValue
@@ -154,7 +159,7 @@ public class ScreenUtil {
 
 
     /**
-     * sp转px
+     * sp to px
      *
      * @param context
      * @param spVal
