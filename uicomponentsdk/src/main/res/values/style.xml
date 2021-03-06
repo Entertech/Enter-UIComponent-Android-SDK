@@ -294,6 +294,7 @@
         <attr name="rbsp_mainColor" format="color" />
         <attr name="rbsp_textColor" format="color" />
         <attr name="rbsp_background" format="color|reference" />
+        <attr name="rbsp_topBackground" format="color|reference" />
         <attr name="rbsp_spectrumColors" format="string" />
     </declare-styleable>
 
@@ -493,6 +494,7 @@
 
     <declare-styleable name="ReportHRCard">
         <attr name="rchr_background" format="color|reference" />
+        <attr name="rchr_topBackground" format="color|reference" />
         <attr name="rchr_textColor" format="color" />
         <attr name="rchr_unitTextColor" format="color" />
         <attr name="rchr_indicatorColor" format="color" />
@@ -504,6 +506,7 @@
 
     <declare-styleable name="ReportHRVCard">
         <attr name="rchrv_background" format="color|reference" />
+        <attr name="rchrv_topBackground" format="color|reference" />
         <attr name="rchrv_textColor" format="color" />
         <attr name="rchrv_unitTextColor" format="color" />
         <attr name="rchrv_indicatorColor" format="color" />
@@ -515,6 +518,7 @@
 
     <declare-styleable name="ReportRelaxationAndAttentionCard">
         <attr name="rcraa_background" format="color|reference" />
+        <attr name="rcraa_topBackground" format="color|reference" />
         <attr name="rcraa_textColor" format="color" />
         <attr name="rcraa_attentionColor" format="color" />
         <attr name="rcraa_relaxationColor" format="color" />
@@ -528,6 +532,7 @@
 
     <declare-styleable name="ReportPressureCard">
         <attr name="rpc_background" format="color|reference" />
+        <attr name="rpc_topBackground" format="color|reference" />
         <attr name="rpc_textColor" format="color" />
         <attr name="rpc_arrowColor" format="color" />
         <attr name="rpc_levelBgColor" format="color" />

@@ -6,6 +6,21 @@
         android:id="@+id/rl_bg"
         >
 
+    <RelativeLayout
+            android:visibility="visible"
+            android:id="@+id/rl_corner_icon_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+        <ImageView
+                android:id="@+id/iv_corner_icon_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:scaleType="centerCrop"
+                />
+    </RelativeLayout>
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,19 +54,6 @@
                 />
     </LinearLayout>
 
-    <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
-
-        <ImageView
-                android:rotation="180"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:src="@mipmap/ic_pressure_bg_icon"
-                />
-    </RelativeLayout>
 
     <ImageView
             android:id="@+id/iv_arrow"

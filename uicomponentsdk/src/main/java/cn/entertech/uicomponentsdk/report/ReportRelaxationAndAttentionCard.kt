@@ -17,13 +17,13 @@ import kotlinx.android.synthetic.main.layout_common_card_title.view.tv_title
 import kotlinx.android.synthetic.main.layout_report_attention_card.view.*
 import kotlinx.android.synthetic.main.layout_report_attention_card.view.iv_arrow
 import kotlinx.android.synthetic.main.layout_report_attention_card.view.rl_bg
-import kotlinx.android.synthetic.main.layout_report_hrv_card.view.*
 
 class ReportRelaxationAndAttentionCard @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var mTopBg: Drawable? = null
     var mSelfView: View =
         LayoutInflater.from(context).inflate(R.layout.layout_report_attention_card, null)
 
@@ -52,6 +52,10 @@ class ReportRelaxationAndAttentionCard @JvmOverloads constructor(
             R.styleable.ReportRelaxationAndAttentionCard_rcraa_textColor,
             mTextColor
         )
+
+        mTopBg =
+            typeArray.getDrawable(R.styleable.ReportRelaxationAndAttentionCard_rcraa_topBackground)
+
         mArrowColor =
             typeArray.getColor(
                 R.styleable.ReportRelaxationAndAttentionCard_rcraa_arrowColor,
@@ -128,6 +132,12 @@ class ReportRelaxationAndAttentionCard @JvmOverloads constructor(
         iv_icon.setImageResource(R.drawable.vector_drawable_title_icon_relaxtion)
         tv_title.text = context.getString(R.string.sdk_relaxation_and_attention)
         tv_title.setTextColor(mTextColor)
+        if (mTopBg != null) {
+            rl_corner_icon_bg.visibility = View.VISIBLE
+            iv_corner_icon_bg.setImageDrawable(mTopBg)
+        } else {
+            rl_corner_icon_bg.visibility = View.GONE
+        }
     }
 
     fun initBg() {

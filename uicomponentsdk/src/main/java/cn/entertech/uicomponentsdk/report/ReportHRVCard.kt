@@ -14,15 +14,21 @@ import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.realtime.EmotionIndicatorView
 import cn.entertech.uicomponentsdk.utils.ScreenUtil
 import cn.entertech.uicomponentsdk.utils.getOpacityColor
+import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.*
 import kotlinx.android.synthetic.main.layout_common_card_title.view.*
 import kotlinx.android.synthetic.main.layout_common_card_title.view.tv_title
 import kotlinx.android.synthetic.main.layout_report_hrv_card.view.*
+import kotlinx.android.synthetic.main.layout_report_hrv_card.view.iv_corner_icon_bg
+import kotlinx.android.synthetic.main.layout_report_hrv_card.view.rl_bg
+import kotlinx.android.synthetic.main.layout_report_hrv_card.view.rl_corner_icon_bg
+import kotlinx.android.synthetic.main.layout_report_hrv_card.view.tv_unit
 
 class ReportHRVCard @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var mTopBg: Drawable?
     private var mIsShortCard: Boolean = false
     private var mArrowColor: Int = Color.parseColor("#ffffff")
     private var mLevelBgColor: Int = Color.parseColor("#40392F")
@@ -45,6 +51,10 @@ class ReportHRVCard @JvmOverloads constructor(
             R.styleable.ReportHRVCard
         )
         mBg = typeArray.getDrawable(R.styleable.ReportHRVCard_rchrv_background)
+
+        mTopBg =
+            typeArray.getDrawable(R.styleable.ReportHRVCard_rchrv_topBackground)
+
         mIndicatorColor =
             typeArray.getColor(R.styleable.ReportHRVCard_rchrv_indicatorColor, mIndicatorColor)
         mTextColor = typeArray.getColor(R.styleable.ReportHRVCard_rchrv_textColor, mTextColor)
@@ -101,6 +111,13 @@ class ReportHRVCard @JvmOverloads constructor(
         iv_icon.setImageResource(R.drawable.vector_drawable_title_icon_hrv)
         tv_title.text = context.getString(R.string.sdk_hrv_simple)
         tv_title.setTextColor(mTextColor)
+
+        if (mTopBg != null) {
+            rl_corner_icon_bg.visibility = View.VISIBLE
+            iv_corner_icon_bg.setImageDrawable(mTopBg)
+        } else {
+            rl_corner_icon_bg.visibility = View.GONE
+        }
     }
 
     private fun initValueText() {

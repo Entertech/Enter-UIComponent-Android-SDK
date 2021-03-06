@@ -22,7 +22,10 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.MPPointF
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum_pie.view.*
+import kotlinx.android.synthetic.main.layout_card_brain_spectrum_pie.view.iv_corner_icon_bg
+import kotlinx.android.synthetic.main.layout_card_brain_spectrum_pie.view.rl_corner_icon_bg
 import kotlinx.android.synthetic.main.layout_common_card_title.view.*
+import kotlinx.android.synthetic.main.layout_report_hr_card.view.*
 import kotlin.math.roundToInt
 
 class ReportBrainwaveSpectrumPieView @JvmOverloads constructor(
@@ -30,6 +33,7 @@ class ReportBrainwaveSpectrumPieView @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var mTopBg: Drawable?
     private var mIsShowTitleIcon: Boolean = true
     private var mIsShowTitleMenuIcon: Boolean = true
     private var mTitle: String? = null
@@ -67,6 +71,7 @@ class ReportBrainwaveSpectrumPieView @JvmOverloads constructor(
             mTextColor
         )
         mBg = typeArray.getDrawable(R.styleable.ReportBrainwaveSpectrumPieView_rbsp_background)
+        mTopBg = typeArray.getDrawable(R.styleable.ReportBrainwaveSpectrumPieView_rbsp_topBackground)
         mTitleIcon =
             typeArray.getDrawable(R.styleable.ReportBrainwaveSpectrumPieView_rbsp_titleIcon)
         mTitleMenuIcon =
@@ -124,6 +129,12 @@ class ReportBrainwaveSpectrumPieView @JvmOverloads constructor(
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 bgColor = (mBg as GradientDrawable).color!!.defaultColor
             }
+        }
+        if (mTopBg != null) {
+            rl_corner_icon_bg.visibility = View.VISIBLE
+            iv_corner_icon_bg.setImageDrawable(mTopBg)
+        } else {
+            rl_corner_icon_bg.visibility = View.GONE
         }
         pie_chart.setBackgroundColor(bgColor)
         legend_gamma.setTextColor(mTextColor)

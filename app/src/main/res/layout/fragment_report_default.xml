@@ -33,16 +33,22 @@
                     android:textSize="32sp"
                     />
 
+            <cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumPieView
+                    android:layout_width="match_parent"
+                    app:rbsp_topBackground="@mipmap/pic_report_top_bg_hr"
+                    app:rbsp_background="#000000"
+                    android:layout_height="300dp"/>
+
             <cn.entertech.uicomponentsdk.report.ReportOptionalBrainwaveSpectrumView
                     android:id="@+id/chart_brainwave"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:background="@color/white"
-                    app:robs_isShowMenuIconBg="false"
+                    app:robs_isShowMenuIconBg="true"
                     app:robs_isTitleIconShow="false"
                     app:robs_isTitleMenuIconShow="true"
-                    app:robs_menuIconBg="@drawable/vector_drawable_brainwave_spectrum_right_icon"
+                    app:robs_menuIconBg="@mipmap/pic_report_top_bg_hr"
                     app:robs_pointCount="100"
                     app:robs_spectrumColors="#FF6682,#FB9C98,#F7C77E,#5FC695,#5E75FF"
                     app:robs_timeUnit="700"
@@ -84,12 +90,12 @@
                     android:layout_height="300dp"
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:background="@color/white"
-                    app:rhlcc_isShowMenuIconBg="false"
+                    app:rhlcc_isShowMenuIconBg="true"
                     app:rhlcc_isTitleMenuIconShow="true"
                     app:rhlcc_lineColor="#FFC56F"
                     app:rhlcc_lineWidth="1dp"
                     app:rhlcc_markViewTitle="@string/sdk_hrv"
-                    app:rhlcc_menuIconBg="@drawable/vector_drawable_brainwave_spectrum_right_icon"
+                    app:rhlcc_menuIconBg="@mipmap/pic_report_top_bg_hr"
                     app:rhlcc_pointCount="200"
                     app:rhlcc_timeUnit="1800"
                     app:rhlcc_title="@string/sdk_heart_rate"
@@ -189,6 +195,7 @@
                     android:layout_height="141dp"
                     android:layout_marginTop="@dimen/activity_margin_half"
                     app:rpc_arrowColor="#F5F5F5"
+                    app:rpc_topBackground="@mipmap/pic_report_top_bg_hr"
                     app:rpc_background="#FFFFFF"
                     app:rpc_barBgColor="#DDE1EB"
                     app:rpc_barScaleLength="56dp"

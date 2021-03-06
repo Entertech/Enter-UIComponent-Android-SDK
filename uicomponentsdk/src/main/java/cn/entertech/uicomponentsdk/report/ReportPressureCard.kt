@@ -14,15 +14,19 @@ import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.utils.dp
 import kotlinx.android.synthetic.main.layout_common_card_title.view.*
 import kotlinx.android.synthetic.main.layout_common_card_title.view.tv_title
+import kotlinx.android.synthetic.main.layout_report_hrv_card.view.*
 import kotlinx.android.synthetic.main.layout_report_pressure_card.view.*
 import kotlinx.android.synthetic.main.layout_report_pressure_card.view.iv_arrow
+import kotlinx.android.synthetic.main.layout_report_pressure_card.view.iv_corner_icon_bg
 import kotlinx.android.synthetic.main.layout_report_pressure_card.view.rl_bg
+import kotlinx.android.synthetic.main.layout_report_pressure_card.view.rl_corner_icon_bg
 
 class ReportPressureCard @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var mTopBg: Drawable?
     private var mIsShowTitleIcon: Boolean = false
     private var mBarWidth: Float = 18f.dp()
     private var mBarScaleLength: Float = 24f.dp()
@@ -47,6 +51,10 @@ class ReportPressureCard @JvmOverloads constructor(
             R.styleable.ReportPressureCard
         )
         mBg = typeArray.getDrawable(R.styleable.ReportPressureCard_rpc_background)
+
+        mTopBg =
+            typeArray.getDrawable(R.styleable.ReportPressureCard_rpc_topBackground)
+
         mTextColor = typeArray.getColor(R.styleable.ReportPressureCard_rpc_textColor, mTextColor)
         mLevelBgColor =
             typeArray.getColor(R.styleable.ReportPressureCard_rpc_levelBgColor, mLevelBgColor)
@@ -94,6 +102,12 @@ class ReportPressureCard @JvmOverloads constructor(
         iv_icon.setImageResource(R.drawable.vector_drawable_title_icon_pressure)
         tv_title.text = context.getString(R.string.sdk_pressure)
         tv_title.setTextColor(mTextColor)
+        if (mTopBg != null) {
+            rl_corner_icon_bg.visibility = View.VISIBLE
+            iv_corner_icon_bg.setImageDrawable(mTopBg)
+        } else {
+            rl_corner_icon_bg.visibility = View.GONE
+        }
     }
 
     fun initBg() {
