@@ -11,7 +11,7 @@ Real-time heart rate display widget
 ![image-20191010145121952](image/realtime_hr.png)
 
 | Parameters | Type | Default Value | Description |
-| ----------------------- | ---------------- | -------- --- | ---------------------- |
+| ----------------------- | ---------------- | ----------- | ---------------------- |
 | rhrv_mainColor | color | `#23233A` | Main color |
 | rhrv_textColor | color | `#FFFFFF` | Font color |
 | rhrv_background | color\|reference | `#23233A` | background |
@@ -26,7 +26,7 @@ Real-time emotional value control. The current real-time values are: attention, 
 ![image-20191010145415901](image/realtime_affective.jpg)
 
 | Parameters | Type | Default Value | Description |
-| ------------------ | ---------------- | ----------- |- -------------------------------------------------- --------- |
+| ------------------ | ---------------- | ----------- |--------------------------------- |
 | rav_mainColor | color | `#23233A` | Main color |
 | rav_textColor | color | `#FFFFFF` | Font color |
 | rav_background | color\|reference | `#23233A` | Background |
@@ -41,7 +41,7 @@ Realtime brainwave spectrum
 ![image-20191010150032042](image/realtime_brainwave_spectrum.png)
 
 | Parameters | Type | Default Value | Description |
-| --------------------- | ---------------- | ---------- ---------------------------------- | --------------- --------------------------------------- |
+| --------------------- | ---------------- | ---------------------- | ----------------------- |
 | rbsv_mainColor | color | `#23233A` | Main color |
 | rbsv_textColor | color | `#FFFFFF` | Font color |
 | rbsv_background | color\|reference | `#23233A` | Background |
@@ -56,7 +56,7 @@ Realtime brainwave
 ![image-20191010150729231](image/realtime_brainwave.png)
 
 | Parameters | Type | Default Value | Description |
-| ----------------------- | ---------------- | -------- --- | ------------------ |
+| ----------------------- | ---------------- | ----------- | ------------- |
 | rbv_mainColor | color | `#23233A` | Main color |
 | rbv_textColor | color | `#FFFFFF` | Font color |
 | rbv_background | color\|reference | `#23233A` | Background |
@@ -139,7 +139,7 @@ var reportData = reportFileHelpr.readReportFile(fileName)
 ![image-20191014140326307](image/report_brainwave_spectrum.jpg)
 
 | Parameters | Type | Default Value | Description |
-| ----------------------- | ---------------- | -------- --------------------------------- | ---------------- ------------------- |
+| ----------------------- | ---------------- | --------------------- | ------------------------- |
 | rbs_mainColor | color | `#23233A` | Main color |
 | rbs_textColor | color | `#FFFFFF` | Font color |
 | rbs_background | color\|reference | `#23233A` | Background |
@@ -164,7 +164,7 @@ var reportData = reportFileHelpr.readReportFile(fileName)
 ![image-20191014141340894](image/report_line_chart_with_fill.jpg)
 
 | Parameters | Type | Default Value | Description |
-| ------------------------ | ---------------- | ------- ---- | ---------------------------- |
+| ------------------------ | ---------------- | ---------- | ---------------- |
 | rlcc_isTitleIconShow | boolean | true | Whether to display the title bar icon |
 | rlcc_title | string | None | Title |
 | rlcc_titleIcon | reference | None | Title Icon |
@@ -187,7 +187,7 @@ var reportData = reportFileHelpr.readReportFile(fileName)
 ![image-20191014141910905](image/report_affective_line_chart.jpg)
 
 | Parameters | Type | Default Value | Description |
-| ------------------------- | ---------------- | ------ ----- | ---------------------------- |
+| ------------------------- | ---------------- | ----------- | ------------------ |
 | ralcc_isTitleIconShow | boolean | true | Whether to display the title bar icon |
 | ralcc_title | string | None | Title |
 | ralcc_titleIcon | reference | None | Title Icon |
