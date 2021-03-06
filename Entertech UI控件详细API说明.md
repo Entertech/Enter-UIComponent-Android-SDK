@@ -1,3 +1,4 @@
+[English Readme](/Entertech_UI_Detail_API.md)
 # Entertech UI控件详细API说明
 
 ## 实数数据
