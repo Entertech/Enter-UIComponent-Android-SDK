@@ -32,7 +32,7 @@ class HalfCircleProgressBar @JvmOverloads constructor(
         mBarColor = typeArray.getColor(R.styleable.HalfCircleProgressBar_hcpb_barColor, mBarColor)
         mBarWidth =
             typeArray.getDimension(R.styleable.HalfCircleProgressBar_hcpb_barWidth, mBarWidth)
-        typeArray?.recycle()
+        typeArray.recycle()
         initPaint()
     }
 

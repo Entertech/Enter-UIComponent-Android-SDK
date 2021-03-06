@@ -28,7 +28,7 @@ class CustomVerticalTextView @JvmOverloads constructor(
         mText = typeArray.getString(R.styleable.CustomVerticalTextView_cvtv_text)
         mTextColor = typeArray.getColor(R.styleable.CustomVerticalTextView_cvtv_textColor, mTextColor)
         mTextSize = typeArray.getDimension(R.styleable.CustomVerticalTextView_cvtv_textSize, mTextSize)
-        typeArray?.recycle()
+        typeArray.recycle()
         initPaint()
     }
 
@@ -69,7 +69,7 @@ class CustomVerticalTextView @JvmOverloads constructor(
 
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        if (mTextBound != null && mTextHeight != null) {
+        if (mTextBound != null) {
             setMeasuredDimension(mTextHeight.toInt(), mTextBound!!.width())
         } else {
             setMeasuredDimension(measureWidth(widthMeasureSpec), measureWidth(heightMeasureSpec))

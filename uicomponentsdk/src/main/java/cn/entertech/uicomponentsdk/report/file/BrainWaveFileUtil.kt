@@ -40,7 +40,7 @@ class BrainWaveFileUtil ()  {
 
     private fun writeFile(fileName: String, byteArray: ByteArray, header: ByteArray) {
         val file = File(fileName)
-        var fos: FileOutputStream? = null
+        var fos: FileOutputStream?
         try {
             fos = FileOutputStream(file, true)
             if (0L == file.length()) {

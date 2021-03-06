@@ -167,13 +167,13 @@ class RealtimeLineChartView @JvmOverloads constructor(
     var lineShowIndexs = ArrayList<Int>()
     fun initLegendView() {
         var colors = mLineColor?.split(",")
-        if (colors == null || colors!!.size <= 1) {
+        if (colors == null || colors.size <= 1) {
             ll_legend_parent.visibility = View.GONE
         } else {
             ll_legend_parent.visibility = View.VISIBLE
             var legendTexts = mLineLegendText?.split(",")
-            if (legendTexts != null && legendTexts!!.size == colors!!.size) {
-                var layoutParams: LayoutParams? = null
+            if (legendTexts != null && legendTexts.size == colors.size) {
+                var layoutParams: LayoutParams?
                 if (legendTexts.size >= 3) {
                     layoutParams = LayoutParams(
                         0,
@@ -191,10 +191,10 @@ class RealtimeLineChartView @JvmOverloads constructor(
                     layoutParams.rightMargin = 8f.dp().toInt()
                 }
                 ll_legend_parent.removeAllViews()
-                for (i in colors!!.indices) {
+                for (i in colors.indices) {
                     var realtimeChartLegendView = RealtimeChartLegendView(context)
                     realtimeChartLegendView.layoutParams = layoutParams
-                    realtimeChartLegendView.setLegendIconColor(Color.parseColor(colors!![i]))
+                    realtimeChartLegendView.setLegendIconColor(Color.parseColor(colors[i]))
                     realtimeChartLegendView.setText(legendTexts[i])
                     realtimeChartLegendView.setCheck(true)
                     realtimeChartLegendView.addOnCheckListener {

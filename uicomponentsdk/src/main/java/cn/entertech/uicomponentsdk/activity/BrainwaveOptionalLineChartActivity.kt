@@ -29,13 +29,13 @@ class BrainwaveOptionalLineChartActivity : AppCompatActivity() {
         var textColor = intent.getIntExtra("textColor", Color.parseColor("#333333"))
         var bgColor = intent.getIntExtra("bgColor", Color.WHITE)
         var labelColor = intent.getIntExtra("labelColor", Color.parseColor("#9AA1A9"))
-        var gammaData = intent.getDoubleArrayExtra("gammaData").toList() as ArrayList
-        var betaData = intent.getDoubleArrayExtra("betaData").toList() as ArrayList
-        var alphaData = intent.getDoubleArrayExtra("alphaData").toList() as ArrayList
-        var thetaData = intent.getDoubleArrayExtra("thetaData").toList() as ArrayList
-        var deltaData = intent.getDoubleArrayExtra("deltaData").toList() as ArrayList
-        var spectrumColors = intent.getIntArrayExtra("spectrumColors").toList() as ArrayList
-        var isLegendShowList = intent.getBooleanArrayExtra("isLegendShowList").toList() as ArrayList
+        var gammaData = intent.getDoubleArrayExtra("gammaData")?.toList() as ArrayList
+        var betaData = intent.getDoubleArrayExtra("betaData")?.toList() as ArrayList
+        var alphaData = intent.getDoubleArrayExtra("alphaData")?.toList() as ArrayList
+        var thetaData = intent.getDoubleArrayExtra("thetaData")?.toList() as ArrayList
+        var deltaData = intent.getDoubleArrayExtra("deltaData")?.toList() as ArrayList
+        var spectrumColors = intent.getIntArrayExtra("spectrumColors")?.toList() as ArrayList
+        var isLegendShowList = intent.getBooleanArrayExtra("isLegendShowList")?.toList() as ArrayList
 
         brainwave_chart.setPointCount(pointCount)
         brainwave_chart.setTimeUnit(timeUnit)

@@ -290,9 +290,7 @@ class ReportHRLineChartCard @JvmOverloads constructor(
                 }
             }
         }
-        if (bgColor != null) {
-            rl_bg.setBackgroundColor(bgColor)
-        }
+        rl_bg.setBackgroundColor(bgColor)
     }
 
     fun initChartIcon() {
@@ -371,7 +369,7 @@ class ReportHRLineChartCard @JvmOverloads constructor(
 
     }
 
-    fun sampleData(data: List<Double>?, sample: Int, isShowAllData: Boolean): ArrayList<Double> {
+    fun sampleData(data: List<Double>?, sample: Int): ArrayList<Double> {
         var sampleData = ArrayList<Double>()
         for (i in data!!.indices) {
             if (i % sample == 0) {
@@ -430,8 +428,8 @@ class ReportHRLineChartCard @JvmOverloads constructor(
         if (isShowAllData || sample <= 1) {
             sample = 1
         }
-        mSampleData = sampleData(mFirstData, sample, isShowAllData)
-        mSampleSecondData = sampleData(secondLineData, sample, isShowAllData)
+        mSampleData = sampleData(mFirstData, sample)
+        mSampleSecondData = sampleData(secondLineData, sample)
         mTimeOfTwoPoint = mTimeUnit * sample
         var totalMin = mFirstData!!.size * mTimeUnit / 1000F / 60F
         var minOffset = (totalMin / 8).toInt() + 1
@@ -556,7 +554,7 @@ class ReportHRLineChartCard @JvmOverloads constructor(
     }
 
     fun initDataSet(values: ArrayList<Entry>, lineColor: Int): LineDataSet? {
-        if (values == null || values.isEmpty()) {
+        if (values.isEmpty()) {
             return null
         }
         var set1: LineDataSet
@@ -794,7 +792,7 @@ class ReportHRLineChartCard @JvmOverloads constructor(
                 set2?.values?.forEach {
                     it.icon = null
                 }
-                e?.icon = drawableIcon
+                e.icon = drawableIcon
                 chart.highlightValue(h, false)
             }
         })

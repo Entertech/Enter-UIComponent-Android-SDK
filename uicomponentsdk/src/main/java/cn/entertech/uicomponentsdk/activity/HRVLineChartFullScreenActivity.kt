@@ -55,11 +55,11 @@ class HRVLineChartFullScreenActivity : AppCompatActivity() {
         line_chart.bgColor = bgColor
         line_chart.setAverageLineColor(averageLineColor)
         line_chart.setLabelColor(labelColor)
-        line_chart.setCohTime(cohTime)
-        line_chart.setAverage(average)
+        line_chart.setCohTime(cohTime?:"")
+        line_chart.setAverage(average?:"")
         line_chart.setLineColor(lineColor)
         line_chart.setSecondLineColor(secondLineColor)
         line_chart.isShowDetail = false
-        line_chart.setData(lineData.toList(),secondLineData.toList(),true)
+        line_chart.setData(lineData?.toList(),secondLineData?.toList(),true)
     }
 }

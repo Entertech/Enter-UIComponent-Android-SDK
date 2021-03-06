@@ -57,7 +57,7 @@ import kotlin.collections.ArrayList
 class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
-    defStyleAttr: Int = 0, layoutId: Int? = null
+    defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
     private var mIsChartEnable: Boolean = true
     private var mLineWidth: Float = 1f.dp()
@@ -313,9 +313,7 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
                 }
             }
         }
-        if (bgColor != null) {
-            rl_bg.setBackgroundColor(bgColor)
-        }
+        rl_bg.setBackgroundColor(bgColor)
     }
 
     fun initUnit() {
@@ -375,7 +373,7 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
 
     fun isLegendClickable(): Boolean {
         var isCheckCount = 0
-        for (isChecked in legendIsCheckList!!) {
+        for (isChecked in legendIsCheckList) {
             if (isChecked) {
                 isCheckCount++
             }
@@ -404,22 +402,22 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
 
     fun fixData() {
         if (mBrainwaveSpectrums != null && mBrainwaveSpectrums!!.isNotEmpty()) {
-            for (i in mBrainwaveSpectrums!![0]!!.indices) {
+            for (i in mBrainwaveSpectrums!![0].indices) {
                 if (mBrainwaveSpectrums!![0][i] + mBrainwaveSpectrums!![1][i] + mBrainwaveSpectrums!![2][i] + mBrainwaveSpectrums!![3][i] + mBrainwaveSpectrums!![4][i] < 0.9) {
                     if (i != 0) {
-                        mBrainwaveSpectrums!![0]!![i] = mBrainwaveSpectrums!![0]!![i - 1]
-                        mBrainwaveSpectrums!![1]!![i] = mBrainwaveSpectrums!![1]!![i - 1]
-                        mBrainwaveSpectrums!![2]!![i] = mBrainwaveSpectrums!![2]!![i - 1]
-                        mBrainwaveSpectrums!![3]!![i] = mBrainwaveSpectrums!![3]!![i - 1]
-                        mBrainwaveSpectrums!![4]!![i] = mBrainwaveSpectrums!![4]!![i - 1]
+                        mBrainwaveSpectrums!![0][i] = mBrainwaveSpectrums!![0][i - 1]
+                        mBrainwaveSpectrums!![1][i] = mBrainwaveSpectrums!![1][i - 1]
+                        mBrainwaveSpectrums!![2][i] = mBrainwaveSpectrums!![2][i - 1]
+                        mBrainwaveSpectrums!![3][i] = mBrainwaveSpectrums!![3][i - 1]
+                        mBrainwaveSpectrums!![4][i] = mBrainwaveSpectrums!![4][i - 1]
                     } else {
-                        for (j in mBrainwaveSpectrums!![0]!!.indices) {
+                        for (j in mBrainwaveSpectrums!![0].indices) {
                             if (mBrainwaveSpectrums!![0][j] + mBrainwaveSpectrums!![1][j] + mBrainwaveSpectrums!![2][j] + mBrainwaveSpectrums!![3][j] + mBrainwaveSpectrums!![4][j] >= 0.9) {
-                                mBrainwaveSpectrums!![0]!![0] = mBrainwaveSpectrums!![0]!![j]
-                                mBrainwaveSpectrums!![1]!![0] = mBrainwaveSpectrums!![1]!![j]
-                                mBrainwaveSpectrums!![2]!![0] = mBrainwaveSpectrums!![2]!![j]
-                                mBrainwaveSpectrums!![3]!![0] = mBrainwaveSpectrums!![3]!![j]
-                                mBrainwaveSpectrums!![4]!![0] = mBrainwaveSpectrums!![4]!![j]
+                                mBrainwaveSpectrums!![0][0] = mBrainwaveSpectrums!![0][j]
+                                mBrainwaveSpectrums!![1][0] = mBrainwaveSpectrums!![1][j]
+                                mBrainwaveSpectrums!![2][0] = mBrainwaveSpectrums!![2][j]
+                                mBrainwaveSpectrums!![3][0] = mBrainwaveSpectrums!![3][j]
+                                mBrainwaveSpectrums!![4][0] = mBrainwaveSpectrums!![4][j]
                             }
                         }
                     }
@@ -495,7 +493,7 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
         var maxValue: Float? = null
         var minValue: Float? = null
         for (i in 0..4) {
-            if (!legendIsCheckList?.get(i)) {
+            if (!legendIsCheckList.get(i)) {
                 continue
             }
             val values = ArrayList<Entry>()
@@ -541,8 +539,8 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
             dataSets.add(set1) // add the data sets
         }
         // create a data object with the data sets
-        maxValue = maxValue!! +(maxValue!!-minValue!!)/8f
-        minValue = minValue!! - (maxValue!!-minValue!!)/8f
+        maxValue = maxValue!! +(maxValue -minValue!!)/8f
+        minValue = minValue - (maxValue - minValue)/8f
         if (minValue<0){
             minValue = 0f
         }
@@ -557,7 +555,7 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
     }
 
     fun drawYLimit(maxValue: Float, minValue: Float) {
-        var yLimitLineDelta = ((maxValue!! - minValue!!) / 4f)
+        var yLimitLineDelta = ((maxValue - minValue) / 4f)
 
         var yLimitLineValues = listOf<Float>(
             minValue + yLimitLineDelta,
@@ -569,11 +567,11 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
         yLimitLineValues.forEach {
             var limitLine: LimitLine? = null
             limitLine = LimitLine(it, "")
-            limitLine?.enableDashedLine(10f, 10f, 0f)
-            limitLine?.lineWidth = 1f
-            limitLine?.yOffset = -4f
-            limitLine?.textColor = mLabelColor
-            limitLine?.lineColor = mGridLineColor
+            limitLine.enableDashedLine(10f, 10f, 0f)
+            limitLine.lineWidth = 1f
+            limitLine.yOffset = -4f
+            limitLine.textColor = mLabelColor
+            limitLine.lineColor = mGridLineColor
             chart.axisLeft.addLimitLine(limitLine)
         }
     }
@@ -669,9 +667,9 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
                 }
                 var iconDrawables = iconList.map { it.toDrawable(context) }
                 for (i in dataSets.indices) {
-                    dataSets[i]?.setDrawIcons(true)
-                    dataSets[i]?.iconsOffset = MPPointF(0f, 0f)
-                    (dataSets[i]!! as LineDataSet)?.values.forEach {
+                    dataSets[i].setDrawIcons(true)
+                    dataSets[i].iconsOffset = MPPointF(0f, 0f)
+                    (dataSets[i] as LineDataSet)?.values.forEach {
                         if (it.x == e.x) {
                             it.icon = iconDrawables[i]
                         } else {

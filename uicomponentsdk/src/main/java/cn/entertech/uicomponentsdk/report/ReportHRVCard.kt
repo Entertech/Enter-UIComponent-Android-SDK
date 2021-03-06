@@ -125,10 +125,8 @@ class ReportHRVCard @JvmOverloads constructor(
         tv_hrv.setTextColor(mTextColor)
         tv_level.setTextColor(mTextColor)
         tv_level_2.setTextColor(mTextColor)
-        if (mLevelBgColor != null) {
-            var bg = tv_level.background as GradientDrawable
-            bg.setColor(mLevelBgColor)
-        }
+        var bg = tv_level.background as GradientDrawable
+        bg.setColor(mLevelBgColor)
         if (!mIsShortCard) {
             ll_value_tip_1.visibility = View.VISIBLE
             ll_value_tip_2.visibility = View.GONE

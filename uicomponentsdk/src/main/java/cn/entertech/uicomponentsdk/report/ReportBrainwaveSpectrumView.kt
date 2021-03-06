@@ -59,7 +59,7 @@ import kotlin.collections.ArrayList
 class ReportBrainwaveSpectrumView @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
-    defStyleAttr: Int = 0, layoutId: Int? = null
+    defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
     private var mSmallTitle: String? = ""
     var isFullScreen: Boolean = false
@@ -264,9 +264,7 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
                 }
             }
         }
-        if (bgColor != null) {
-            rl_bg.setBackgroundColor(bgColor)
-        }
+        rl_bg.setBackgroundColor(bgColor)
     }
 
     fun initUnit() {
@@ -299,22 +297,22 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
 
     fun fixData() {
         if (mBrainwaveSpectrums != null && mBrainwaveSpectrums!!.isNotEmpty()) {
-            for (i in mBrainwaveSpectrums!![0]!!.indices) {
+            for (i in mBrainwaveSpectrums!![0].indices) {
                 if (mBrainwaveSpectrums!![0][i] + mBrainwaveSpectrums!![1][i] + mBrainwaveSpectrums!![2][i] + mBrainwaveSpectrums!![3][i] + mBrainwaveSpectrums!![4][i] < 0.9) {
                     if (i != 0) {
-                        mBrainwaveSpectrums!![0]!![i] = mBrainwaveSpectrums!![0]!![i - 1]
-                        mBrainwaveSpectrums!![1]!![i] = mBrainwaveSpectrums!![1]!![i - 1]
-                        mBrainwaveSpectrums!![2]!![i] = mBrainwaveSpectrums!![2]!![i - 1]
-                        mBrainwaveSpectrums!![3]!![i] = mBrainwaveSpectrums!![3]!![i - 1]
-                        mBrainwaveSpectrums!![4]!![i] = mBrainwaveSpectrums!![4]!![i - 1]
+                        mBrainwaveSpectrums!![0][i] = mBrainwaveSpectrums!![0][i - 1]
+                        mBrainwaveSpectrums!![1][i] = mBrainwaveSpectrums!![1][i - 1]
+                        mBrainwaveSpectrums!![2][i] = mBrainwaveSpectrums!![2][i - 1]
+                        mBrainwaveSpectrums!![3][i] = mBrainwaveSpectrums!![3][i - 1]
+                        mBrainwaveSpectrums!![4][i] = mBrainwaveSpectrums!![4][i - 1]
                     } else {
-                        for (j in mBrainwaveSpectrums!![0]!!.indices) {
+                        for (j in mBrainwaveSpectrums!![0].indices) {
                             if (mBrainwaveSpectrums!![0][j] + mBrainwaveSpectrums!![1][j] + mBrainwaveSpectrums!![2][j] + mBrainwaveSpectrums!![3][j] + mBrainwaveSpectrums!![4][j] >= 0.9) {
-                                mBrainwaveSpectrums!![0]!![0] = mBrainwaveSpectrums!![0]!![j]
-                                mBrainwaveSpectrums!![1]!![0] = mBrainwaveSpectrums!![1]!![j]
-                                mBrainwaveSpectrums!![2]!![0] = mBrainwaveSpectrums!![2]!![j]
-                                mBrainwaveSpectrums!![3]!![0] = mBrainwaveSpectrums!![3]!![j]
-                                mBrainwaveSpectrums!![4]!![0] = mBrainwaveSpectrums!![4]!![j]
+                                mBrainwaveSpectrums!![0][0] = mBrainwaveSpectrums!![0][j]
+                                mBrainwaveSpectrums!![1][0] = mBrainwaveSpectrums!![1][j]
+                                mBrainwaveSpectrums!![2][0] = mBrainwaveSpectrums!![2][j]
+                                mBrainwaveSpectrums!![3][0] = mBrainwaveSpectrums!![3][j]
+                                mBrainwaveSpectrums!![4][0] = mBrainwaveSpectrums!![4][j]
                             }
                         }
                     }
@@ -339,13 +337,13 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
         var alphaAverage = ArrayList<Double>()
         var thetaAverage = ArrayList<Double>()
         var deltaAverage = ArrayList<Double>()
-        for (i in brainwaveSpectrums[0]!!.indices) {
+        for (i in brainwaveSpectrums[0].indices) {
             if (i % sample == 0) {
-                gammaAverage.add(brainwaveSpectrums[0]!![i])
-                betaAverage.add(brainwaveSpectrums[1]!![i])
-                alphaAverage.add(brainwaveSpectrums[2]!![i])
-                thetaAverage.add(brainwaveSpectrums[3]!![i])
-                deltaAverage.add(brainwaveSpectrums[4]!![i])
+                gammaAverage.add(brainwaveSpectrums[0][i])
+                betaAverage.add(brainwaveSpectrums[1][i])
+                alphaAverage.add(brainwaveSpectrums[2][i])
+                thetaAverage.add(brainwaveSpectrums[3][i])
+                deltaAverage.add(brainwaveSpectrums[4][i])
             }
         }
         sampleData.add(gammaAverage)
@@ -355,7 +353,7 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
         sampleData.add(deltaAverage)
 
         mTimeOfTwoPoint = mTimeUnit * sample
-        var totalMin = brainwaveSpectrums[0]!!.size * mTimeUnit / 1000F / 60F
+        var totalMin = brainwaveSpectrums[0].size * mTimeUnit / 1000F / 60F
         var minOffset = (totalMin / 8).toInt() + 1
         var currentMin = 0
         while (currentMin < totalMin) {
@@ -380,14 +378,14 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
         yLimitLineValues.forEach {
             var limitLine: LimitLine? = null
             limitLine = LimitLine(it, "${it.toInt()}%")
-            limitLine?.enableDashedLine(10f, 10f, 0f)
-            limitLine?.lineWidth = 1f
-            limitLine?.labelPosition = LimitLine.LimitLabelPosition.LEFT_TOP
-            limitLine?.textSize = 11f
-            limitLine?.xOffset = -20f
-            limitLine?.yOffset = -4f
-            limitLine?.textColor = mLabelColor
-            limitLine?.lineColor = mGridLineColor
+            limitLine.enableDashedLine(10f, 10f, 0f)
+            limitLine.lineWidth = 1f
+            limitLine.labelPosition = LimitLine.LimitLabelPosition.LEFT_TOP
+            limitLine.textSize = 11f
+            limitLine.xOffset = -20f
+            limitLine.yOffset = -4f
+            limitLine.textColor = mLabelColor
+            limitLine.lineColor = mGridLineColor
             chart.axisLeft.addLimitLine(limitLine)
         }
         for (i in 0..4) {
@@ -541,9 +539,9 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
                 }
                 var iconDrawables = iconList.map { it.toDrawable(context) }
                 for (i in dataSets.indices) {
-                    dataSets[i]?.setDrawIcons(true)
-                    dataSets[i]?.iconsOffset = MPPointF(0f, 0f)
-                    (dataSets[i]!! as LineDataSet)?.values.forEach {
+                    dataSets[i].setDrawIcons(true)
+                    dataSets[i].iconsOffset = MPPointF(0f, 0f)
+                    (dataSets[i] as LineDataSet).values.forEach {
                         if (it.x == e.x) {
                             it.icon = iconDrawables[i]
                         } else {

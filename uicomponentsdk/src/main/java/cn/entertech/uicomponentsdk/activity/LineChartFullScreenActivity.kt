@@ -54,8 +54,8 @@ class LineChartFullScreenActivity : AppCompatActivity() {
         line_chart.bgColor = bgColor
         line_chart.setAverageLineColor(averageLineColor)
         line_chart.setLabelColor(labelColor)
-        line_chart.setAverage(average)
+        line_chart.setAverage(average?:"")
         line_chart.setLineColor(lineColor)
-        line_chart.setData(lineData.toList(),true)
+        line_chart.setData(lineData?.toList(),true)
     }
 }

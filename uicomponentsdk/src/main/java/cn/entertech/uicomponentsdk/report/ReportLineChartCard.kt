@@ -220,9 +220,7 @@ class ReportLineChartCard @JvmOverloads constructor(
                 }
             }
         }
-        if (bgColor != null) {
-            rl_bg.setBackgroundColor(bgColor)
-        }
+        rl_bg.setBackgroundColor(bgColor)
     }
 
     fun initChartIcon() {
@@ -281,7 +279,7 @@ class ReportLineChartCard @JvmOverloads constructor(
         }
     }
 
-    fun sampleData(sample: Int, isShowAllData: Boolean): ArrayList<Double> {
+    fun sampleData(sample: Int): ArrayList<Double> {
         var sampleData = ArrayList<Double>()
         for (i in mData!!.indices) {
             if (i % sample == 0) {
@@ -301,7 +299,7 @@ class ReportLineChartCard @JvmOverloads constructor(
         if (isShowAllData || sample <= 1) {
             sample = 1
         }
-        var sampleData = sampleData(sample, isShowAllData)
+        var sampleData = sampleData(sample)
         mTimeOfTwoPoint = mTimeUnit * sample
         var totalMin = mData!!.size * mTimeUnit / 1000F / 60F
         var minOffset = (totalMin / 8).toInt() + 1
@@ -414,7 +412,7 @@ class ReportLineChartCard @JvmOverloads constructor(
 
 //         // set data
             chart.data = data
-            calNiceLabel(sampleData!!)
+            calNiceLabel(sampleData)
             chart.notifyDataSetChanged()
         }
     }
@@ -567,7 +565,7 @@ class ReportLineChartCard @JvmOverloads constructor(
                 set1.values.forEach {
                     it.icon = null
                 }
-                e?.icon = drawableIcon
+                e.icon = drawableIcon
                 chart.highlightValue(h, false)
             }
         })

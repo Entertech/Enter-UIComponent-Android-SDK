@@ -79,7 +79,7 @@ class PressureChart @JvmOverloads constructor(context: Context, attributeSet: At
     fun drawGridLineAndTimestamp(canvas: Canvas?) {
         canvas?.save()
         canvas?.translate(0f, height - mTimeStampTextHeight - mTimeStampPaddingTop - mGridLineLength)
-        if (mValue != null && mValue.size > 0) {
+        if (mValue.isNotEmpty()) {
             mTimeStampLsit.clear()
             var lineOffset = width * 1f / mValue.size
             var totalMin = mValue.size * 800f / 1000f / 60f

@@ -96,10 +96,8 @@ class ReportCoherenceCard @JvmOverloads constructor(
         tv_unit.setTextColor(mUnitTextColor)
         tv_hrv.setTextColor(mTextColor)
         tv_level.setTextColor(mTextColor)
-        if (mLevelBgColor != null) {
-            var bg = tv_level.background as GradientDrawable
-            bg.setColor(mLevelBgColor)
-        }
+        var bg = tv_level.background as GradientDrawable
+        bg.setColor(mLevelBgColor)
     }
 
     fun initBg() {

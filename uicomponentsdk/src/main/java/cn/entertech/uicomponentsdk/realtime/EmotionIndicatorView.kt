@@ -64,7 +64,7 @@ class EmotionIndicatorView @JvmOverloads constructor(
             typeArray.getDimensionPixelSize(R.styleable.EmotionIndicatorView_eiv_leftPadding, 0)
         mRightPadding =
             typeArray.getDimensionPixelSize(R.styleable.EmotionIndicatorView_eiv_rightPadding, 0)
-        typeArray?.recycle()
+        typeArray.recycle()
     }
 
 

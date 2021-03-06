@@ -59,7 +59,7 @@ class GradientSweepBar @JvmOverloads constructor(
                 mTextBottomMargin
             )
 
-        typeArray?.recycle()
+        typeArray.recycle()
 
         initPaint()
     }

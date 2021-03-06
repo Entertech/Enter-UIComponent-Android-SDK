@@ -115,10 +115,8 @@ class ReportHRCard @JvmOverloads constructor(
         tv_unit.setTextColor(mUnitTextColor)
         tv_hr.setTextColor(mTextColor)
         tv_hr_level.setTextColor(mTextColor)
-        if (mLevelBgColor != null) {
-            var bg = tv_hr_level.background as GradientDrawable
-            bg.setColor(mLevelBgColor)
-        }
+        var bg = tv_hr_level.background as GradientDrawable
+        bg.setColor(mLevelBgColor)
     }
 
     fun initBg() {

@@ -45,7 +45,7 @@ class StackedAreaChart @JvmOverloads constructor(context: Context, attributeSet:
             ScreenUtil.dip2px(context, 20f).toFloat()
         )
         mBackgroundColor = typeArray.getColor(R.styleable.StackedAreaChart_sac_backgroundColor, mBackgroundColor)
-        typeArray?.recycle()
+        typeArray.recycle()
         initPaint()
         this.setLayerType(LAYER_TYPE_SOFTWARE, null)
     }
@@ -100,7 +100,7 @@ class StackedAreaChart @JvmOverloads constructor(context: Context, attributeSet:
     var timestampMaxCount = 8
     var timestampOffset: Float = 0f
     fun initTimestamp(stackItems: ArrayList<StackItem>) {
-        if (stackItems != null && stackItems.size > 0) {
+        if (stackItems.size > 0) {
             if (stackItems[0].stackData != null && stackItems[0].stackData!!.size > 0) {
                 var totalMin = stackItems[0].stackData!!.size * 400f / 1000f / 60f
                 var minOffset = (totalMin / timestampMaxCount).toInt() + 1
@@ -141,7 +141,7 @@ class StackedAreaChart @JvmOverloads constructor(context: Context, attributeSet:
         for (i in 0 until mStackItems!![0].stackData!!.size) {
             var startY = 0.0
             for (j in 0 until mStackPaints.size) {
-                var drawData = 0.0
+                var drawData: Double
                 if (mStackItems!![j].stackData!![i] == 0.0) {
                     drawData = lastData[j]
                 } else {
@@ -182,9 +182,7 @@ class StackedAreaChart @JvmOverloads constructor(context: Context, attributeSet:
     }
 
     private fun checkNotNull(): Boolean {
-        return mStackPaints.size != null && mStackItems != null
-                && mStackItems!!.size != 0 && mStackItems!![0].stackData != null
-                && mStackItems!![0].stackData!!.isNotEmpty()
+        return mStackItems != null && mStackItems!!.size != 0 && mStackItems!![0].stackData != null && mStackItems!![0].stackData!!.isNotEmpty()
     }
 
 

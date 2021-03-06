@@ -286,9 +286,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
                 }
             }
         }
-        if (bgColor != null) {
-            rl_bg.setBackgroundColor(bgColor)
-        }
+        rl_bg.setBackgroundColor(bgColor)
     }
 
     fun initTitle() {
@@ -340,8 +338,8 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
                 intent.putExtra("relaxationAverage", mRelaxationAverage)
                 intent.putExtra("attentionLineColor", mAttentionLineColor)
                 intent.putExtra("relaxationLineColor", mRelaxationLineColor)
-                intent.putExtra("attentionData", mAttentionData?.toDoubleArray())
-                intent.putExtra("relaxationData", mRelaxationData?.toDoubleArray())
+                intent.putExtra("attentionData", mAttentionData.toDoubleArray())
+                intent.putExtra("relaxationData", mRelaxationData.toDoubleArray())
                 context.startActivity(intent)
             }
         }
@@ -357,19 +355,19 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
         lineColor: Int,
         isShowAllData: Boolean = false
     ) {
-        var sample = mData!!.size / mPointCount
+        var sample = mData.size / mPointCount
         if (isShowAllData || sample <= 1) {
             sample = 1
         }
         var sampleData = ArrayList<Double>()
-        for (i in mData!!.indices) {
+        for (i in mData.indices) {
             if (i % sample == 0) {
-                sampleData.add(mData!![i])
+                sampleData.add(mData[i])
             }
         }
 
         mTimeOfTwoPoint = mTimeUnit * sample
-        var totalMin = mData!!.size * mTimeUnit / 1000F / 60F
+        var totalMin = mData.size * mTimeUnit / 1000F / 60F
         var minOffset = (totalMin / 8).toInt() + 1
         var currentMin = 0
         while (currentMin < totalMin) {
@@ -392,7 +390,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
             currentMin += minOffset
         }
 
-        if (mData != null && mData!!.isNotEmpty()) {
+        if (mData.isNotEmpty()) {
             val ll1 = LimitLine(
                 average.toFloat(),
                 "${context.getString(R.string.sdk_report_average)}${if (average >= ATTENTION_Y_OFFSET) {
@@ -413,7 +411,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
         }
         var yLimitLineValues = listOf<Float>(0f, 120f, 30f, 70f, 100f, 150f, 190f, 220f)
         yLimitLineValues.forEach {
-            var limitLine: LimitLine? = null
+            var limitLine: LimitLine?
             if (it == 0f || it == 120f) {
                 limitLine = LimitLine(it, "0")
                 limitLine?.lineColor = getOpacityColor(mTextColor, 0.6f)
@@ -424,20 +422,20 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
                     it
                 }
                 limitLine = LimitLine(it, "${label.toInt()}")
-                limitLine?.enableDashedLine(10f, 10f, 0f)
-                limitLine?.lineColor = getOpacityColor(mAverageLineColor, 0.2f)
+                limitLine.enableDashedLine(10f, 10f, 0f)
+                limitLine.lineColor = getOpacityColor(mAverageLineColor, 0.2f)
             }
-            limitLine?.lineWidth = 1f
-            limitLine?.labelPosition = LimitLine.LimitLabelPosition.LEFT_TOP
-            limitLine?.textSize = 11f
-            limitLine?.xOffset = -20f
-            limitLine?.yOffset = -4f
-            limitLine?.textColor = mLabelColor
+            limitLine.lineWidth = 1f
+            limitLine.labelPosition = LimitLine.LimitLabelPosition.LEFT_TOP
+            limitLine.textSize = 11f
+            limitLine.xOffset = -20f
+            limitLine.yOffset = -4f
+            limitLine.textColor = mLabelColor
             chart.axisLeft.addLimitLine(limitLine)
         }
         val values = ArrayList<Entry>()
         for (i in sampleData.indices) {
-            values.add(Entry(i.toFloat(), sampleData!![i].toFloat()))
+            values.add(Entry(i.toFloat(), sampleData[i].toFloat()))
         }
 
         val set1: LineDataSet
@@ -488,12 +486,12 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
         this.mRelaxationData = formatData(relaxationData)
 
         drawLine(
-            mAttentionData!!.map { it + ATTENTION_Y_OFFSET },
+            mAttentionData.map { it + ATTENTION_Y_OFFSET },
             mAttentionAverage + ATTENTION_Y_OFFSET,
             mAttentionLineColor,
             isShowAllData
         )
-        drawLine(mRelaxationData!!, mRelaxationAverage, mRelaxationLineColor, isShowAllData)
+        drawLine(mRelaxationData, mRelaxationAverage, mRelaxationLineColor, isShowAllData)
 
 //        chart.xAxis.setLabelCount(mData!!.size,true)
     }
@@ -660,18 +658,18 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
                 attentionDrawableIcon = iconViewAttention.toDrawable(context)
                 relaxationDrawableIcon = iconViewRelaxation.toDrawable(context)
                 ll_title.visibility = View.INVISIBLE
-                dataSets[0]?.setDrawIcons(true)
-                dataSets[0]?.iconsOffset = MPPointF(0f, 3f)
-                (dataSets[0]!! as LineDataSet)?.values.forEach {
+                dataSets[0].setDrawIcons(true)
+                dataSets[0].iconsOffset = MPPointF(0f, 3f)
+                (dataSets[0] as LineDataSet).values.forEach {
                     if (it.x == e.x) {
                         it.icon = attentionDrawableIcon
                     } else {
                         it.icon = null
                     }
                 }
-                dataSets[1]?.setDrawIcons(true)
-                dataSets[1]?.iconsOffset = MPPointF(0f, 3f)
-                (dataSets[1]!! as LineDataSet)?.values?.forEach {
+                dataSets[1].setDrawIcons(true)
+                dataSets[1].iconsOffset = MPPointF(0f, 3f)
+                (dataSets[1] as LineDataSet).values?.forEach {
                     if (it.x == e.x) {
                         it.icon = relaxationDrawableIcon
                     } else {

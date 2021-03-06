@@ -43,7 +43,7 @@ dependencies {
 }
 
 //添加
-apply plugin: 'com.novoda.bintray-release'
+apply plugin: 'com.github.panpf.bintray-publish'
 publish {
     bintrayUser = "hzentertech"
     bintrayKey = "a5c7edd58f68d746817dce405483be33f6b0c219"
@@ -56,7 +56,7 @@ publish {
     //版本号
     publishVersion = '1.2.6-alpha09'
     //描述，不重要
-    desc = ''
+    desc = 'uicomponentsdk'
     //网站，不重要
     website = 'https://github.com/Entertech/Enter-UIComponent-Android-SDK'
     dryRun = false

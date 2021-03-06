@@ -61,7 +61,7 @@ class AverageBarChart @JvmOverloads constructor(
             typeArray.getColor(R.styleable.AverageBarChart_abc_barValueBgColor, mBarValueBgColor)
         mIsShowUnit = typeArray.getBoolean(R.styleable.AverageBarChart_abc_isShowUnit, false)
         mUnit = typeArray.getString(R.styleable.AverageBarChart_abc_unit)
-        typeArray?.recycle()
+        if (typeArray != null) typeArray.recycle()
 
         setValues(mValues)
         initPaint()
@@ -191,7 +191,7 @@ class AverageBarChart @JvmOverloads constructor(
     }
 
     fun setValues(values: List<Float>) {
-        if (values == null || values.isEmpty()) {
+        if (values.isEmpty()) {
             return
         }
         mValues = values
@@ -216,7 +216,7 @@ class AverageBarChart @JvmOverloads constructor(
                 } else if (value == max) {
                     mTransferValues.add(128)
                 } else {
-                    var transferValue = 28 + ((value - min!!) * 1f / (max!! - min!!) * 100).toInt()
+                    var transferValue = 28 + ((value - min!!) * 1f / (max!! - min) * 100).toInt()
                     mTransferValues.add(transferValue)
                 }
             }

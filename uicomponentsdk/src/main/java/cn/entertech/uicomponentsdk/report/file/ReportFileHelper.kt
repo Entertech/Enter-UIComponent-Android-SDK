@@ -51,7 +51,7 @@ class ReportFileHelper(var context: Context) {
             meditationReportFileFragment = FileFragment(state, FileFragmentContent())
         }
 
-        reportMeditationDataEntity?.let {
+        reportMeditationDataEntity.let {
             meditationReportFileFragment?.content?.append(
                 MeditationReportDataAnalyzed(
                     reportMeditationDataEntity,

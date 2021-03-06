@@ -137,7 +137,7 @@ class ReportAverageChartCard @JvmOverloads constructor(
         average_bar_chart.setIsValueFloat(isValueFloat)
     }
     fun setValues(values: List<Float>) {
-        if (values == null || values.isEmpty()) {
+        if (values.isEmpty()) {
             return
         }
         average_bar_chart.setValues(values)

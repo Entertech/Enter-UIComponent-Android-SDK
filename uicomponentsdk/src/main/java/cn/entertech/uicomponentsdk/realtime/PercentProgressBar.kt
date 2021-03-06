@@ -73,7 +73,7 @@ class PercentProgressBar @JvmOverloads constructor(
             typeArray.getDimension(R.styleable.PercentProgressBar_ppb_leftPadding, mLeftPadding)
         mRightPadding =
             typeArray.getDimension(R.styleable.PercentProgressBar_ppb_rightPadding, mRightPadding)
-        typeArray?.recycle()
+        typeArray.recycle()
         initPaint()
     }
 
@@ -134,8 +134,8 @@ class PercentProgressBar @JvmOverloads constructor(
         } else {
             percentText = "${formatNum(mPercent * 100)}%"
         }
-        labelTextWidth = mLabelTextPaint?.measureText(mLabelText)
-        percentTextWidth = mLabelTextPaint?.measureText(percentText)
+        labelTextWidth = mLabelTextPaint.measureText(mLabelText)
+        percentTextWidth = mLabelTextPaint.measureText(percentText)
         barMaxWidth =
             mWidth - labelTextWidth - percentTextWidth - mLeftPadding - mRightPadding - mBarLeftPadding - mBarRightPadding
         var labelTextBaseline =
@@ -159,20 +159,20 @@ class PercentProgressBar @JvmOverloads constructor(
     }
 
     private fun drawBar(canvas: Canvas) {
-        canvas?.drawCircle(
+        canvas.drawCircle(
             labelTextWidth + mBarHeight / 2 + mBarLeftPadding + mLeftPadding,
             0f,
             mBarHeight / 2,
             mBarPaint
         )
-        canvas?.drawLine(
+        canvas.drawLine(
             labelTextWidth + mBarHeight / 2 + mBarLeftPadding + mLeftPadding,
             0f,
             labelTextWidth + mBarLeftPadding + barMaxWidth * mPercent - mBarHeight / 2 + mLeftPadding,
             0f,
             mBarPaint
         )
-        canvas?.drawCircle(
+        canvas.drawCircle(
             labelTextWidth + mBarLeftPadding + barMaxWidth * mPercent - mBarHeight / 2 + mLeftPadding,
             0f,
             mBarHeight / 2,

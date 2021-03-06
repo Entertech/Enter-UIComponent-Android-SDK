@@ -60,6 +60,6 @@ class AffectiveLineChartFullScreenActivity : AppCompatActivity() {
         line_affective_chart?.setLabelColor(labelColor)
         line_affective_chart?.setAttentionAverage(attentionAverage)
         line_affective_chart?.setRelaxationAverage(relaxationAverage)
-        line_affective_chart?.setData(attentionData.toList(), relaxationData.toList(), true)
+        line_affective_chart?.setData(attentionData?.toList(), relaxationData?.toList(), true)
     }
 }
