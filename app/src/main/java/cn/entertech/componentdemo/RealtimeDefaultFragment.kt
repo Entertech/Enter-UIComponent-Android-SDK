@@ -26,9 +26,6 @@ class RealtimeDefaultFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         attention_tip1.showDisconnectTip()
         attention_tip2.showLoading()
-        btn_pause.setOnClickListener {
-            isShowData = !isShowData
-        }
         var timer = Timer()
         timer.schedule(object : TimerTask() {
             override fun run() {

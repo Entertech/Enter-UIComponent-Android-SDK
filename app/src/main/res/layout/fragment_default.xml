@@ -25,19 +25,11 @@
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="心率"
+                    android:text="@string/sdk_heart_rate"
                     android:textSize="32dp"
                     android:textColor="@color/colorDefaultBlack"
                     />
 
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="心率——大"
-                    android:textColor="@color/colorDefaultBlack"
-                    android:layout_marginLeft="@dimen/activity_margin"
-                    android:layout_marginTop="@dimen/activity_margin"
-                    />
 
             <cn.entertech.uicomponentsdk.realtime.RealtimeHeartRateView
                     android:layout_marginTop="@dimen/activity_margin_half"
@@ -61,14 +53,6 @@
                         android:orientation="vertical"
                         >
 
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="心率——最小"
-                            android:textColor="@color/colorDefaultBlack"
-                            android:layout_marginLeft="@dimen/activity_margin"
-                            android:layout_marginTop="@dimen/activity_margin"
-                            />
 
                     <cn.entertech.uicomponentsdk.realtime.RealtimeHeartRateView
                             android:layout_marginTop="@dimen/activity_margin_half"
@@ -83,32 +67,6 @@
                     </cn.entertech.uicomponentsdk.realtime.RealtimeHeartRateView>
                 </LinearLayout>
 
-                <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        >
-
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="心率——无数据"
-                            android:textColor="@color/colorDefaultBlack"
-                            android:layout_marginLeft="@dimen/activity_margin"
-                            android:layout_marginTop="@dimen/activity_margin"
-                            />
-
-                    <cn.entertech.uicomponentsdk.realtime.RealtimeHeartRateView
-                            android:layout_marginTop="@dimen/activity_margin_half"
-                            android:layout_width="160dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/activity_margin"
-                            android:layout_marginRight="@dimen/activity_margin"
-                            app:rhrv_isShowExtremeValue="false"
-                            >
-
-                    </cn.entertech.uicomponentsdk.realtime.RealtimeHeartRateView>
-                </LinearLayout>
             </LinearLayout>
 
             <TextView
@@ -116,18 +74,9 @@
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="情感数字面板"
+                    android:text="@string/emotion"
                     android:textSize="32dp"
                     android:textColor="@color/colorDefaultBlack"
-                    />
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="情感数字面板"
-                    android:textColor="@color/colorDefaultBlack"
-                    android:layout_marginLeft="@dimen/activity_margin"
-                    android:layout_marginTop="@dimen/activity_margin"
                     />
 
             <cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView
@@ -242,7 +191,7 @@
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="脑波频谱"
+                    android:text="@string/sdk_brainwave_spectrum"
                     android:textSize="32dp"
                     android:textColor="@color/colorDefaultBlack"
                     />
@@ -263,7 +212,7 @@
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="实时脑波"
+                    android:text="@string/sdk_brainwave"
                     android:textSize="32dp"
                     android:textColor="@color/colorDefaultBlack"
                     />
@@ -279,14 +228,9 @@
 
             </cn.entertech.uicomponentsdk.realtime.RealtimeBrainwaveView>
 
-            <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="暂停"
-                    android:id="@+id/btn_pause"/>
             <cn.entertech.uicomponentsdk.realtime.RealtimeLineChartView
                     android:id="@+id/realtime_hrv"
-                    app:rlcv_titleText="HRV"
+                    app:rlcv_titleText="@string/sdk_brainwave_spectrum"
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
@@ -308,7 +252,7 @@
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="状态"
+                    android:text="@string/state"
                     android:textSize="32dp"
                     android:textColor="@color/colorDefaultBlack"
                     />
