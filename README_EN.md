@@ -58,7 +58,7 @@ brainwave_view.setLeftBrainwave(leftBrainwave)
 ```
 
 ### Display
-<img src="image/realtime_home_en.png" width="200"/>
+<img src="image/home_realtime_en.png" width="200"/>
 
 **Report Widget**
 
