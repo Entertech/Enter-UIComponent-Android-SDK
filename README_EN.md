@@ -96,7 +96,7 @@ report_brainwave_spectrum.setBrainwaveSpectrums(
 ```
 
 ### Display
-<img src="image/home_report_en.png" width="200"/>
+<img src="image/home_report_en.jpeg" width="200"/>
 
 ## Detail API
 More detailed widgets API can be viewed [UI widgets detailed API description](https://github.com/Entertech/Enter-UIComponent-Android-SDK/blob/master/Entertech%20UI%E6%8E%A7%E4%BB%B6%E8%AF%A6%E7%BB%86API%E8%AF%B4%E6%98%8E.md)

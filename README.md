@@ -97,7 +97,7 @@ report_brainwave_spectrum.setBrainwaveSpectrums(
 ```
 
 ### 效果
-<img src="image/home_report.png" width="200"/>
+<img src="image/home_report.jpeg" width="200"/>
 
 ## 详细API
 更多详细控件API可查看 [UI控件详细API说明](https://github.com/Entertech/Enter-UIComponent-Android-SDK/blob/master/Entertech%20UI%E6%8E%A7%E4%BB%B6%E8%AF%A6%E7%BB%86API%E8%AF%B4%E6%98%8E.md)
