@@ -61,7 +61,7 @@ class AverageBarChart @JvmOverloads constructor(
             typeArray.getColor(R.styleable.AverageBarChart_abc_barValueBgColor, mBarValueBgColor)
         mIsShowUnit = typeArray.getBoolean(R.styleable.AverageBarChart_abc_isShowUnit, false)
         mUnit = typeArray.getString(R.styleable.AverageBarChart_abc_unit)
-        if (typeArray != null) typeArray.recycle()
+        typeArray.recycle()
 
         setValues(mValues)
         initPaint()

@@ -10,7 +10,6 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.util.AttributeSet
-import android.util.Log
 import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout
@@ -34,7 +33,6 @@ import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.MPPointF
 import com.github.mikephil.charting.utils.Utils
-import kotlinx.android.synthetic.main.layout_card_attention.view.*
 import kotlinx.android.synthetic.main.layout_card_attention.view.chart
 import kotlinx.android.synthetic.main.layout_card_attention.view.iv_corner_icon_bg
 import kotlinx.android.synthetic.main.layout_card_attention.view.ll_title
@@ -373,7 +371,7 @@ class ReportHRLineChartCard @JvmOverloads constructor(
         var sampleData = ArrayList<Double>()
         for (i in data!!.indices) {
             if (i % sample == 0) {
-                sampleData.add(data!![i])
+                sampleData.add(data[i])
             }
         }
         return sampleData
@@ -423,13 +421,13 @@ class ReportHRLineChartCard @JvmOverloads constructor(
         }
         this.mFirstData = formatData(data)
         this.mSecondData = secondLineData
-        var secondLineData = processSecondLineDataByFirstLine(data, mSecondData)
+        var secondLineData1 = processSecondLineDataByFirstLine(data, mSecondData)
         var sample = mFirstData!!.size / mPointCount
         if (isShowAllData || sample <= 1) {
             sample = 1
         }
         mSampleData = sampleData(mFirstData, sample)
-        mSampleSecondData = sampleData(secondLineData, sample)
+        mSampleSecondData = sampleData(secondLineData1, sample)
         mTimeOfTwoPoint = mTimeUnit * sample
         var totalMin = mFirstData!!.size * mTimeUnit / 1000F / 60F
         var minOffset = (totalMin / 8).toInt() + 1
@@ -519,10 +517,10 @@ class ReportHRLineChartCard @JvmOverloads constructor(
         }
 
         // create a data object with the data sets
-        val data = LineData(dataSets)
+        val lineData = LineData(dataSets)
 
-//         // set data
-        chart.data = data
+//
+        chart.data = lineData
         calNiceLabel(mSampleData!!)
         if (isShowDetail) {
             if (dataSets.size <= 1) {
@@ -641,7 +639,7 @@ class ReportHRLineChartCard @JvmOverloads constructor(
                 yAxisMin = 0.0
             }
         }
-        var interval = 0
+        var interval: Int
         try {
             interval = calNiceInterval(yAxisMin, yAxisMax)
         } catch (e: Exception) {

@@ -432,7 +432,7 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
         }
         this.mBrainwaveSpectrums = brainwaveSpectrums
         fixData()
-        var sample = brainwaveSpectrums[0]!!.size / mPointCount
+        var sample = brainwaveSpectrums[0].size / mPointCount
         if (isShowAllData || sample <= 1) {
             sample = 1
         }
@@ -443,14 +443,14 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
         var thetaAverage = ArrayList<Double>()
         var deltaAverage = ArrayList<Double>()
 
-        for (i in brainwaveSpectrums[0]!!.indices) {
+        for (i in brainwaveSpectrums[0].indices) {
 
             if (i % sample == 0) {
-                gammaAverage.add(brainwaveSpectrums[0]!![i])
-                betaAverage.add(brainwaveSpectrums[1]!![i])
-                alphaAverage.add(brainwaveSpectrums[2]!![i])
-                thetaAverage.add(brainwaveSpectrums[3]!![i])
-                deltaAverage.add(brainwaveSpectrums[4]!![i])
+                gammaAverage.add(brainwaveSpectrums[0][i])
+                betaAverage.add(brainwaveSpectrums[1][i])
+                alphaAverage.add(brainwaveSpectrums[2][i])
+                thetaAverage.add(brainwaveSpectrums[3][i])
+                deltaAverage.add(brainwaveSpectrums[4][i])
             }
         }
         sampleData?.add(gammaAverage)
@@ -460,7 +460,7 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
         sampleData?.add(deltaAverage)
 
         mTimeOfTwoPoint = mTimeUnit * sample
-        var totalMin = brainwaveSpectrums[0]!!.size * mTimeUnit / 1000F / 60F
+        var totalMin = brainwaveSpectrums[0].size * mTimeUnit / 1000F / 60F
         var minOffset = (totalMin / 8).toInt() + 1
         var currentMin = 0
         while (currentMin < totalMin) {
@@ -565,7 +565,7 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
         )
         chart.axisLeft.removeAllLimitLines()
         yLimitLineValues.forEach {
-            var limitLine: LimitLine? = null
+            var limitLine: LimitLine?
             limitLine = LimitLine(it, "")
             limitLine.enableDashedLine(10f, 10f, 0f)
             limitLine.lineWidth = 1f
@@ -669,7 +669,7 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
                 for (i in dataSets.indices) {
                     dataSets[i].setDrawIcons(true)
                     dataSets[i].iconsOffset = MPPointF(0f, 0f)
-                    (dataSets[i] as LineDataSet)?.values.forEach {
+                    (dataSets[i] as LineDataSet).values.forEach {
                         if (it.x == e.x) {
                             it.icon = iconDrawables[i]
                         } else {

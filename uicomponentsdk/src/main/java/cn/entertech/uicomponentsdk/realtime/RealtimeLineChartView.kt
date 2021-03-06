@@ -199,10 +199,10 @@ class RealtimeLineChartView @JvmOverloads constructor(
                     realtimeChartLegendView.setCheck(true)
                     realtimeChartLegendView.addOnCheckListener {
                         lineShowIndexs.clear()
-                        for (i in 0 until ll_legend_parent.childCount) {
-                            var view = ll_legend_parent.getChildAt(i) as RealtimeChartLegendView
+                        for (j in 0 until ll_legend_parent.childCount) {
+                            var view = ll_legend_parent.getChildAt(j) as RealtimeChartLegendView
                             if (view.mIsChecked) {
-                                lineShowIndexs.add(i)
+                                lineShowIndexs.add(j)
                             }
                         }
                         realtime_chart.setLineShowIndexs(lineShowIndexs)

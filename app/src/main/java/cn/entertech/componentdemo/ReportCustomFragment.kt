@@ -26,7 +26,6 @@ class ReportCustomFragment : Fragment() {
 
         var reportFileHelper = ReportFileHelper.getInstance(activity!!)
         var reportData = reportFileHelper.readReportFile("sample")
-        var startTime = reportData.startTime
 //        affective view
 
         var testData = ArrayList<Double>()

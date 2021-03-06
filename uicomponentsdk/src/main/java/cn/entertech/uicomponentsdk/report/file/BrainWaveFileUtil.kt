@@ -2,7 +2,6 @@ package cn.entertech.uicomponentsdk.report.file
 
 import android.content.Context
 import cn.entertech.naptime.file.DeviceHelper
-import cn.entertech.naptime.file.DeviceHelperV3
 import cn.entertech.uicomponentsdk.utils.HexDump
 import java.io.File
 import java.io.FileOutputStream
@@ -14,14 +13,6 @@ import java.util.*
  * Created by EnterTech on 2017/11/13.
  */
 class BrainWaveFileUtil ()  {
-
-    constructor(type: Type) : this() {
-        brainFileHelper = if (type == Type.V2) {
-            DeviceHelperV2()
-        } else {
-            DeviceHelperV3()
-        }
-    }
 
     private val VERSION = "0200"
     private val HEADER_LEN = "20"

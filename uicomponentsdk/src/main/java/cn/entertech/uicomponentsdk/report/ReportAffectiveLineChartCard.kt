@@ -414,7 +414,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
             var limitLine: LimitLine?
             if (it == 0f || it == 120f) {
                 limitLine = LimitLine(it, "0")
-                limitLine?.lineColor = getOpacityColor(mTextColor, 0.6f)
+                limitLine.lineColor = getOpacityColor(mTextColor, 0.6f)
             } else {
                 var label = if (it > ATTENTION_Y_OFFSET) {
                     it - ATTENTION_Y_OFFSET

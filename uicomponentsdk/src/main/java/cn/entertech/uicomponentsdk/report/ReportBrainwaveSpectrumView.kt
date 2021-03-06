@@ -327,7 +327,7 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
         }
         this.mBrainwaveSpectrums = brainwaveSpectrums
         fixData()
-        var sample = brainwaveSpectrums[0]!!.size / mPointCount
+        var sample = brainwaveSpectrums[0].size / mPointCount
         if (isShowAllData || sample <= 1) {
             sample = 1
         }
@@ -376,7 +376,7 @@ class ReportBrainwaveSpectrumView @JvmOverloads constructor(
 
         var yLimitLineValues = listOf<Float>(0f, 25f, 50f, 75f, 100f)
         yLimitLineValues.forEach {
-            var limitLine: LimitLine? = null
+            var limitLine: LimitLine?
             limitLine = LimitLine(it, "${it.toInt()}%")
             limitLine.enableDashedLine(10f, 10f, 0f)
             limitLine.lineWidth = 1f

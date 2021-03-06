@@ -129,7 +129,7 @@ class ReportPressureCard @JvmOverloads constructor(
         }
     }
 
-    fun setShowTitleIcon(isShow: Boolean) {
+    fun setShowTitleIcon() {
         iv_icon.visibility = View.GONE
     }
 

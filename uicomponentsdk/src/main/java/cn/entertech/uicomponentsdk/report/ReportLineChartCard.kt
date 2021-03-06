@@ -408,10 +408,10 @@ class ReportLineChartCard @JvmOverloads constructor(
             dataSets.add(set1) // add the data sets
 
             // create a data object with the data sets
-            val data = LineData(dataSets)
+            val lineData = LineData(dataSets)
 
 //         // set data
-            chart.data = data
+            chart.data = lineData
             calNiceLabel(sampleData)
             chart.notifyDataSetChanged()
         }

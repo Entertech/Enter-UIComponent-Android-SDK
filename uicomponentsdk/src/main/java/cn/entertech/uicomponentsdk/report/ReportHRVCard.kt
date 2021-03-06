@@ -150,8 +150,8 @@ class ReportHRVCard @JvmOverloads constructor(
         tv_hrv.text = "$value"
         eiv_hrv.setValue(value)
         when (value) {
-            in 0..7 -> tv_level.text = context.getString(R.string.sdk_report_low)
-            in 20..50 -> tv_level.text = context.getString(R.string.sdk_report_high)
+            in 0f..7f -> tv_level.text = context.getString(R.string.sdk_report_low)
+            in 20f..50f -> tv_level.text = context.getString(R.string.sdk_report_high)
             else -> tv_level.text = context.getString(R.string.sdk_report_nor)
         }
     }
