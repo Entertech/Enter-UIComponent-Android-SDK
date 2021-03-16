@@ -28,7 +28,17 @@
                     android:textColor="@color/colorDefaultBlack"
                     android:textSize="32sp"
                     />
-
+<!--            脑波曲线参数说明-->
+<!--            robs_isShowMenuIconBg ： 是否显示标题菜单按钮背景   -->
+<!--            robs_isTitleIconShow ：  是否显示标题图标-->
+<!--            robs_isTitleMenuIconShow ：  是否显示标题菜单图标-->
+<!--            robs_menuIconBg ：  菜单背景图标-->
+<!--            robs_pointCount ：  曲线显示点数-->
+<!--            robs_spectrumColors ：  各曲线色值-->
+<!--            robs_timeUnit ：  各个绘制点之间的时间间隔，单位：毫秒-->
+<!--            robs_title ：  标题-->
+<!--            robs_titleMenuIcon ：  标题菜单图标-->
+<!--            robs_xAxisUnit ：  图表横轴单位标注    -->
             <cn.entertech.uicomponentsdk.report.ReportOptionalBrainwaveSpectrumView
                     android:id="@+id/chart_brainwave"
                     android:layout_width="match_parent"

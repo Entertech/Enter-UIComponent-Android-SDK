@@ -51,18 +51,22 @@ class ReportDefaultFragment : Fragment() {
         )
         chart_relaxation.setData(reportData.reportRelaxationEnitty?.relaxationRec)
         chart_attention.setData(reportData.reportAttentionEnitty?.attentionRec)
-        var spectrumList = listOf<ArrayList<Double>>(
+
+//        脑波各个频率曲线
+        var spectrumList = listOf(
             reportData.reportEEGDataEntity!!.gammaCurve!!.map { it * 100.0 } as ArrayList<Double>,
             reportData.reportEEGDataEntity!!.betaCurve!!.map { it * 100.0 } as ArrayList<Double>,
             reportData.reportEEGDataEntity!!.alphaCurve!!.map { it * 100.0 } as ArrayList<Double>,
             reportData.reportEEGDataEntity!!.thetaCurve!!.map { it * 100.0 } as ArrayList<Double>,
             reportData.reportEEGDataEntity!!.deltaCurve!!.map { it * 100.0 } as ArrayList<Double>
         )
-        chart_brainwave.isChartEnable(true)
-        chart_brainwave.setLegendShowList(listOf(true,true,true,true,true))
+//        设置脑波曲线
         chart_brainwave.setData(
             spectrumList
         )
+//        控制可展示的脑波曲线
+        chart_brainwave.setLegendShowList(listOf(true,true,true,true,true))
+        chart_brainwave.isChartEnable(true)
         chart_hr.setAverage("99")
         chart_hr.setData(reportData.reportHRDataEntity?.hrRec)
 
