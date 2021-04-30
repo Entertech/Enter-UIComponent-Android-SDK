@@ -1,5 +1,5 @@
 [English Readme](/README_EN.md)
-# Enter-UI-Component-Android-SDK [![Download](https://api.bintray.com/packages/hzentertech/maven/uicomponentsdk/images/download.svg) ](https://bintray.com/hzentertech/maven/uicomponentsdk/_latestVersion)
+# Enter-UI-Component-Android-SDK [![Maven Central](https://maven-badges.herokuapp.com/maven-central/cn.entertech.android/uicomponentsdk/badge.svg)](https://maven-badges.herokuapp.com/maven-central/cn.entertech.android/uicomponentsdk)
 
 ## 简介
 
@@ -12,7 +12,7 @@
 在module的build.gradle文件下添加以下依赖
 
 ```groovy
-implementation 'cn.entertech:uicomponentsdk:1.2.6-alpha04'
+implementation 'cn.entertech.android:uicomponentsdk:1.2.7'
 ```
 
 在项目根目录的build.gradle文件下添加以下依赖地址
@@ -20,9 +20,7 @@ implementation 'cn.entertech:uicomponentsdk:1.2.6-alpha04'
 ```groovy
 allprojects {
     repositories {
-        maven {
-            url "https://dl.bintray.com/hzentertech/maven"
-        }
+        mavenCentral()
     }
 }
 ```

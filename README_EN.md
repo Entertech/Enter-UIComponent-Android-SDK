@@ -1,4 +1,4 @@
-# Enter-UI-Component-Android-SDK [![Download](https://api.bintray.com/packages/hzentertech/maven/uicomponentsdk/images/download.svg) ](https://bintray.com/hzentertech/maven/uicomponentsdk/_latestVersion)
+# Enter-UI-Component-Android-SDK [![Maven Central](https://maven-badges.herokuapp.com/maven-central/cn.entertech.android/uicomponentsdk/badge.svg)](https://maven-badges.herokuapp.com/maven-central/cn.entertech.android/uicomponentsdk)
 
 ## Introduction
 
@@ -11,7 +11,7 @@ Simplifies the repeated development of UI in the application, including real-tim
 Add the following dependencies under the module's build.gradle file
 
 ```groovy
-implementation 'cn.entertech:uicomponentsdk:1.2.6-alpha04'
+implementation 'cn.entertech.android:uicomponentsdk:1.2.7'
 ```
 
 Add the following dependency address under the build.gradle file in the project root directory
@@ -19,9 +19,7 @@ Add the following dependency address under the build.gradle file in the project 
 ```groovy
 allprojects {
     repositories {
-        maven {
-            url "https://dl.bintray.com/hzentertech/maven"
-        }
+        mavenCentral()
     }
 }
 ```
