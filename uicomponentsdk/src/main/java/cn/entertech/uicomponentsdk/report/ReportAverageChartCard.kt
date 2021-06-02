@@ -168,4 +168,9 @@ class ReportAverageChartCard @JvmOverloads constructor(
         this.mIsAverageInt = flag
         initView()
     }
+
+    fun setUrl(url:String){
+        this.mInfoUrl = url
+        initView()
+    }
 }

@@ -22,7 +22,7 @@ uploadArchives{
             // library的项目名
             pom.artifactId = 'uicomponentsdk'
             // library的版本号
-            pom.version = '1.2.7'
+            pom.version = '1.2.8'
 
             pom.project {
                 licenses {
