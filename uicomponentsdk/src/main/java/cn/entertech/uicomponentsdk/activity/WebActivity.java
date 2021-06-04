@@ -4,15 +4,21 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.webkit.WebViewFeature;
+
+import java.io.ByteArrayInputStream;
 
 import cn.entertech.uicomponentsdk.R;
 import cn.entertech.uicomponentsdk.utils.NetworkState;
@@ -29,6 +35,10 @@ public class WebActivity extends AppCompatActivity {
 
     public static final String WEB_TITLE = "webTitle";
     public static final String WEB_URL = "url";
+
+    public static final String INTERCEPT_URL_CHAT_WIDGET = "https://static.parastorage.com/services/chat-widget/1.2028.0/chat-widget.bundle.min.js";
+    public static final String INTERCEPT_URL_COMMENT = "https://static.parastorage.com/services/communities-blog-viewer-app/1.1232.0/wix-comments-controller.bundle.min.js";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,8 +85,21 @@ public class WebActivity extends AppCompatActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+                jsLoad();
                 if (null != mOnFinishListener) {
                     mOnFinishListener.onFinish();
+                }
+            }
+
+            @Nullable
+            @Override
+            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+                if (INTERCEPT_URL_CHAT_WIDGET.equals(request.getUrl().toString()) || INTERCEPT_URL_COMMENT.equals(request.getUrl().toString())) {
+                    String response = "";
+                    WebResourceResponse webResourceResponse = new WebResourceResponse("text/html", "utf-8", new ByteArrayInputStream(response.getBytes()));
+                    return webResourceResponse;
+                } else {
+                    return super.shouldInterceptRequest(view, request);
                 }
             }
         });
@@ -158,4 +181,27 @@ public class WebActivity extends AppCompatActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    private void jsLoad() {
+        String script = "(function() {" +
+                "var holder = document.getElementById(\"SITE_HEADER-placeholder\");\n" +
+                "var wrap = document.getElementById(\"SITE_HEADER_WRAPPER\");\n" +
+                "var foot = document.getElementById(\"SITE_FOOTER_WRAPPER\");\n" +
+                "var quickActionBar = document.getElementById(\"comp-kg7kjpyp\");\n" +
+                "var content = document.getElementById(\"content-wrapper\");\n" +
+                "foot.style.display = \'none\';\n" +
+                "quickActionBar.style.display = \'none\';\n" +
+                "wrap.style.display = \'none\';\n" +
+                "if(content != null && content.firstElementChild != null && content.firstElementChild.firstElementChild !=null){\n" +
+                "content.firstElementChild.firstElementChild.style.display = \'none\';\n" +
+                "}\n" +
+                "})()";
+        mWebView.evaluateJavascript(script, new ValueCallback<String>() {
+            @Override
+            public void onReceiveValue(String value) {
+
+            }
+        });
+    }
 }
+
