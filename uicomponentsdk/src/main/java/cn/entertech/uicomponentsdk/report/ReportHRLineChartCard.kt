@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.util.AttributeSet
+import android.util.Log
 import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout
@@ -18,6 +19,7 @@ import androidx.core.view.ViewCompat
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.activity.HRVLineChartFullScreenActivity
 import cn.entertech.uicomponentsdk.utils.*
+import cn.entertech.uicomponentsdk.utils.ScreenUtil.isPad
 import cn.entertech.uicomponentsdk.widget.ChartIconView
 import cn.entertech.uicomponentsdk.widget.LineChartMarkView
 import com.github.mikephil.charting.components.LimitLine
@@ -260,13 +262,16 @@ class ReportHRLineChartCard @JvmOverloads constructor(
     }
 
     fun initLegned() {
+        mChartExtraTopOffset = if (isPad(context)) {
+            36f.dp()
+        } else {
+            26f.dp()
+        }
         if (!mIsShowLegend) {
-            mChartExtraTopOffset = 26f.dp()
             mSelfView?.findViewById<LinearLayout>(R.id.ll_legend)?.visibility = View.GONE
             mSelfView?.findViewById<TextView>(R.id.tv_coh_time_value)?.visibility = View.GONE
             mSelfView?.findViewById<TextView>(R.id.tv_coh_time_value_2)?.visibility = View.VISIBLE
         } else {
-            mChartExtraTopOffset = 26f.dp()
             mSelfView?.findViewById<LinearLayout>(R.id.ll_legend)?.visibility = View.VISIBLE
             mSelfView?.findViewById<TextView>(R.id.tv_coh_time_value)?.visibility = View.VISIBLE
             mSelfView?.findViewById<TextView>(R.id.tv_coh_time_value_2)?.visibility = View.GONE

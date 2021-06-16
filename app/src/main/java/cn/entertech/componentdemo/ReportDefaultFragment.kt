@@ -83,7 +83,7 @@ class ReportDefaultFragment : Fragment() {
         chart_hrv.setCohTime("2min 2s")
         chart_hrv.isChartEnable(true)
         chart_hrv.isShowYAxisLabels(true)
-        chart_hrv.isShowLegend(false)
+        chart_hrv.isShowLegend(true)
         chart_hrv.isShowDetail = false
         chart_hrv.setData(reportData.reportHRDataEntity?.hrRec, hrvSecondLine, false)
         chart_hrv.setOnClickListener {

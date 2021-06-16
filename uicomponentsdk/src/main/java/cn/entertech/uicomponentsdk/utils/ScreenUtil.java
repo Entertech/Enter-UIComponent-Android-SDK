@@ -1,12 +1,15 @@
 package cn.entertech.uicomponentsdk.utils;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Build;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
+import android.view.Display;
 import android.view.WindowManager;
 
 import java.lang.reflect.Method;
@@ -170,5 +173,23 @@ public class ScreenUtil {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
                 spVal, context.getResources().getDisplayMetrics());
 
+    }
+
+    public static boolean isPad(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        // 屏幕宽度
+        float screenWidth = display.getWidth();
+        // 屏幕高度
+        float screenHeight = display.getHeight();
+        DisplayMetrics dm = new DisplayMetrics();
+        display.getMetrics(dm);
+
+        double x = Math.pow(dm.widthPixels / dm.xdpi, 2);
+        double y = Math.pow(dm.heightPixels / dm.ydpi, 2);
+        // 屏幕尺寸
+        double screenInches = Math.sqrt(x + y);
+        // 大于6尺寸则为Pad
+        return screenInches >= 7.0 && dm.density < 2.3;
     }
 }
