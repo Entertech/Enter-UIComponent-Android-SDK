@@ -90,5 +90,6 @@ class RealtimeDefaultFragment : Fragment() {
                 }
             }
         })
+        rav_attention.setAttention(11f)
     }
 }

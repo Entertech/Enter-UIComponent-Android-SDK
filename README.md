@@ -12,7 +12,7 @@
 在module的build.gradle文件下添加以下依赖
 
 ```groovy
-implementation 'cn.entertech.android:uicomponentsdk:1.2.7'
+implementation 'cn.entertech.android:uicomponentsdk:1.2.10'
 ```
 
 在项目根目录的build.gradle文件下添加以下依赖地址
