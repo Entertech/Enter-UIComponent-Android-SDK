@@ -18,7 +18,7 @@
             app:rlcc_markViewBgColor="#F1F5F6"
             app:rlcc_highlightLineColor="#DDE1EB"
             app:rlcc_highlightLineWidth="1.5"
-            app:rlcc_xAxisUnit="Time(min)"
+            app:rlcc_xAxisUnit="@string/sdk_x_axis_label"
             app:rlcc_smallTitle="@string/chart_full_screen_tip"
             android:id="@+id/line_chart"/>
 </LinearLayout>

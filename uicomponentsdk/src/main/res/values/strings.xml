@@ -50,4 +50,6 @@
     <string name="sdk_hour">hour</string>
     <string name="sdk_hours">hours</string>
     <string name="sdk_breath_coherence">Breath Coherence</string>
+    <string name="sdk_coherence_time">Coherence Time</string>
+    <string name="sdk_x_axis_label">Time(min)</string>
 </resources>

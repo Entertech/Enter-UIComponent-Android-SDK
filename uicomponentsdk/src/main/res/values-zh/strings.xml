@@ -50,4 +50,6 @@
     <string name="sdk_hour">时</string>
     <string name="sdk_hours">时</string>
     <string name="sdk_breath_coherence">呼吸和谐</string>
+    <string name="sdk_coherence_time">和谐时间</string>
+    <string name="sdk_x_axis_label">时间(分钟)</string>
 </resources>

@@ -29,7 +29,7 @@
                         android:id="@+id/tv_coh_time_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Coherence Time"
+                        android:text="@string/sdk_coherence_time"
                         android:gravity="left"
                         android:textSize="14sp"
                         android:layout_marginLeft="@dimen/activity_margin"/>
@@ -70,7 +70,7 @@
                         android:layout_marginLeft="4dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Breath Coherence"
+                        android:text="@string/sdk_breath_coherence"
                         android:textSize="12sp"/>
             </LinearLayout>
         </LinearLayout>
