@@ -271,9 +271,6 @@ public class BreathCoherenceSurfaceView extends SurfaceView implements SurfaceHo
         List<Double> tempList = new ArrayList<>();
         int mMaxValue = Collections.max(realData).intValue() + 1;
         int mMinValue = Collections.min(realData).intValue() - 1;
-        if (mMinValue < 0) {
-            mMinValue = 0;
-        }
         float times = (getHeight()) / (mMaxValue - mMinValue) * 1.0f;
         screenData.clear();
         if (times != 0) {
