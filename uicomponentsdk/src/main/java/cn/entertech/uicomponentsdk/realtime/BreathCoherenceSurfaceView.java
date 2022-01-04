@@ -10,7 +10,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -38,7 +37,7 @@ public class BreathCoherenceSurfaceView extends SurfaceView implements SurfaceHo
     List<Double> screenData = new ArrayList<>();
     private boolean isViewActivity;
     private SurfaceHolder mSurfaceHolder;
-    public static int BRAIN_QUEUE_LENGTH = 100;
+    public int screenDataSize = 100;
     public int mBuffer = 2;
     public int mListBuffer = 2;
     private Paint mAxisPaint;
@@ -143,7 +142,7 @@ public class BreathCoherenceSurfaceView extends SurfaceView implements SurfaceHo
 
 
     private void initData() {
-        for (int i = 0; i < BRAIN_QUEUE_LENGTH; i++) {
+        for (int i = 0; i < screenDataSize; i++) {
             realData.add(0.0);
         }
     }
@@ -204,7 +203,7 @@ public class BreathCoherenceSurfaceView extends SurfaceView implements SurfaceHo
     Path path = new Path();
 
     public void onDrawHrv(Canvas canvas) {
-        float pointOffset = getWidth() * 1f / BRAIN_QUEUE_LENGTH;
+        float pointOffset = getWidth() * 1f / screenDataSize;
         dealData();
         canvas.translate(mLeftPadding + mYAxisMargin, getHeight());
         path.reset();
@@ -263,7 +262,7 @@ public class BreathCoherenceSurfaceView extends SurfaceView implements SurfaceHo
             } else {
                 realData.add((mSourceData.get(0)));
                 mSourceData.remove(0);
-                if (realData.size()>BRAIN_QUEUE_LENGTH){
+                if (realData.size()> screenDataSize){
                     realData.remove(0);
                 }
             }
@@ -341,6 +340,11 @@ public class BreathCoherenceSurfaceView extends SurfaceView implements SurfaceHo
 
     public void isDrawXAxis(boolean flag) {
         this.mIsDrawXAxis = flag;
+        invalidate();
+    }
+
+    public void setScreenDataSize(int size){
+        this.screenDataSize = size;
         invalidate();
     }
 

@@ -31,6 +31,7 @@ class RealtimeBreathCoherenceView @JvmOverloads constructor(
     private var mMaxValue: Int = 50
     private var mRefreshTime: Int = 200
     private var mBuffer: Int = 2
+    private var mScreenDataSize: Int = 100
     private var mInfoIconRes: Int? = null
     private var mLineColor: Int = Color.parseColor("#ff4852")
     var mSelfView: View = LayoutInflater.from(context).inflate(R.layout.view_meditation_hrv, null)
@@ -71,6 +72,7 @@ class RealtimeBreathCoherenceView @JvmOverloads constructor(
         }
         mTextFont = typeArray.getString(R.styleable.RealtimeBreathCoherenceView_rhrvv_textFont)
         mBuffer = typeArray.getInteger(R.styleable.RealtimeBreathCoherenceView_rhrvv_buffer,mBuffer)
+        mScreenDataSize = typeArray.getInteger(R.styleable.RealtimeBreathCoherenceView_rhrvv_screenDataSize,mScreenDataSize)
         mMaxValue = typeArray.getInteger(R.styleable.RealtimeBreathCoherenceView_rhrvv_maxValue,mMaxValue)
         mRefreshTime = typeArray.getInteger(R.styleable.RealtimeBreathCoherenceView_rhrvv_refreshTime,mRefreshTime)
         mLineColor =
@@ -112,6 +114,7 @@ class RealtimeBreathCoherenceView @JvmOverloads constructor(
         sf_hrv.setLineWidth(mLineWidth)
         sf_hrv.setGridLineColor(mGridLineColor)
         sf_hrv.setAxisColor(mAxisColor)
+        sf_hrv.setScreenDataSize(mScreenDataSize)
         setTextFont()
     }
 
