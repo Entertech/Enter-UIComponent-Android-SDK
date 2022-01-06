@@ -257,20 +257,16 @@ public class BreathCoherenceSurfaceView extends SurfaceView implements SurfaceHo
 //            realData.add(0.0);
 //            realData.remove(0);
         } else {
-            if (mSourceData.get(0) == 0) {
-                mSourceData.remove(0);
-            } else {
-                realData.add((mSourceData.get(0)));
-                mSourceData.remove(0);
-                if (realData.size()> screenDataSize){
-                    realData.remove(0);
-                }
+            realData.add((mSourceData.get(0)));
+            mSourceData.remove(0);
+            if (realData.size()> screenDataSize){
+                realData.remove(0);
             }
         }
         List<Double> tempList = new ArrayList<>();
         int mMaxValue = Collections.max(realData).intValue() + 1;
         int mMinValue = Collections.min(realData).intValue() - 1;
-        float times = (getHeight()) / (mMaxValue - mMinValue) * 1.0f;
+        float times = (getHeight()) / ((mMaxValue - mMinValue) * 1.0f);
         screenData.clear();
         if (times != 0) {
             for (int i = 0; i < realData.size(); i++) {
