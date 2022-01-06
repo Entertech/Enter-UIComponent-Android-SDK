@@ -30,6 +30,7 @@ class RealtimeBreathCoherenceView @JvmOverloads constructor(
     private var mIsShowXAxis: Boolean = false
     private var mMaxValue: Int = 50
     private var mRefreshTime: Int = 200
+    private var mSample: Int = 1
     private var mBuffer: Int = 2
     private var mScreenDataSize: Int = 100
     private var mInfoIconRes: Int? = null
@@ -75,6 +76,7 @@ class RealtimeBreathCoherenceView @JvmOverloads constructor(
         mScreenDataSize = typeArray.getInteger(R.styleable.RealtimeBreathCoherenceView_rhrvv_screenDataSize,mScreenDataSize)
         mMaxValue = typeArray.getInteger(R.styleable.RealtimeBreathCoherenceView_rhrvv_maxValue,mMaxValue)
         mRefreshTime = typeArray.getInteger(R.styleable.RealtimeBreathCoherenceView_rhrvv_refreshTime,mRefreshTime)
+        mSample = typeArray.getInteger(R.styleable.RealtimeBreathCoherenceView_rhrvv_sample,mSample)
         mLineColor =
             typeArray.getColor(R.styleable.RealtimeBreathCoherenceView_rhrvv_lineColor, mLineColor)
         initView()
@@ -115,6 +117,7 @@ class RealtimeBreathCoherenceView @JvmOverloads constructor(
         sf_hrv.setGridLineColor(mGridLineColor)
         sf_hrv.setAxisColor(mAxisColor)
         sf_hrv.setScreenDataSize(mScreenDataSize)
+        sf_hrv.setSample(mSample)
         setTextFont()
     }
 

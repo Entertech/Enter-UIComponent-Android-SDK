@@ -160,6 +160,7 @@
         <attr name="rhrvv_maxValue" format="integer" />
         <attr name="rhrvv_refreshTime" format="integer" />
         <attr name="rhrvv_screenDataSize" format="integer" />
+        <attr name="rhrvv_sample" format="integer" />
     </declare-styleable>
 
     <declare-styleable name="RealtimeLineChartView">

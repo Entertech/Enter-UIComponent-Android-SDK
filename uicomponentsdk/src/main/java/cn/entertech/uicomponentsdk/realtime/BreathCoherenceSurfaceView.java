@@ -51,6 +51,7 @@ public class BreathCoherenceSurfaceView extends SurfaceView implements SurfaceHo
     private int mRefreshTime = 200;
     private int offset = 10;
     private boolean mIsDrawXAxis = true;
+    private int sample = 1;
 
     public BreathCoherenceSurfaceView(Context context) {
         this(context, null);
@@ -122,12 +123,22 @@ public class BreathCoherenceSurfaceView extends SurfaceView implements SurfaceHo
         if (data == null) {
             return;
         }
-        this.mSourceData.addAll(data);
+        this.mSourceData.addAll(sampleData(data));
         if (mSourceData.size() > mBuffer) {
             for (int i = 0; i < mSourceData.size() - mBuffer; i++) {
                 mSourceData.remove(0);
             }
         }
+    }
+
+    public List<Double> sampleData(List<Double> source){
+        List<Double> result = new ArrayList<>();
+        for (int i = 0; i < source.size(); i++) {
+            if (i % sample == 0){
+                result.add(source.get(i));
+            }
+        }
+        return result;
     }
 
 
@@ -171,7 +182,7 @@ public class BreathCoherenceSurfaceView extends SurfaceView implements SurfaceHo
         while (isViewActivity) {
             draw();
             try {
-                Thread.sleep(mRefreshTime);
+                Thread.sleep(mRefreshTime * sample);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -342,6 +353,10 @@ public class BreathCoherenceSurfaceView extends SurfaceView implements SurfaceHo
     public void setScreenDataSize(int size){
         this.screenDataSize = size;
         invalidate();
+    }
+
+    public void setSample(int sample){
+        this.sample = sample;
     }
 
     public void hideSampleData() {
