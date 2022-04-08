@@ -48,7 +48,7 @@ public class CustomXAxisRenderer extends XAxisRenderer {
             mLimitLineClippingRect.top = mViewPortHandler.contentTop();
             mLimitLineClippingRect.left = mViewPortHandler.contentLeft();
             mLimitLineClippingRect.right = mViewPortHandler.contentRight();
-            mLimitLineClippingRect.bottom = mViewPortHandler.contentBottom()+Utils.convertDpToPixel(20f);
+            mLimitLineClippingRect.bottom = mViewPortHandler.contentBottom() + Utils.convertDpToPixel(20f);
             mLimitLineClippingRect.inset(-l.getLineWidth(), 0.f);
             c.clipRect(mLimitLineClippingRect);
 
@@ -63,6 +63,30 @@ public class CustomXAxisRenderer extends XAxisRenderer {
             c.restoreToCount(clipRestoreCount);
         }
     }
+
+    float[] mLimitLineSegmentsBuffer = new float[4];
+    private Path mLimitLinePath = new Path();
+
+    @Override
+    public void renderLimitLineLine(Canvas c, LimitLine limitLine, float[] position) {
+        mLimitLineSegmentsBuffer[0] = position[0];
+        mLimitLineSegmentsBuffer[1] = mViewPortHandler.contentTop();
+        mLimitLineSegmentsBuffer[2] = position[0];
+        mLimitLineSegmentsBuffer[3] = mViewPortHandler.contentBottom() +
+                Utils.convertDpToPixel(20f);
+
+        mLimitLinePath.reset();
+        mLimitLinePath.moveTo(mLimitLineSegmentsBuffer[0], mLimitLineSegmentsBuffer[1]);
+        mLimitLinePath.lineTo(mLimitLineSegmentsBuffer[2], mLimitLineSegmentsBuffer[3]);
+
+        mLimitLinePaint.setStyle(Paint.Style.STROKE);
+        mLimitLinePaint.setColor(limitLine.getLineColor());
+        mLimitLinePaint.setStrokeWidth(limitLine.getLineWidth());
+        mLimitLinePaint.setPathEffect(limitLine.getDashPathEffect());
+
+        c.drawPath(mLimitLinePath, mLimitLinePaint);
+    }
+
     @Override
     public void renderLimitLineLabel(Canvas c, LimitLine limitLine, float[] position, float yOffset) {
         String label = limitLine.getLabel();

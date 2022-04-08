@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import cn.entertech.uicomponentsdk.report.ReportCandleStickChartCard
 import cn.entertech.uicomponentsdk.report.file.ReportFileHelper
 import cn.entertech.uicomponentsdk.utils.dp
 import kotlinx.android.synthetic.main.fragment_report_default.*
@@ -69,6 +70,17 @@ class ReportDefaultFragment : Fragment() {
         chart_brainwave.isChartEnable(true)
         chart_hr.setAverage("99")
         chart_hr.setData(reportData.reportHRDataEntity?.hrRec)
+        var candleStickValues = ArrayList<ReportCandleStickChartCard.CandleSourceData>()
+        for (i in 0..29){
+            var candleSourceData = ReportCandleStickChartCard.CandleSourceData()
+            val value  = Random().nextInt(30)+60.0f
+            candleSourceData.average = value
+            candleSourceData.max = value+5
+            candleSourceData.min = value-5
+            candleSourceData.date = "${i+1}"
+            candleStickValues.add(candleSourceData)
+        }
+        chart_candle_stick.setData(candleStickValues)
 
 //        chart_hrv.setAverage("${reportData.reportHRDataEntity?.hrvAvg!!.toInt()}")
         var hrvSecondLine = ArrayList<Double>()

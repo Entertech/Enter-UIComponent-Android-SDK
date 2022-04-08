@@ -359,6 +359,26 @@
         <attr name="rlcc_smallTitle" format="string" />
     </declare-styleable>
 
+    <declare-styleable name="ReportCandleStickChartCard">
+        <attr name="rcscc_mainColor" format="color" />
+        <attr name="rcscc_textColor" format="color" />
+        <attr name="rcscc_background" format="color|reference" />
+        <attr name="rcscc_lineColor" format="color" />
+        <attr name="rcscc_lineWidth" format="dimension" />
+        <attr name="rcscc_gridLineColor" format="color" />
+        <attr name="rcscc_labelColor" format="color" />
+        <attr name="rcscc_isDrawFill" format="boolean" />
+        <attr name="rcscc_highlightLineColor" format="color"/>
+        <attr name="rcscc_highlightLineWidth" format="float"/>
+        <attr name="rcscc_markViewBgColor" format="color"/>
+        <attr name="rcscc_markViewTitle" format="string"/>
+        <attr name="rcscc_markViewTitleColor" format="color"/>
+        <attr name="rcscc_markViewValueColor" format="color"/>
+        <attr name="rcscc_averageLabelBgColor" format="color"/>
+        <attr name="rcscc_barColor" format="color"/>
+        <attr name="rcscc_smallTitle" format="string" />
+    </declare-styleable>
+
     <declare-styleable name="ReportHRLineChartCard">
         <attr name="rhlcc_isTitleIconShow" format="boolean" />
         <attr name="rhlcc_title" format="string" />
