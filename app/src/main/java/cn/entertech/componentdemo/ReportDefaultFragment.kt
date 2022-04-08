@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import cn.entertech.uicomponentsdk.report.ReportBarChartCard
 import cn.entertech.uicomponentsdk.report.ReportCandleStickChartCard
 import cn.entertech.uicomponentsdk.report.file.ReportFileHelper
 import cn.entertech.uicomponentsdk.utils.dp
@@ -66,22 +67,27 @@ class ReportDefaultFragment : Fragment() {
             spectrumList
         )
 //        控制可展示的脑波曲线
-        chart_brainwave.setLegendShowList(listOf(true,true,true,true,true))
+        chart_brainwave.setLegendShowList(listOf(true, true, true, true, true))
         chart_brainwave.isChartEnable(true)
         chart_hr.setAverage("99")
         chart_hr.setData(reportData.reportHRDataEntity?.hrRec)
         var candleStickValues = ArrayList<ReportCandleStickChartCard.CandleSourceData>()
-        for (i in 0..29){
+        var barValues = ArrayList<ReportBarChartCard.BarSourceData>()
+        for (i in 0..29) {
             var candleSourceData = ReportCandleStickChartCard.CandleSourceData()
-            val value  = Random().nextInt(30)+60.0f
+            val value = Random().nextInt(30) + 60.0f
             candleSourceData.average = value
-            candleSourceData.max = value+5
-            candleSourceData.min = value-5
-            candleSourceData.date = "${i+1}"
+            candleSourceData.max = value + 5
+            candleSourceData.min = value - 5
+            candleSourceData.date = "${i + 1}"
             candleStickValues.add(candleSourceData)
+            var barSourceData = ReportBarChartCard.BarSourceData()
+            barSourceData.value = value
+            barSourceData.date = "${i + 1}"
+            barValues.add(barSourceData)
         }
         chart_candle_stick.setData(candleStickValues)
-
+        chart_bar.setData(barValues)
 //        chart_hrv.setAverage("${reportData.reportHRDataEntity?.hrvAvg!!.toInt()}")
         var hrvSecondLine = ArrayList<Double>()
         var hrvSecondLineSize = reportData.reportHRDataEntity!!.hrRec!!.size / 9f.toInt()
