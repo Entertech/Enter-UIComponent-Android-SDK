@@ -1,12 +1,11 @@
 package cn.entertech.uicomponentsdk.utils
 
-import android.graphics.Canvas
-import android.graphics.LinearGradient
-import android.graphics.RectF
-import android.graphics.Shader
+import android.graphics.*
+import android.util.Log
 import com.github.mikephil.charting.animation.ChartAnimator
 import com.github.mikephil.charting.buffer.BarBuffer
 import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.interfaces.dataprovider.BarDataProvider
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.renderer.BarChartRenderer
@@ -157,8 +156,73 @@ class RoundedBarChartRenderer(
             }
             j += 4
         }
-
-
     }
 
+    override fun drawHighlighted(c: Canvas, indices: Array<Highlight>) {
+        val barData = mChart.barData
+        for (high in indices) {
+            val set = barData.getDataSetByIndex(high.dataSetIndex)
+            if (set == null || !set.isHighlightEnabled) continue
+            val e = set.getEntryForXValue(high.x, high.y)
+            if (!isInBoundsX(e, set)) continue
+            val pix = mChart.getTransformer(set.axisDependency).getPixelForValues(
+                e.x, e.y * mAnimator
+                    .phaseY
+            )
+            high.setDraw(pix.x.toFloat(), pix.y.toFloat())
+
+            // draw the lines
+            drawHighlightLines(c, pix.x.toFloat())
+        }
+    }
+
+    private val highlightLinePath = Path()
+    /**
+     * Draws vertical & horizontal highlight-lines if enabled.
+     *
+     * @param c
+     * @param x x-position of the highlight line intersection
+     * @param y y-position of the highlight line intersection
+     * @param set the currently drawn dataset
+     */
+    protected fun drawHighlightLines(
+        c: Canvas,
+        x: Float
+    ) {
+
+        Log.d("######","x is ${x}")
+        // set color and stroke-width
+        mHighlightPaint.color = Color.parseColor("#000000")
+        mHighlightPaint.strokeWidth =1.5f
+
+        // draw highlighted lines (if enabled)
+        mHighlightPaint.pathEffect =  DashPathEffect(floatArrayOf(10f, 10f), 0f)
+
+        // create vertical path
+        highlightLinePath.reset()
+        highlightLinePath.moveTo(x, mViewPortHandler.contentTop())
+        highlightLinePath.lineTo(x, mViewPortHandler.contentBottom())
+        c.drawLine(x,mViewPortHandler.contentTop(),x,mViewPortHandler.contentBottom(),mHighlightPaint)
+//        c.drawPath(highlightLinePath, mHighlightPaint)
+
+//        // draw vertical highlight lines
+//        if (set.isVerticalHighlightIndicatorEnabled) {
+//
+//            // create vertical path
+//            mHighlightLinePath.reset()
+//            mHighlightLinePath.moveTo(x, mViewPortHandler.contentTop())
+//            mHighlightLinePath.lineTo(x, mViewPortHandler.contentBottom())
+//            c.drawPath(mHighlightLinePath, mHighlightPaint)
+//        }
+//
+//        // draw horizontal highlight lines
+//        if (set.isHorizontalHighlightIndicatorEnabled) {
+//
+//            // create horizontal path
+//            mHighlightLinePath.reset()
+//            mHighlightLinePath.moveTo(mViewPortHandler.contentLeft(), y)
+//            mHighlightLinePath.lineTo(mViewPortHandler.contentRight(), y)
+//            c.drawPath(mHighlightLinePath, mHighlightPaint)
+//        }
+    }
 }

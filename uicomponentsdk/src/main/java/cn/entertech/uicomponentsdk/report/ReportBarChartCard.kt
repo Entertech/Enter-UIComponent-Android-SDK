@@ -1,29 +1,29 @@
 package cn.entertech.uicomponentsdk.report
 
+import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.DashPathEffect
-import android.graphics.Paint
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.util.AttributeSet
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.LinearLayout
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.activity.LineChartFullScreenActivity
 import cn.entertech.uicomponentsdk.utils.*
 import cn.entertech.uicomponentsdk.widget.BarChartMarkView
-import cn.entertech.uicomponentsdk.widget.CandleChartMarkView
 import cn.entertech.uicomponentsdk.widget.ChartIconView
+import cn.entertech.uicomponentsdk.widget.CustomBarChart
 import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
@@ -32,11 +32,11 @@ import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.ChartTouchListener
 import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
-import com.github.mikephil.charting.renderer.HorizontalBarChartRenderer
 import com.github.mikephil.charting.utils.MPPointF
 import kotlinx.android.synthetic.main.layout_card_bar_chart.view.*
 import kotlinx.android.synthetic.main.layout_common_card_title.view.*
 import java.io.Serializable
+import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.floor
 
@@ -46,6 +46,7 @@ class ReportBarChartCard @JvmOverloads constructor(
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
+    private var mVisibleDataCount: Int = 12
     private var mSmallTitle: String? = ""
     var mAverageLabelBgColor: Int = Color.parseColor("#ffffff")
 
@@ -294,14 +295,14 @@ class ReportBarChartCard @JvmOverloads constructor(
             values.add(
                 BarEntry(
                     i.toFloat(),
-                    mData!![i].value,mData!![i]
+                    mData!![i].value, mData!![i]
                 )
             )
         }
 
         for (i in mData!!.indices) {
-            if ((i+1) % 7 == 0) {
-                val llXAxis = LimitLine(i.toFloat() + 0.5f, "${mData!![i+1].date}")
+            if ((i + 1) % 7 == 0) {
+                val llXAxis = LimitLine(i.toFloat() + 0.5f, "${mData!![i + 1].date}")
                 llXAxis.lineWidth = 1f
                 llXAxis.labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
                 llXAxis.textSize = 12f
@@ -333,7 +334,12 @@ class ReportBarChartCard @JvmOverloads constructor(
 //         // set data
         chart.data = barData
         calNiceLabel(mData!!)
+        translateChartX(chart, 100f)
         chart.notifyDataSetChanged()
+        chart.setVisibleXRangeMaximum(12f)
+        chart.viewTreeObserver.addOnGlobalLayoutListener {
+            translateChartX(chart, -Float.MAX_VALUE)
+        }
     }
 
     private fun calNiceLabel(data: List<BarSourceData>) {
@@ -379,13 +385,13 @@ class ReportBarChartCard @JvmOverloads constructor(
 //        chart.setBackgroundColor(bgColor)
         chart.description.isEnabled = false
         chart.legend.isEnabled = false
-        chart.setTouchEnabled(true)
+//        chart.setTouchEnabled(true)
 //        chart.setYLimitLabelBgColor(mAverageLabelBgColor)
         chart.animateX(500)
         chart.setDrawGridBackground(false)
-        chart.isHighlightPerDragEnabled = false
+//        chart.isHighlightPerDragEnabled = false
         chart.isDragEnabled = true
-        chart.isScaleXEnabled = true
+        chart.isScaleXEnabled = false
         chart.isScaleYEnabled = false
         val marker = BarChartMarkView(context, mLineColor, mMarkViewTitle)
         marker.chartView = chart
@@ -404,7 +410,7 @@ class ReportBarChartCard @JvmOverloads constructor(
         val yAxis: YAxis = chart.axisLeft
         xAxis.setDrawLabels(false)
         chart.axisRight.isEnabled = false
-        chart.setMaxVisibleValueCount(100000)
+//        chart.setMaxVisibleValueCount(100000)
         yAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
         yAxis.setLabelCount(5, false)
         yAxis.setDrawGridLines(true)
@@ -424,15 +430,68 @@ class ReportBarChartCard @JvmOverloads constructor(
         set2.setDrawIcons(false)
     }
 
+    fun calInitOffset(data: List<BarSourceData>, chart: CustomBarChart): Float {
+        var indexOffset = data.size - mVisibleDataCount
+        Log.d(
+            "#######",
+            "calFirstShowOffset ${indexOffset}:${chart.viewPortHandler.contentWidth()}"
+        )
+
+        var translateX =
+            (indexOffset * 1f / mVisibleDataCount) * (chart.viewPortHandler.contentWidth())
+        Log.d("#######", "calFirstShowOffset ${translateX}")
+        return translateX
+    }
+
+    fun translateChartX(chart: CustomBarChart, translateX: Float) {
+        var matrix = chart.viewPortHandler.matrixTouch
+        matrix.postTranslate(translateX, 0f)
+        chart.viewPortHandler.refresh(matrix, chart, true)
+    }
+
+    fun startChartTranslateAnim(offset: Float) {
+        var currentOffset = 0f
+        var valueAnimator = ValueAnimator.ofFloat(0f, offset)
+        valueAnimator.addUpdateListener {
+            var translateX = it.animatedValue as Float - currentOffset
+            translateChartX(chart, translateX)
+            currentOffset = it.animatedValue as Float
+        }
+        valueAnimator.interpolator = AccelerateDecelerateInterpolator()
+        valueAnimator.duration = 500
+        valueAnimator.start()
+    }
+
+    var downX = 0f
+    var downY = 0f
+    var moveX = -1f
+    var moveY = -1f
+    val mainHanlder = Handler(Looper.getMainLooper())
     fun setChartListener() {
         chart.onChartGestureListener = object : OnChartGestureListener {
             override fun onChartGestureEnd(
-                me: MotionEvent?,
+                me: MotionEvent,
                 lastPerformedGesture: ChartTouchListener.ChartGesture?
             ) {
                 chart.isDragEnabled = true
-                chart.isHighlightPerDragEnabled = false
-                cancelHighlight()
+                if (chart.isHighlightPerDragEnabled){
+                    chart.isHighlightPerDragEnabled = false
+                    cancelHighlight()
+                }else{
+                    var chartWidth = chart.viewPortHandler.contentWidth()
+                    var deltaX = me.x - downX
+                    var translateX = 0f
+                    if (deltaX > 0) {
+                        translateX = (chartWidth - deltaX)
+                    } else {
+                        translateX = -(chartWidth + deltaX)
+                    }
+                    if (abs(deltaX) >= chartWidth / 3) {
+                        startChartTranslateAnim(translateX)
+                    } else {
+                        startChartTranslateAnim(-deltaX)
+                    }
+                }
             }
 
             override fun onChartFling(
@@ -442,6 +501,7 @@ class ReportBarChartCard @JvmOverloads constructor(
                 velocityY: Float
             ) {
                 cancelHighlight()
+                chart.isDragEnabled = true
             }
 
             override fun onChartSingleTapped(me: MotionEvent) {
@@ -451,6 +511,11 @@ class ReportBarChartCard @JvmOverloads constructor(
                 me: MotionEvent,
                 lastPerformedGesture: ChartTouchListener.ChartGesture?
             ) {
+
+                moveX = -1f
+                moveY = -1f
+                downX = me.x
+                downY = me.y
 //                set2.setDrawVerticalHighlightIndicator(true)
 //                set2.setDrawHorizontalHighlightIndicator(false)
             }
@@ -459,17 +524,40 @@ class ReportBarChartCard @JvmOverloads constructor(
             }
 
             override fun onChartLongPressed(me: MotionEvent) {
-                chart.isDragEnabled = false
-                chart.isHighlightPerDragEnabled = true
-                val highlightByTouchPoint = chart.getHighlightByTouchPoint(me.x, me.y)
-                chart.highlightValue(highlightByTouchPoint, true)
+                mainHanlder.postDelayed({
+                    if (moveX == -1f && moveY == -1f){
+                        chart.isDragEnabled = false
+                        chart.isHighlightPerDragEnabled = true
+                        val highlightByTouchPoint = chart.getHighlightByTouchPoint(me.x, me.y)
+                        chart.highlightValue(highlightByTouchPoint, true)
+                    }else{
+                        var deltaX = moveX - downX
+                        var deltaY = moveY - downY
+                        if (abs(deltaX) < ViewConfiguration.get(context).scaledTouchSlop && abs(deltaY) < ViewConfiguration.get(
+                                context
+                            ).scaledTouchSlop
+                        ) {
+                            chart.isDragEnabled = false
+                            chart.isHighlightPerDragEnabled = true
+                            val highlightByTouchPoint = chart.getHighlightByTouchPoint(me.x, me.y)
+                            chart.highlightValue(highlightByTouchPoint, true)
+                        }else{
+                            chart.isDragEnabled = true
+                            chart.isHighlightPerDragEnabled = false
+                            cancelHighlight()
+                        }
+                    }
+                },500)
+
             }
 
             override fun onChartDoubleTapped(me: MotionEvent?) {
             }
 
 
-            override fun onChartTranslate(me: MotionEvent?, dX: Float, dY: Float) {
+            override fun onChartTranslate(me: MotionEvent, dX: Float, dY: Float) {
+                moveX = me.x
+                moveY = me.y
             }
         }
         chart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
@@ -546,8 +634,13 @@ class ReportBarChartCard @JvmOverloads constructor(
         initView()
     }
 
+    fun setVisibleDataCount(count: Int) {
+        this.mVisibleDataCount = count
+        initView()
+    }
+
     class BarSourceData : Serializable {
-        var value:Float = 0f
+        var value: Float = 0f
         var date: String = ""
     }
 }

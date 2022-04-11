@@ -73,7 +73,7 @@ class ReportDefaultFragment : Fragment() {
         chart_hr.setData(reportData.reportHRDataEntity?.hrRec)
         var candleStickValues = ArrayList<ReportCandleStickChartCard.CandleSourceData>()
         var barValues = ArrayList<ReportBarChartCard.BarSourceData>()
-        for (i in 0..29) {
+        for (i in 0..88) {
             var candleSourceData = ReportCandleStickChartCard.CandleSourceData()
             val value = Random().nextInt(30) + 60.0f
             candleSourceData.average = value
