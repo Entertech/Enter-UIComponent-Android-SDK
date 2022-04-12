@@ -1,5 +1,6 @@
 package cn.entertech.uicomponentsdk.report
 
+import android.animation.Animator
 import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
@@ -34,6 +35,12 @@ import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.MPPointF
 import kotlinx.android.synthetic.main.layout_card_bar_chart.view.*
+import kotlinx.android.synthetic.main.layout_card_bar_chart.view.chart
+import kotlinx.android.synthetic.main.layout_card_bar_chart.view.ll_title
+import kotlinx.android.synthetic.main.layout_card_bar_chart.view.rl_bg
+import kotlinx.android.synthetic.main.layout_card_bar_chart.view.tv_date
+import kotlinx.android.synthetic.main.layout_card_bar_chart.view.tv_time_unit_des
+import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.*
 import kotlinx.android.synthetic.main.layout_common_card_title.view.*
 import java.io.Serializable
 import kotlin.math.abs
@@ -284,6 +291,7 @@ class ReportBarChartCard @JvmOverloads constructor(
     }
 
     lateinit var set2: BarDataSet
+    var firstIn = true
     fun setData(data: List<BarSourceData>?) {
         if (data == null) {
             return
@@ -338,7 +346,9 @@ class ReportBarChartCard @JvmOverloads constructor(
         chart.notifyDataSetChanged()
         chart.setVisibleXRangeMaximum(12f)
         chart.viewTreeObserver.addOnGlobalLayoutListener {
-            translateChartX(chart, -Float.MAX_VALUE)
+            if (firstIn){
+                translateChartX(chart, -Float.MAX_VALUE)
+            }
         }
     }
 
@@ -446,6 +456,23 @@ class ReportBarChartCard @JvmOverloads constructor(
         }
         valueAnimator.interpolator = AccelerateDecelerateInterpolator()
         valueAnimator.duration = 500
+        valueAnimator.addListener(object:Animator.AnimatorListener{
+            override fun onAnimationStart(animation: Animator?) {
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                val lowestVisibleData = set2.getEntryForXValue(chart.lowestVisibleX,0f).data as BarSourceData
+                val highestVisibleData = set2.getEntryForXValue(chart.highestVisibleX,0f).data as BarSourceData
+                tv_date.text = "2022年${lowestVisibleData.date}月-2022年${highestVisibleData.date}月"
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+
+            override fun onAnimationRepeat(animation: Animator?) {
+            }
+
+        })
         valueAnimator.start()
     }
 
@@ -498,7 +525,7 @@ class ReportBarChartCard @JvmOverloads constructor(
                 me: MotionEvent,
                 lastPerformedGesture: ChartTouchListener.ChartGesture?
             ) {
-
+                firstIn = false
                 moveX = -1f
                 moveY = -1f
                 downX = me.x

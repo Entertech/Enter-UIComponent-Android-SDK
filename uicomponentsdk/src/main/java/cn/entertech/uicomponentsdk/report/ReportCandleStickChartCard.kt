@@ -1,5 +1,6 @@
 package cn.entertech.uicomponentsdk.report
 
+import android.animation.Animator
 import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
@@ -23,7 +24,6 @@ import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.activity.LineChartFullScreenActivity
 import cn.entertech.uicomponentsdk.utils.*
 import cn.entertech.uicomponentsdk.widget.*
-import com.github.mikephil.charting.charts.Chart
 import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
@@ -35,7 +35,6 @@ import com.github.mikephil.charting.listener.ChartTouchListener
 import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.MPPointF
-import kotlinx.android.synthetic.main.layout_card_bar_chart.view.*
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.*
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.chart
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.ll_title
@@ -289,6 +288,7 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         }
     }
 
+    var firstIn = true
     lateinit var set1: CandleDataSet
     lateinit var set2: LineDataSet
     fun setData(data: List<CandleSourceData>?) {
@@ -373,7 +373,10 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         chart.notifyDataSetChanged()
         chart.setVisibleXRangeMaximum(30f)
         chart.viewTreeObserver.addOnGlobalLayoutListener {
-            translateChartX(chart, -Float.MAX_VALUE)
+            Log.d("#####","addOnGlobalLayoutListener")
+            if (firstIn){
+                translateChartX(chart, -Float.MAX_VALUE)
+            }
         }
     }
 
@@ -483,6 +486,24 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         }
         valueAnimator.interpolator = AccelerateDecelerateInterpolator()
         valueAnimator.duration = 500
+        valueAnimator.addListener(object:Animator.AnimatorListener{
+            override fun onAnimationStart(animation: Animator?) {
+
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                val lowestVisibleData = set1.getEntryForXValue(chart.lowestVisibleX,0f).data as CandleSourceData
+                val highestVisibleData = set1.getEntryForXValue(chart.highestVisibleX,0f).data as CandleSourceData
+                tv_date.text = "2022年1月${lowestVisibleData.date}-2022年1月${highestVisibleData.date}"
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+
+            override fun onAnimationRepeat(animation: Animator?) {
+            }
+
+        })
         valueAnimator.start()
     }
     var downX = 0f
@@ -535,6 +556,7 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
                 me: MotionEvent,
                 lastPerformedGesture: ChartTouchListener.ChartGesture?
             ) {
+                firstIn = false
                 moveX = -1f
                 moveY = -1f
                 downX = me.x
