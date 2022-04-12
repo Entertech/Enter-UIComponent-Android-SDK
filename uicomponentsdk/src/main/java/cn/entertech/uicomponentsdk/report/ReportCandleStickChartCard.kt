@@ -1,5 +1,6 @@
 package cn.entertech.uicomponentsdk.report
 
+import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -10,20 +11,19 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.util.AttributeSet
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.LinearLayout
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.activity.LineChartFullScreenActivity
 import cn.entertech.uicomponentsdk.utils.*
-import cn.entertech.uicomponentsdk.widget.CandleChartMarkView
-import cn.entertech.uicomponentsdk.widget.ChartIconView
-import cn.entertech.uicomponentsdk.widget.LineChartMarkView
+import cn.entertech.uicomponentsdk.widget.*
+import com.github.mikephil.charting.charts.Chart
 import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
@@ -35,9 +35,15 @@ import com.github.mikephil.charting.listener.ChartTouchListener
 import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.MPPointF
+import kotlinx.android.synthetic.main.layout_card_bar_chart.view.*
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.*
+import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.chart
+import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.ll_title
+import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.rl_bg
+import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.tv_time_unit_des
 import kotlinx.android.synthetic.main.layout_common_card_title.view.*
 import java.io.Serializable
+import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.floor
 
@@ -291,8 +297,8 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         }
         this.mData = data
         for (i in mData!!.indices) {
-            if ((i+1) % 7 == 0) {
-                val llXAxis = LimitLine(i.toFloat() + 0.5f, "${mData!![i+1].date}")
+            if ((i + 1) % 7 == 0) {
+                val llXAxis = LimitLine(i.toFloat() + 0.5f, "${mData!![i + 1].xLabel}")
                 llXAxis.lineWidth = 1f
                 llXAxis.labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
                 llXAxis.textSize = 12f
@@ -313,10 +319,10 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
                     mData!![i].max,
                     mData!![i].min,
                     mData!![i].max,
-                    mData!![i].min,mData!![i]
+                    mData!![i].min, mData!![i]
                 )
             )
-            lineValues.add(Entry(i.toFloat(), mData!![i].average,mData!![i]))
+            lineValues.add(Entry(i.toFloat(), mData!![i].average, mData!![i]))
         }
 
         // create a dataset and give it a type
@@ -362,8 +368,13 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         combinedData.setData(lineData)
 //         // set data
         chart.data = combinedData
+        chart.isHighlightPerDragEnabled = false
         calNiceLabel(mData!!)
         chart.notifyDataSetChanged()
+        chart.setVisibleXRangeMaximum(30f)
+        chart.viewTreeObserver.addOnGlobalLayoutListener {
+            translateChartX(chart, -Float.MAX_VALUE)
+        }
     }
 
     private fun calNiceLabel(data: List<CandleSourceData>) {
@@ -410,14 +421,14 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
 //        chart.setBackgroundColor(bgColor)
         chart.description.isEnabled = false
         chart.legend.isEnabled = false
-        chart.setTouchEnabled(true)
+//        chart.setTouchEnabled(true)
 //        chart.setYLimitLabelBgColor(mAverageLabelBgColor)
         chart.animateX(500)
         chart.setDrawGridBackground(false)
-        chart.isHighlightPerDragEnabled = false
+//        chart.isHighlightPerDragEnabled = false
 
         chart.isDragEnabled = true
-        chart.isScaleXEnabled = true
+        chart.isScaleXEnabled = false
         chart.isScaleYEnabled = false
         val marker = CandleChartMarkView(context, mLineColor, mMarkViewTitle)
         marker.chartView = chart
@@ -453,18 +464,59 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         ll_title.visibility = View.VISIBLE
         chart.highlightValue(null)
         set1.setDrawIcons(false)
+        set2.setDrawIcons(false)
     }
 
+    fun translateChartX(chart: CustomCombinedChart, translateX: Float) {
+        var matrix = chart.viewPortHandler.matrixTouch
+        matrix.postTranslate(translateX, 0f)
+        chart.viewPortHandler.refresh(matrix, chart, true)
+    }
+
+    fun startChartTranslateAnim(offset: Float) {
+        var currentOffset = 0f
+        var valueAnimator = ValueAnimator.ofFloat(0f, offset)
+        valueAnimator.addUpdateListener {
+            var translateX = it.animatedValue as Float - currentOffset
+            translateChartX(chart, translateX)
+            currentOffset = it.animatedValue as Float
+        }
+        valueAnimator.interpolator = AccelerateDecelerateInterpolator()
+        valueAnimator.duration = 500
+        valueAnimator.start()
+    }
+    var downX = 0f
+    var downY = 0f
+    var moveX = -1f
+    var moveY = -1f
+    val mainHandler = Handler(Looper.getMainLooper())
     fun setChartListener() {
         chart.onChartGestureListener = object : OnChartGestureListener {
             override fun onChartGestureEnd(
-                me: MotionEvent?,
+                me: MotionEvent,
                 lastPerformedGesture: ChartTouchListener.ChartGesture?
             ) {
                 chart.isDragEnabled = true
-                chart.isHighlightPerDragEnabled = false
-                cancelHighlight()
+                if (chart.isHighlightPerDragEnabled) {
+                    chart.isHighlightPerDragEnabled = false
+                    cancelHighlight()
+                } else {
+                    var chartWidth = chart.viewPortHandler.contentWidth()
+                    var deltaX = me.x - downX
+                    var translateX = 0f
+                    if (deltaX > 0) {
+                        translateX = (chartWidth - deltaX)
+                    } else {
+                        translateX = -(chartWidth + deltaX)
+                    }
+                    if (abs(deltaX) >= chartWidth / 3) {
+                        startChartTranslateAnim(translateX)
+                    } else {
+                        startChartTranslateAnim(-deltaX)
+                    }
+                }
             }
+
 
             override fun onChartFling(
                 me1: MotionEvent?,
@@ -473,6 +525,7 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
                 velocityY: Float
             ) {
                 cancelHighlight()
+                chart.isDragEnabled = true
             }
 
             override fun onChartSingleTapped(me: MotionEvent) {
@@ -482,44 +535,71 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
                 me: MotionEvent,
                 lastPerformedGesture: ChartTouchListener.ChartGesture?
             ) {
-                set1.setDrawVerticalHighlightIndicator(true)
-                set1.setDrawHorizontalHighlightIndicator(false)
+                moveX = -1f
+                moveY = -1f
+                downX = me.x
+                downY = me.y
+//                set1.setDrawVerticalHighlightIndicator(true)
+//                set1.setDrawHorizontalHighlightIndicator(false)
             }
 
             override fun onChartScale(me: MotionEvent?, scaleX: Float, scaleY: Float) {
             }
 
             override fun onChartLongPressed(me: MotionEvent) {
-                chart.isDragEnabled = false
-                chart.isHighlightPerDragEnabled = true
-                val highlightByTouchPoint = chart.getHighlightByTouchPoint(me.x, me.y)
-                chart.highlightValue(highlightByTouchPoint, true)
+                mainHandler.postDelayed({
+                    if (moveX == -1f && moveY == -1f){
+                        chart.isDragEnabled = false
+                        chart.isHighlightPerDragEnabled = true
+                        val highlightByTouchPoint = chart.getHighlightByTouchPoint(me.x, me.y)
+                        chart.highlightValue(highlightByTouchPoint, true)
+                    }else{
+                        var deltaX = moveX - downX
+                        var deltaY = moveY - downY
+                        if (abs(deltaX) < ViewConfiguration.get(context).scaledTouchSlop && abs(deltaY) < ViewConfiguration.get(
+                                context
+                            ).scaledTouchSlop
+                        ) {
+                            chart.isDragEnabled = false
+                            chart.isHighlightPerDragEnabled = true
+                            val highlightByTouchPoint = chart.getHighlightByTouchPoint(me.x, me.y)
+                            chart.highlightValue(highlightByTouchPoint, true)
+                        }else{
+                            chart.isDragEnabled = true
+                            chart.isHighlightPerDragEnabled = false
+                            cancelHighlight()
+                        }
+                    }
+                },500)
             }
 
             override fun onChartDoubleTapped(me: MotionEvent?) {
             }
 
 
-            override fun onChartTranslate(me: MotionEvent?, dX: Float, dY: Float) {
+            override fun onChartTranslate(me: MotionEvent, dX: Float, dY: Float) {
+                moveX = me.x
+                moveY = me.y
             }
         }
-        chart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
-            override fun onNothingSelected() {
-                cancelHighlight()
-            }
-
-            override fun onValueSelected(e: Entry, h: Highlight?) {
-                ll_title.visibility = View.INVISIBLE
-                chart.highlightValue(null, false)
-                set1.setDrawIcons(true)
-                set1.iconsOffset = MPPointF(0f, 3f)
-                set1.values.forEach {
-                    it.icon = null
+        chart.setOnChartValueSelectedListener(
+            object : OnChartValueSelectedListener {
+                override fun onNothingSelected() {
+                    cancelHighlight()
                 }
-                e.icon = drawableIcon
-                chart.highlightValue(h, false)
-            }
-        })
+
+                override fun onValueSelected(e: Entry, h: Highlight?) {
+                    ll_title.visibility = View.INVISIBLE
+                    chart.highlightValue(null, false)
+                    set1.setDrawIcons(true)
+                    set1.iconsOffset = MPPointF(0f, 3f)
+                    set1.values.forEach {
+                        it.icon = null
+                    }
+                    e.icon = drawableIcon
+                    chart.highlightValue(h, false)
+                }
+            })
     }
 
     fun setLineWidth(lineWidth: Float) {
@@ -582,5 +662,6 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         var max: Float = 0f
         var min: Float = 0f
         var date: String = ""
+        var xLabel:String = ""
     }
 }

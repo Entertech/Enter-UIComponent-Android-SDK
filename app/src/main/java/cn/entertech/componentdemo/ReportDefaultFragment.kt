@@ -80,10 +80,12 @@ class ReportDefaultFragment : Fragment() {
             candleSourceData.max = value + 5
             candleSourceData.min = value - 5
             candleSourceData.date = "${i + 1}"
+            candleSourceData.xLabel = "${i + 1}日"
             candleStickValues.add(candleSourceData)
             var barSourceData = ReportBarChartCard.BarSourceData()
             barSourceData.value = value
             barSourceData.date = "${i + 1}"
+            barSourceData.xLabel = "${i+1}月"
             barValues.add(barSourceData)
         }
         chart_candle_stick.setData(candleStickValues)

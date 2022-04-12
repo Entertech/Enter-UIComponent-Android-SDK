@@ -625,8 +625,8 @@ public class CustomChartTouchListener extends ChartTouchListener<BarLineChartBas
             return false;
         }
 
-        Highlight h = mChart.getHighlightByTouchPoint(e.getX(), e.getY());
-        performHighlight(h, e);
+//        Highlight h = mChart.getHighlightByTouchPoint(e.getX(), e.getY());
+//        performHighlight(h, e);
 
         return super.onSingleTapUp(e);
     }

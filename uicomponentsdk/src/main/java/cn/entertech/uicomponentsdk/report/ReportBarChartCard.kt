@@ -302,7 +302,7 @@ class ReportBarChartCard @JvmOverloads constructor(
 
         for (i in mData!!.indices) {
             if ((i + 1) % 7 == 0) {
-                val llXAxis = LimitLine(i.toFloat() + 0.5f, "${mData!![i + 1].date}")
+                val llXAxis = LimitLine(i.toFloat() + 0.5f, "${mData!![i + 1].xLabel}")
                 llXAxis.lineWidth = 1f
                 llXAxis.labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
                 llXAxis.textSize = 12f
@@ -430,19 +430,6 @@ class ReportBarChartCard @JvmOverloads constructor(
         set2.setDrawIcons(false)
     }
 
-    fun calInitOffset(data: List<BarSourceData>, chart: CustomBarChart): Float {
-        var indexOffset = data.size - mVisibleDataCount
-        Log.d(
-            "#######",
-            "calFirstShowOffset ${indexOffset}:${chart.viewPortHandler.contentWidth()}"
-        )
-
-        var translateX =
-            (indexOffset * 1f / mVisibleDataCount) * (chart.viewPortHandler.contentWidth())
-        Log.d("#######", "calFirstShowOffset ${translateX}")
-        return translateX
-    }
-
     fun translateChartX(chart: CustomBarChart, translateX: Float) {
         var matrix = chart.viewPortHandler.matrixTouch
         matrix.postTranslate(translateX, 0f)
@@ -466,7 +453,7 @@ class ReportBarChartCard @JvmOverloads constructor(
     var downY = 0f
     var moveX = -1f
     var moveY = -1f
-    val mainHanlder = Handler(Looper.getMainLooper())
+    val mainHandler = Handler(Looper.getMainLooper())
     fun setChartListener() {
         chart.onChartGestureListener = object : OnChartGestureListener {
             override fun onChartGestureEnd(
@@ -524,7 +511,7 @@ class ReportBarChartCard @JvmOverloads constructor(
             }
 
             override fun onChartLongPressed(me: MotionEvent) {
-                mainHanlder.postDelayed({
+                mainHandler.postDelayed({
                     if (moveX == -1f && moveY == -1f){
                         chart.isDragEnabled = false
                         chart.isHighlightPerDragEnabled = true
@@ -642,5 +629,6 @@ class ReportBarChartCard @JvmOverloads constructor(
     class BarSourceData : Serializable {
         var value: Float = 0f
         var date: String = ""
+        var xLabel:String = ""
     }
 }
