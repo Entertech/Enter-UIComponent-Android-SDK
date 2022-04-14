@@ -22,6 +22,12 @@
                 android:name=".activity.LineChartFullScreenActivity"
                 android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
+                android:name=".activity.CandleChartFullScreenActivity"
+                android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+        <activity
+                android:name=".activity.BarChartFullScreenActivity"
+                android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+        <activity
                 android:name=".activity.WebActivity"
                 android:theme="@style/ProgressBarStyle" />
     </application>

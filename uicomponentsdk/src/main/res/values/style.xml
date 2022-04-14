@@ -359,6 +359,33 @@
         <attr name="rlcc_smallTitle" format="string" />
     </declare-styleable>
 
+<!--    <declare-styleable name="ReportBarChartCard">-->
+<!--        <attr name="rbcc_isTitleIconShow" format="boolean" />-->
+<!--        <attr name="rbcc_title" format="string" />-->
+<!--        <attr name="rbcc_titleIcon" format="reference" />-->
+<!--        <attr name="rlcc_isTitleMenuIconShow" format="boolean" />-->
+<!--        <attr name="rlcc_titleMenuIcon" format="reference" />-->
+<!--        <attr name="rlcc_mainColor" format="color" />-->
+<!--        <attr name="rlcc_textColor" format="color" />-->
+<!--        <attr name="rlcc_background" format="color|reference" />-->
+<!--        <attr name="rlcc_pointCount" format="integer" />-->
+<!--        <attr name="rlcc_lineColor" format="color" />-->
+<!--        <attr name="rlcc_timeUnit" format="integer" />-->
+<!--        <attr name="rlcc_lineWidth" format="dimension" />-->
+<!--        <attr name="rlcc_gridLineColor" format="color" />-->
+<!--        <attr name="rlcc_labelColor" format="color" />-->
+<!--        <attr name="rlcc_xAxisUnit" format="string" />-->
+<!--        <attr name="rlcc_isDrawFill" format="boolean" />-->
+<!--        <attr name="rlcc_highlightLineColor" format="color"/>-->
+<!--        <attr name="rlcc_highlightLineWidth" format="float"/>-->
+<!--        <attr name="rlcc_markViewBgColor" format="color"/>-->
+<!--        <attr name="rlcc_markViewTitle" format="string"/>-->
+<!--        <attr name="rlcc_markViewTitleColor" format="color"/>-->
+<!--        <attr name="rlcc_markViewValueColor" format="color"/>-->
+<!--        <attr name="rlcc_averageLabelBgColor" format="color"/>-->
+<!--        <attr name="rlcc_smallTitle" format="string" />-->
+<!--    </declare-styleable>-->
+
     <declare-styleable name="ReportCandleStickChartCard">
         <attr name="rcscc_mainColor" format="color" />
         <attr name="rcscc_textColor" format="color" />

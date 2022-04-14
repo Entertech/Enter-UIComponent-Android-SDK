@@ -15,8 +15,8 @@
             android:orientation="vertical"
             >
 
-        <include layout="@layout/layout_common_card_title"
-                android:visibility="gone"/>
+<!--        <include layout="@layout/layout_common_card_title"-->
+<!--                android:visibility="gone"/>-->
 
         <RelativeLayout
                 android:id="@+id/rl_extra_view"
@@ -61,6 +61,18 @@
                         android:textSize="16sp"
                         />
             </LinearLayout>
+
+
+            <ImageView
+                    android:id="@+id/iv_menu"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    android:src="@drawable/vector_drawable_arrow_right_blue"
+                    />
+
         </RelativeLayout>
     </LinearLayout>
 

@@ -21,6 +21,7 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.LinearLayout
 import cn.entertech.uicomponentsdk.R
+import cn.entertech.uicomponentsdk.activity.CandleChartFullScreenActivity
 import cn.entertech.uicomponentsdk.activity.LineChartFullScreenActivity
 import cn.entertech.uicomponentsdk.utils.*
 import cn.entertech.uicomponentsdk.widget.*
@@ -40,7 +41,6 @@ import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.chart
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.ll_title
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.rl_bg
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.tv_time_unit_des
-import kotlinx.android.synthetic.main.layout_common_card_title.view.*
 import java.io.Serializable
 import kotlin.math.abs
 import kotlin.math.ceil
@@ -239,20 +239,20 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
     }
 
     fun initTitle() {
-        tv_title.visibility = View.VISIBLE
-        tv_title.text = mTitle
-        tv_title.setTextColor(mTextColor)
-        if (mSmallTitle != null) {
-            tv_small_title.visibility = View.VISIBLE
-            tv_small_title.text = mSmallTitle
-            tv_small_title.setTextColor(mTextColor)
-        }
-        if (mIsTitleIconShow) {
-            iv_icon.visibility = View.VISIBLE
-            iv_icon.setImageDrawable(mTiltleIcon)
-        } else {
-            iv_icon.visibility = View.GONE
-        }
+//        tv_title.visibility = View.VISIBLE
+//        tv_title.text = mTitle
+//        tv_title.setTextColor(mTextColor)
+//        if (mSmallTitle != null) {
+//            tv_small_title.visibility = View.VISIBLE
+//            tv_small_title.text = mSmallTitle
+//            tv_small_title.setTextColor(mTextColor)
+//        }
+//        if (mIsTitleIconShow) {
+//            iv_icon.visibility = View.VISIBLE
+//            iv_icon.setImageDrawable(mTiltleIcon)
+//        } else {
+//            iv_icon.visibility = View.GONE
+//        }
         if (mIsTitleMenuIconShow) {
             iv_menu.setImageDrawable(mTitleMenuIcon)
             iv_menu.visibility = View.VISIBLE
@@ -263,10 +263,8 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
             if (isFullScreen) {
                 (context as Activity).finish()
             } else {
-                var intent = Intent(context, LineChartFullScreenActivity::class.java)
+                var intent = Intent(context, CandleChartFullScreenActivity::class.java)
                 intent.putExtra("lineWidth", mLineWidth)
-                intent.putExtra("pointCount", mPointCount)
-                intent.putExtra("timeUnit", mTimeUnit)
                 intent.putExtra("highlightLineColor", mHighlightLineColor)
                 intent.putExtra("highlightLineWidth", mHighlightLineWidth)
                 intent.putExtra("markViewBgColor", mMarkViewBgColor)
@@ -282,7 +280,7 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
                 intent.putExtra("average", mAverageValue)
                 intent.putExtra("averageBgColor", mAverageLabelBgColor)
                 intent.putExtra("lineColor", mLineColor)
-//                intent.putExtra("lineData", mData!!.toDoubleArray())
+                intent.putExtra("lineData", mData!! as Serializable)
                 context.startActivity(intent)
             }
         }
@@ -494,7 +492,7 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
             override fun onAnimationEnd(animation: Animator?) {
                 val lowestVisibleData = set1.getEntryForXValue(chart.lowestVisibleX,0f).data as CandleSourceData
                 val highestVisibleData = set1.getEntryForXValue(chart.highestVisibleX,0f).data as CandleSourceData
-                tv_date.text = "2022年1月${lowestVisibleData.date}-2022年1月${highestVisibleData.date}"
+                tv_date.text = "${lowestVisibleData.date}-${highestVisibleData.date}"
             }
 
             override fun onAnimationCancel(animation: Animator?) {

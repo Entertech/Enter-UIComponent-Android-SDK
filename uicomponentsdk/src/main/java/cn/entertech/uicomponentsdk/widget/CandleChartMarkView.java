@@ -54,7 +54,7 @@ public class CandleChartMarkView extends MarkerView {
         ReportCandleStickChartCard.CandleSourceData candleSourceData = (ReportCandleStickChartCard.CandleSourceData) e.getData();
         tvRange.setText(candleSourceData.getMin() + "-" + candleSourceData.getMax());
         tvAverage.setText(candleSourceData.getAverage() + "");
-        tvDate.setText("2022年3月" + candleSourceData.getDate() + "日");
+        tvDate.setText(candleSourceData.getDate());
         super.refreshContent(e, highlight);
     }
 //
