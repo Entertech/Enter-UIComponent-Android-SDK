@@ -17,7 +17,7 @@ class CandleChartFullScreenActivity : AppCompatActivity() {
         setContentView(R.layout.activity_candle_chart_full_screen)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
-        var lineData = intent.getSerializableExtra("lineData") as List<ReportCandleStickChartCard.CandleSourceData>
+        var lineData = intent.getSerializableExtra("lineData") as ArrayList<ReportCandleStickChartCard.CandleSourceData>
         var lineWidth = intent.getFloatExtra("lineWidth",1.5f)
         var highlightLineColor = intent.getIntExtra("highlightLineColor",Color.parseColor("#11152E"))
         var highlightLineWidth = intent.getFloatExtra("highlightLineWidth",1.5f)
@@ -34,6 +34,7 @@ class CandleChartFullScreenActivity : AppCompatActivity() {
         var average = intent.getStringExtra("average")
         var averageBgColor = intent.getIntExtra("averageBgColor",0)
         var lineColor = intent.getIntExtra("lineColor",Color.RED)
+        var cycle = intent.getStringExtra("cycle")
         chart_candle_stick.setLineWidth(lineWidth)
         chart_candle_stick.isFullScreen = true
         chart_candle_stick.mHighlightLineColor = highlightLineColor
@@ -51,6 +52,6 @@ class CandleChartFullScreenActivity : AppCompatActivity() {
         chart_candle_stick.setLabelColor(labelColor)
         chart_candle_stick.setAverage(average?:"")
         chart_candle_stick.setLineColor(lineColor)
-        chart_candle_stick.setData(lineData)
+        chart_candle_stick.setData(lineData,cycle)
     }
 }

@@ -17,7 +17,7 @@ class BarChartFullScreenActivity : AppCompatActivity() {
         setContentView(R.layout.activity_bar_chart_full_screen)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
-        var lineData = intent.getSerializableExtra("lineData") as List<ReportBarChartCard.BarSourceData>
+        var lineData = intent.getSerializableExtra("lineData") as ArrayList<ReportBarChartCard.BarSourceData>
         var lineWidth = intent.getFloatExtra("lineWidth",1.5f)
         var highlightLineColor = intent.getIntExtra("highlightLineColor",Color.parseColor("#11152E"))
         var highlightLineWidth = intent.getFloatExtra("highlightLineWidth",1.5f)
@@ -34,6 +34,7 @@ class BarChartFullScreenActivity : AppCompatActivity() {
         var average = intent.getStringExtra("average")
         var averageBgColor = intent.getIntExtra("averageBgColor",0)
         var lineColor = intent.getIntExtra("lineColor",Color.RED)
+        var cycle = intent.getStringExtra("cycle")
         chart_bar.setLineWidth(lineWidth)
         chart_bar.isFullScreen = true
         chart_bar.mHighlightLineColor = highlightLineColor
@@ -51,6 +52,6 @@ class BarChartFullScreenActivity : AppCompatActivity() {
         chart_bar.setLabelColor(labelColor)
         chart_bar.setAverage(average?:"")
         chart_bar.setLineColor(lineColor)
-        chart_bar.setData(lineData)
+        chart_bar.setData(lineData,cycle)
     }
 }

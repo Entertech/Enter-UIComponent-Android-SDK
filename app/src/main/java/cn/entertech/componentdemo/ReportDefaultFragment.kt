@@ -73,23 +73,24 @@ class ReportDefaultFragment : Fragment() {
         chart_hr.setData(reportData.reportHRDataEntity?.hrRec)
         var candleStickValues = ArrayList<ReportCandleStickChartCard.CandleSourceData>()
         var barValues = ArrayList<ReportBarChartCard.BarSourceData>()
-        for (i in 0..88) {
+        var dates = getDateList()
+        for (i in dates.indices) {
             var candleSourceData = ReportCandleStickChartCard.CandleSourceData()
             val value = Random().nextInt(30) + 60.0f
             candleSourceData.average = value
             candleSourceData.max = value + 5
             candleSourceData.min = value - 5
-            candleSourceData.date = "${i + 1}"
-            candleSourceData.xLabel = "${i + 1}日"
+            candleSourceData.date = "${dates[i]}"
+            candleSourceData.xLabel = "${dates[i].split("-")[2]}"
             candleStickValues.add(candleSourceData)
             var barSourceData = ReportBarChartCard.BarSourceData()
             barSourceData.value = value
-            barSourceData.date = "${i + 1}"
-            barSourceData.xLabel = "${i+1}月"
+            barSourceData.date =  "${dates[i]}"
+            barSourceData.xLabel = "${dates[i].split("-")[2]}"
             barValues.add(barSourceData)
         }
-        chart_candle_stick.setData(candleStickValues)
-        chart_bar.setData(barValues)
+        chart_candle_stick.setData(candleStickValues, "month")
+        chart_bar.setData(barValues,"month")
 //        chart_hrv.setAverage("${reportData.reportHRDataEntity?.hrvAvg!!.toInt()}")
         var hrvSecondLine = ArrayList<Double>()
         var hrvSecondLineSize = reportData.reportHRDataEntity!!.hrRec!!.size / 9f.toInt()
@@ -111,5 +112,25 @@ class ReportDefaultFragment : Fragment() {
         }
         report_pressure.setValue(reportData.reportPressureEnitty?.pressureAvg!!.toInt())
 
+    }
+
+    fun getDateList(): ArrayList<String> {
+        var dates = ArrayList<String>()
+        for (i in 1..31){
+            dates.add("2022-01-${String.format("%02d", i)}")
+        }
+        for (i in 1..28){
+            dates.add("2022-02-${String.format("%02d", i)}")
+        }
+        for (i in 1..31){
+            dates.add("2022-03-${String.format("%02d", i)}")
+        }
+        for (i in 1..30){
+            dates.add("2022-04-${String.format("%02d", i)}")
+        }
+        for (i in 1..31){
+            dates.add("2022-05-${String.format("%02d", i)}")
+        }
+        return dates
     }
 }

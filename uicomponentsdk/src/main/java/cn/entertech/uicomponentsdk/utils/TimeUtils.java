@@ -56,19 +56,19 @@ public class TimeUtils {
     public static String second2FormatString(Context context, int totalSecond, boolean isShowSecondWhenZero) {
         int mins = totalSecond / 60;
         int seconds = totalSecond - mins * 60;
-        if (seconds == 0 && !isShowSecondWhenZero){
+        if (seconds == 0 && !isShowSecondWhenZero) {
             return mins + context.getString(R.string.sdk_mins);
-        }else{
+        } else {
             return mins + context.getString(R.string.sdk_mins) + " " + seconds + context.getString(R.string.sdk_second);
         }
     }
 
     public static String second2FormatString(Context context, int totalSecond) {
-        return second2FormatString(context, totalSecond,true);
+        return second2FormatString(context, totalSecond, true);
     }
 
-    public static int second2MinCeil(int second){
-       return (int) Math.ceil(second * 1.0 / 60);
+    public static int second2MinCeil(int second) {
+        return (int) Math.ceil(second * 1.0 / 60);
     }
 
     public static String getDayOfWeek() {

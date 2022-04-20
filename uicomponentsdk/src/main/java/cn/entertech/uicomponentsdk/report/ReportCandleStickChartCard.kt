@@ -22,7 +22,6 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.LinearLayout
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.activity.CandleChartFullScreenActivity
-import cn.entertech.uicomponentsdk.activity.LineChartFullScreenActivity
 import cn.entertech.uicomponentsdk.utils.*
 import cn.entertech.uicomponentsdk.widget.*
 import com.github.mikephil.charting.components.LimitLine
@@ -36,10 +35,13 @@ import com.github.mikephil.charting.listener.ChartTouchListener
 import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.MPPointF
+import kotlinx.android.synthetic.main.layout_card_bar_chart.view.*
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.*
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.chart
+import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.iv_menu
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.ll_title
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.rl_bg
+import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.tv_date
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.tv_time_unit_des
 import java.io.Serializable
 import kotlin.math.abs
@@ -52,6 +54,9 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
+    private lateinit var highestVisibleData: CandleSourceData
+    private lateinit var lowestVisibleData: CandleSourceData
+    private var mCycle: String = ""
     private var mSmallTitle: String? = ""
     var mAverageLabelBgColor: Int = Color.parseColor("#ffffff")
 
@@ -120,6 +125,11 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         }
 
     var bgColor = Color.WHITE
+
+    companion object {
+        const val CYCLE_MONTH = "month"
+        const val CYCLE_YEAR = "year"
+    }
 
     init {
         if (layoutId == null) {
@@ -281,19 +291,72 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
                 intent.putExtra("averageBgColor", mAverageLabelBgColor)
                 intent.putExtra("lineColor", mLineColor)
                 intent.putExtra("lineData", mData!! as Serializable)
+                intent.putExtra("cycle", mCycle)
                 context.startActivity(intent)
             }
         }
     }
 
+    fun completeSourceData(
+        sourceData: ArrayList<CandleSourceData>,
+        cycle: String
+    ): ArrayList<CandleSourceData> {
+        var firstData = sourceData[0]
+        when (cycle) {
+            CYCLE_MONTH -> {
+                var date = firstData.date
+                var day = date.split("-")[2]
+                if (day != "01") {
+                    var preData = ArrayList<CandleSourceData>()
+                    var dayIntValue = Integer.parseInt(day)
+                    for (j in 1 until dayIntValue) {
+                        var curDayString = String.format("%02d", j)
+                        var candleSourceData = CandleSourceData()
+                        candleSourceData.average = 0f
+                        candleSourceData.max = 0f
+                        candleSourceData.min = 0f
+                        candleSourceData.date = "${day[0]}-${day[1]}-${curDayString}"
+                        candleSourceData.xLabel = curDayString
+                        preData.add(candleSourceData)
+                    }
+                    sourceData.addAll(0, preData)
+                }
+            }
+            CYCLE_YEAR -> {
+                var date = firstData.date
+                var month = date.split("-")[1]
+                if (month != "01") {
+                    var preData = ArrayList<CandleSourceData>()
+                    var monthIntValue = Integer.parseInt(month)
+                    for (j in 1 until monthIntValue) {
+                        var curMonthString = String.format("%02d", j)
+                        var candleSourceData = CandleSourceData()
+                        candleSourceData.average = 0f
+                        candleSourceData.max = 0f
+                        candleSourceData.min = 0f
+                        candleSourceData.date = "${month[0]}-${curMonthString}"
+                        candleSourceData.xLabel = curMonthString
+                        preData.add(candleSourceData)
+                    }
+                    sourceData.addAll(0, preData)
+                }
+            }
+        }
+        return sourceData
+    }
+
     var firstIn = true
     lateinit var set1: CandleDataSet
     lateinit var set2: LineDataSet
-    fun setData(data: List<CandleSourceData>?) {
-        if (data == null) {
+    val pages = ArrayList<Page>()
+    var curPage = -1
+    val values = ArrayList<CandleEntry>()
+    fun setData(data: ArrayList<CandleSourceData>?, cycle: String) {
+        if (data == null || data.isEmpty()) {
             return
         }
-        this.mData = data
+        this.mCycle = cycle
+        this.mData = completeSourceData(data, cycle)
         for (i in mData!!.indices) {
             if ((i + 1) % 7 == 0) {
                 val llXAxis = LimitLine(i.toFloat() + 0.5f, "${mData!![i + 1].xLabel}")
@@ -308,9 +371,42 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
             }
         }
 
-        val values = ArrayList<CandleEntry>()
         val lineValues = ArrayList<Entry>()
+        var curPage = 0
+        var lastMonth = ""
+        var lastYear = ""
         for (i in mData!!.indices) {
+            when (cycle) {
+                CYCLE_MONTH -> {
+                    var date = data[i].date
+                    var dateSplit = date.split("-")
+                    if (dateSplit.size > 1) {
+                        val curMonth = dateSplit[1]
+                        if (curMonth != lastMonth) {
+                            var page = Page()
+                            page.cycle = cycle
+                            page.curPageIndex = curPage++
+                            page.firstDataIndex = i
+                            page.date = data[i].date
+                            pages.add(page)
+                        }
+                        lastMonth = curMonth
+                    }
+
+                }
+                CYCLE_YEAR -> {
+                    var curYear = data[i].date.split("-")[0]
+                    if (curYear != lastYear) {
+                        var page = Page()
+                        page.cycle = cycle
+                        page.curPageIndex = curPage++
+                        page.firstDataIndex = i
+                        page.date = data[i].date
+                        pages.add(page)
+                    }
+                    lastYear = curYear
+                }
+            }
             values.add(
                 CandleEntry(
                     i.toFloat(),
@@ -337,6 +433,7 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         set1.increasingColor = Color.rgb(122, 242, 84)
         set1.increasingPaintStyle = Paint.Style.STROKE
         set1.neutralColor = Color.BLUE
+//        set1.barSpace = 0.3f
         val dataSets = ArrayList<ICandleDataSet>()
         dataSets.add(set1) // add the data sets
         // create a data object with the data sets
@@ -369,11 +466,26 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         chart.isHighlightPerDragEnabled = false
         calNiceLabel(mData!!)
         chart.notifyDataSetChanged()
-        chart.setVisibleXRangeMaximum(30f)
+        setChartVisibleXRangeMaximum(chart, cycle)
+//        chart.xAxis.spaceMax = 1f
+//        chart.xAxis.spaceMin = 1f
+        chart.xAxis.axisMinimum = -0.5f
+        chart.xAxis.axisMaximum = chart.data.xMax+0.5f
         chart.viewTreeObserver.addOnGlobalLayoutListener {
-            Log.d("#####","addOnGlobalLayoutListener")
-            if (firstIn){
+            Log.d("#####", "addOnGlobalLayoutListener")
+            if (firstIn) {
                 translateChartX(chart, -Float.MAX_VALUE)
+            }
+        }
+    }
+
+    private fun setChartVisibleXRangeMaximum(chart: CustomCombinedChart, cycle: String) {
+        when (cycle) {
+            CYCLE_MONTH -> {
+                chart.setVisibleXRangeMaximum(31f)
+            }
+            CYCLE_YEAR -> {
+                chart.setVisibleXRangeMaximum(12f)
             }
         }
     }
@@ -484,14 +596,16 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         }
         valueAnimator.interpolator = AccelerateDecelerateInterpolator()
         valueAnimator.duration = 500
-        valueAnimator.addListener(object:Animator.AnimatorListener{
+        valueAnimator.addListener(object : Animator.AnimatorListener {
             override fun onAnimationStart(animation: Animator?) {
 
             }
 
             override fun onAnimationEnd(animation: Animator?) {
-                val lowestVisibleData = set1.getEntryForXValue(chart.lowestVisibleX,0f).data as CandleSourceData
-                val highestVisibleData = set1.getEntryForXValue(chart.highestVisibleX,0f).data as CandleSourceData
+                val lowestVisibleData =
+                    set1.getEntryForXValue(chart.lowestVisibleX, 0f).data as CandleSourceData
+                val highestVisibleData =
+                    set1.getEntryForXValue(chart.highestVisibleX, 0f).data as CandleSourceData
                 tv_date.text = "${lowestVisibleData.date}-${highestVisibleData.date}"
             }
 
@@ -504,11 +618,41 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         })
         valueAnimator.start()
     }
+
     var downX = 0f
     var downY = 0f
     var moveX = -1f
     var moveY = -1f
     val mainHandler = Handler(Looper.getMainLooper())
+
+
+    fun moveToPrePage() {
+        if (curPage == 0) {
+            return
+        }
+        curPage--
+        var prePageIndex = pages[curPage].firstDataIndex
+        updateDateDuration(prePageIndex)
+        chart.moveViewToAnimated(prePageIndex - 0.5f, 0f, YAxis.AxisDependency.LEFT, 500)
+    }
+
+    fun updateDateDuration(startIndex: Int) {
+        lowestVisibleData = set2.getEntryForIndex(startIndex).data as CandleSourceData
+        highestVisibleData = set2.getEntryForIndex(startIndex+30).data as CandleSourceData
+        tv_date.text = "${lowestVisibleData.date}-${highestVisibleData.date}"
+    }
+
+    fun moveToNextPage() {
+        if (curPage == pages.size - 1) {
+            return
+        }
+        curPage++
+        var nextPageIndex = pages[curPage].firstDataIndex
+        updateDateDuration(nextPageIndex)
+        chart.moveViewToAnimated(nextPageIndex - 0.5f, 0f, YAxis.AxisDependency.LEFT, 500)
+    }
+
+
     fun setChartListener() {
         chart.onChartGestureListener = object : OnChartGestureListener {
             override fun onChartGestureEnd(
@@ -522,14 +666,18 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
                 } else {
                     var chartWidth = chart.viewPortHandler.contentWidth()
                     var deltaX = me.x - downX
-                    var translateX = 0f
-                    if (deltaX > 0) {
-                        translateX = (chartWidth - deltaX)
-                    } else {
-                        translateX = -(chartWidth + deltaX)
-                    }
                     if (abs(deltaX) >= chartWidth / 3) {
-                        startChartTranslateAnim(translateX)
+                        if (curPage == -1){
+                            curPage = pages.size-1
+                        }
+                        if (curPage == -1) {
+                            curPage = pages.size - 1
+                        }
+                        if (deltaX > 0) {
+                            moveToPrePage()
+                        } else {
+                            moveToNextPage()
+                        }
                     } else {
                         startChartTranslateAnim(-deltaX)
                     }
@@ -559,6 +707,13 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
                 moveY = -1f
                 downX = me.x
                 downY = me.y
+//                var entry = set1.getEntryForXValue(me.x,0f)
+                var entry = chart.getEntryByTouchPoint(me.x, me.y)
+                var xValue = chart.getPixelForValues(entry.x, entry.y, AxisDependency.LEFT)
+                Log.d(
+                    "#####",
+                    "downx is ${me.x},entry x ${entry.x},xvalue is ${xValue},chart width ${chart.width},viewholer width ${chart.viewPortHandler.chartWidth}"
+                )
 //                set1.setDrawVerticalHighlightIndicator(true)
 //                set1.setDrawHorizontalHighlightIndicator(false)
             }
@@ -568,15 +723,17 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
 
             override fun onChartLongPressed(me: MotionEvent) {
                 mainHandler.postDelayed({
-                    if (moveX == -1f && moveY == -1f){
+                    if (moveX == -1f && moveY == -1f) {
                         chart.isDragEnabled = false
                         chart.isHighlightPerDragEnabled = true
                         val highlightByTouchPoint = chart.getHighlightByTouchPoint(me.x, me.y)
                         chart.highlightValue(highlightByTouchPoint, true)
-                    }else{
+                    } else {
                         var deltaX = moveX - downX
                         var deltaY = moveY - downY
-                        if (abs(deltaX) < ViewConfiguration.get(context).scaledTouchSlop && abs(deltaY) < ViewConfiguration.get(
+                        if (abs(deltaX) < ViewConfiguration.get(context).scaledTouchSlop && abs(
+                                deltaY
+                            ) < ViewConfiguration.get(
                                 context
                             ).scaledTouchSlop
                         ) {
@@ -584,13 +741,13 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
                             chart.isHighlightPerDragEnabled = true
                             val highlightByTouchPoint = chart.getHighlightByTouchPoint(me.x, me.y)
                             chart.highlightValue(highlightByTouchPoint, true)
-                        }else{
+                        } else {
                             chart.isDragEnabled = true
                             chart.isHighlightPerDragEnabled = false
                             cancelHighlight()
                         }
                     }
-                },500)
+                }, 500)
             }
 
             override fun onChartDoubleTapped(me: MotionEvent?) {
@@ -682,6 +839,13 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         var max: Float = 0f
         var min: Float = 0f
         var date: String = ""
-        var xLabel:String = ""
+        var xLabel: String = ""
+    }
+
+    class Page {
+        var cycle: String = ""
+        var curPageIndex: Int = 0
+        var firstDataIndex: Int = 0
+        var date: String = ""
     }
 }

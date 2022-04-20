@@ -18,10 +18,10 @@ import android.util.Log
 import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.Animation
 import android.widget.LinearLayout
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.activity.BarChartFullScreenActivity
-import cn.entertech.uicomponentsdk.activity.LineChartFullScreenActivity
 import cn.entertech.uicomponentsdk.utils.*
 import cn.entertech.uicomponentsdk.widget.BarChartMarkView
 import cn.entertech.uicomponentsdk.widget.ChartIconView
@@ -35,8 +35,8 @@ import com.github.mikephil.charting.listener.ChartTouchListener
 import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.MPPointF
-import kotlinx.android.synthetic.main.layout_card_bar_chart.view.*
 import kotlinx.android.synthetic.main.layout_card_bar_chart.view.chart
+import kotlinx.android.synthetic.main.layout_card_bar_chart.view.iv_menu
 import kotlinx.android.synthetic.main.layout_card_bar_chart.view.ll_title
 import kotlinx.android.synthetic.main.layout_card_bar_chart.view.rl_bg
 import kotlinx.android.synthetic.main.layout_card_bar_chart.view.tv_date
@@ -52,6 +52,8 @@ class ReportBarChartCard @JvmOverloads constructor(
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
+    private lateinit var highestVisibleData: BarSourceData
+    private lateinit var lowestVisibleData: BarSourceData
     private var mVisibleDataCount: Int = 12
     private var mSmallTitle: String? = ""
     var mAverageLabelBgColor: Int = Color.parseColor("#ffffff")
@@ -282,21 +284,105 @@ class ReportBarChartCard @JvmOverloads constructor(
                 intent.putExtra("averageBgColor", mAverageLabelBgColor)
                 intent.putExtra("lineColor", mLineColor)
                 intent.putExtra("lineData", mData!! as Serializable)
+                intent.putExtra("cycle", mCycle)
                 context.startActivity(intent)
             }
         }
     }
 
+    fun completeSourceData(
+        sourceData: ArrayList<BarSourceData>,
+        cycle: String
+    ): ArrayList<BarSourceData> {
+        var firstData = sourceData[0]
+        when (cycle) {
+            ReportCandleStickChartCard.CYCLE_MONTH -> {
+                var date = firstData.date
+                var day = date.split("-")[2]
+                if (day != "01") {
+                    var preData = ArrayList<BarSourceData>()
+                    var dayIntValue = Integer.parseInt(day)
+                    for (j in 1 until dayIntValue) {
+                        var curDayString = String.format("%02d", j)
+                        var barSourceData = BarSourceData()
+                        barSourceData.value = 0f
+                        barSourceData.date = "${day[0]}-${day[1]}-${curDayString}"
+                        barSourceData.xLabel = curDayString
+                        preData.add(barSourceData)
+                    }
+                    sourceData.addAll(0, preData)
+                }
+            }
+            ReportCandleStickChartCard.CYCLE_YEAR -> {
+                var date = firstData.date
+                var month = date.split("-")[1]
+                if (month != "01") {
+                    var preData = ArrayList<BarSourceData>()
+                    var monthIntValue = Integer.parseInt(month)
+                    for (j in 1 until monthIntValue) {
+                        var curMonthString = String.format("%02d", j)
+                        var barSourceData = BarSourceData()
+                        barSourceData.value = 0f
+                        barSourceData.date = "${month[0]}-${curMonthString}"
+                        barSourceData.xLabel = curMonthString
+                        preData.add(barSourceData)
+                    }
+                    sourceData.addAll(0, preData)
+                }
+            }
+        }
+        return sourceData
+    }
+
+    val pages = ArrayList<ReportCandleStickChartCard.Page>()
+    var curPage = -1
+
+    val values = ArrayList<BarEntry>()
+    private var mCycle: String = ""
     lateinit var set2: BarDataSet
     var firstIn = true
-    fun setData(data: List<BarSourceData>?) {
+    fun setData(data: ArrayList<BarSourceData>?, cycle: String) {
         if (data == null) {
             return
         }
 
-        this.mData = data
-        val values = ArrayList<BarEntry>()
+        this.mData = completeSourceData(data, cycle)
+        this.mCycle = cycle
+        var curPage = 0
+        var lastMonth = ""
+        var lastYear = ""
         for (i in mData!!.indices) {
+            when (cycle) {
+                ReportCandleStickChartCard.CYCLE_MONTH -> {
+                    var date = data[i].date
+                    var dateSplit = date.split("-")
+                    if (dateSplit.size > 1) {
+                        val curMonth = dateSplit[1]
+                        if (curMonth != lastMonth) {
+                            var page = ReportCandleStickChartCard.Page()
+                            page.cycle = cycle
+                            page.curPageIndex = curPage++
+                            page.firstDataIndex = i
+                            page.date = data[i].date
+                            pages.add(page)
+                        }
+                        lastMonth = curMonth
+                    }
+
+                }
+                ReportCandleStickChartCard.CYCLE_YEAR -> {
+                    var curYear = data[i].date.split("-")[0]
+                    if (curYear != lastYear) {
+                        var page = ReportCandleStickChartCard.Page()
+                        page.cycle = cycle
+                        page.curPageIndex = curPage++
+                        page.firstDataIndex = i
+                        page.date = data[i].date
+                        pages.add(page)
+                    }
+                    lastYear = curYear
+                }
+            }
             values.add(
                 BarEntry(
                     i.toFloat(),
@@ -341,10 +427,22 @@ class ReportBarChartCard @JvmOverloads constructor(
         calNiceLabel(mData!!)
         translateChartX(chart, 100f)
         chart.notifyDataSetChanged()
-        chart.setVisibleXRangeMaximum(12f)
+        setChartVisibleXRangeMaximum(chart, cycle)
         chart.viewTreeObserver.addOnGlobalLayoutListener {
-            if (firstIn){
+            if (firstIn) {
+                initLowestAndHighestVisibleData()
                 translateChartX(chart, -Float.MAX_VALUE)
+            }
+        }
+    }
+
+    private fun setChartVisibleXRangeMaximum(chart: CustomBarChart, cycle: String) {
+        when (cycle) {
+            ReportCandleStickChartCard.CYCLE_MONTH -> {
+                chart.setVisibleXRangeMaximum(31f)
+            }
+            ReportCandleStickChartCard.CYCLE_YEAR -> {
+                chart.setVisibleXRangeMaximum(12f)
             }
         }
     }
@@ -453,13 +551,12 @@ class ReportBarChartCard @JvmOverloads constructor(
         }
         valueAnimator.interpolator = AccelerateDecelerateInterpolator()
         valueAnimator.duration = 500
-        valueAnimator.addListener(object:Animator.AnimatorListener{
+        valueAnimator.addListener(object : Animator.AnimatorListener {
             override fun onAnimationStart(animation: Animator?) {
             }
 
             override fun onAnimationEnd(animation: Animator?) {
-                val lowestVisibleData = set2.getEntryForXValue(chart.lowestVisibleX,0f).data as BarSourceData
-                val highestVisibleData = set2.getEntryForXValue(chart.highestVisibleX,0f).data as BarSourceData
+                initLowestAndHighestVisibleData()
                 tv_date.text = "2022年${lowestVisibleData.date}月-2022年${highestVisibleData.date}月"
             }
 
@@ -473,11 +570,44 @@ class ReportBarChartCard @JvmOverloads constructor(
         valueAnimator.start()
     }
 
+    fun initLowestAndHighestVisibleData() {
+        lowestVisibleData = set2.getEntryForXValue(chart.lowestVisibleX, 0f).data as BarSourceData
+        highestVisibleData = set2.getEntryForXValue(chart.highestVisibleX, 0f).data as BarSourceData
+    }
+
     var downX = 0f
     var downY = 0f
     var moveX = -1f
     var moveY = -1f
     val mainHandler = Handler(Looper.getMainLooper())
+
+
+    fun moveToPrePage() {
+        if (curPage == 0) {
+            return
+        }
+        curPage--
+        var prePageIndex = pages[curPage].firstDataIndex
+        updateDateDuration(prePageIndex)
+        chart.moveViewToAnimated(prePageIndex - 0.5f, 0f, YAxis.AxisDependency.LEFT, 500)
+    }
+
+    fun updateDateDuration(startIndex: Int) {
+        lowestVisibleData = set2.getEntryForIndex(startIndex).data as BarSourceData
+        highestVisibleData = set2.getEntryForIndex(startIndex+30).data as BarSourceData
+        tv_date.text = "${lowestVisibleData.date}-${highestVisibleData.date}"
+    }
+
+    fun moveToNextPage() {
+        if (curPage == pages.size - 1) {
+            return
+        }
+        curPage++
+        var nextPageIndex = pages[curPage].firstDataIndex
+        updateDateDuration(nextPageIndex)
+        chart.moveViewToAnimated(nextPageIndex - 0.5f, 0f, YAxis.AxisDependency.LEFT, 500)
+    }
+
     fun setChartListener() {
         chart.onChartGestureListener = object : OnChartGestureListener {
             override fun onChartGestureEnd(
@@ -485,20 +615,21 @@ class ReportBarChartCard @JvmOverloads constructor(
                 lastPerformedGesture: ChartTouchListener.ChartGesture?
             ) {
                 chart.isDragEnabled = true
-                if (chart.isHighlightPerDragEnabled){
+                if (chart.isHighlightPerDragEnabled) {
                     chart.isHighlightPerDragEnabled = false
                     cancelHighlight()
-                }else{
+                } else {
                     var chartWidth = chart.viewPortHandler.contentWidth()
                     var deltaX = me.x - downX
-                    var translateX = 0f
-                    if (deltaX > 0) {
-                        translateX = (chartWidth - deltaX)
-                    } else {
-                        translateX = -(chartWidth + deltaX)
-                    }
                     if (abs(deltaX) >= chartWidth / 3) {
-                        startChartTranslateAnim(translateX)
+                        if (curPage == -1) {
+                            curPage = pages.size - 1
+                        }
+                        if (deltaX > 0) {
+                            moveToPrePage()
+                        } else {
+                            moveToNextPage()
+                        }
                     } else {
                         startChartTranslateAnim(-deltaX)
                     }
@@ -536,15 +667,17 @@ class ReportBarChartCard @JvmOverloads constructor(
 
             override fun onChartLongPressed(me: MotionEvent) {
                 mainHandler.postDelayed({
-                    if (moveX == -1f && moveY == -1f){
+                    if (moveX == -1f && moveY == -1f) {
                         chart.isDragEnabled = false
                         chart.isHighlightPerDragEnabled = true
                         val highlightByTouchPoint = chart.getHighlightByTouchPoint(me.x, me.y)
                         chart.highlightValue(highlightByTouchPoint, true)
-                    }else{
+                    } else {
                         var deltaX = moveX - downX
                         var deltaY = moveY - downY
-                        if (abs(deltaX) < ViewConfiguration.get(context).scaledTouchSlop && abs(deltaY) < ViewConfiguration.get(
+                        if (abs(deltaX) < ViewConfiguration.get(context).scaledTouchSlop && abs(
+                                deltaY
+                            ) < ViewConfiguration.get(
                                 context
                             ).scaledTouchSlop
                         ) {
@@ -552,13 +685,13 @@ class ReportBarChartCard @JvmOverloads constructor(
                             chart.isHighlightPerDragEnabled = true
                             val highlightByTouchPoint = chart.getHighlightByTouchPoint(me.x, me.y)
                             chart.highlightValue(highlightByTouchPoint, true)
-                        }else{
+                        } else {
                             chart.isDragEnabled = true
                             chart.isHighlightPerDragEnabled = false
                             cancelHighlight()
                         }
                     }
-                },500)
+                }, 500)
 
             }
 
@@ -653,6 +786,6 @@ class ReportBarChartCard @JvmOverloads constructor(
     class BarSourceData : Serializable {
         var value: Float = 0f
         var date: String = ""
-        var xLabel:String = ""
+        var xLabel: String = ""
     }
 }
