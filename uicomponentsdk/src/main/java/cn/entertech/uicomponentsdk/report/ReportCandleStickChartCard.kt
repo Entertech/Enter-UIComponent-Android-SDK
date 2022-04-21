@@ -35,8 +35,6 @@ import com.github.mikephil.charting.listener.ChartTouchListener
 import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.MPPointF
-import kotlinx.android.synthetic.main.layout_card_bar_chart.view.*
-import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.*
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.chart
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.iv_menu
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.ll_title
@@ -104,7 +102,7 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
     private var mTitle: String? = "Changes During Meditation"
     private var mIsTitleIconShow: Boolean = false
     private var mIsTitleMenuIconShow: Boolean = true
-    private var mData: List<CandleSourceData>? = null
+    private var mData: ArrayList<CandleSourceData>? = null
     private var mBg: Drawable? = null
 
     private var mTiltleIcon: Drawable?
@@ -345,21 +343,10 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         return sourceData
     }
 
-    var firstIn = true
-    lateinit var set1: CandleDataSet
-    lateinit var set2: LineDataSet
-    val pages = ArrayList<ChartPage>()
-    var curPage = -1
-    val values = ArrayList<CandleEntry>()
-    fun setData(data: ArrayList<CandleSourceData>?, cycle: String) {
-        if (data == null || data.isEmpty()) {
-            return
-        }
-        this.mCycle = cycle
-        this.mData = completeSourceData(data, cycle)
-        for (i in mData!!.indices) {
+    fun initChartXLabel(data: ArrayList<CandleSourceData>) {
+        for (i in data.indices) {
             if ((i + 1) % 7 == 0) {
-                val llXAxis = LimitLine(i.toFloat() + 0.5f, "${mData!![i + 1].xLabel}")
+                val llXAxis = LimitLine(i.toFloat() + 0.5f, "${data[i + 1].xLabel}")
                 llXAxis.lineWidth = 1f
                 llXAxis.labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
                 llXAxis.textSize = 12f
@@ -370,12 +357,47 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
                 chart.xAxis.addLimitLine(llXAxis)
             }
         }
+    }
 
+    private fun initChartVisibleXRangeMaximum(cycle: String): Float {
+        return if (cycle == CYCLE_MONTH) {
+            31f
+        } else {
+            12f
+        }
+
+    }
+
+    fun initChartCandleValues(data: ArrayList<CandleSourceData>): ArrayList<CandleEntry> {
+        val values = ArrayList<CandleEntry>()
+        for (i in data.indices) {
+            values.add(
+                CandleEntry(
+                    i.toFloat(),
+                    mData!![i].max,
+                    mData!![i].min,
+                    mData!![i].max,
+                    mData!![i].min, mData!![i]
+                )
+            )
+        }
+        return values
+    }
+
+    fun initChartLineValues(data: ArrayList<CandleSourceData>):ArrayList<Entry>{
         val lineValues = ArrayList<Entry>()
+        for (i in data.indices) {
+            lineValues.add(Entry(i.toFloat(), data[i].average, data[i]))
+        }
+        return lineValues
+    }
+
+    fun initPages(data: ArrayList<CandleSourceData>, cycle: String):ArrayList<ChartPage> {
         var curPage = 0
         var lastMonth = ""
         var lastYear = ""
-        for (i in mData!!.indices) {
+        var pages = ArrayList<ChartPage>()
+        for (i in data!!.indices) {
             when (cycle) {
                 CYCLE_MONTH -> {
                     var date = data[i].date
@@ -407,20 +429,32 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
                     lastYear = curYear
                 }
             }
-            values.add(
-                CandleEntry(
-                    i.toFloat(),
-                    mData!![i].max,
-                    mData!![i].min,
-                    mData!![i].max,
-                    mData!![i].min, mData!![i]
-                )
-            )
-            lineValues.add(Entry(i.toFloat(), mData!![i].average, mData!![i]))
         }
+        return pages
+    }
+
+    var firstIn = true
+    lateinit var set1: CandleDataSet
+    lateinit var set2: LineDataSet
+    var mPages = ArrayList<ChartPage>()
+    var curPage = -1
+    var mCandleValues = ArrayList<CandleEntry>()
+    var mLineValues = ArrayList<Entry>()
+    private var mChartVisibleXRangeMaximum: Float = 0f
+    fun setData(data: ArrayList<CandleSourceData>?, cycle: String) {
+        if (data == null || data.isEmpty()) {
+            return
+        }
+        this.mCycle = cycle
+        this.mData = completeSourceData(data, cycle)
+        this.mChartVisibleXRangeMaximum = initChartVisibleXRangeMaximum(cycle)
+        this.mCandleValues = initChartCandleValues(mData!!)
+        this.mLineValues = initChartLineValues(mData!!)
+        this.mPages = initPages(data,cycle)
+        initChartXLabel(data)
 
         // create a dataset and give it a type
-        set1 = CandleDataSet(values, "")
+        set1 = CandleDataSet(mCandleValues, "")
         set1.setDrawIcons(false)
         set1.setDrawValues(false)
         set1.axisDependency = AxisDependency.LEFT
@@ -439,7 +473,7 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         // create a data object with the data sets
         val candleData = CandleData(dataSets)
 
-        set2 = LineDataSet(lineValues, "")
+        set2 = LineDataSet(mLineValues, "")
         set2.setDrawIcons(true)
         // draw dashed line
 //            set1.enableDashedLine(10f, 5f, 0f)
@@ -466,28 +500,15 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         chart.isHighlightPerDragEnabled = false
         calNiceLabel(mData!!)
         chart.notifyDataSetChanged()
-        setChartVisibleXRangeMaximum(chart, cycle)
-//        chart.xAxis.spaceMax = 1f
-//        chart.xAxis.spaceMin = 1f
+        chart.setVisibleXRangeMaximum(mChartVisibleXRangeMaximum)
         chart.xAxis.axisMinimum = -0.5f
-        chart.xAxis.axisMaximum = chart.data.xMax+0.5f
+        chart.xAxis.axisMaximum = chart.data.xMax + 0.5f
         chart.viewTreeObserver.addOnGlobalLayoutListener {
-            Log.d("#####", "addOnGlobalLayoutListener")
             if (firstIn) {
                 translateChartX(chart, -Float.MAX_VALUE)
             }
         }
-    }
-
-    private fun setChartVisibleXRangeMaximum(chart: CustomCombinedChart, cycle: String) {
-        when (cycle) {
-            CYCLE_MONTH -> {
-                chart.setVisibleXRangeMaximum(31f)
-            }
-            CYCLE_YEAR -> {
-                chart.setVisibleXRangeMaximum(12f)
-            }
-        }
+        initDateRange()
     }
 
     private fun calNiceLabel(data: List<CandleSourceData>) {
@@ -602,12 +623,11 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
             }
 
             override fun onAnimationEnd(animation: Animator?) {
-                val lowestVisibleData =
+                lowestVisibleData =
                     set1.getEntryForXValue(chart.lowestVisibleX, 0f).data as CandleSourceData
-                val highestVisibleData =
+                highestVisibleData =
                     set1.getEntryForXValue(chart.highestVisibleX, 0f).data as CandleSourceData
-                tv_date.text = "${lowestVisibleData.date}-${highestVisibleData.date}"
-            }
+             }
 
             override fun onAnimationCancel(animation: Animator?) {
             }
@@ -631,27 +651,35 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
             return
         }
         curPage--
-        var prePageIndex = pages[curPage].firstDataIndex
-        updateDateDuration(prePageIndex)
+        var prePageIndex = mPages[curPage].firstDataIndex
+        updateDateRange(prePageIndex)
         chart.moveViewToAnimated(prePageIndex - 0.5f, 0f, YAxis.AxisDependency.LEFT, 500)
     }
 
-    fun updateDateDuration(startIndex: Int) {
-        lowestVisibleData = set2.getEntryForIndex(startIndex).data as CandleSourceData
-        highestVisibleData = set2.getEntryForIndex(startIndex+30).data as CandleSourceData
-        tv_date.text = "${lowestVisibleData.date}-${highestVisibleData.date}"
-    }
-
     fun moveToNextPage() {
-        if (curPage == pages.size - 1) {
+        if (curPage == mPages.size - 1) {
             return
         }
         curPage++
-        var nextPageIndex = pages[curPage].firstDataIndex
-        updateDateDuration(nextPageIndex)
+        var nextPageIndex = mPages[curPage].firstDataIndex
+        updateDateRange(nextPageIndex)
         chart.moveViewToAnimated(nextPageIndex - 0.5f, 0f, YAxis.AxisDependency.LEFT, 500)
     }
 
+    fun updateDateRange(startIndex: Int) {
+        lowestVisibleData = set2.getEntryForIndex(startIndex).data as CandleSourceData
+        highestVisibleData = set2.getEntryForIndex(startIndex + 30).data as CandleSourceData
+        tv_date.text = "${lowestVisibleData.date}-${highestVisibleData.date}"
+    }
+
+    fun initDateRange() {
+        if (mCandleValues.size >= mChartVisibleXRangeMaximum) {
+            updateDateRange(mCandleValues.size - mChartVisibleXRangeMaximum.toInt())
+            tv_date.visibility = View.VISIBLE
+        }else{
+            tv_date.visibility = View.INVISIBLE
+        }
+    }
 
     fun setChartListener() {
         chart.onChartGestureListener = object : OnChartGestureListener {
@@ -667,11 +695,11 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
                     var chartWidth = chart.viewPortHandler.contentWidth()
                     var deltaX = me.x - downX
                     if (abs(deltaX) >= chartWidth / 3) {
-                        if (curPage == -1){
-                            curPage = pages.size-1
+                        if (curPage == -1) {
+                            curPage = mPages.size - 1
                         }
                         if (curPage == -1) {
-                            curPage = pages.size - 1
+                            curPage = mPages.size - 1
                         }
                         if (deltaX > 0) {
                             moveToPrePage()

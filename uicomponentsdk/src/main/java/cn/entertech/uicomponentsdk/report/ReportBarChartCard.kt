@@ -410,7 +410,6 @@ class ReportBarChartCard @JvmOverloads constructor(
                 chart.xAxis.addLimitLine(llXAxis)
             }
         }
-
     }
 
     fun setData(data: ArrayList<BarSourceData>?, cycle: String) {
