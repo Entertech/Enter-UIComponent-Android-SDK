@@ -14,14 +14,13 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.AttributeSet
-import android.util.Log
 import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.Animation
 import android.widget.LinearLayout
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.activity.BarChartFullScreenActivity
+import cn.entertech.uicomponentsdk.report.ReportCandleStickChartCard.Companion.CYCLE_MONTH
 import cn.entertech.uicomponentsdk.utils.*
 import cn.entertech.uicomponentsdk.widget.BarChartMarkView
 import cn.entertech.uicomponentsdk.widget.ChartIconView
@@ -52,6 +51,7 @@ class ReportBarChartCard @JvmOverloads constructor(
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
+    private var mChartVisibleXRangeMaximum: Float = 0f
     private lateinit var highestVisibleData: BarSourceData
     private lateinit var lowestVisibleData: BarSourceData
     private var mVisibleDataCount: Int = 12
@@ -102,7 +102,7 @@ class ReportBarChartCard @JvmOverloads constructor(
     private var mTitle: String? = "Changes During Meditation"
     private var mIsTitleIconShow: Boolean = false
     private var mIsTitleMenuIconShow: Boolean = true
-    private var mData: List<BarSourceData>? = null
+    private var mData: ArrayList<BarSourceData>? = null
     private var mBg: Drawable? = null
 
     private var mTiltleIcon: Drawable?
@@ -334,24 +334,20 @@ class ReportBarChartCard @JvmOverloads constructor(
         return sourceData
     }
 
-    val pages = ArrayList<ReportCandleStickChartCard.Page>()
+    var mPages = ArrayList<ChartPage>()
     var curPage = -1
 
-    val values = ArrayList<BarEntry>()
+    var mValues = ArrayList<BarEntry>()
     private var mCycle: String = ""
-    lateinit var set2: BarDataSet
+    lateinit var set: BarDataSet
     var firstIn = true
-    fun setData(data: ArrayList<BarSourceData>?, cycle: String) {
-        if (data == null) {
-            return
-        }
 
-        this.mData = completeSourceData(data, cycle)
-        this.mCycle = cycle
+    fun initPages(data: ArrayList<BarSourceData>, cycle: String): ArrayList<ChartPage> {
         var curPage = 0
         var lastMonth = ""
         var lastYear = ""
-        for (i in mData!!.indices) {
+        var pages = ArrayList<ChartPage>()
+        for (i in data.indices) {
             when (cycle) {
                 ReportCandleStickChartCard.CYCLE_MONTH -> {
                     var date = data[i].date
@@ -359,7 +355,7 @@ class ReportBarChartCard @JvmOverloads constructor(
                     if (dateSplit.size > 1) {
                         val curMonth = dateSplit[1]
                         if (curMonth != lastMonth) {
-                            var page = ReportCandleStickChartCard.Page()
+                            var page = ChartPage()
                             page.cycle = cycle
                             page.curPageIndex = curPage++
                             page.firstDataIndex = i
@@ -373,7 +369,7 @@ class ReportBarChartCard @JvmOverloads constructor(
                 ReportCandleStickChartCard.CYCLE_YEAR -> {
                     var curYear = data[i].date.split("-")[0]
                     if (curYear != lastYear) {
-                        var page = ReportCandleStickChartCard.Page()
+                        var page = ChartPage()
                         page.cycle = cycle
                         page.curPageIndex = curPage++
                         page.firstDataIndex = i
@@ -383,17 +379,27 @@ class ReportBarChartCard @JvmOverloads constructor(
                     lastYear = curYear
                 }
             }
+        }
+        return pages
+    }
+
+    fun initChartValues(data: ArrayList<BarSourceData>): ArrayList<BarEntry> {
+        val values = ArrayList<BarEntry>()
+        for (i in data.indices) {
             values.add(
                 BarEntry(
                     i.toFloat(),
-                    mData!![i].value, mData!![i]
+                    data!![i].value, data!![i]
                 )
             )
         }
+        return values
+    }
 
-        for (i in mData!!.indices) {
+    fun initChartXLabel(data: ArrayList<BarSourceData>) {
+        for (i in data.indices) {
             if ((i + 1) % 7 == 0) {
-                val llXAxis = LimitLine(i.toFloat() + 0.5f, "${mData!![i + 1].xLabel}")
+                val llXAxis = LimitLine(i.toFloat() + 0.5f, "${data[i + 1].xLabel}")
                 llXAxis.lineWidth = 1f
                 llXAxis.labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
                 llXAxis.textSize = 12f
@@ -405,46 +411,67 @@ class ReportBarChartCard @JvmOverloads constructor(
             }
         }
 
-        set2 = BarDataSet(values, "")
-        set2.setDrawIcons(true)
+    }
+
+    fun setData(data: ArrayList<BarSourceData>?, cycle: String) {
+        if (data == null) {
+            return
+        }
+
+        this.mData = completeSourceData(data, cycle)
+        this.mCycle = cycle
+        this.mPages = initPages(mData!!, cycle)
+        this.mChartVisibleXRangeMaximum = initChartVisibleXRangeMaximum(cycle)
+        this.mValues = initChartValues(mData!!)
+        initChartXLabel(mData!!)
+        set = BarDataSet(mValues, "")
+        set.setDrawIcons(true)
         // draw dashed line
 //            set1.enableDashedLine(10f, 5f, 0f)
         // black lines and points
-        set2.color = mLineColor
+        set.color = mLineColor
         // customize legend entry
-        set2.formLineWidth = 1f
-        set2.formLineDashEffect = DashPathEffect(floatArrayOf(10f, 10f), 0f)
-        set2.formSize = 15f
-        set2.isHighlightEnabled = true
+        set.formLineWidth = 1f
+        set.formLineDashEffect = DashPathEffect(floatArrayOf(10f, 10f), 0f)
+        set.formSize = 15f
+        set.isHighlightEnabled = true
         // text size of values
-        set2.valueTextSize = 9f
-        set2.setDrawValues(false)
-        set2.highLightColor = mHighlightLineColor
+        set.valueTextSize = 9f
+        set.setDrawValues(false)
+        set.highLightColor = mHighlightLineColor
         var barData = BarData()
-        barData.addDataSet(set2)
+        barData.addDataSet(set)
 //         // set data
         chart.data = barData
         calNiceLabel(mData!!)
-        translateChartX(chart, 100f)
         chart.notifyDataSetChanged()
-        setChartVisibleXRangeMaximum(chart, cycle)
+        chart.setVisibleXRangeMaximum(mChartVisibleXRangeMaximum)
         chart.viewTreeObserver.addOnGlobalLayoutListener {
             if (firstIn) {
                 initLowestAndHighestVisibleData()
                 translateChartX(chart, -Float.MAX_VALUE)
             }
         }
+        initDateRange()
     }
 
-    private fun setChartVisibleXRangeMaximum(chart: CustomBarChart, cycle: String) {
-        when (cycle) {
-            ReportCandleStickChartCard.CYCLE_MONTH -> {
-                chart.setVisibleXRangeMaximum(31f)
-            }
-            ReportCandleStickChartCard.CYCLE_YEAR -> {
-                chart.setVisibleXRangeMaximum(12f)
-            }
+    fun initDateRange() {
+        if (mValues.size >= mChartVisibleXRangeMaximum) {
+            updateDateRange(mValues.size - mChartVisibleXRangeMaximum.toInt())
+            tv_date.visibility = View.VISIBLE
+        }else{
+            tv_date.visibility = View.INVISIBLE
         }
+    }
+
+
+    private fun initChartVisibleXRangeMaximum(cycle: String): Float {
+        return if (cycle == CYCLE_MONTH) {
+            31f
+        } else {
+            12f
+        }
+
     }
 
     private fun calNiceLabel(data: List<BarSourceData>) {
@@ -532,7 +559,7 @@ class ReportBarChartCard @JvmOverloads constructor(
     fun cancelHighlight() {
         ll_title.visibility = View.VISIBLE
         chart.highlightValue(null)
-        set2.setDrawIcons(false)
+        set.setDrawIcons(false)
     }
 
     fun translateChartX(chart: CustomBarChart, translateX: Float) {
@@ -557,7 +584,6 @@ class ReportBarChartCard @JvmOverloads constructor(
 
             override fun onAnimationEnd(animation: Animator?) {
                 initLowestAndHighestVisibleData()
-                tv_date.text = "2022年${lowestVisibleData.date}月-2022年${highestVisibleData.date}月"
             }
 
             override fun onAnimationCancel(animation: Animator?) {
@@ -571,8 +597,8 @@ class ReportBarChartCard @JvmOverloads constructor(
     }
 
     fun initLowestAndHighestVisibleData() {
-        lowestVisibleData = set2.getEntryForXValue(chart.lowestVisibleX, 0f).data as BarSourceData
-        highestVisibleData = set2.getEntryForXValue(chart.highestVisibleX, 0f).data as BarSourceData
+        lowestVisibleData = set.getEntryForXValue(chart.lowestVisibleX, 0f).data as BarSourceData
+        highestVisibleData = set.getEntryForXValue(chart.highestVisibleX, 0f).data as BarSourceData
     }
 
     var downX = 0f
@@ -587,24 +613,25 @@ class ReportBarChartCard @JvmOverloads constructor(
             return
         }
         curPage--
-        var prePageIndex = pages[curPage].firstDataIndex
-        updateDateDuration(prePageIndex)
+        var prePageIndex = mPages[curPage].firstDataIndex
+        updateDateRange(prePageIndex)
         chart.moveViewToAnimated(prePageIndex - 0.5f, 0f, YAxis.AxisDependency.LEFT, 500)
     }
 
-    fun updateDateDuration(startIndex: Int) {
-        lowestVisibleData = set2.getEntryForIndex(startIndex).data as BarSourceData
-        highestVisibleData = set2.getEntryForIndex(startIndex+30).data as BarSourceData
+    fun updateDateRange(startIndex: Int) {
+        lowestVisibleData = set.getEntryForIndex(startIndex).data as BarSourceData
+        highestVisibleData =
+            set.getEntryForIndex(startIndex + mChartVisibleXRangeMaximum.toInt() - 1).data as BarSourceData
         tv_date.text = "${lowestVisibleData.date}-${highestVisibleData.date}"
     }
 
     fun moveToNextPage() {
-        if (curPage == pages.size - 1) {
+        if (curPage == mPages.size - 1) {
             return
         }
         curPage++
-        var nextPageIndex = pages[curPage].firstDataIndex
-        updateDateDuration(nextPageIndex)
+        var nextPageIndex = mPages[curPage].firstDataIndex
+        updateDateRange(nextPageIndex)
         chart.moveViewToAnimated(nextPageIndex - 0.5f, 0f, YAxis.AxisDependency.LEFT, 500)
     }
 
@@ -623,7 +650,7 @@ class ReportBarChartCard @JvmOverloads constructor(
                     var deltaX = me.x - downX
                     if (abs(deltaX) >= chartWidth / 3) {
                         if (curPage == -1) {
-                            curPage = pages.size - 1
+                            curPage = mPages.size - 1
                         }
                         if (deltaX > 0) {
                             moveToPrePage()
@@ -712,9 +739,9 @@ class ReportBarChartCard @JvmOverloads constructor(
             override fun onValueSelected(e: Entry, h: Highlight?) {
                 ll_title.visibility = View.INVISIBLE
                 chart.highlightValue(null, false)
-                set2.setDrawIcons(true)
-                set2.iconsOffset = MPPointF(0f, 3f)
-                set2.values.forEach {
+                set.setDrawIcons(true)
+                set.iconsOffset = MPPointF(0f, 3f)
+                set.values.forEach {
                     it.icon = null
                 }
                 e.icon = drawableIcon

@@ -348,7 +348,7 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
     var firstIn = true
     lateinit var set1: CandleDataSet
     lateinit var set2: LineDataSet
-    val pages = ArrayList<Page>()
+    val pages = ArrayList<ChartPage>()
     var curPage = -1
     val values = ArrayList<CandleEntry>()
     fun setData(data: ArrayList<CandleSourceData>?, cycle: String) {
@@ -383,7 +383,7 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
                     if (dateSplit.size > 1) {
                         val curMonth = dateSplit[1]
                         if (curMonth != lastMonth) {
-                            var page = Page()
+                            var page = ChartPage()
                             page.cycle = cycle
                             page.curPageIndex = curPage++
                             page.firstDataIndex = i
@@ -397,7 +397,7 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
                 CYCLE_YEAR -> {
                     var curYear = data[i].date.split("-")[0]
                     if (curYear != lastYear) {
-                        var page = Page()
+                        var page = ChartPage()
                         page.cycle = cycle
                         page.curPageIndex = curPage++
                         page.firstDataIndex = i
@@ -840,12 +840,5 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         var min: Float = 0f
         var date: String = ""
         var xLabel: String = ""
-    }
-
-    class Page {
-        var cycle: String = ""
-        var curPageIndex: Int = 0
-        var firstDataIndex: Int = 0
-        var date: String = ""
     }
 }
