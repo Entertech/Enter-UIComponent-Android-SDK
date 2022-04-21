@@ -71,6 +71,7 @@ class ReportDefaultFragment : Fragment() {
         chart_brainwave.isChartEnable(true)
         chart_hr.setAverage("99")
         chart_hr.setData(reportData.reportHRDataEntity?.hrRec)
+        chart_pressure.setData(reportData.reportHRDataEntity?.hrRec)
         var candleStickValues = ArrayList<ReportCandleStickChartCard.CandleSourceData>()
         var barValues = ArrayList<ReportBarChartCard.BarSourceData>()
         var dates = getDateList()
