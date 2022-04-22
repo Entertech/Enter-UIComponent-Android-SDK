@@ -131,6 +131,24 @@ class CustomYAxisRenderer(
         }
     }
 
+//    override fun drawYLabels(
+//        c: Canvas,
+//        fixedPosition: Float,
+//        positions: FloatArray,
+//        offset: Float
+//    ) {
+//        val from = if (mYAxis.isDrawBottomYLabelEntryEnabled) 0 else 1
+//        val to =
+//            if (mYAxis.isDrawTopYLabelEntryEnabled) mYAxis.mEntryCount else mYAxis.mEntryCount - 1
+//
+//        // draw
+//        for (i in from until to) {
+//            val text = mYAxis.getFormattedLabel(i)
+//            c.drawText(text, fixedPosition, positions[i * 2 + 1] - offset*1.5f, mAxisLabelPaint)
+//        }
+//    }
+
+
     override fun renderGridLines(c: Canvas) {
         if (!mYAxis.isEnabled) return
         if (mYAxis.isDrawGridLinesEnabled) {

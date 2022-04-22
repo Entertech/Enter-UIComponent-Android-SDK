@@ -24,6 +24,7 @@ import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.github.mikephil.charting.listener.ChartTouchListener
@@ -33,7 +34,6 @@ import com.github.mikephil.charting.utils.MPPointF
 import com.github.mikephil.charting.utils.Utils
 import kotlinx.android.synthetic.main.layout_card_attention.view.*
 import kotlinx.android.synthetic.main.layout_common_card_title.view.*
-import java.lang.Exception
 import java.util.*
 import kotlin.math.ceil
 import kotlin.math.floor
@@ -288,6 +288,7 @@ class ReportPressureChartCard @JvmOverloads constructor(
         }
         return sampleData
     }
+    var yLimitLineValues = listOf(25f,50f,75f)
 
     lateinit var set1: LineDataSet
     fun setData(data: List<Double>?, isShowAllData: Boolean = false) {
@@ -321,28 +322,18 @@ class ReportPressureChartCard @JvmOverloads constructor(
             chart.xAxis.addLimitLine(llXAxis)
             currentMin += minOffset
         }
-
-        if (mData != null && mData!!.isNotEmpty()) {
-            var average = 0f
-            try {
-                average = java.lang.Float.parseFloat(mAverageValue)
-            } catch (e: Exception) {
-            }
-            val ll1 = LimitLine(
-                average,
-                "${context.getString(R.string.sdk_report_average)}$mAverageValue"
-            )
-            ll1.lineWidth = 1f
-            ll1.enableDashedLine(10f, 10f, 0f)
-            ll1.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
-            ll1.textSize = 14f
-            ll1.xOffset = 10f
-            ll1.yOffset = 8f
-            ll1.textColor = mTextColor
-            ll1.lineColor = mTextColor
-            chart.axisLeft.addLimitLine(ll1)
+        for (i in yLimitLineValues.indices){
+            val ll = LimitLine(yLimitLineValues[i], "")
+            ll.lineWidth = 1f
+            ll.enableDashedLine(10f, 10f, 0f)
+            ll.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
+            ll.textSize = 14f
+            ll.xOffset = 10f
+            ll.yOffset = 8f
+            ll.textColor = mTextColor
+            ll.lineColor = mTextColor
+            chart.axisLeft.addLimitLine(ll)
         }
-
         val values = ArrayList<Entry>()
         for (i in sampleData.indices) {
             values.add(Entry(i.toFloat(), sampleData[i].toFloat()))
@@ -426,7 +417,7 @@ class ReportPressureChartCard @JvmOverloads constructor(
             gradientDrawable.setShape(GradientDrawable.RECTANGLE)
 //         // set data
             chart.data = lineData
-            calNiceLabel(sampleData)
+//            calNiceLabel(sampleData)
             chart.notifyDataSetChanged()
         }
     }
@@ -478,7 +469,7 @@ class ReportPressureChartCard @JvmOverloads constructor(
         chart.setYLimitLabelBgColor(mAverageLabelBgColor)
         chart.animateX(500)
         chart.setDrawGridBackground(true)
-        chart.setGridBackgroundColors(intArrayOf(Color.RED,Color.YELLOW,Color.BLUE,Color.GREEN))
+        chart.setGridBackgroundColors(intArrayOf(Color.RED, Color.YELLOW, Color.BLUE, Color.GREEN))
         chart.isHighlightPerDragEnabled = false
         chart.isDragEnabled = true
         chart.isScaleXEnabled = true
@@ -500,9 +491,27 @@ class ReportPressureChartCard @JvmOverloads constructor(
         xAxis.setDrawLabels(false)
         chart.axisRight.isEnabled = false
         chart.setMaxVisibleValueCount(100000)
+        yAxis.axisMaximum = 100f
+        yAxis.axisMinimum = 0f
+        yAxis.mEntries = floatArrayOf(12.5f, 37.5f, 62.5f, 87.5f)
+        yAxis.mEntryCount = 4
+        yAxis.valueFormatter = object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                if (value == 12.5f) {
+                    return "低"
+                } else if (value == 37.5f) {
+                    return "偏低"
+                } else if (value == 62.5f) {
+                    return "偏高"
+                } else if (value ==  87.5f){
+                    return "高"
+                }else{
+                    return ""
+                }
+            }
+        }
         yAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
-        yAxis.setLabelCount(5, false)
-        yAxis.setDrawGridLines(true)
+        yAxis.setDrawGridLines(false)
         yAxis.gridColor = getOpacityColor(mTextColor, 0.2f)
         yAxis.gridLineWidth = 1f
         yAxis.setGridDashedLine(DashPathEffect(floatArrayOf(10f, 10f), 0f))
@@ -510,6 +519,8 @@ class ReportPressureChartCard @JvmOverloads constructor(
         yAxis.textColor = Color.parseColor("#9AA1A9")
         xAxis.setDrawLimitLinesBehindData(true)
         yAxis.setDrawAxisLine(false)
+        yAxis.axisMaximum = 100f
+        yAxis.axisMinimum = 0f
         setChartListener()
     }
 
