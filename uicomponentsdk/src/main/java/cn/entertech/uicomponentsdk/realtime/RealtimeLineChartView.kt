@@ -32,7 +32,8 @@ class RealtimeLineChartView @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
-    private var mVerticalPadding: Int =1
+    private var mIsForPad: Boolean = false
+    private var mVerticalPadding: Int = 1
     private var mOnDrawLastValueListener: OnDrawLastValueListener? = null
     private var mWebTitle: String? = ""
     private var mTextRectBgColor: Int = Color.WHITE
@@ -66,9 +67,6 @@ class RealtimeLineChartView @JvmOverloads constructor(
     private var mLineWidth = ScreenUtil.dip2px(context, 1.5f).toFloat()
 
     init {
-        var layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
-        mSelfView.layoutParams = layoutParams
-        addView(mSelfView)
         var typeArray = context.obtainStyledAttributes(
             attributeSet,
             R.styleable.RealtimeLineChartView
@@ -99,9 +97,12 @@ class RealtimeLineChartView @JvmOverloads constructor(
         mLineColor =
             typeArray.getString(R.styleable.RealtimeLineChartView_rlcv_lineColor)
         mPointBgColor =
-            typeArray.getColor(R.styleable.RealtimeLineChartView_rlcv_pointBgColor,mPointBgColor)
+            typeArray.getColor(R.styleable.RealtimeLineChartView_rlcv_pointBgColor, mPointBgColor)
         mTextRectBgColor =
-            typeArray.getColor(R.styleable.RealtimeLineChartView_rlcv_textRectBgColor,mTextRectBgColor)
+            typeArray.getColor(
+                R.styleable.RealtimeLineChartView_rlcv_textRectBgColor,
+                mTextRectBgColor
+            )
         mLineLegendText =
             typeArray.getString(R.styleable.RealtimeLineChartView_rlcv_lineLegendText)
         mScreenPointCount = typeArray.getInteger(
@@ -110,17 +111,29 @@ class RealtimeLineChartView @JvmOverloads constructor(
         )
         mIsDrawValueText =
             typeArray.getBoolean(R.styleable.RealtimeLineChartView_rlcv_isDrawValueText, false)
+        mIsForPad = typeArray.getBoolean(R.styleable.RealtimeLineChartView_rlcv_isForPad, true)
+
+        mSelfView = if (mIsForPad) {
+            LayoutInflater.from(context).inflate(R.layout.view_realtime_line_chart_pad, null)
+        } else {
+            LayoutInflater.from(context).inflate(R.layout.view_realtime_line_chart, null)
+        }
+        var layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
+        mSelfView.layoutParams = layoutParams
+        addView(mSelfView)
         initView()
     }
 
     fun initView() {
-        initLegendView()
+        if (!mIsForPad) {
+            initLegendView()
+        }
         if (mInfoIconRes != null) {
             iv_brain_real_time_info.setImageResource(mInfoIconRes!!)
         }
-        if (mIsShowInfoIcon){
+        if (mIsShowInfoIcon) {
             iv_brain_real_time_info.visibility = View.VISIBLE
-        }else{
+        } else {
             iv_brain_real_time_info.visibility = View.GONE
         }
 
@@ -245,7 +258,7 @@ class RealtimeLineChartView @JvmOverloads constructor(
         mSelfView.findViewById<RelativeLayout>(R.id.rl_loading_cover).visibility = View.GONE
     }
 
-    fun showSampleData(sampleData:List<List<Int>>) {
+    fun showSampleData(sampleData: List<List<Int>>) {
         mSelfView.findViewById<LottieAnimationView>(R.id.icon_loading).visibility = View.GONE
         mSelfView.findViewById<RelativeLayout>(R.id.rl_loading_cover).visibility = View.VISIBLE
         mSelfView.findViewById<TextView>(R.id.tv_disconnect_text).visibility = View.VISIBLE
@@ -291,7 +304,7 @@ class RealtimeLineChartView @JvmOverloads constructor(
         flag: Boolean,
         res: Int = R.drawable.vector_drawable_info_circle,
         url: String = RealtimeHeartRateView.INFO_URL,
-        webTitle:String = ""
+        webTitle: String = ""
     ) {
         this.mIsShowInfoIcon = flag
         this.mInfoUrl = url
@@ -310,7 +323,7 @@ class RealtimeLineChartView @JvmOverloads constructor(
         initView()
     }
 
-    fun setVerticalPadding(padding:Int){
+    fun setVerticalPadding(padding: Int) {
         this.mVerticalPadding = padding
         initView()
     }

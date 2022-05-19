@@ -3,8 +3,33 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/vector_drawable_ic_emotion.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_default.xml" value="0.16945288753799392" />
         <entry key="app/src/main/res/layout/fragment_report_default.xml" value="0.1361111111111111" />
+        <entry key="uicomponentsdk/src/main/res/drawable/shape_brainwave_legend_right.xml" value="0.238" />
+        <entry key="uicomponentsdk/src/main/res/drawable/shape_legend_arousal.xml" value="0.238" />
+        <entry key="uicomponentsdk/src/main/res/drawable/shape_legend_attention.xml" value="0.238" />
+        <entry key="uicomponentsdk/src/main/res/drawable/shape_legend_pleasure.xml" value="0.238" />
+        <entry key="uicomponentsdk/src/main/res/drawable/shape_legend_pressure.xml" value="0.238" />
+        <entry key="uicomponentsdk/src/main/res/drawable/shape_legend_relaxation.xml" value="0.238" />
+        <entry key="uicomponentsdk/src/main/res/drawable/shape_pressure_legend.xml" value="0.238" />
+        <entry key="uicomponentsdk/src/main/res/drawable/shape_tip_bg.xml" value="0.1" />
+        <entry key="uicomponentsdk/src/main/res/drawable/vector_drawable_arrow_right_blue.xml" value="0.1" />
+        <entry key="uicomponentsdk/src/main/res/drawable/vector_drawable_attention.xml" value="0.1" />
+        <entry key="uicomponentsdk/src/main/res/drawable/vector_drawable_brain.xml" value="0.1" />
+        <entry key="uicomponentsdk/src/main/res/drawable/vector_drawable_brain_legend_select.xml" value="0.1" />
+        <entry key="uicomponentsdk/src/main/res/drawable/vector_drawable_brain_legend_unselect.xml" value="0.1" />
+        <entry key="uicomponentsdk/src/main/res/drawable/vector_drawable_brainwave_spectrum_right_icon.xml" value="0.1" />
+        <entry key="uicomponentsdk/src/main/res/drawable/vector_drawable_chart_dot.xml" value="0.1" />
+        <entry key="uicomponentsdk/src/main/res/drawable/vector_drawable_full_screen.xml" value="0.1" />
+        <entry key="uicomponentsdk/src/main/res/drawable/vector_drawable_ic_emotion.xml" value="0.1" />
+        <entry key="uicomponentsdk/src/main/res/drawable/vector_drawable_report_average_arrow_down.xml" value="0.1" />
+        <entry key="uicomponentsdk/src/main/res/drawable/vector_drawable_report_average_arrow_up.xml" value="0.1" />
+        <entry key="uicomponentsdk/src/main/res/drawable/vector_drawable_stress.xml" value="0.1" />
+        <entry key="uicomponentsdk/src/main/res/drawable/vector_drawable_title_icon_hr.xml" value="0.1" />
+        <entry key="uicomponentsdk/src/main/res/drawable/vector_drawable_title_icon_hrv.xml" value="0.1" />
+        <entry key="uicomponentsdk/src/main/res/drawable/vector_drawable_title_icon_pressure.xml" value="0.1" />
+        <entry key="uicomponentsdk/src/main/res/drawable/vector_drawable_title_icon_relaxtion.xml" value="0.1" />
         <entry key="uicomponentsdk/src/main/res/layout/activity_bar_chart_full_screen.xml" value="0.3484375" />
         <entry key="uicomponentsdk/src/main/res/layout/activity_candle_chart_full_screen.xml" value="0.16259057971014493" />
         <entry key="uicomponentsdk/src/main/res/layout/activity_line_chart_full_screen.xml" value="0.15628166160081053" />
@@ -19,6 +44,12 @@
         <entry key="uicomponentsdk/src/main/res/layout/layout_markview.xml" value="0.16945288753799392" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_markview_bar.xml" value="0.30885416666666665" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_markview_candle.xml" value="0.3484375" />
+        <entry key="uicomponentsdk/src/main/res/layout/view_heart_rate.xml" value="0.16843971631205673" />
+        <entry key="uicomponentsdk/src/main/res/layout/view_meditation_brainwave.xml" value="0.2477355072463768" />
+        <entry key="uicomponentsdk/src/main/res/layout/view_meditation_brainwave_spectrum.xml" value="0.33" />
+        <entry key="uicomponentsdk/src/main/res/layout/view_meditation_emotion.xml" value="0.2477355072463768" />
+        <entry key="uicomponentsdk/src/main/res/layout/view_realtime_line_chart.xml" value="0.2477355072463768" />
+        <entry key="uicomponentsdk/src/main/res/layout/view_realtime_line_chart_pad.xml" value="0.335" />
       </map>
     </option>
   </component>

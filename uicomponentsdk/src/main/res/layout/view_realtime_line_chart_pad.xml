@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/shape_emotion_attention_card_bg"
+        android:orientation="vertical"
+        android:id="@+id/ll_bg"
+        >
+
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                <ImageView
+                        android:id="@+id/iv_icon"
+                        android:layout_width="@dimen/activity_margin"
+                        android:layout_height="@dimen/activity_margin"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="12dp"
+                        android:src="@drawable/vector_drawable_emotion"
+                        />
+
+                <TextView
+                        android:id="@+id/tv_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/activity_margin_half"
+                        android:layout_marginTop="12dp"
+                        android:layout_toRightOf="@+id/iv_icon"
+                        android:fontFamily="sans-serif-medium"
+                        android:lineSpacingExtra="8sp"
+                        android:text="--"
+                        android:textColor="#555b7f"
+                        android:textSize="14sp"
+                        android:textStyle="normal"
+                        />
+
+                <LinearLayout
+                        android:visibility="gone"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="12dp"
+                        android:id="@+id/ll_legend_parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/activity_margin_half"
+                        android:orientation="horizontal">
+
+                </LinearLayout>
+                <LinearLayout
+                        android:layout_toRightOf="@+id/tv_title"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="12dp"
+                        android:id="@+id/ll_legend_parent_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/activity_margin_half"
+                        android:orientation="horizontal">
+
+                    <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"/>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/activity_margin"
+                            android:drawableLeft="@drawable/shape_legend_pressure"
+                            android:drawablePadding="@dimen/activity_margin_half"
+                            android:fontFamily="sans-serif"
+                            android:gravity="top"
+                            android:text="和谐"
+                            android:textColor="#999999"
+                            android:textSize="12sp"
+                            android:textStyle="normal" />
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/activity_margin"
+                            android:drawableLeft="@drawable/shape_legend_pleasure"
+                            android:drawablePadding="@dimen/activity_margin_half"
+                            android:fontFamily="sans-serif"
+                            android:gravity="top"
+                            android:text="愉悦"
+                            android:textColor="#999999"
+                            android:textSize="12sp"
+                            android:textStyle="normal" />
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/activity_margin"
+                            android:drawableLeft="@drawable/shape_legend_arousal"
+                            android:drawablePadding="@dimen/activity_margin_half"
+                            android:fontFamily="sans-serif"
+                            android:gravity="top"
+                            android:text="激活"
+                            android:textColor="#999999"
+                            android:textSize="12sp"
+                            android:textStyle="normal" />
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/activity_margin"
+                            android:drawableLeft="@drawable/shape_legend_relaxation"
+                            android:drawablePadding="@dimen/activity_margin_half"
+                            android:fontFamily="sans-serif"
+                            android:gravity="top"
+                            android:text="放松"
+                            android:textColor="#999999"
+                            android:textSize="12sp"
+                            android:textStyle="normal" />
+                    <TextView
+                            android:id="@+id/tv_legend_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/activity_margin"
+                            android:drawableLeft="@drawable/shape_legend_attention"
+                            android:drawablePadding="@dimen/activity_margin_half"
+                            android:fontFamily="sans-serif"
+                            android:gravity="top"
+                            android:text="专注"
+                            android:textColor="#999999"
+                            android:textSize="12sp"
+                            android:textStyle="normal" />
+                </LinearLayout>
+                <ImageView
+                        android:id="@+id/iv_brain_real_time_info"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:visibility="gone"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/activity_margin"
+                        android:src="@drawable/vector_drawable_info_circle"
+                        />
+
+            </RelativeLayout>
+
+
+            <cn.entertech.uicomponentsdk.realtime.RealtimeAnimLineChartView
+                    android:id="@+id/realtime_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/activity_margin_half"
+                    android:layout_marginTop="@dimen/activity_margin_half"
+                    android:layout_marginRight="@dimen/activity_margin_half"
+                    android:layout_marginBottom="14dp"
+                    />
+
+        </LinearLayout>
+
+        <RelativeLayout
+                android:id="@+id/rl_loading_cover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_meditation_loading_bg"
+                android:visibility="gone"
+                >
+
+            <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/icon_loading"
+                    android:layout_width="124dp"
+                    android:layout_height="60dp"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone"
+                    app:lottie_autoPlay="true"
+                    app:lottie_fileName="loading.json"
+                    app:lottie_loop="true"
+                    />
+
+            <TextView
+                    android:id="@+id/tv_disconnect_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="48dp"
+                    android:layout_marginRight="48dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center_horizontal"
+                    android:text="@string/sdk_meditation_no_device_tip_1"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="normal"
+                    />
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+</LinearLayout>

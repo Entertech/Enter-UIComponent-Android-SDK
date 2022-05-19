@@ -23,9 +23,11 @@ class RealtimeBrainwaveSpectrumView @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var mTitleIcon: Drawable? = null
     private var mInfoIconRes: Int? = null
     private var mProcessBarColors: String? = null
-    var mSelfView: View = LayoutInflater.from(context).inflate(R.layout.view_meditation_brainwave_spectrum, null)
+    var mSelfView: View =
+        LayoutInflater.from(context).inflate(R.layout.view_meditation_brainwave_spectrum, null)
     private var mBg: Drawable? = null
     private var mMainColor: Int = Color.parseColor("#0064ff")
     private var mTextColor: Int = Color.parseColor("#171726")
@@ -33,7 +35,8 @@ class RealtimeBrainwaveSpectrumView @JvmOverloads constructor(
     private var mInfoUrl: String? = null
 
     companion object {
-        const val INFO_URL = "https://www.notion.so/Brainwave-Power-4cdadda14a69424790c2d7913ad775ff"
+        const val INFO_URL =
+            "https://www.notion.so/Brainwave-Power-4cdadda14a69424790c2d7913ad775ff"
         const val PROCESSBAR_DEFAULT_COLORS = "#FFC200,#FF4852,#00D993,#0064FF,#0064FF"
     }
 
@@ -43,19 +46,27 @@ class RealtimeBrainwaveSpectrumView @JvmOverloads constructor(
         var layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         mSelfView.layoutParams = layoutParams
         addView(mSelfView)
-        var typeArray = context.obtainStyledAttributes(attributeSet,
+        var typeArray = context.obtainStyledAttributes(
+            attributeSet,
             R.styleable.RealtimeBrainwaveSpectrumView
         )
-        mMainColor = typeArray.getColor(R.styleable.RealtimeBrainwaveSpectrumView_rbsv_mainColor, mMainColor)
-        mTextColor = typeArray.getColor(R.styleable.RealtimeBrainwaveSpectrumView_rbsv_textColor, mTextColor)
+        mMainColor =
+            typeArray.getColor(R.styleable.RealtimeBrainwaveSpectrumView_rbsv_mainColor, mMainColor)
+        mTextColor =
+            typeArray.getColor(R.styleable.RealtimeBrainwaveSpectrumView_rbsv_textColor, mTextColor)
         mBg = typeArray.getDrawable(R.styleable.RealtimeBrainwaveSpectrumView_rbsv_background)
-        mIsShowInfoIcon = typeArray.getBoolean(R.styleable.RealtimeBrainwaveSpectrumView_rbsv_isShowInfoIcon, true)
+        mTitleIcon = typeArray.getDrawable(R.styleable.RealtimeBrainwaveSpectrumView_rbsv_titleIcon)
+        mIsShowInfoIcon = typeArray.getBoolean(
+            R.styleable.RealtimeBrainwaveSpectrumView_rbsv_isShowInfoIcon,
+            true
+        )
         mInfoUrl = typeArray.getString(R.styleable.RealtimeBrainwaveSpectrumView_rbsv_infoUrl)
         if (mInfoUrl == null) {
             mInfoUrl = INFO_URL
         }
         mTextFont = typeArray.getString(R.styleable.RealtimeBrainwaveSpectrumView_rbsv_textFont)
-        mProcessBarColors = typeArray.getString(R.styleable.RealtimeBrainwaveSpectrumView_rbsv_processBarColors)
+        mProcessBarColors =
+            typeArray.getString(R.styleable.RealtimeBrainwaveSpectrumView_rbsv_processBarColors)
         if (mProcessBarColors == null) {
             mProcessBarColors =
                 PROCESSBAR_DEFAULT_COLORS
@@ -71,6 +82,12 @@ class RealtimeBrainwaveSpectrumView @JvmOverloads constructor(
         iv_spectrum_real_time_info.setOnClickListener {
             var uri = Uri.parse(mInfoUrl)
             context.startActivity(Intent(Intent.ACTION_VIEW, uri))
+        }
+        if (mBg != null) {
+            ll_bg.background = mBg
+        }
+        if (mTitleIcon != null) {
+            iv_title_icon.setImageDrawable(mTitleIcon)
         }
         tv_title.setTextColor(mMainColor)
         ppb_one.setLabelTextColor(mTextColor)
@@ -105,26 +122,46 @@ class RealtimeBrainwaveSpectrumView @JvmOverloads constructor(
 
 
     fun setGammaWavePercent(percent: Float?) {
-        ppb_one.setDBValue(percent)
+        ppb_one.setPercent(percent)
     }
 
     fun setBetaWavePercent(percent: Float?) {
-        ppb_two.setDBValue(percent)
+        ppb_two.setPercent(percent)
     }
 
     fun setAlphaWavePercent(percent: Float?) {
-        ppb_three.setDBValue(percent)
+        ppb_three.setPercent(percent)
     }
 
     fun setThetaWavePercent(percent: Float?) {
-        ppb_four.setDBValue(percent)
+        ppb_four.setPercent(percent)
     }
 
     fun setDeltaWavePercent(percent: Float?) {
-        ppb_five.setDBValue(percent)
+        ppb_five.setPercent(percent)
     }
 
-    fun showErrorMessage(error:String){
+    fun setGammaWaveDBValue(value: Float?) {
+        ppb_one.setDBValue(value)
+    }
+
+    fun setBetaWaveDBValue(value: Float?) {
+        ppb_two.setDBValue(value)
+    }
+
+    fun setAlphaWaveDBValue(value: Float?) {
+        ppb_three.setDBValue(value)
+    }
+
+    fun setThetaWaveDBValue(value: Float?) {
+        ppb_four.setDBValue(value)
+    }
+
+    fun setDeltaWaveDBValue(value: Float?) {
+        ppb_five.setDBValue(value)
+    }
+
+    fun showErrorMessage(error: String) {
         rl_loading_cover_2.visibility = View.VISIBLE
         icon_loading.visibility = View.GONE
         tv_disconnect_text_2.visibility = View.VISIBLE
@@ -181,6 +218,15 @@ class RealtimeBrainwaveSpectrumView @JvmOverloads constructor(
 
     fun setBarColors(colors: String) {
         this.mProcessBarColors = colors
+        initView()
+    }
+
+    fun setPowerMode(mode:String){
+        ppb_one.setPowerMode(mode)
+        ppb_two.setPowerMode(mode)
+        ppb_three.setPowerMode(mode)
+        ppb_four.setPowerMode(mode)
+        ppb_five.setPowerMode(mode)
         initView()
     }
 

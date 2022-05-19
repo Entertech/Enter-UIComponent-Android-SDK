@@ -1,202 +1,210 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         >
 
-    <RelativeLayout
+    <LinearLayout
+            android:id="@+id/ll_bg"
             android:layout_width="match_parent"
-            android:layout_height="270dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_brainwave_card_bg"
+            android:orientation="vertical"
             >
 
-        <LinearLayout
+        <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/shape_brainwave_card_bg"
                 >
 
-            <RelativeLayout
-                    android:layout_marginTop="@dimen/activity_margin"
-                    android:layout_width="match_parent"
+            <ImageView
+                    android:id="@+id/iv_title_icon"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    >
-
-                <TextView
-                        android:id="@+id/tv_title"
-                        android:layout_marginTop="@dimen/activity_margin"
-                        android:layout_marginLeft="@dimen/activity_margin"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="14sp"
-                        android:fontFamily="sans-serif-medium"
-                        android:textStyle="normal"
-                        android:textColor="#555b7f"
-                        android:lineSpacingExtra="8sp"
-                        android:layout_centerVertical="true"
-                        android:text="@string/sdk_brainwave_spectrum"
-                        />
-
-                <ImageView
-                        android:id="@+id/iv_spectrum_real_time_info"
-                        android:layout_marginRight="@dimen/activity_margin"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/vector_drawable_info_circle"
-                        />
-
-            </RelativeLayout>
-
-
-            <cn.entertech.uicomponentsdk.realtime.PercentProgressBar
-                    android:id="@+id/ppb_one"
-                    android:layout_marginTop="@dimen/activity_margin"
-                    android:layout_width="match_parent"
-                    android:layout_height="23dp"
-                    android:layout_marginLeft="@dimen/activity_margin"
-                    android:layout_marginRight="@dimen/activity_margin"
-                    app:ppb_labelTextSize="12sp"
-                    app:ppb_percent="1"
-                    app:ppb_barLeftPadding="@dimen/activity_margin"
-                    app:ppb_barRightPadding="@dimen/activity_margin"
-                    app:ppb_barWidth="@dimen/dp_4"
-                    app:ppb_labelText="@string/sdk_gamma_wave"
-                    app:ppb_barColor="@color/colorGammaWave"
-                    app:ppb_percentTextSize="12sp"
-                    >
-
-            </cn.entertech.uicomponentsdk.realtime.PercentProgressBar>
-
-            <cn.entertech.uicomponentsdk.realtime.PercentProgressBar
-                    android:id="@+id/ppb_two"
-                    android:layout_marginTop="@dimen/activity_margin"
-                    android:layout_width="match_parent"
-                    android:layout_height="23dp"
-                    android:layout_marginLeft="@dimen/activity_margin"
-                    android:layout_marginRight="@dimen/activity_margin"
-                    app:ppb_labelTextSize="12sp"
-                    app:ppb_percent="1"
-                    app:ppb_barColor="@color/colorBetaWave"
-                    app:ppb_barLeftPadding="@dimen/activity_margin"
-                    app:ppb_barRightPadding="@dimen/activity_margin"
-                    app:ppb_barWidth="@dimen/dp_4"
-                    app:ppb_labelText="@string/sdk_beta_wave"
-                    app:ppb_percentTextSize="12sp"
-                    >
-
-            </cn.entertech.uicomponentsdk.realtime.PercentProgressBar>
-
-            <cn.entertech.uicomponentsdk.realtime.PercentProgressBar
-                    android:id="@+id/ppb_three"
-                    android:layout_marginTop="@dimen/activity_margin"
-                    android:layout_width="match_parent"
-                    android:layout_height="23dp"
-                    android:layout_marginLeft="@dimen/activity_margin"
-                    android:layout_marginRight="@dimen/activity_margin"
-                    app:ppb_labelTextSize="12sp"
-                    app:ppb_barLeftPadding="@dimen/activity_margin"
-                    app:ppb_barRightPadding="@dimen/activity_margin"
-                    app:ppb_percent="1"
-                    app:ppb_barColor="@color/colorAlphaWave"
-                    app:ppb_barWidth="@dimen/dp_4"
-                    app:ppb_labelText="@string/sdk_alpha_wave"
-                    app:ppb_percentTextSize="12sp"
-                    >
-
-            </cn.entertech.uicomponentsdk.realtime.PercentProgressBar>
-
-            <cn.entertech.uicomponentsdk.realtime.PercentProgressBar
-                    android:id="@+id/ppb_four"
-                    android:layout_marginTop="@dimen/activity_margin"
-                    android:layout_width="match_parent"
-                    android:layout_height="23dp"
-                    android:layout_marginLeft="@dimen/activity_margin"
-                    android:layout_marginRight="@dimen/activity_margin"
-                    app:ppb_labelTextSize="12sp"
-                    app:ppb_percent="1"
-                    app:ppb_barColor="@color/colorThetaWave"
-                    app:ppb_barLeftPadding="@dimen/activity_margin"
-                    app:ppb_barRightPadding="@dimen/activity_margin"
-                    app:ppb_barWidth="@dimen/dp_4"
-                    app:ppb_labelText="@string/sdk_theta_wave"
-                    app:ppb_percentTextSize="12sp"
-                    >
-
-            </cn.entertech.uicomponentsdk.realtime.PercentProgressBar>
-
-            <cn.entertech.uicomponentsdk.realtime.PercentProgressBar
-                    android:id="@+id/ppb_five"
-                    android:layout_marginBottom="@dimen/margin_vertical"
-                    android:layout_marginTop="@dimen/activity_margin"
-                    android:layout_width="match_parent"
-                    android:layout_height="23dp"
-                    app:ppb_barWidth="@dimen/dp_4"
-                    android:layout_marginLeft="@dimen/activity_margin"
-                    android:layout_marginRight="@dimen/activity_margin"
-                    app:ppb_labelTextSize="12sp"
-                    app:ppb_labelText="@string/sdk_delta_wave"
-                    app:ppb_barColor="@color/colorDeltaWave"
-                    app:ppb_barLeftPadding="@dimen/activity_margin"
-                    app:ppb_barRightPadding="@dimen/activity_margin"
-                    app:ppb_percent="1"
-                    app:ppb_percentTextSize="12sp"
-                    >
-
-            </cn.entertech.uicomponentsdk.realtime.PercentProgressBar>
-
-
-        </LinearLayout>
-
-        <RelativeLayout
-                android:id="@+id/rl_loading_cover_2"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/shape_meditation_loading_bg"
-                >
-
-            <!--<com.airbnb.lottie.LottieAnimationView-->
-                    <!--android:id="@+id/icon_loading_2"-->
-                    <!--android:layout_centerInParent="true"-->
-                    <!--android:layout_width="124dp"-->
-                    <!--android:layout_height="60dp"-->
-                    <!--app:lottie_fileName="loading.json"-->
-                    <!--app:lottie_autoPlay="true"-->
-                    <!--app:lottie_loop="true"-->
-                    <!--android:visibility="gone"-->
-                    <!--/>-->
-
-            <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/icon_loading"
-                    android:layout_width="124dp"
-                    android:layout_height="60dp"
-                    android:layout_centerInParent="true"
-                    android:visibility="gone"
-                    app:lottie_autoPlay="true"
-                    app:lottie_fileName="loading.json"
-                    app:lottie_loop="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="12dp"
+                    android:src="@drawable/vector_drawable_heart"
                     />
 
             <TextView
-                    android:id="@+id/tv_disconnect_text_2"
-                    android:layout_marginLeft="48dp"
-                    android:layout_marginRight="48dp"
-                    android:layout_centerInParent="true"
+                    android:id="@+id/tv_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/activity_margin_half"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:layout_toRightOf="@+id/iv_title_icon"
                     android:fontFamily="sans-serif-medium"
+                    android:lineSpacingExtra="8sp"
+                    android:text="@string/sdk_brainwave_spectrum"
+                    android:textColor="#555b7f"
+                    android:textSize="14sp"
                     android:textStyle="normal"
-                    android:textColor="#ffffff"
-                    android:gravity="center_horizontal"
-                    android:text="@string/sdk_meditation_no_device_tip_1"
                     />
+
+            <ImageView
+                    android:id="@+id/iv_spectrum_real_time_info"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    android:src="@drawable/vector_drawable_info_circle"
+                    android:visibility="gone"
+                    />
+
         </RelativeLayout>
 
+
+        <cn.entertech.uicomponentsdk.realtime.PercentProgressBar
+                android:id="@+id/ppb_one"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:layout_weight="1"
+                app:ppb_barColor="@color/colorGammaWave"
+                app:ppb_barLeftPadding="@dimen/activity_margin"
+                app:ppb_barRightPadding="@dimen/activity_margin"
+                app:ppb_barWidth="@dimen/dp_4"
+                app:ppb_labelText="@string/sdk_gamma_wave"
+                app:ppb_labelTextSize="12sp"
+                app:ppb_percent="1"
+                app:ppb_percentTextSize="12sp"
+                >
+
+        </cn.entertech.uicomponentsdk.realtime.PercentProgressBar>
+
+        <cn.entertech.uicomponentsdk.realtime.PercentProgressBar
+                android:id="@+id/ppb_two"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:layout_weight="1"
+                app:ppb_barColor="@color/colorBetaWave"
+                app:ppb_barLeftPadding="@dimen/activity_margin"
+                app:ppb_barRightPadding="@dimen/activity_margin"
+                app:ppb_barWidth="@dimen/dp_4"
+                app:ppb_labelText="@string/sdk_beta_wave"
+                app:ppb_labelTextSize="12sp"
+                app:ppb_percent="1"
+                app:ppb_percentTextSize="12sp"
+                >
+
+        </cn.entertech.uicomponentsdk.realtime.PercentProgressBar>
+
+        <cn.entertech.uicomponentsdk.realtime.PercentProgressBar
+                android:id="@+id/ppb_three"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:layout_weight="1"
+                app:ppb_barColor="@color/colorAlphaWave"
+                app:ppb_barLeftPadding="@dimen/activity_margin"
+                app:ppb_barRightPadding="@dimen/activity_margin"
+                app:ppb_barWidth="@dimen/dp_4"
+                app:ppb_labelText="@string/sdk_alpha_wave"
+                app:ppb_labelTextSize="12sp"
+                app:ppb_percent="1"
+                app:ppb_percentTextSize="12sp"
+                >
+
+        </cn.entertech.uicomponentsdk.realtime.PercentProgressBar>
+
+        <cn.entertech.uicomponentsdk.realtime.PercentProgressBar
+                android:id="@+id/ppb_four"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:layout_weight="1"
+                app:ppb_barColor="@color/colorThetaWave"
+                app:ppb_barLeftPadding="@dimen/activity_margin"
+                app:ppb_barRightPadding="@dimen/activity_margin"
+                app:ppb_barWidth="@dimen/dp_4"
+                app:ppb_labelText="@string/sdk_theta_wave"
+                app:ppb_labelTextSize="12sp"
+                app:ppb_percent="1"
+                app:ppb_percentTextSize="12sp"
+                >
+
+        </cn.entertech.uicomponentsdk.realtime.PercentProgressBar>
+
+        <cn.entertech.uicomponentsdk.realtime.PercentProgressBar
+                android:id="@+id/ppb_five"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:layout_marginBottom="@dimen/activity_margin"
+                android:layout_weight="1"
+                app:ppb_barColor="@color/colorDeltaWave"
+                app:ppb_barLeftPadding="@dimen/activity_margin"
+                app:ppb_barRightPadding="@dimen/activity_margin"
+                app:ppb_barWidth="@dimen/dp_4"
+                app:ppb_labelText="@string/sdk_delta_wave"
+                app:ppb_labelTextSize="12sp"
+                app:ppb_percent="1"
+                app:ppb_percentTextSize="12sp"
+                >
+
+        </cn.entertech.uicomponentsdk.realtime.PercentProgressBar>
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+            android:id="@+id/rl_loading_cover_2"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_meditation_loading_bg"
+            >
+
+        <!--<com.airbnb.lottie.LottieAnimationView-->
+        <!--android:id="@+id/icon_loading_2"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:layout_width="124dp"-->
+        <!--android:layout_height="60dp"-->
+        <!--app:lottie_fileName="loading.json"-->
+        <!--app:lottie_autoPlay="true"-->
+        <!--app:lottie_loop="true"-->
+        <!--android:visibility="gone"-->
+        <!--/>-->
+
+        <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/icon_loading"
+                android:layout_width="124dp"
+                android:layout_height="60dp"
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="loading.json"
+                app:lottie_loop="true"
+                />
+
+        <TextView
+                android:id="@+id/tv_disconnect_text_2"
+                android:layout_marginLeft="48dp"
+                android:layout_marginRight="48dp"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif-medium"
+                android:textStyle="normal"
+                android:textColor="#ffffff"
+                android:gravity="center_horizontal"
+                android:text="@string/sdk_meditation_no_device_tip_1"
+                />
     </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>

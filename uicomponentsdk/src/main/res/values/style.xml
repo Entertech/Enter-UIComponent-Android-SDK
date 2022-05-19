@@ -183,6 +183,7 @@
         <attr name="rlcv_isDrawValueText" format="boolean" />
         <attr name="rlcv_pointBgColor" format="color" />
         <attr name="rlcv_textRectBgColor" format="color" />
+        <attr name="rlcv_isForPad" format="boolean" />
     </declare-styleable>
 
 
@@ -194,6 +195,7 @@
         <attr name="rbsv_isShowInfoIcon" format="boolean" />
         <attr name="rbsv_infoUrl" format="string" />
         <attr name="rbsv_processBarColors" format="string" />
+        <attr name="rbsv_titleIcon" format="reference" />
     </declare-styleable>
 
 
@@ -401,7 +403,6 @@
         <attr name="rcscc_markViewTitle" format="string"/>
         <attr name="rcscc_markViewTitleColor" format="color"/>
         <attr name="rcscc_markViewValueColor" format="color"/>
-        <attr name="rcscc_averageLabelBgColor" format="color"/>
         <attr name="rcscc_barColor" format="color"/>
         <attr name="rcscc_smallTitle" format="string" />
     </declare-styleable>
