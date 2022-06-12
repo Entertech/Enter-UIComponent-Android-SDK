@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+    <cn.entertech.uicomponentsdk.report.SessionCommonChart
+            app:scc_isTitleMenuIconShow="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:scc_titleMenuIcon="@drawable/vector_drawable_screen_shrink"
+            app:scc_mainColor="#FF6682"
+            app:scc_showAverageLine="false"
+            app:scc_markViewTitle="Heart rate"
+            app:scc_markViewBgColor="#F1F5F6"
+            app:scc_highlightLineColor="#DDE1EB"
+            app:scc_highlightLineWidth="1.5"
+            app:scc_xAxisUnit="@string/sdk_x_axis_label"
+            android:id="@+id/session_common_chart"/>
+</LinearLayout>

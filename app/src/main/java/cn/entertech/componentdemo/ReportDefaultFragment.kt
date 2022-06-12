@@ -1,5 +1,6 @@
 package cn.entertech.componentdemo
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import cn.entertech.uicomponentsdk.report.ReportBarChartCard
 import cn.entertech.uicomponentsdk.report.ReportCandleStickChartCard
+import cn.entertech.uicomponentsdk.report.StackedAreaChart
 import cn.entertech.uicomponentsdk.report.file.ReportFileHelper
 import cn.entertech.uicomponentsdk.utils.dp
 import kotlinx.android.synthetic.main.fragment_report_default.*
@@ -62,6 +64,33 @@ class ReportDefaultFragment : Fragment() {
             reportData.reportEEGDataEntity!!.thetaCurve!!.map { it * 100.0 } as ArrayList<Double>,
             reportData.reportEEGDataEntity!!.deltaCurve!!.map { it * 100.0 } as ArrayList<Double>
         )
+        var stackItemAlpha = StackedAreaChart.StackItem().apply {
+            stackColor = Color.parseColor("#ff0000")
+            stackData = reportData.reportEEGDataEntity!!.alphaCurve
+        }
+        var stackItemBeta = StackedAreaChart.StackItem().apply {
+            stackColor = Color.parseColor("#00ff00")
+            stackData = reportData.reportEEGDataEntity!!.betaCurve
+        }
+        var stackItemTheta = StackedAreaChart.StackItem().apply {
+            stackColor = Color.parseColor("#0000ff")
+            stackData = reportData.reportEEGDataEntity!!.thetaCurve
+        }
+        var stackItemDelta = StackedAreaChart.StackItem().apply {
+            stackColor = Color.parseColor("#ffff00")
+            stackData = reportData.reportEEGDataEntity!!.deltaCurve
+        }
+        var stackItemGamma = StackedAreaChart.StackItem().apply {
+            stackColor = Color.parseColor("#00ffff")
+            stackData = reportData.reportEEGDataEntity!!.gammaCurve
+        }
+        var stackItemList = ArrayList<StackedAreaChart.StackItem>()
+        stackItemList.add(stackItemAlpha)
+        stackItemList.add(stackItemBeta)
+        stackItemList.add(stackItemTheta)
+        stackItemList.add(stackItemDelta)
+        stackItemList.add(stackItemGamma)
+        stack_chart.setStackItems(stackItemList)
 //        设置脑波曲线
         chart_brainwave.setData(
             spectrumList
@@ -108,6 +137,8 @@ class ReportDefaultFragment : Fragment() {
         chart_hrv.isShowLegend(true)
         chart_hrv.isShowDetail = false
         chart_hrv.setData(reportData.reportHRDataEntity?.hrRec, hrvSecondLine, false)
+        chart_session_common.setData(reportData.reportHRDataEntity?.hrRec, null, null,true)
+        chart_session_common.setStartTime("2022-06-13 23:59:13")
         chart_hrv.setOnClickListener {
             Toast.makeText(activity!!, "sfs", Toast.LENGTH_SHORT).show()
         }

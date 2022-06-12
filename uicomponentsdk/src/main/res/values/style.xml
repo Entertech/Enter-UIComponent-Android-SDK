@@ -437,6 +437,39 @@
         <attr name="rhlcc_smallTitle" format="string" />
     </declare-styleable>
 
+    <declare-styleable name="SessionCommonChart">
+        <attr name="scc_isTitleMenuIconShow" format="boolean" />
+        <attr name="scc_titleMenuIcon" format="reference" />
+        <attr name="scc_menuIconBg" format="reference" />
+        <attr name="scc_isShowMenuIconBg" format="boolean" />
+        <attr name="scc_mainColor" format="color" />
+        <attr name="scc_textColor" format="color" />
+        <attr name="scc_background" format="color|reference" />
+        <attr name="scc_pointCount" format="integer" />
+        <attr name="scc_timeUnit" format="integer" />
+        <attr name="scc_lineWidth" format="dimension" />
+        <attr name="scc_gridLineColor" format="color" />
+        <attr name="scc_labelColor" format="color" />
+        <attr name="scc_xAxisUnit" format="string" />
+        <attr name="scc_xAxisLineColor" format="color" />
+        <attr name="scc_showXAxisUnit" format="boolean" />
+        <attr name="scc_isDrawFill" format="boolean" />
+        <attr name="scc_highlightLineColor" format="color"/>
+        <attr name="scc_highlightLineWidth" format="float"/>
+        <attr name="scc_markViewBgColor" format="color"/>
+        <attr name="scc_markViewTitle" format="string"/>
+        <attr name="scc_markViewTitleColor" format="color"/>
+        <attr name="scc_markViewValueColor" format="color"/>
+        <attr name="scc_averageLabelBgColor" format="color"/>
+        <attr name="scc_showAverageLine" format="boolean"/>
+        <attr name="scc_bgLineColor" format="color" />
+        <attr name="scc_title_description" format="string" />
+        <attr name="scc_title_unit" format="string" />
+        <attr name="scc_isShowLevel" format="boolean" />
+        <attr name="scc_valueLevelBgColor" format="color" />
+        <attr name="scc_valueLevelTextColor" format="color" />
+    </declare-styleable>
+
     <declare-styleable name="ReportAffectiveLineChartCard">
         <attr name="ralcc_isTitleIconShow" format="boolean" />
         <attr name="ralcc_title" format="string" />

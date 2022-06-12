@@ -7,6 +7,8 @@
         <entry key="app/src/main/res/layout/fragment_default.xml" value="0.16945288753799392" />
         <entry key="app/src/main/res/layout/fragment_report_default.xml" value="0.1361111111111111" />
         <entry key="uicomponentsdk/src/main/res/drawable/shape_brainwave_legend_right.xml" value="0.238" />
+        <entry key="uicomponentsdk/src/main/res/drawable/shape_common_chart_level_bg.xml" value="0.1205" />
+        <entry key="uicomponentsdk/src/main/res/drawable/shape_emotion_level_bg.xml" value="0.1205" />
         <entry key="uicomponentsdk/src/main/res/drawable/shape_legend_arousal.xml" value="0.238" />
         <entry key="uicomponentsdk/src/main/res/drawable/shape_legend_attention.xml" value="0.238" />
         <entry key="uicomponentsdk/src/main/res/drawable/shape_legend_pleasure.xml" value="0.238" />
@@ -32,18 +34,24 @@
         <entry key="uicomponentsdk/src/main/res/drawable/vector_drawable_title_icon_relaxtion.xml" value="0.1" />
         <entry key="uicomponentsdk/src/main/res/layout/activity_bar_chart_full_screen.xml" value="0.3484375" />
         <entry key="uicomponentsdk/src/main/res/layout/activity_candle_chart_full_screen.xml" value="0.16259057971014493" />
+        <entry key="uicomponentsdk/src/main/res/layout/activity_hrv_line_chart_full_screen.xml" value="0.1" />
         <entry key="uicomponentsdk/src/main/res/layout/activity_line_chart_full_screen.xml" value="0.15628166160081053" />
+        <entry key="uicomponentsdk/src/main/res/layout/activity_session_common_chart_full_screen.xml" value="0.1578125" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_average_bar_card.xml" value="0.1661600810536981" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_card_attention.xml" value="0.1361111111111111" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_card_bar_chart.xml" value="0.3484375" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_card_brain_spectrum.xml" value="0.16945288753799392" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_card_candlestick.xml" value="0.31614583333333335" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_card_candlestick_chart.xml" value="0.1" />
+        <entry key="uicomponentsdk/src/main/res/layout/layout_card_hrv_line_chart.xml" value="0.1" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_card_pressure.xml" value="0.3171875" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_common_card_title.xml" value="0.16261398176291794" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_markview.xml" value="0.16945288753799392" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_markview_bar.xml" value="0.30885416666666665" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_markview_candle.xml" value="0.3484375" />
+        <entry key="uicomponentsdk/src/main/res/layout/layout_report_corherence_card.xml" value="0.165" />
+        <entry key="uicomponentsdk/src/main/res/layout/layout_report_pressure_card.xml" value="0.1" />
+        <entry key="uicomponentsdk/src/main/res/layout/layout_session_common_chart.xml" value="0.25" />
         <entry key="uicomponentsdk/src/main/res/layout/view_heart_rate.xml" value="0.16843971631205673" />
         <entry key="uicomponentsdk/src/main/res/layout/view_meditation_brainwave.xml" value="0.2477355072463768" />
         <entry key="uicomponentsdk/src/main/res/layout/view_meditation_brainwave_spectrum.xml" value="0.33" />

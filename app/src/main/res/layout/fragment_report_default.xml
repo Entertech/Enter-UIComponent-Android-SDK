@@ -148,12 +148,40 @@
                     app:rhlcc_markViewTitle="@string/sdk_hrv"
                     app:rhlcc_menuIconBg="@mipmap/pic_report_top_bg_hr"
                     app:rhlcc_pointCount="200"
-                    app:rhlcc_timeUnit="1800"
+                    app:rhlcc_timeUnit="400"
                     app:rhlcc_title="@string/sdk_heart_rate"
                     app:rhlcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
                     app:rhlcc_xAxisUnit="@string/sdk_time_unit"
                     />
 
+            <cn.entertech.uicomponentsdk.report.SessionCommonChart
+                    android:id="@+id/chart_session_common"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginTop="@dimen/activity_margin_half"
+                    android:background="@color/white"
+                    app:scc_isShowMenuIconBg="false"
+                    app:scc_isTitleMenuIconShow="true"
+                    app:scc_mainColor="#FFC56F"
+                    app:scc_textColor="#7A7C8A"
+                    app:scc_bgLineColor="#DDE1EB"
+                    app:scc_lineWidth="1dp"
+                    app:scc_markViewBgColor="#F1F5F6"
+                    app:scc_markViewTitle="@string/sdk_hrv"
+                    app:scc_menuIconBg="@mipmap/pic_report_top_bg_hr"
+                    app:scc_pointCount="200"
+                    app:scc_timeUnit="400"
+                    app:scc_titleMenuIcon="@drawable/vector_drawable_full_screen"
+                    app:scc_xAxisUnit="@string/sdk_time_unit"
+                    app:scc_xAxisLineColor="#9AA1A9"
+                    app:scc_showXAxisUnit="false"
+                    app:scc_title_unit="min"
+                    app:scc_title_description="TOTAL"
+                    app:scc_isShowLevel="true"
+                    app:scc_valueLevelBgColor="#E0FCEE"
+                    app:scc_valueLevelTextColor="#324039"
+
+                    />
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -237,6 +265,11 @@
                     app:rpc_levelTextColor="#402D30"
                     app:rpc_textColor="#11152E"
                     />
+
+            <cn.entertech.uicomponentsdk.report.StackedAreaChart
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:id="@+id/stack_chart"/>
         </LinearLayout>
     </ScrollView>
 
