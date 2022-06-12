@@ -139,6 +139,8 @@ class ReportDefaultFragment : Fragment() {
         chart_hrv.setData(reportData.reportHRDataEntity?.hrRec, hrvSecondLine, false)
         chart_session_common.setData(reportData.reportHRDataEntity?.hrRec, null, null,true)
         chart_session_common.setStartTime("2022-06-13 23:59:13")
+        chart_session_pressure.setData(reportData.reportPressureEnitty?.pressureRec,true)
+        chart_session_pressure.setStartTime("2022-06-13 23:59:13")
         chart_hrv.setOnClickListener {
             Toast.makeText(activity!!, "sfs", Toast.LENGTH_SHORT).show()
         }

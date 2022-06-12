@@ -28,17 +28,17 @@
                     android:textColor="@color/colorDefaultBlack"
                     android:textSize="32sp"
                     />
-<!--            脑波曲线参数说明-->
-<!--            robs_isShowMenuIconBg ： 是否显示标题菜单按钮背景   -->
-<!--            robs_isTitleIconShow ：  是否显示标题图标-->
-<!--            robs_isTitleMenuIconShow ：  是否显示标题菜单图标-->
-<!--            robs_menuIconBg ：  菜单背景图标-->
-<!--            robs_pointCount ：  曲线显示点数-->
-<!--            robs_spectrumColors ：  各曲线色值-->
-<!--            robs_timeUnit ：  各个绘制点之间的时间间隔，单位：毫秒-->
-<!--            robs_title ：  标题-->
-<!--            robs_titleMenuIcon ：  标题菜单图标-->
-<!--            robs_xAxisUnit ：  图表横轴单位标注    -->
+            <!--            脑波曲线参数说明-->
+            <!--            robs_isShowMenuIconBg ： 是否显示标题菜单按钮背景   -->
+            <!--            robs_isTitleIconShow ：  是否显示标题图标-->
+            <!--            robs_isTitleMenuIconShow ：  是否显示标题菜单图标-->
+            <!--            robs_menuIconBg ：  菜单背景图标-->
+            <!--            robs_pointCount ：  曲线显示点数-->
+            <!--            robs_spectrumColors ：  各曲线色值-->
+            <!--            robs_timeUnit ：  各个绘制点之间的时间间隔，单位：毫秒-->
+            <!--            robs_title ：  标题-->
+            <!--            robs_titleMenuIcon ：  标题菜单图标-->
+            <!--            robs_xAxisUnit ：  图表横轴单位标注    -->
             <cn.entertech.uicomponentsdk.report.ReportOptionalBrainwaveSpectrumView
                     android:id="@+id/chart_brainwave"
                     android:layout_width="match_parent"
@@ -66,6 +66,7 @@
                     android:textColor="@color/colorDefaultBlack"
                     android:textSize="32sp"
                     />
+
             <cn.entertech.uicomponentsdk.report.ReportCandleStickChartCard
                     android:id="@+id/chart_candle_stick"
                     android:layout_width="match_parent"
@@ -160,28 +161,56 @@
                     android:layout_height="300dp"
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:background="@color/white"
+                    app:scc_bgLineColor="#DDE1EB"
+                    app:scc_isShowLevel="true"
                     app:scc_isShowMenuIconBg="false"
                     app:scc_isTitleMenuIconShow="true"
-                    app:scc_mainColor="#FFC56F"
-                    app:scc_textColor="#7A7C8A"
-                    app:scc_bgLineColor="#DDE1EB"
                     app:scc_lineWidth="1dp"
+                    app:scc_mainColor="#FFC56F"
                     app:scc_markViewBgColor="#F1F5F6"
                     app:scc_markViewTitle="@string/sdk_hrv"
                     app:scc_menuIconBg="@mipmap/pic_report_top_bg_hr"
                     app:scc_pointCount="200"
+                    app:scc_showXAxisUnit="false"
+                    app:scc_textColor="#7A7C8A"
                     app:scc_timeUnit="400"
                     app:scc_titleMenuIcon="@drawable/vector_drawable_full_screen"
-                    app:scc_xAxisUnit="@string/sdk_time_unit"
-                    app:scc_xAxisLineColor="#9AA1A9"
-                    app:scc_showXAxisUnit="false"
-                    app:scc_title_unit="min"
                     app:scc_title_description="TOTAL"
-                    app:scc_isShowLevel="true"
+                    app:scc_title_unit="min"
                     app:scc_valueLevelBgColor="#E0FCEE"
                     app:scc_valueLevelTextColor="#324039"
+                    app:scc_xAxisLineColor="#9AA1A9"
+                    app:scc_xAxisUnit="@string/sdk_time_unit"
 
                     />
+
+            <cn.entertech.uicomponentsdk.report.SessionPressureChart
+                    android:id="@+id/chart_session_pressure"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginTop="@dimen/activity_margin_half"
+                    android:background="@color/white"
+                    app:spc_bgLineColor="#DDE1EB"
+                    app:spc_isShowMenuIconBg="false"
+                    app:spc_isTitleMenuIconShow="true"
+                    app:spc_lineWidth="1dp"
+                    app:spc_mainColor="#FF6682"
+                    app:spc_markViewBgColor="#F1F5F6"
+                    app:spc_markViewTitle="@string/sdk_hrv"
+                    app:spc_menuIconBg="@mipmap/pic_report_top_bg_hr"
+                    app:spc_pointCount="200"
+                    app:spc_showXAxisUnit="false"
+                    app:spc_textColor="#7A7C8A"
+                    app:spc_timeUnit="400"
+                    app:spc_titleMenuIcon="@drawable/vector_drawable_full_screen"
+                    app:spc_title_description="AVERAGE"
+                    app:spc_xAxisLineColor="#9AA1A9"
+                    app:spc_xAxisUnit="@string/sdk_time_unit"
+                    app:spc_isDrawFill="false"
+                    app:spc_fillGradientStartColor="#80FB9C98"
+                    app:spc_fillGradientEndColor="#805F76FF"
+                    />
+
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -255,7 +284,6 @@
                     android:layout_height="180dp"
                     android:layout_marginTop="@dimen/activity_margin_half"
                     app:rpc_arrowColor="#F5F5F5"
-                    app:rpc_topBackground="@mipmap/pic_report_top_bg_hr"
                     app:rpc_background="#FFFFFF"
                     app:rpc_barBgColor="#DDE1EB"
                     app:rpc_barScaleLength="56dp"
@@ -264,12 +292,14 @@
                     app:rpc_levelBgColor="#FFE7E6"
                     app:rpc_levelTextColor="#402D30"
                     app:rpc_textColor="#11152E"
+                    app:rpc_topBackground="@mipmap/pic_report_top_bg_hr"
                     />
 
             <cn.entertech.uicomponentsdk.report.StackedAreaChart
+                    android:id="@+id/stack_chart"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:id="@+id/stack_chart"/>
+                    />
         </LinearLayout>
     </ScrollView>
 

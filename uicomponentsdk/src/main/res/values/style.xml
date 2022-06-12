@@ -470,6 +470,37 @@
         <attr name="scc_valueLevelTextColor" format="color" />
     </declare-styleable>
 
+
+    <declare-styleable name="SessionPressureChart">
+        <attr name="spc_isTitleMenuIconShow" format="boolean" />
+        <attr name="spc_titleMenuIcon" format="reference" />
+        <attr name="spc_menuIconBg" format="reference" />
+        <attr name="spc_isShowMenuIconBg" format="boolean" />
+        <attr name="spc_mainColor" format="color" />
+        <attr name="spc_textColor" format="color" />
+        <attr name="spc_background" format="color|reference" />
+        <attr name="spc_pointCount" format="integer" />
+        <attr name="spc_timeUnit" format="integer" />
+        <attr name="spc_lineWidth" format="dimension" />
+        <attr name="spc_gridLineColor" format="color" />
+        <attr name="spc_labelColor" format="color" />
+        <attr name="spc_xAxisUnit" format="string" />
+        <attr name="spc_xAxisLineColor" format="color" />
+        <attr name="spc_showXAxisUnit" format="boolean" />
+        <attr name="spc_isDrawFill" format="boolean" />
+        <attr name="spc_highlightLineColor" format="color"/>
+        <attr name="spc_highlightLineWidth" format="float"/>
+        <attr name="spc_markViewBgColor" format="color"/>
+        <attr name="spc_markViewTitle" format="string"/>
+        <attr name="spc_markViewTitleColor" format="color"/>
+        <attr name="spc_markViewValueColor" format="color"/>
+        <attr name="spc_averageLabelBgColor" format="color"/>
+        <attr name="spc_showAverageLine" format="boolean"/>
+        <attr name="spc_bgLineColor" format="color" />
+        <attr name="spc_title_description" format="string" />
+        <attr name="spc_fillGradientStartColor" format="color" />
+        <attr name="spc_fillGradientEndColor" format="color" />
+    </declare-styleable>
     <declare-styleable name="ReportAffectiveLineChartCard">
         <attr name="ralcc_isTitleIconShow" format="boolean" />
         <attr name="ralcc_title" format="string" />

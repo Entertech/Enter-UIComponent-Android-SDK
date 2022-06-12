@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+    <cn.entertech.uicomponentsdk.report.SessionPressureChart
+            app:spc_isTitleMenuIconShow="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:spc_titleMenuIcon="@drawable/vector_drawable_screen_shrink"
+            app:spc_mainColor="#FF6682"
+            app:spc_showAverageLine="false"
+            app:spc_markViewTitle="Heart rate"
+            app:spc_markViewBgColor="#F1F5F6"
+            app:spc_highlightLineColor="#DDE1EB"
+            app:spc_highlightLineWidth="1.5"
+            app:spc_xAxisUnit="@string/sdk_x_axis_label"
+            app:spc_showXAxisUnit="false"
+            android:id="@+id/session_pressure_chart"/>
+</LinearLayout>
