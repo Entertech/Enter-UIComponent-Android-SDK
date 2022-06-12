@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/rl_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        >
+
+    <LinearLayout
+            android:id="@+id/ll_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/activity_margin_half"
+            android:orientation="vertical"
+            >
+
+
+        <include layout="@layout/layout_common_card_title"
+                android:visibility="gone"/>
+
+
+        <LinearLayout
+                android:id="@+id/ll_legend_parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="bottom"
+                >
+
+            <cn.entertech.uicomponentsdk.widget.OptionalBrainChartLegendView
+                    android:id="@+id/legend_gamma"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    app:clv_legend="γ"
+                    />
+
+            <cn.entertech.uicomponentsdk.widget.OptionalBrainChartLegendView
+                    android:id="@+id/legend_beta"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    app:clv_legend="β"
+                    />
+
+            <cn.entertech.uicomponentsdk.widget.OptionalBrainChartLegendView
+                    android:id="@+id/legend_alpha"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    app:clv_legend="α"
+                    />
+
+            <cn.entertech.uicomponentsdk.widget.OptionalBrainChartLegendView
+                    android:id="@+id/legend_theta"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    app:clv_legend="θ"
+                    />
+
+            <cn.entertech.uicomponentsdk.widget.OptionalBrainChartLegendView
+                    android:id="@+id/legend_delta"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    app:clv_legend="δ"
+                    />
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_margin"
+                >
+
+            <TextView
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="AVERAGE"
+                    android:textColor="#7A7C8A"
+                    android:textSize="12sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+            <ImageView
+                    android:id="@+id/iv_gamma"
+                    android:layout_width="16.47dp"
+                    android:layout_height="20dp"
+                    app:layout_constraintLeft_toLeftOf="@id/tv_title"
+                    app:layout_constraintTop_toBottomOf="@id/tv_title"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:src="@drawable/vector_drawable_gamma"/>
+
+            <TextView
+                    android:id="@+id/tv_gamma"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineHeight="21dp"
+                    android:text="8"
+                    android:textColor="@color/colorGammaWave"
+                    android:textFontWeight="600"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_gamma"
+                    app:layout_constraintLeft_toRightOf="@id/iv_gamma"
+                    app:layout_constraintTop_toTopOf="@id/iv_gamma"
+                    />
+
+            <TextView
+                    android:id="@+id/tv_unit_gamma"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineHeight="17dp"
+                    android:text="%"
+                    android:textColor="@color/colorGammaWave"
+                    android:textFontWeight="600"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_gamma"
+                    app:layout_constraintLeft_toRightOf="@id/tv_gamma"
+                    />
+
+            <View
+                    android:id="@+id/split_1"
+                    android:layout_width="1dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="@dimen/dp_4"
+                    android:background="@color/colorLineSplit"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_gamma"
+                    app:layout_constraintLeft_toRightOf="@+id/tv_unit_gamma"
+                    app:layout_constraintTop_toTopOf="@+id/tv_gamma"
+                    />
+
+            <ImageView
+                    android:id="@+id/iv_beta"
+                    android:layout_width="16.47dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/vector_drawable_beta"
+                    app:layout_constraintBottom_toBottomOf="@+id/split_1"
+                    app:layout_constraintLeft_toRightOf="@+id/split_1"
+                    app:layout_constraintTop_toTopOf="@+id/split_1"
+                    />
+
+            <TextView
+                    android:id="@+id/tv_beta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineHeight="21dp"
+                    android:text="8"
+                    android:textColor="@color/colorBetaWave"
+                    android:textFontWeight="600"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_beta"
+                    app:layout_constraintLeft_toRightOf="@id/iv_beta"
+                    app:layout_constraintTop_toTopOf="@id/iv_beta"
+                    />
+
+            <TextView
+                    android:id="@+id/tv_unit_beta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineHeight="17dp"
+                    android:text="%"
+                    android:textColor="@color/colorBetaWave"
+                    android:textFontWeight="600"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_beta"
+                    app:layout_constraintLeft_toRightOf="@id/tv_beta"
+                    />
+
+            <View
+                    android:id="@+id/split_2"
+                    android:layout_width="1dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="@dimen/dp_4"
+                    android:background="@color/colorLineSplit"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_beta"
+                    app:layout_constraintLeft_toRightOf="@+id/tv_unit_beta"
+                    app:layout_constraintTop_toTopOf="@+id/tv_beta"
+                    />
+
+            <ImageView
+                    android:id="@+id/iv_alpha"
+                    android:layout_width="16.47dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/vector_drawable_alpha"
+                    app:layout_constraintBottom_toBottomOf="@+id/split_2"
+                    app:layout_constraintLeft_toRightOf="@+id/split_2"
+                    app:layout_constraintTop_toTopOf="@+id/split_2"
+                    />
+
+            <TextView
+                    android:id="@+id/tv_alpha"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineHeight="21dp"
+                    android:text="8"
+                    android:textColor="@color/colorAlphaWave"
+                    android:textFontWeight="600"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_alpha"
+                    app:layout_constraintLeft_toRightOf="@id/iv_alpha"
+                    app:layout_constraintTop_toTopOf="@id/iv_alpha"
+                    />
+
+            <TextView
+                    android:id="@+id/tv_unit_alpha"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineHeight="17dp"
+                    android:text="%"
+                    android:textColor="@color/colorAlphaWave"
+                    android:textFontWeight="600"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_alpha"
+                    app:layout_constraintLeft_toRightOf="@id/tv_alpha"
+                    />
+
+            <View
+                    android:id="@+id/split_3"
+                    android:layout_width="1dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="@dimen/dp_4"
+                    android:background="@color/colorLineSplit"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_alpha"
+                    app:layout_constraintLeft_toRightOf="@+id/tv_unit_alpha"
+                    app:layout_constraintTop_toTopOf="@+id/tv_alpha"
+                    />
+
+            <ImageView
+                    android:id="@+id/iv_theta"
+                    android:layout_width="16.47dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/vector_drawable_theta"
+                    app:layout_constraintBottom_toBottomOf="@+id/split_3"
+                    app:layout_constraintLeft_toRightOf="@+id/split_3"
+                    app:layout_constraintTop_toTopOf="@+id/split_3"
+                    />
+
+            <TextView
+                    android:id="@+id/tv_theta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineHeight="21dp"
+                    android:text="8"
+                    android:textColor="@color/colorThetaWave"
+                    android:textFontWeight="600"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_theta"
+                    app:layout_constraintLeft_toRightOf="@id/iv_theta"
+                    app:layout_constraintTop_toTopOf="@id/iv_theta"
+                    />
+
+            <TextView
+                    android:id="@+id/tv_unit_theta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineHeight="17dp"
+                    android:text="%"
+                    android:textColor="@color/colorThetaWave"
+                    android:textFontWeight="600"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_theta"
+                    app:layout_constraintLeft_toRightOf="@id/tv_theta"
+                    />
+
+            <View
+                    android:id="@+id/split_4"
+                    android:layout_width="1dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="@dimen/dp_4"
+                    android:background="@color/colorLineSplit"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_theta"
+                    app:layout_constraintLeft_toRightOf="@+id/tv_unit_theta"
+                    app:layout_constraintTop_toTopOf="@+id/tv_theta"
+                    />
+
+            <ImageView
+                    android:id="@+id/iv_delta"
+                    android:layout_width="16.47dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/vector_drawable_delta"
+                    app:layout_constraintBottom_toBottomOf="@+id/split_4"
+                    app:layout_constraintLeft_toRightOf="@+id/split_4"
+                    app:layout_constraintTop_toTopOf="@+id/split_4"
+                    />
+
+            <TextView
+                    android:id="@+id/tv_delta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineHeight="21dp"
+                    android:text="8"
+                    android:textColor="@color/colorDeltaWave"
+                    android:textFontWeight="600"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_delta"
+                    app:layout_constraintLeft_toRightOf="@id/iv_delta"
+                    app:layout_constraintTop_toTopOf="@id/iv_delta"
+                    />
+
+            <TextView
+                    android:id="@+id/tv_unit_delta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineHeight="17dp"
+                    android:text="%"
+                    android:textColor="@color/colorDeltaWave"
+                    android:textFontWeight="600"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_delta"
+                    app:layout_constraintLeft_toRightOf="@id/tv_delta"
+                    />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+                android:id="@+id/tv_date"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="14:00-14:33 29.05.2022"
+                android:textSize="12sp"
+                android:textColor="#7A7C8A"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+            android:id="@+id/rl_corner_icon_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible"
+            >
+
+        <ImageView
+                android:id="@+id/iv_corner_icon_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:scaleType="centerCrop"
+                />
+    </RelativeLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="64dp"
+            android:orientation="vertical"
+            >
+
+        <cn.entertech.uicomponentsdk.widget.CustomLineChart
+                android:id="@+id/chart"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:layout_marginBottom="@dimen/activity_margin"
+                android:layout_weight="1"
+                />
+
+        <TextView
+                android:id="@+id/tv_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/activity_margin"
+                android:text="@string/sdk_time_unit"
+                android:visibility="visible"
+                />
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+            android:id="@+id/rl_no_data_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorLoadingCoverBg"
+            android:visibility="gone"
+            >
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="48dp"
+                android:layout_marginRight="48dp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center_horizontal"
+                android:text="@string/sdk_meditation_no_device_tip_1"
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                />
+    </RelativeLayout>
+
+</RelativeLayout>

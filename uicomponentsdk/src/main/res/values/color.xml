@@ -19,11 +19,11 @@
     <color name="colorStressIndicator">#ff6682</color>
     <color name="colorMoodIndicator">#ffc56f</color>
     <color name="colorMeditationErrorText">#7f5960</color>
-    <color name="colorGammaWave">#ffc56f</color>
-    <color name="colorBetaWave">#fb9c98</color>
-    <color name="colorAlphaWave">#5fc695</color>
-    <color name="colorThetaWave">#5e75ff</color>
-    <color name="colorDeltaWave">#555b7f</color>
+    <color name="colorGammaWave">#FF6682</color>
+    <color name="colorBetaWave">#58B9E0</color>
+    <color name="colorAlphaWave">#F7C77E</color>
+    <color name="colorThetaWave">#5FC695</color>
+    <color name="colorDeltaWave">#5E75FF</color>
     <color name="colorDialogTitle">#de000000</color>
     <color name="colorDialogContent">#8a000000</color>
     <color name="colorDialogCancel">#6665ff</color>

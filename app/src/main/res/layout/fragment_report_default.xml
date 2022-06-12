@@ -56,6 +56,25 @@
                     app:robs_titleMenuIcon="@drawable/vector_drawable_full_screen"
                     app:robs_xAxisUnit="@string/sdk_time_unit"
                     />
+            <cn.entertech.uicomponentsdk.report.SessionBrainwaveChart
+                    android:id="@+id/chart_session_brainwave"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginTop="@dimen/activity_margin_half"
+                    android:background="@color/white"
+                    app:sbc_isShowMenuIconBg="false"
+                    app:sbc_isTitleIconShow="false"
+                    app:sbc_isTitleMenuIconShow="true"
+                    app:sbc_menuIconBg="@mipmap/pic_report_top_bg_hr"
+                    app:sbc_pointCount="100"
+                    app:sbc_spectrumColors="#FF6682,#FB9C98,#F7C77E,#5FC695,#5E75FF"
+                    app:sbc_timeUnit="700"
+                    app:sbc_title="@string/sdk_brainwave_spectrum"
+                    app:sbc_titleMenuIcon="@drawable/vector_drawable_full_screen"
+                    app:sbc_xAxisUnit="@string/sdk_time_unit"
+                    app:sbc_xAxisLineColor="#9AA1A9"
+                    app:sbc_textColor="#7A7C8A"
+                    />
 
             <TextView
                     android:layout_width="wrap_content"

@@ -95,9 +95,14 @@ class ReportDefaultFragment : Fragment() {
         chart_brainwave.setData(
             spectrumList
         )
+        chart_session_brainwave.setData(
+            spectrumList
+        )
 //        控制可展示的脑波曲线
+        chart_session_brainwave.setLegendShowList(listOf(true, true, true, true, true))
         chart_brainwave.setLegendShowList(listOf(true, true, true, true, true))
         chart_brainwave.isChartEnable(true)
+        chart_session_brainwave.isChartEnable(true)
         chart_hr.setAverage("99")
         chart_hr.setData(reportData.reportHRDataEntity?.hrRec)
         chart_pressure.setData(reportData.reportHRDataEntity?.hrRec)

@@ -13,4 +13,5 @@
     <color name="colorAttentionLevelBg">#C7FFE4</color>
     <color name="colorAttentionBar">#5FC695</color>
     <color name="colorTipBg">#F1F5F6</color>
+    <color name="colorLineSplit">#DDE1EB</color>
 </resources>

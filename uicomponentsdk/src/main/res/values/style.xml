@@ -288,6 +288,36 @@
         <attr name="robs_lineWidth" format="dimension"/>
     </declare-styleable>
 
+    <declare-styleable name="SessionBrainwaveChart">
+        <attr name="sbc_menuIconBg" format="reference" />
+        <attr name="sbc_isShowMenuIconBg" format="boolean" />
+        <attr name="sbc_isTitleIconShow" format="boolean" />
+        <attr name="sbc_title" format="string" />
+        <attr name="sbc_smallTitle" format="string" />
+        <attr name="sbc_titleIcon" format="reference" />
+        <attr name="sbc_isTitleMenuIconShow" format="boolean" />
+        <attr name="sbc_titleMenuIcon" format="reference" />
+        <attr name="sbc_mainColor" format="color" />
+        <attr name="sbc_textColor" format="color" />
+        <attr name="sbc_isAbsoluteTimeAxis" format="boolean" />
+        <attr name="sbc_background" format="color|reference" />
+        <attr name="sbc_pointCount" format="integer" />
+        <attr name="sbc_spectrumColors" format="string" />
+        <attr name="sbc_timeUnit" format="integer" />
+        <attr name="sbc_gridLineColor" format="color" />
+        <attr name="sbc_labelColor" format="color" />
+        <attr name="sbc_xAxisUnit" format="string" />
+        <attr name="sbc_showXAxisUnit" format="boolean" />
+        <attr name="sbc_highlightLineColor" format="color"/>
+        <attr name="sbc_highlightLineWidth" format="float"/>
+        <attr name="sbc_markViewBgColor" format="color"/>
+        <attr name="sbc_markViewTitleColor" format="color"/>
+        <attr name="sbc_markViewValueColor" format="color"/>
+        <attr name="sbc_markViewDivideLineColor" format="color"/>
+        <attr name="sbc_lineWidth" format="dimension"/>
+        <attr name="sbc_xAxisLineColor" format="color"/>
+    </declare-styleable>
+
 
     <declare-styleable name="ReportBrainwaveSpectrumPieView">
         <attr name="rbsp_isTitleIconShow" format="boolean" />
