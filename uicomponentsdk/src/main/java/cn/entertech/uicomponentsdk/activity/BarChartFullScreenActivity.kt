@@ -33,8 +33,14 @@ class BarChartFullScreenActivity : AppCompatActivity() {
         var labelColor = intent.getIntExtra("labelColor",Color.parseColor("#9AA1A9"))
         var average = intent.getStringExtra("average")
         var averageBgColor = intent.getIntExtra("averageBgColor",0)
-        var lineColor = intent.getIntExtra("lineColor",Color.RED)
+        var mainColor = intent.getIntExtra("mainColor",Color.RED)
         var cycle = intent.getStringExtra("cycle")
+        var unit = intent.getStringExtra("unit")
+        var showLevel = intent.getBooleanExtra("showLevel",false)
+        var levelBgColor = intent.getIntExtra("levelBgColor",Color.RED)
+        var levelTextColor = intent.getIntExtra("levelTextColor",Color.RED)
+        var xAxisLineColor = intent.getIntExtra("xAxisLineColor",Color.RED)
+
         chart_bar.setLineWidth(lineWidth)
         chart_bar.isFullScreen = true
         chart_bar.mHighlightLineColor = highlightLineColor
@@ -51,7 +57,12 @@ class BarChartFullScreenActivity : AppCompatActivity() {
         chart_bar.setAverageLineColor(averageLineColor)
         chart_bar.setLabelColor(labelColor)
         chart_bar.setAverage(average?:"")
-        chart_bar.setLineColor(lineColor)
+        chart_bar.setMainColor(mainColor)
+        chart_bar.setUnit(unit)
+        chart_bar.setShowLevel(showLevel)
+        chart_bar.setLevelBgColor(levelBgColor)
+        chart_bar.setLevelTextColor(levelTextColor)
+        chart_bar.setXAxisLineColor(xAxisLineColor)
         chart_bar.setData(lineData,cycle)
     }
 }

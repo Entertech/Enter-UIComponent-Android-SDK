@@ -10,18 +10,13 @@
     <cn.entertech.uicomponentsdk.report.ReportBarChartCard
             android:id="@+id/chart_bar"
             android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_height="match_parent"
             android:layout_marginTop="@dimen/activity_margin_half"
             android:background="@color/white"
-            app:rlcc_isTitleMenuIconShow="true"
-            app:rlcc_lineColor="#FF6682"
-            app:rlcc_lineWidth="1dp"
-            app:rlcc_markViewTitle="@string/sdk_heart_rate"
-            app:rlcc_pointCount="100"
-            app:rlcc_timeUnit="400"
-            app:rlcc_title="@string/sdk_heart_rate"
-            app:rlcc_titleMenuIcon="@drawable/vector_drawable_screen_shrink"
-            app:rlcc_xAxisUnit=""
+            app:rbcc_isTitleMenuIconShow="true"
+            app:rbcc_lineWidth="1dp"
+            app:rbcc_markViewTitle="@string/sdk_heart_rate"
+            app:rbcc_titleMenuIcon="@drawable/vector_drawable_screen_shrink"
             />
 
 </LinearLayout>

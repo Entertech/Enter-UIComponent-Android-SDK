@@ -34,12 +34,7 @@ import com.github.mikephil.charting.listener.ChartTouchListener
 import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.MPPointF
-import kotlinx.android.synthetic.main.layout_card_bar_chart.view.chart
-import kotlinx.android.synthetic.main.layout_card_bar_chart.view.iv_menu
-import kotlinx.android.synthetic.main.layout_card_bar_chart.view.ll_title
-import kotlinx.android.synthetic.main.layout_card_bar_chart.view.rl_bg
-import kotlinx.android.synthetic.main.layout_card_bar_chart.view.tv_date
-import kotlinx.android.synthetic.main.layout_card_bar_chart.view.tv_time_unit_des
+import kotlinx.android.synthetic.main.layout_card_bar_chart.view.*
 import java.io.Serializable
 import kotlin.math.abs
 import kotlin.math.ceil
@@ -51,11 +46,16 @@ class ReportBarChartCard @JvmOverloads constructor(
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
+    private var mDataAverage: Double = 0.0
+    private var mLevelTextColor: Int = Color.GRAY
+    private var mLevelBgColor: Int = Color.GRAY
+    private var mShowLevel: Boolean
+    private var mUnit: String? = ""
+    private var mXAxisLineColor: Int = Color.parseColor("#9AA1A9")
     private var mChartVisibleXRangeMaximum: Float = 0f
     private lateinit var highestVisibleData: BarSourceData
     private lateinit var lowestVisibleData: BarSourceData
     private var mVisibleDataCount: Int = 12
-    private var mSmallTitle: String? = ""
     var mAverageLabelBgColor: Int = Color.parseColor("#ffffff")
 
     var mMarkViewTitleColor: Int = Color.parseColor("#8F11152E")
@@ -92,20 +92,16 @@ class ReportBarChartCard @JvmOverloads constructor(
 
     private lateinit var drawableIcon: Drawable
     private var mAverageLineColor: Int = Color.parseColor("#11152E")
-    private var mIsDrawFill: Boolean = false
     private var mAverageValue: String = "0"
     private var mXAxisUnit: String? = "Time(min)"
     private var mLineWidth: Float = 1.5f
     private var mLineColor: Int = Color.RED
     private var mGridLineColor: Int = Color.parseColor("#E9EBF1")
     private var mLabelColor: Int = Color.parseColor("#9AA1A9")
-    private var mTitle: String? = "Changes During Meditation"
-    private var mIsTitleIconShow: Boolean = false
     private var mIsTitleMenuIconShow: Boolean = true
     private var mData: ArrayList<BarSourceData>? = null
     private var mBg: Drawable? = null
 
-    private var mTiltleIcon: Drawable?
     private var mTitleMenuIcon: Drawable?
 
     private var mMainColor: Int = Color.parseColor("#0064ff")
@@ -138,71 +134,53 @@ class ReportBarChartCard @JvmOverloads constructor(
         addView(mSelfView)
         var typeArray = context.obtainStyledAttributes(
             attributeSet,
-            R.styleable.ReportLineChartCard
+            R.styleable.ReportBarChartCard
         )
-        mMainColor = typeArray.getColor(R.styleable.ReportLineChartCard_rlcc_mainColor, mMainColor)
-        mTextColor = typeArray.getColor(R.styleable.ReportLineChartCard_rlcc_textColor, mTextColor)
-        mBg = typeArray.getDrawable(R.styleable.ReportLineChartCard_rlcc_background)
-        mIsTitleIconShow = typeArray.getBoolean(
-            R.styleable.ReportLineChartCard_rlcc_isTitleIconShow,
-            mIsTitleIconShow
-        )
-        mSmallTitle = typeArray.getString(R.styleable.ReportLineChartCard_rlcc_smallTitle)
+        mMainColor = typeArray.getColor(R.styleable.ReportBarChartCard_rbcc_mainColor, mMainColor)
+        mTextColor = typeArray.getColor(R.styleable.ReportBarChartCard_rbcc_textColor, mTextColor)
+        mBg = typeArray.getDrawable(R.styleable.ReportBarChartCard_rbcc_background)
         mIsTitleMenuIconShow = typeArray.getBoolean(
-            R.styleable.ReportLineChartCard_rlcc_isTitleMenuIconShow,
+            R.styleable.ReportBarChartCard_rbcc_isTitleMenuIconShow,
             mIsTitleMenuIconShow
         )
-        mIsTitleIconShow = typeArray.getBoolean(
-            R.styleable.ReportLineChartCard_rlcc_isTitleIconShow,
-            mIsTitleIconShow
-        )
-        mIsTitleIconShow = typeArray.getBoolean(
-            R.styleable.ReportLineChartCard_rlcc_isTitleIconShow,
-            mIsTitleIconShow
-        )
-        mTitle = typeArray.getString(R.styleable.ReportLineChartCard_rlcc_title)
-        mTiltleIcon =
-            typeArray.getDrawable(R.styleable.ReportLineChartCard_rlcc_titleIcon)
         mTitleMenuIcon =
-            typeArray.getDrawable(R.styleable.ReportLineChartCard_rlcc_titleMenuIcon)
+            typeArray.getDrawable(R.styleable.ReportBarChartCard_rbcc_titleMenuIcon)
 
-        mPointCount =
-            typeArray.getInteger(R.styleable.ReportLineChartCard_rlcc_pointCount, mPointCount)
-        mLineColor = typeArray.getColor(R.styleable.ReportLineChartCard_rlcc_lineColor, mLineColor)
-        mLabelColor =
-            typeArray.getColor(R.styleable.ReportLineChartCard_rlcc_labelColor, mLabelColor)
         mGridLineColor =
-            typeArray.getColor(R.styleable.ReportLineChartCard_rlcc_gridLineColor, mGridLineColor)
-        mTimeUnit = typeArray.getInteger(R.styleable.ReportLineChartCard_rlcc_timeUnit, mTimeUnit)
+            typeArray.getColor(R.styleable.ReportBarChartCard_rbcc_gridLineColor, mGridLineColor)
         mLineWidth =
-            typeArray.getDimension(R.styleable.ReportLineChartCard_rlcc_lineWidth, mLineWidth)
-        mXAxisUnit = typeArray.getString(R.styleable.ReportLineChartCard_rlcc_xAxisUnit)
-        mIsDrawFill = typeArray.getBoolean(R.styleable.ReportLineChartCard_rlcc_isDrawFill, false)
+            typeArray.getDimension(R.styleable.ReportBarChartCard_rbcc_lineWidth, mLineWidth)
 
         mHighlightLineColor = typeArray.getColor(
-            R.styleable.ReportLineChartCard_rlcc_highlightLineColor,
+            R.styleable.ReportBarChartCard_rbcc_highlightLineColor,
             mHighlightLineColor
         )
         mHighlightLineWidth = typeArray.getFloat(
-            R.styleable.ReportLineChartCard_rlcc_highlightLineWidth,
+            R.styleable.ReportBarChartCard_rbcc_highlightLineWidth,
             mHighlightLineWidth
         )
         mMarkViewBgColor = typeArray.getColor(
-            R.styleable.ReportLineChartCard_rlcc_markViewBgColor,
+            R.styleable.ReportBarChartCard_rbcc_markViewBgColor,
             mMarkViewBgColor
         )
-        mMarkViewTitle = typeArray.getString(R.styleable.ReportLineChartCard_rlcc_markViewTitle)
+        mMarkViewTitle = typeArray.getString(R.styleable.ReportBarChartCard_rbcc_markViewTitle)
         mMarkViewTitleColor = typeArray.getColor(
-            R.styleable.ReportLineChartCard_rlcc_markViewTitleColor,
+            R.styleable.ReportBarChartCard_rbcc_markViewTitleColor,
             mMarkViewTitleColor
         )
         mMarkViewValueColor = typeArray.getColor(
-            R.styleable.ReportLineChartCard_rlcc_markViewValueColor,
+            R.styleable.ReportBarChartCard_rbcc_markViewValueColor,
             mMarkViewValueColor
         )
-        mAverageLabelBgColor = typeArray.getColor(
-            R.styleable.ReportLineChartCard_rlcc_averageLabelBgColor,
-            mAverageLabelBgColor
+        mXAxisLineColor =
+            typeArray.getColor(R.styleable.ReportBarChartCard_rbcc_xAxisLineColor, mXAxisLineColor)
+        mUnit = typeArray.getString(R.styleable.ReportBarChartCard_rbcc_unit)
+        mShowLevel = typeArray.getBoolean(R.styleable.ReportBarChartCard_rbcc_isShowLevel, false)
+        mLevelBgColor =
+            typeArray.getColor(R.styleable.ReportBarChartCard_rbcc_valueLevelBgColor, mLevelBgColor)
+        mLevelTextColor = typeArray.getColor(
+            R.styleable.ReportBarChartCard_rbcc_valueLevelTextColor,
+            mLevelTextColor
         )
         typeArray.recycle()
         initView()
@@ -242,26 +220,28 @@ class ReportBarChartCard @JvmOverloads constructor(
     }
 
     fun initTitle() {
-//        tv_title.visibility = View.VISIBLE
-//        tv_title.text = mTitle
-//        tv_title.setTextColor(mTextColor)
-//        if (mSmallTitle != null) {
-//            tv_small_title.visibility = View.VISIBLE
-//            tv_small_title.text = mSmallTitle
-//            tv_small_title.setTextColor(mTextColor)
-//        }
-//        if (mIsTitleIconShow) {
-//            iv_icon.visibility = View.VISIBLE
-//            iv_icon.setImageDrawable(mTiltleIcon)
-//        } else {
-//            iv_icon.visibility = View.GONE
-//        }
-        if (mIsTitleMenuIconShow) {
-            iv_menu.setImageDrawable(mTitleMenuIcon)
-            iv_menu.visibility = View.VISIBLE
+        if (mShowLevel) {
+            tv_unit.visibility = View.GONE
+            tv_level.visibility = View.VISIBLE
+            when (mDataAverage) {
+                in 0..29 -> tv_level.text = context.getString(R.string.sdk_report_low)
+                in 30..69 -> tv_level.text = context.getString(R.string.sdk_report_nor)
+                else -> tv_level.text = context.getString(R.string.sdk_report_high)
+            }
+            tv_level.setTextColor(mLevelTextColor)
+            var bg = tv_level.background as GradientDrawable
+            bg.setColor(mLevelBgColor)
         } else {
-            iv_menu.visibility = View.GONE
+            tv_unit.visibility = View.VISIBLE
+            tv_level.visibility = View.GONE
+            tv_unit.setTextColor(mTextColor)
+            tv_unit.text = mUnit
         }
+        tv_value.setTextColor(mMainColor)
+        tv_date.setTextColor(mTextColor)
+        tv_title.setTextColor(mTextColor)
+        tv_unit.setTextColor(mTextColor)
+        iv_menu.setImageDrawable(mTitleMenuIcon)
         iv_menu.setOnClickListener {
             if (isFullScreen) {
                 (context as Activity).finish()
@@ -282,9 +262,14 @@ class ReportBarChartCard @JvmOverloads constructor(
                 intent.putExtra("labelColor", mLabelColor)
                 intent.putExtra("average", mAverageValue)
                 intent.putExtra("averageBgColor", mAverageLabelBgColor)
-                intent.putExtra("lineColor", mLineColor)
+                intent.putExtra("mainColor", mMainColor)
                 intent.putExtra("lineData", mData!! as Serializable)
                 intent.putExtra("cycle", mCycle)
+                intent.putExtra("unit", mUnit)
+                intent.putExtra("showLevel", mShowLevel)
+                intent.putExtra("levelBgColor", mLevelBgColor)
+                intent.putExtra("levelTextColor", mLevelTextColor)
+                intent.putExtra("xAxisLineColor", mXAxisLineColor)
                 context.startActivity(intent)
             }
         }
@@ -389,7 +374,7 @@ class ReportBarChartCard @JvmOverloads constructor(
             values.add(
                 BarEntry(
                     i.toFloat(),
-                    data!![i].value, data!![i]
+                    data[i].value, data[i]
                 )
             )
         }
@@ -416,7 +401,7 @@ class ReportBarChartCard @JvmOverloads constructor(
         if (data == null) {
             return
         }
-
+        this.mDataAverage = data.map { it.value }.average()
         this.mData = completeSourceData(data, cycle)
         this.mCycle = cycle
         this.mPages = initPages(mData!!, cycle)
@@ -428,7 +413,7 @@ class ReportBarChartCard @JvmOverloads constructor(
         // draw dashed line
 //            set1.enableDashedLine(10f, 5f, 0f)
         // black lines and points
-        set.color = mLineColor
+        set.color = mMainColor
         // customize legend entry
         set.formLineWidth = 1f
         set.formLineDashEffect = DashPathEffect(floatArrayOf(10f, 10f), 0f)
@@ -458,7 +443,7 @@ class ReportBarChartCard @JvmOverloads constructor(
         if (mValues.size >= mChartVisibleXRangeMaximum) {
             updateDateRange(mValues.size - mChartVisibleXRangeMaximum.toInt())
             tv_date.visibility = View.VISIBLE
-        }else{
+        } else {
             tv_date.visibility = View.INVISIBLE
         }
     }
@@ -498,6 +483,11 @@ class ReportBarChartCard @JvmOverloads constructor(
         }
         var interval = calNiceInterval(yAxisMin.toDouble(), yAxisMax.toDouble())
         var firstLabel = floor(yAxisMin / interval) * interval
+        firstLabel = if (firstLabel - 10 < 0) {
+            0f
+        } else {
+            floor(firstLabel - 10)
+        }
         var lastLabel = ceil(yAxisMax / interval) * interval
         var labels = ArrayList<Float>()
         var i = firstLabel
@@ -534,7 +524,7 @@ class ReportBarChartCard @JvmOverloads constructor(
         chart.extraTopOffset = 28f.dp()
         val xAxis: XAxis = chart.xAxis
         xAxis.setDrawAxisLine(true)
-        xAxis.axisLineColor = getOpacityColor(mTextColor, 0.6f)
+        xAxis.axisLineColor = mXAxisLineColor
         xAxis.axisLineWidth = 1f
         xAxis.setDrawGridLines(false)
         xAxis.position = XAxis.XAxisPosition.BOTTOM
@@ -545,11 +535,11 @@ class ReportBarChartCard @JvmOverloads constructor(
         yAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
         yAxis.setLabelCount(5, false)
         yAxis.setDrawGridLines(true)
-        yAxis.gridColor = getOpacityColor(mTextColor, 0.2f)
+        yAxis.gridColor = mGridLineColor
         yAxis.gridLineWidth = 1f
         yAxis.setGridDashedLine(DashPathEffect(floatArrayOf(10f, 10f), 0f))
         yAxis.textSize = 12f
-        yAxis.textColor = Color.parseColor("#9AA1A9")
+        yAxis.textColor = mTextColor
         xAxis.setDrawLimitLinesBehindData(true)
         yAxis.setDrawAxisLine(false)
         setChartListener()
@@ -806,6 +796,36 @@ class ReportBarChartCard @JvmOverloads constructor(
 
     fun setVisibleDataCount(count: Int) {
         this.mVisibleDataCount = count
+        initView()
+    }
+
+    fun setMainColor(color: Int) {
+        this.mMainColor = color
+        initView()
+    }
+
+    fun setUnit(unit: String) {
+        this.mUnit = unit
+        initView()
+    }
+
+    fun setShowLevel(showLevel: Boolean) {
+        this.mShowLevel = showLevel
+        initView()
+    }
+
+    fun setLevelBgColor(color: Int) {
+        this.mLevelBgColor = color
+        initView()
+    }
+
+    fun setLevelTextColor(color: Int) {
+        this.mLevelTextColor = color
+        initView()
+    }
+
+    fun setXAxisLineColor(color: Int) {
+        this.mXAxisLineColor = color
         initView()
     }
 

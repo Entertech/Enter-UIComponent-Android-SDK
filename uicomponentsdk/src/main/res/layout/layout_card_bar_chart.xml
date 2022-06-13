@@ -11,7 +11,8 @@
             android:id="@+id/ll_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/activity_margin_half"
+            android:layout_marginTop="@dimen/activity_margin"
+            android:layout_marginLeft="@dimen/activity_margin"
             android:orientation="vertical"
             >
 
@@ -22,7 +23,6 @@
                 android:id="@+id/rl_extra_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/activity_margin"
                 >
             <LinearLayout
                     android:id="@+id/ll_description"
@@ -30,37 +30,56 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                 <TextView
+                        android:id="@+id/tv_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="每天"
+                        android:text="DAILY AVERAGE"
+                        android:textSize="12sp"
                         />
                 <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
                     <TextView
-                            android:id="@+id/tv_average"
+                            android:id="@+id/tv_value"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="78"
                             android:textColor="#00ff00"
                             android:textStyle="bold"
-                            android:textSize="24sp"/>
+                            android:textSize="28sp"/>
                     <TextView
+                            android:textSize="14sp"
+                            android:id="@+id/tv_unit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text=" 次/分"/>
+
+                    <TextView
+                            android:layout_marginLeft="4dp"
+                            android:id="@+id/tv_level"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="min"
+                            android:textFontWeight="600"
+                            android:paddingTop="3dp"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="@dimen/activity_margin_half"
+                            android:paddingRight="@dimen/activity_margin_half"
+                            android:background="@drawable/shape_common_chart_level_bg"
+                            android:textSize="12sp"
+                            />
                 </LinearLayout>
                 <TextView
                         android:id="@+id/tv_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
                         android:layout_marginBottom="@dimen/activity_margin_half"
                         android:text="2022年3月15日"
-                        android:textSize="16sp"
+                        android:textSize="12sp"
                         />
             </LinearLayout>
+
 
             <ImageView
                     android:id="@+id/iv_menu"
@@ -95,6 +114,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/activity_margin"
+            android:layout_marginBottom="@dimen/activity_margin"
             android:orientation="vertical"
             android:visibility="visible"
             >
@@ -118,6 +138,7 @@
         </LinearLayout>
 
         <TextView
+                android:visibility="gone"
                 android:id="@+id/tv_time_unit_des"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
