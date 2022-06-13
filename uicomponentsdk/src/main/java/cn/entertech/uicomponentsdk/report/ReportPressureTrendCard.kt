@@ -20,27 +20,32 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.LinearLayout
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.activity.BarChartFullScreenActivity
+import cn.entertech.uicomponentsdk.activity.PressureTrendChartFullScreenActivity
 import cn.entertech.uicomponentsdk.report.ReportCandleStickChartCard.Companion.CYCLE_MONTH
 import cn.entertech.uicomponentsdk.utils.*
-import cn.entertech.uicomponentsdk.widget.BarChartMarkView
-import cn.entertech.uicomponentsdk.widget.ChartIconView
-import cn.entertech.uicomponentsdk.widget.CustomBarChart
+import cn.entertech.uicomponentsdk.widget.*
 import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.ChartTouchListener
 import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.MPPointF
-import kotlinx.android.synthetic.main.layout_card_bar_chart.view.*
+import kotlinx.android.synthetic.main.layout_card_pressure_trend_chart.view.*
+import kotlinx.android.synthetic.main.layout_card_pressure_trend_chart.view.chart
+import kotlinx.android.synthetic.main.layout_card_pressure_trend_chart.view.ll_title
+import kotlinx.android.synthetic.main.layout_card_pressure_trend_chart.view.rl_bg
+import kotlinx.android.synthetic.main.layout_card_pressure_trend_chart.view.tv_date
+import kotlinx.android.synthetic.main.layout_card_pressure_trend_chart.view.tv_time_unit_des
 import java.io.Serializable
 import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.floor
 
-class ReportBarChartCard @JvmOverloads constructor(
+class ReportPressureTrendCard @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0, layoutId: Int? = null
@@ -53,8 +58,8 @@ class ReportBarChartCard @JvmOverloads constructor(
     private var mUnit: String? = ""
     private var mXAxisLineColor: Int = Color.parseColor("#9AA1A9")
     private var mChartVisibleXRangeMaximum: Float = 0f
-    private lateinit var highestVisibleData: BarSourceData
-    private lateinit var lowestVisibleData: BarSourceData
+    private lateinit var highestVisibleData: LineSourceData
+    private lateinit var lowestVisibleData: LineSourceData
     private var mVisibleDataCount: Int = 12
     var mAverageLabelBgColor: Int = Color.parseColor("#ffffff")
 
@@ -99,8 +104,10 @@ class ReportBarChartCard @JvmOverloads constructor(
     private var mGridLineColor: Int = Color.parseColor("#E9EBF1")
     private var mLabelColor: Int = Color.parseColor("#9AA1A9")
     private var mIsTitleMenuIconShow: Boolean = true
-    private var mData: ArrayList<BarSourceData>? = null
+    private var mData: ArrayList<LineSourceData>? = null
     private var mBg: Drawable? = null
+    private var mFillGradientStartColor: Int = Color.parseColor("#80FB9C98")
+    private var mFillGradientEndColor: Int = Color.parseColor("#805F76FF")
 
     private var mTitleMenuIcon: Drawable?
 
@@ -123,7 +130,8 @@ class ReportBarChartCard @JvmOverloads constructor(
     init {
         if (layoutId == null) {
             mSelfView =
-                LayoutInflater.from(context).inflate(R.layout.layout_card_bar_chart, null)
+                LayoutInflater.from(context)
+                    .inflate(R.layout.layout_card_pressure_trend_chart, null)
             var layoutParams = ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT)
             mSelfView?.layoutParams = layoutParams
         } else {
@@ -134,53 +142,73 @@ class ReportBarChartCard @JvmOverloads constructor(
         addView(mSelfView)
         var typeArray = context.obtainStyledAttributes(
             attributeSet,
-            R.styleable.ReportBarChartCard
+            R.styleable.ReportPressureTrendCard
         )
-        mMainColor = typeArray.getColor(R.styleable.ReportBarChartCard_rbcc_mainColor, mMainColor)
-        mTextColor = typeArray.getColor(R.styleable.ReportBarChartCard_rbcc_textColor, mTextColor)
-        mBg = typeArray.getDrawable(R.styleable.ReportBarChartCard_rbcc_background)
+        mMainColor =
+            typeArray.getColor(R.styleable.ReportPressureTrendCard_rptc_mainColor, mMainColor)
+        mTextColor =
+            typeArray.getColor(R.styleable.ReportPressureTrendCard_rptc_textColor, mTextColor)
+        mBg = typeArray.getDrawable(R.styleable.ReportPressureTrendCard_rptc_background)
         mIsTitleMenuIconShow = typeArray.getBoolean(
-            R.styleable.ReportBarChartCard_rbcc_isTitleMenuIconShow,
+            R.styleable.ReportPressureTrendCard_rptc_isTitleMenuIconShow,
             mIsTitleMenuIconShow
         )
         mTitleMenuIcon =
-            typeArray.getDrawable(R.styleable.ReportBarChartCard_rbcc_titleMenuIcon)
+            typeArray.getDrawable(R.styleable.ReportPressureTrendCard_rptc_titleMenuIcon)
 
         mGridLineColor =
-            typeArray.getColor(R.styleable.ReportBarChartCard_rbcc_gridLineColor, mGridLineColor)
+            typeArray.getColor(
+                R.styleable.ReportPressureTrendCard_rptc_gridLineColor,
+                mGridLineColor
+            )
         mLineWidth =
-            typeArray.getDimension(R.styleable.ReportBarChartCard_rbcc_lineWidth, mLineWidth)
+            typeArray.getDimension(R.styleable.ReportPressureTrendCard_rptc_lineWidth, mLineWidth)
 
         mHighlightLineColor = typeArray.getColor(
-            R.styleable.ReportBarChartCard_rbcc_highlightLineColor,
+            R.styleable.ReportPressureTrendCard_rptc_highlightLineColor,
             mHighlightLineColor
         )
         mHighlightLineWidth = typeArray.getFloat(
-            R.styleable.ReportBarChartCard_rbcc_highlightLineWidth,
+            R.styleable.ReportPressureTrendCard_rptc_highlightLineWidth,
             mHighlightLineWidth
         )
         mMarkViewBgColor = typeArray.getColor(
-            R.styleable.ReportBarChartCard_rbcc_markViewBgColor,
+            R.styleable.ReportPressureTrendCard_rptc_markViewBgColor,
             mMarkViewBgColor
         )
-        mMarkViewTitle = typeArray.getString(R.styleable.ReportBarChartCard_rbcc_markViewTitle)
+        mMarkViewTitle = typeArray.getString(R.styleable.ReportPressureTrendCard_rptc_markViewTitle)
         mMarkViewTitleColor = typeArray.getColor(
-            R.styleable.ReportBarChartCard_rbcc_markViewTitleColor,
+            R.styleable.ReportPressureTrendCard_rptc_markViewTitleColor,
             mMarkViewTitleColor
         )
         mMarkViewValueColor = typeArray.getColor(
-            R.styleable.ReportBarChartCard_rbcc_markViewValueColor,
+            R.styleable.ReportPressureTrendCard_rptc_markViewValueColor,
             mMarkViewValueColor
         )
         mXAxisLineColor =
-            typeArray.getColor(R.styleable.ReportBarChartCard_rbcc_xAxisLineColor, mXAxisLineColor)
-        mUnit = typeArray.getString(R.styleable.ReportBarChartCard_rbcc_unit)
-        mShowLevel = typeArray.getBoolean(R.styleable.ReportBarChartCard_rbcc_isShowLevel, false)
+            typeArray.getColor(
+                R.styleable.ReportPressureTrendCard_rptc_xAxisLineColor,
+                mXAxisLineColor
+            )
+        mUnit = typeArray.getString(R.styleable.ReportPressureTrendCard_rptc_unit)
+        mShowLevel =
+            typeArray.getBoolean(R.styleable.ReportPressureTrendCard_rptc_isShowLevel, false)
         mLevelBgColor =
-            typeArray.getColor(R.styleable.ReportBarChartCard_rbcc_valueLevelBgColor, mLevelBgColor)
+            typeArray.getColor(
+                R.styleable.ReportPressureTrendCard_rptc_valueLevelBgColor,
+                mLevelBgColor
+            )
         mLevelTextColor = typeArray.getColor(
-            R.styleable.ReportBarChartCard_rbcc_valueLevelTextColor,
+            R.styleable.ReportPressureTrendCard_rptc_valueLevelTextColor,
             mLevelTextColor
+        )
+        mFillGradientStartColor = typeArray.getColor(
+            R.styleable.ReportPressureTrendCard_rptc_fillGradientStartColor,
+            mFillGradientStartColor
+        )
+        mFillGradientEndColor = typeArray.getColor(
+            R.styleable.ReportPressureTrendCard_rptc_fillGradientEndColor,
+            mFillGradientEndColor
         )
         typeArray.recycle()
         initView()
@@ -220,33 +248,15 @@ class ReportBarChartCard @JvmOverloads constructor(
     }
 
     fun initTitle() {
-        if (mShowLevel) {
-            tv_unit.visibility = View.GONE
-            tv_level.visibility = View.VISIBLE
-            when (mDataAverage) {
-                in 0..29 -> tv_level.text = context.getString(R.string.sdk_report_low)
-                in 30..69 -> tv_level.text = context.getString(R.string.sdk_report_nor)
-                else -> tv_level.text = context.getString(R.string.sdk_report_high)
-            }
-            tv_level.setTextColor(mLevelTextColor)
-            var bg = tv_level.background as GradientDrawable
-            bg.setColor(mLevelBgColor)
-        } else {
-            tv_unit.visibility = View.VISIBLE
-            tv_level.visibility = View.GONE
-            tv_unit.setTextColor(mTextColor)
-            tv_unit.text = mUnit
-        }
         tv_value.setTextColor(mMainColor)
         tv_date.setTextColor(mTextColor)
         tv_title.setTextColor(mTextColor)
-        tv_unit.setTextColor(mTextColor)
         iv_menu.setImageDrawable(mTitleMenuIcon)
         iv_menu.setOnClickListener {
             if (isFullScreen) {
                 (context as Activity).finish()
             } else {
-                var intent = Intent(context, BarChartFullScreenActivity::class.java)
+                var intent = Intent(context, PressureTrendChartFullScreenActivity::class.java)
                 intent.putExtra("lineWidth", mLineWidth)
                 intent.putExtra("highlightLineColor", mHighlightLineColor)
                 intent.putExtra("highlightLineWidth", mHighlightLineWidth)
@@ -270,26 +280,28 @@ class ReportBarChartCard @JvmOverloads constructor(
                 intent.putExtra("levelBgColor", mLevelBgColor)
                 intent.putExtra("levelTextColor", mLevelTextColor)
                 intent.putExtra("xAxisLineColor", mXAxisLineColor)
+                intent.putExtra("fillGradientStartColor", mFillGradientStartColor)
+                intent.putExtra("fillGradientEndColor", mFillGradientEndColor)
                 context.startActivity(intent)
             }
         }
     }
 
     fun completeSourceData(
-        sourceData: ArrayList<BarSourceData>,
+        sourceData: ArrayList<LineSourceData>,
         cycle: String
-    ): ArrayList<BarSourceData> {
+    ): ArrayList<LineSourceData> {
         var firstData = sourceData[0]
         when (cycle) {
             ReportCandleStickChartCard.CYCLE_MONTH -> {
                 var date = firstData.date
                 var day = date.split("-")[2]
                 if (day != "01") {
-                    var preData = ArrayList<BarSourceData>()
+                    var preData = ArrayList<LineSourceData>()
                     var dayIntValue = Integer.parseInt(day)
                     for (j in 1 until dayIntValue) {
                         var curDayString = String.format("%02d", j)
-                        var barSourceData = BarSourceData()
+                        var barSourceData = LineSourceData()
                         barSourceData.value = 0f
                         barSourceData.date = "${day[0]}-${day[1]}-${curDayString}"
                         barSourceData.xLabel = curDayString
@@ -302,11 +314,11 @@ class ReportBarChartCard @JvmOverloads constructor(
                 var date = firstData.date
                 var month = date.split("-")[1]
                 if (month != "01") {
-                    var preData = ArrayList<BarSourceData>()
+                    var preData = ArrayList<LineSourceData>()
                     var monthIntValue = Integer.parseInt(month)
                     for (j in 1 until monthIntValue) {
                         var curMonthString = String.format("%02d", j)
-                        var barSourceData = BarSourceData()
+                        var barSourceData = LineSourceData()
                         barSourceData.value = 0f
                         barSourceData.date = "${month[0]}-${curMonthString}"
                         barSourceData.xLabel = curMonthString
@@ -322,12 +334,12 @@ class ReportBarChartCard @JvmOverloads constructor(
     var mPages = ArrayList<ChartPage>()
     var curPage = -1
 
-    var mValues = ArrayList<BarEntry>()
+    var mValues = ArrayList<Entry>()
     private var mCycle: String = ""
-    lateinit var set: BarDataSet
+    lateinit var set: LineDataSet
     var firstIn = true
 
-    fun initPages(data: ArrayList<BarSourceData>, cycle: String): ArrayList<ChartPage> {
+    fun initPages(data: ArrayList<LineSourceData>, cycle: String): ArrayList<ChartPage> {
         var curPage = 0
         var lastMonth = ""
         var lastYear = ""
@@ -368,11 +380,11 @@ class ReportBarChartCard @JvmOverloads constructor(
         return pages
     }
 
-    fun initChartValues(data: ArrayList<BarSourceData>): ArrayList<BarEntry> {
-        val values = ArrayList<BarEntry>()
+    fun initChartValues(data: ArrayList<LineSourceData>): ArrayList<Entry> {
+        val values = ArrayList<Entry>()
         for (i in data.indices) {
             values.add(
-                BarEntry(
+                Entry(
                     i.toFloat(),
                     data[i].value, data[i]
                 )
@@ -381,7 +393,7 @@ class ReportBarChartCard @JvmOverloads constructor(
         return values
     }
 
-    fun initChartXLabel(data: ArrayList<BarSourceData>) {
+    fun initChartXLabel(data: ArrayList<LineSourceData>) {
         for (i in data.indices) {
             if ((i + 1) % 7 == 0) {
                 val llXAxis = LimitLine(i.toFloat() + 0.5f, "${data[i + 1].xLabel}")
@@ -397,23 +409,37 @@ class ReportBarChartCard @JvmOverloads constructor(
         }
     }
 
-    fun setData(data: ArrayList<BarSourceData>?, cycle: String) {
+    var yLimitLineValues = listOf(25f, 50f, 75f)
+    fun setData(data: ArrayList<LineSourceData>?, cycle: String) {
         if (data == null) {
             return
         }
-        this.mDataAverage = data.map { it.value }.average()
         this.mData = completeSourceData(data, cycle)
+        this.mDataAverage = mData!!.map { it.value }.average()
         this.mCycle = cycle
         this.mPages = initPages(mData!!, cycle)
         this.mChartVisibleXRangeMaximum = initChartVisibleXRangeMaximum(cycle)
         this.mValues = initChartValues(mData!!)
         initChartXLabel(mData!!)
-        set = BarDataSet(mValues, "")
+        for (i in yLimitLineValues.indices) {
+            val ll = LimitLine(yLimitLineValues[i], "")
+            ll.lineWidth = 1f
+            ll.enableDashedLine(10f, 10f, 0f)
+            ll.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
+            ll.textSize = 12f
+            ll.xOffset = 10f
+            ll.yOffset = 8f
+            ll.textColor = mTextColor
+            ll.lineColor = mGridLineColor
+            chart.axisLeft.addLimitLine(ll)
+        }
+        set = LineDataSet(mValues, "")
         set.setDrawIcons(true)
         // draw dashed line
 //            set1.enableDashedLine(10f, 5f, 0f)
         // black lines and points
         set.color = mMainColor
+        set.lineWidth = 2f
         // customize legend entry
         set.formLineWidth = 1f
         set.formLineDashEffect = DashPathEffect(floatArrayOf(10f, 10f), 0f)
@@ -421,13 +447,14 @@ class ReportBarChartCard @JvmOverloads constructor(
         set.isHighlightEnabled = true
         // text size of values
         set.valueTextSize = 9f
+        set.circleColors = listOf(mMainColor)
+        set.circleHoleColor = Color.parseColor("#ffffff")
         set.setDrawValues(false)
         set.highLightColor = mHighlightLineColor
-        var barData = BarData()
-        barData.addDataSet(set)
+        var lineData = LineData()
+        lineData.addDataSet(set)
 //         // set data
-        chart.data = barData
-        calNiceLabel(mData!!)
+        chart.data = lineData
         chart.notifyDataSetChanged()
         chart.setVisibleXRangeMaximum(mChartVisibleXRangeMaximum)
         chart.viewTreeObserver.addOnGlobalLayoutListener {
@@ -458,7 +485,7 @@ class ReportBarChartCard @JvmOverloads constructor(
 
     }
 
-    private fun calNiceLabel(data: List<BarSourceData>) {
+    private fun calNiceLabel(data: List<LineSourceData>) {
         var min = data.map { it.value }.min()!!
         var max = data.map { it.value }.max()!!
         var yAxisMax = (max / 1f)
@@ -509,12 +536,13 @@ class ReportBarChartCard @JvmOverloads constructor(
 //        chart.setTouchEnabled(true)
 //        chart.setYLimitLabelBgColor(mAverageLabelBgColor)
         chart.animateX(500)
-        chart.setDrawGridBackground(false)
+        chart.setDrawGridBackground(true)
+        chart.setGridBackgroundColors(intArrayOf(mFillGradientStartColor, mFillGradientEndColor))
 //        chart.isHighlightPerDragEnabled = false
         chart.isDragEnabled = true
         chart.isScaleXEnabled = false
         chart.isScaleYEnabled = false
-        val marker = BarChartMarkView(context, mLineColor, mMarkViewTitle)
+        val marker = PressureTrendChartMarkView(context, mLineColor, mMarkViewTitle)
         marker.chartView = chart
 //        marker.setMarkTitleColor(mMarkViewTitleColor)
 //        marker.setMarkViewBgColor(mMarkViewBgColor)
@@ -534,7 +562,6 @@ class ReportBarChartCard @JvmOverloads constructor(
 //        chart.setMaxVisibleValueCount(100000)
         yAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
         yAxis.setLabelCount(5, false)
-        yAxis.setDrawGridLines(true)
         yAxis.gridColor = mGridLineColor
         yAxis.gridLineWidth = 1f
         yAxis.setGridDashedLine(DashPathEffect(floatArrayOf(10f, 10f), 0f))
@@ -542,6 +569,27 @@ class ReportBarChartCard @JvmOverloads constructor(
         yAxis.textColor = mTextColor
         xAxis.setDrawLimitLinesBehindData(true)
         yAxis.setDrawAxisLine(false)
+        yAxis.axisMinimum = 0f
+        yAxis.axisMaximum = 100f
+        yAxis.mEntries = floatArrayOf(12.5f, 37.5f, 62.5f, 87.5f)
+        yAxis.mEntryCount = 4
+        yAxis.valueFormatter = object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                if (value == 12.5f) {
+                    return context.getString(R.string.pressure_level_low)
+                } else if (value == 37.5f) {
+                    return context.getString(R.string.pressure_level_normal)
+                } else if (value == 62.5f) {
+                    return context.getString(R.string.pressure_level_elevated)
+                } else if (value == 87.5f) {
+                    return context.getString(R.string.pressure_level_high)
+                } else {
+                    return ""
+                }
+            }
+        }
+        yAxis.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART)
+        yAxis.setDrawGridLines(false)
         setChartListener()
     }
 
@@ -551,7 +599,7 @@ class ReportBarChartCard @JvmOverloads constructor(
         set.setDrawIcons(false)
     }
 
-    fun translateChartX(chart: CustomBarChart, translateX: Float) {
+    fun translateChartX(chart: CustomLineChart, translateX: Float) {
         var matrix = chart.viewPortHandler.matrixTouch
         matrix.postTranslate(translateX, 0f)
         chart.viewPortHandler.refresh(matrix, chart, true)
@@ -586,8 +634,8 @@ class ReportBarChartCard @JvmOverloads constructor(
     }
 
     fun initLowestAndHighestVisibleData() {
-        lowestVisibleData = set.getEntryForXValue(chart.lowestVisibleX, 0f).data as BarSourceData
-        highestVisibleData = set.getEntryForXValue(chart.highestVisibleX, 0f).data as BarSourceData
+        lowestVisibleData = set.getEntryForXValue(chart.lowestVisibleX, 0f).data as LineSourceData
+        highestVisibleData = set.getEntryForXValue(chart.highestVisibleX, 0f).data as LineSourceData
     }
 
     var downX = 0f
@@ -608,10 +656,25 @@ class ReportBarChartCard @JvmOverloads constructor(
     }
 
     fun updateDateRange(startIndex: Int) {
-        lowestVisibleData = set.getEntryForIndex(startIndex).data as BarSourceData
+        lowestVisibleData = set.getEntryForIndex(startIndex).data as LineSourceData
         highestVisibleData =
-            set.getEntryForIndex(startIndex + mChartVisibleXRangeMaximum.toInt() - 1).data as BarSourceData
+            set.getEntryForIndex(startIndex + mChartVisibleXRangeMaximum.toInt() - 1).data as LineSourceData
         tv_date.text = "${lowestVisibleData.date}-${highestVisibleData.date}"
+        val curDataList  = mData!!.subList(startIndex,startIndex + mChartVisibleXRangeMaximum.toInt()).map { it.value }
+        when(curDataList.average()){
+            in 0.0..24.0->{
+                tv_value.text = context.getString(R.string.pressure_level_low)
+            }
+            in 25.0..49.0->{
+                tv_value.text = context.getString(R.string.pressure_level_normal)
+            }
+            in 50.0..74.0->{
+                tv_value.text = context.getString(R.string.pressure_level_elevated)
+            }
+            else ->{
+                tv_value.text = context.getString(R.string.pressure_level_high)
+            }
+        }
     }
 
     fun moveToNextPage() {
@@ -828,8 +891,17 @@ class ReportBarChartCard @JvmOverloads constructor(
         this.mXAxisLineColor = color
         initView()
     }
+    fun setFillGradientStartColor(color:Int){
+        this.mFillGradientStartColor = color
+        initView()
+    }
 
-    class BarSourceData : Serializable {
+    fun setFillGradientEndColor(color:Int){
+        this.mFillGradientEndColor = color
+        initView()
+    }
+
+    class LineSourceData : Serializable {
         var value: Float = 0f
         var date: String = ""
         var xLabel: String = ""

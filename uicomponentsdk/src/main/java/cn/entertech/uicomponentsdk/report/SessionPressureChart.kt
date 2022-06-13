@@ -49,14 +49,10 @@ class SessionPressureChart @JvmOverloads constructor(
     private var mFillGradientEndColor: Int = Color.parseColor("#805F76FF")
     private var mSourceDataList: List<Double>? = null
     private var mStartTime: String = ""
-    private var mLevelBgColor: Int = Color.parseColor("#E5EAF7")
-    private var mLevelTextColor: Int = Color.parseColor("#2B2E40")
-    private var mIsShowLevel: Boolean = false
     private var dataTotalTimeMs: Int = 0
     private var mDataAverage: Int = 0
     private var mXAxisLineColor: Int = Color.parseColor("#9AA1A9")
     private var mIsShowXAxisUnit: Boolean = false
-    private var mTitleUnit: String? = ""
     private var mTitleDescription: String? = ""
     private var mBgLineColor: Int = Color.parseColor("#DDE1EB")
     private var mIsChartEnable: Boolean = true
@@ -66,7 +62,6 @@ class SessionPressureChart @JvmOverloads constructor(
     private var mIsShowAverage: Boolean = false
     private var mCohTime: String = "--"
     private var set2: LineDataSet? = null
-    private var mSampleSecondData: java.util.ArrayList<Double>? = null
     private var mSampleData: ArrayList<Double>? = null
     var isFirstIn = true
     private var set1: LineDataSet? = null

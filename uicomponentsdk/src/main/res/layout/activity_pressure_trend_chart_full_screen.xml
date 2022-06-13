@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activity.LineChartFullScreenActivity"
+        >
+
+    <cn.entertech.uicomponentsdk.report.ReportPressureTrendCard
+            android:id="@+id/chart_pressure_trend"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/activity_margin_half"
+            android:background="@color/white"
+            app:rptc_isTitleMenuIconShow="true"
+            app:rptc_lineWidth="1dp"
+            app:rptc_markViewTitle="@string/sdk_heart_rate"
+            app:rptc_titleMenuIcon="@drawable/vector_drawable_screen_shrink"
+            />
+
+</LinearLayout>

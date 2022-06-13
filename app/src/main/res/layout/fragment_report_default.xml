@@ -149,6 +149,22 @@
                     app:rlcc_xAxisUnit="@string/sdk_time_unit"
                     />
 
+            <cn.entertech.uicomponentsdk.report.ReportPressureTrendCard
+                    android:id="@+id/chart_pressure_trend"
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp"
+                    android:layout_marginTop="@dimen/activity_margin_half"
+                    android:background="@color/white"
+                    app:rptc_isTitleMenuIconShow="true"
+                    app:rptc_textColor="#7A7C8A"
+                    app:rptc_mainColor="#FF6682"
+                    app:rptc_gridLineColor="#DDE1EB"
+                    app:rptc_unit="min"
+                    app:rptc_markViewTitle="@string/sdk_heart_rate"
+                    app:rptc_titleMenuIcon="@drawable/vector_drawable_full_screen"
+                    app:rptc_fillGradientStartColor="#80FB9C98"
+                    app:rptc_fillGradientEndColor="#805F76FF"
+                    />
             <cn.entertech.uicomponentsdk.report.ReportHRLineChartCard
                     android:id="@+id/chart_hrv"
                     android:layout_width="match_parent"

@@ -8,9 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import cn.entertech.uicomponentsdk.report.ReportBarChartCard
-import cn.entertech.uicomponentsdk.report.ReportCandleStickChartCard
-import cn.entertech.uicomponentsdk.report.StackedAreaChart
+import cn.entertech.uicomponentsdk.report.*
 import cn.entertech.uicomponentsdk.report.file.ReportFileHelper
 import cn.entertech.uicomponentsdk.utils.dp
 import kotlinx.android.synthetic.main.fragment_report_default.*
@@ -108,6 +106,7 @@ class ReportDefaultFragment : Fragment() {
         chart_pressure.setData(reportData.reportHRDataEntity?.hrRec)
         var candleStickValues = ArrayList<ReportCandleStickChartCard.CandleSourceData>()
         var barValues = ArrayList<ReportBarChartCard.BarSourceData>()
+        var lineValues = ArrayList<ReportPressureTrendCard.LineSourceData>()
         var dates = getDateList()
         for (i in dates.indices) {
             var candleSourceData = ReportCandleStickChartCard.CandleSourceData()
@@ -123,9 +122,15 @@ class ReportDefaultFragment : Fragment() {
             barSourceData.date =  "${dates[i]}"
             barSourceData.xLabel = "${dates[i].split("-")[2]}"
             barValues.add(barSourceData)
+            var lineSourceData = ReportPressureTrendCard.LineSourceData()
+            lineSourceData.value = value
+            lineSourceData.date = "${dates[i]}"
+            lineSourceData.xLabel = "${dates[i].split("-")[2]}"
+            lineValues.add(lineSourceData)
         }
         chart_candle_stick.setData(candleStickValues, "month")
         chart_bar.setData(barValues,"month")
+        chart_pressure_trend.setData(lineValues,"month")
 //        chart_hrv.setAverage("${reportData.reportHRDataEntity?.hrvAvg!!.toInt()}")
         var hrvSecondLine = ArrayList<Double>()
         var hrvSecondLineSize = reportData.reportHRDataEntity!!.hrRec!!.size / 9f.toInt()
