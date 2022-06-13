@@ -23,7 +23,10 @@ import android.widget.LinearLayout
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.activity.CandleChartFullScreenActivity
 import cn.entertech.uicomponentsdk.utils.*
-import cn.entertech.uicomponentsdk.widget.*
+import cn.entertech.uicomponentsdk.widget.CandleChartMarkView
+import cn.entertech.uicomponentsdk.widget.ChartIconView
+import cn.entertech.uicomponentsdk.widget.CustomCombinedChart
+import com.github.mikephil.charting.charts.CombinedChart.DrawOrder
 import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
@@ -35,12 +38,13 @@ import com.github.mikephil.charting.listener.ChartTouchListener
 import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.MPPointF
+import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.*
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.chart
-import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.iv_menu
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.ll_title
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.rl_bg
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.tv_date
-import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.tv_time_unit_des
+import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.tv_unit
+import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.tv_value
 import java.io.Serializable
 import kotlin.math.abs
 import kotlin.math.ceil
@@ -52,10 +56,15 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
+    private var mDataAverage: Double = 0.0
+    private var mUnit: String? = ""
+    private var mLevelTextColor: Int = Color.RED
+    private var mLevelBgColor: Int = Color.RED
+    private var mIsShowLevel: Boolean = false
+    private var mTitleMenuIcon: Drawable? = null
     private lateinit var highestVisibleData: CandleSourceData
     private lateinit var lowestVisibleData: CandleSourceData
     private var mCycle: String = ""
-    private var mSmallTitle: String? = ""
     var mAverageLabelBgColor: Int = Color.parseColor("#ffffff")
 
     var mMarkViewTitleColor: Int = Color.parseColor("#8F11152E")
@@ -99,14 +108,10 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
     private var mLineColor: Int = Color.RED
     private var mGridLineColor: Int = Color.parseColor("#E9EBF1")
     private var mLabelColor: Int = Color.parseColor("#9AA1A9")
-    private var mTitle: String? = "Changes During Meditation"
-    private var mIsTitleIconShow: Boolean = false
     private var mIsTitleMenuIconShow: Boolean = true
     private var mData: ArrayList<CandleSourceData>? = null
     private var mBg: Drawable? = null
 
-    private var mTiltleIcon: Drawable?
-    private var mTitleMenuIcon: Drawable?
 
     private var mMainColor: Int = Color.parseColor("#0064ff")
     private var mTextColor: Int = Color.parseColor("#333333")
@@ -143,72 +148,44 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         addView(mSelfView)
         var typeArray = context.obtainStyledAttributes(
             attributeSet,
-            R.styleable.ReportLineChartCard
+            R.styleable.ReportCandleStickChartCard
         )
-        mMainColor = typeArray.getColor(R.styleable.ReportLineChartCard_rlcc_mainColor, mMainColor)
-        mTextColor = typeArray.getColor(R.styleable.ReportLineChartCard_rlcc_textColor, mTextColor)
-        mBg = typeArray.getDrawable(R.styleable.ReportLineChartCard_rlcc_background)
-        mIsTitleIconShow = typeArray.getBoolean(
-            R.styleable.ReportLineChartCard_rlcc_isTitleIconShow,
-            mIsTitleIconShow
-        )
-        mSmallTitle = typeArray.getString(R.styleable.ReportLineChartCard_rlcc_smallTitle)
-        mIsTitleMenuIconShow = typeArray.getBoolean(
-            R.styleable.ReportLineChartCard_rlcc_isTitleMenuIconShow,
-            mIsTitleMenuIconShow
-        )
-        mIsTitleIconShow = typeArray.getBoolean(
-            R.styleable.ReportLineChartCard_rlcc_isTitleIconShow,
-            mIsTitleIconShow
-        )
-        mIsTitleIconShow = typeArray.getBoolean(
-            R.styleable.ReportLineChartCard_rlcc_isTitleIconShow,
-            mIsTitleIconShow
-        )
-        mTitle = typeArray.getString(R.styleable.ReportLineChartCard_rlcc_title)
-        mTiltleIcon =
-            typeArray.getDrawable(R.styleable.ReportLineChartCard_rlcc_titleIcon)
-        mTitleMenuIcon =
-            typeArray.getDrawable(R.styleable.ReportLineChartCard_rlcc_titleMenuIcon)
+        mMainColor = typeArray.getColor(R.styleable.ReportCandleStickChartCard_rcscc_mainColor, mMainColor)
+        mTextColor = typeArray.getColor(R.styleable.ReportCandleStickChartCard_rcscc_textColor, mTextColor)
+        mBg = typeArray.getDrawable(R.styleable.ReportCandleStickChartCard_rcscc_background)
 
-        mPointCount =
-            typeArray.getInteger(R.styleable.ReportLineChartCard_rlcc_pointCount, mPointCount)
-        mLineColor = typeArray.getColor(R.styleable.ReportLineChartCard_rlcc_lineColor, mLineColor)
-        mLabelColor =
-            typeArray.getColor(R.styleable.ReportLineChartCard_rlcc_labelColor, mLabelColor)
         mGridLineColor =
-            typeArray.getColor(R.styleable.ReportLineChartCard_rlcc_gridLineColor, mGridLineColor)
-        mTimeUnit = typeArray.getInteger(R.styleable.ReportLineChartCard_rlcc_timeUnit, mTimeUnit)
+            typeArray.getColor(R.styleable.ReportCandleStickChartCard_rcscc_gridLineColor, mGridLineColor)
         mLineWidth =
-            typeArray.getDimension(R.styleable.ReportLineChartCard_rlcc_lineWidth, mLineWidth)
-        mXAxisUnit = typeArray.getString(R.styleable.ReportLineChartCard_rlcc_xAxisUnit)
-        mIsDrawFill = typeArray.getBoolean(R.styleable.ReportLineChartCard_rlcc_isDrawFill, false)
+            typeArray.getDimension(R.styleable.ReportCandleStickChartCard_rcscc_lineWidth, mLineWidth)
+        mIsDrawFill = typeArray.getBoolean(R.styleable.ReportCandleStickChartCard_rcscc_isDrawFill, false)
 
         mHighlightLineColor = typeArray.getColor(
-            R.styleable.ReportLineChartCard_rlcc_highlightLineColor,
+            R.styleable.ReportCandleStickChartCard_rcscc_highlightLineColor,
             mHighlightLineColor
         )
         mHighlightLineWidth = typeArray.getFloat(
-            R.styleable.ReportLineChartCard_rlcc_highlightLineWidth,
+            R.styleable.ReportCandleStickChartCard_rcscc_highlightLineWidth,
             mHighlightLineWidth
         )
         mMarkViewBgColor = typeArray.getColor(
-            R.styleable.ReportLineChartCard_rlcc_markViewBgColor,
+            R.styleable.ReportCandleStickChartCard_rcscc_markViewBgColor,
             mMarkViewBgColor
         )
-        mMarkViewTitle = typeArray.getString(R.styleable.ReportLineChartCard_rlcc_markViewTitle)
+        mMarkViewTitle = typeArray.getString(R.styleable.ReportCandleStickChartCard_rcscc_markViewTitle)
         mMarkViewTitleColor = typeArray.getColor(
-            R.styleable.ReportLineChartCard_rlcc_markViewTitleColor,
+            R.styleable.ReportCandleStickChartCard_rcscc_markViewTitleColor,
             mMarkViewTitleColor
         )
         mMarkViewValueColor = typeArray.getColor(
-            R.styleable.ReportLineChartCard_rlcc_markViewValueColor,
+            R.styleable.ReportCandleStickChartCard_rcscc_markViewValueColor,
             mMarkViewValueColor
         )
-        mAverageLabelBgColor = typeArray.getColor(
-            R.styleable.ReportLineChartCard_rlcc_averageLabelBgColor,
-            mAverageLabelBgColor
-        )
+        mTitleMenuIcon = typeArray.getDrawable(R.styleable.ReportCandleStickChartCard_rcscc_titleMenuIcon)
+        mIsShowLevel = typeArray.getBoolean(R.styleable.ReportCandleStickChartCard_rcscc_isShowLevel,false)
+        mLevelBgColor = typeArray.getColor(R.styleable.ReportCandleStickChartCard_rcscc_valueLevelBgColor,mLevelBgColor)
+        mLevelTextColor = typeArray.getColor(R.styleable.ReportCandleStickChartCard_rcscc_valueLevelTextColor,mLevelTextColor)
+        mUnit = typeArray.getString(R.styleable.ReportCandleStickChartCard_rcscc_unit)
         typeArray.recycle()
         initView()
     }
@@ -217,14 +194,8 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
     fun initView() {
         initBg()
         initTitle()
-        initTimeUnit()
         initChart()
         initChartIcon()
-    }
-
-    fun initTimeUnit() {
-        tv_time_unit_des.setTextColor(getOpacityColor(mTextColor, 0.7f))
-        tv_time_unit_des.text = mXAxisUnit
     }
 
     fun initBg() {
@@ -247,26 +218,28 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
     }
 
     fun initTitle() {
-//        tv_title.visibility = View.VISIBLE
-//        tv_title.text = mTitle
-//        tv_title.setTextColor(mTextColor)
-//        if (mSmallTitle != null) {
-//            tv_small_title.visibility = View.VISIBLE
-//            tv_small_title.text = mSmallTitle
-//            tv_small_title.setTextColor(mTextColor)
-//        }
-//        if (mIsTitleIconShow) {
-//            iv_icon.visibility = View.VISIBLE
-//            iv_icon.setImageDrawable(mTiltleIcon)
-//        } else {
-//            iv_icon.visibility = View.GONE
-//        }
-        if (mIsTitleMenuIconShow) {
-            iv_menu.setImageDrawable(mTitleMenuIcon)
-            iv_menu.visibility = View.VISIBLE
+        if (mIsShowLevel) {
+            tv_unit.visibility = View.GONE
+            tv_level.visibility = View.VISIBLE
+            when (mDataAverage) {
+                in 0..29 -> tv_level.text = context.getString(R.string.sdk_report_low)
+                in 30..69 -> tv_level.text = context.getString(R.string.sdk_report_nor)
+                else -> tv_level.text = context.getString(R.string.sdk_report_high)
+            }
+            tv_level.setTextColor(mLevelTextColor)
+            var bg = tv_level.background as GradientDrawable
+            bg.setColor(mLevelBgColor)
         } else {
-            iv_menu.visibility = View.GONE
+            tv_unit.visibility = View.VISIBLE
+            tv_level.visibility = View.GONE
+            tv_unit.setTextColor(mTextColor)
+            tv_unit.text = mUnit
         }
+        tv_value.setTextColor(mMainColor)
+        tv_date.setTextColor(mTextColor)
+        tv_title.setTextColor(mTextColor)
+        tv_unit.setTextColor(mTextColor)
+        iv_menu.setImageDrawable(mTitleMenuIcon)
         iv_menu.setOnClickListener {
             if (isFullScreen) {
                 (context as Activity).finish()
@@ -282,6 +255,7 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
                 intent.putExtra("gridLineColor", mGridLineColor)
                 intent.putExtra("xAxisUnit", mXAxisUnit)
                 intent.putExtra("textColor", mTextColor)
+                intent.putExtra("mainColor", mMainColor)
                 intent.putExtra("bgColor", bgColor)
                 intent.putExtra("averageLineColor", mAverageLineColor)
                 intent.putExtra("labelColor", mLabelColor)
@@ -384,7 +358,7 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         return values
     }
 
-    fun initChartLineValues(data: ArrayList<CandleSourceData>):ArrayList<Entry>{
+    fun initChartLineValues(data: ArrayList<CandleSourceData>): ArrayList<Entry> {
         val lineValues = ArrayList<Entry>()
         for (i in data.indices) {
             lineValues.add(Entry(i.toFloat(), data[i].average, data[i]))
@@ -392,7 +366,7 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         return lineValues
     }
 
-    fun initPages(data: ArrayList<CandleSourceData>, cycle: String):ArrayList<ChartPage> {
+    fun initPages(data: ArrayList<CandleSourceData>, cycle: String): ArrayList<ChartPage> {
         var curPage = 0
         var lastMonth = ""
         var lastYear = ""
@@ -445,14 +419,22 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         if (data == null || data.isEmpty()) {
             return
         }
+        this.mDataAverage = data.map { it.average }.average()
         this.mCycle = cycle
         this.mData = completeSourceData(data, cycle)
         this.mChartVisibleXRangeMaximum = initChartVisibleXRangeMaximum(cycle)
         this.mCandleValues = initChartCandleValues(mData!!)
         this.mLineValues = initChartLineValues(mData!!)
-        this.mPages = initPages(data,cycle)
+        this.mPages = initPages(data, cycle)
         initChartXLabel(data)
-
+        when(mCycle){
+            "month"->{
+                tv_title.text = "DAILY AVERAGE"
+            }
+            "year"->{
+                tv_title.text = "MONTHLY AVERAGE"
+            }
+        }
         // create a dataset and give it a type
         set1 = CandleDataSet(mCandleValues, "")
         set1.setDrawIcons(false)
@@ -460,11 +442,11 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         set1.axisDependency = AxisDependency.LEFT
 //        set1.setColor(Color.rgb(80, 80, 80));
         //        set1.setColor(Color.rgb(80, 80, 80));
-        set1.shadowColor = Color.DKGRAY
+        set1.shadowColor = mGridLineColor
         set1.shadowWidth = 0.7f
-        set1.decreasingColor = Color.RED
+        set1.decreasingColor = mGridLineColor
         set1.decreasingPaintStyle = Paint.Style.FILL
-        set1.increasingColor = Color.rgb(122, 242, 84)
+        set1.increasingColor = mGridLineColor
         set1.increasingPaintStyle = Paint.Style.STROKE
         set1.neutralColor = Color.BLUE
 //        set1.barSpace = 0.3f
@@ -478,7 +460,8 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         // draw dashed line
 //            set1.enableDashedLine(10f, 5f, 0f)
         // black lines and points
-        set2.color = mLineColor
+        set2.color = mMainColor
+        set2.lineWidth = ScreenUtil.px2dip(context,mLineWidth).toFloat()
         // customize legend entry
         set2.formLineWidth = 1f
         set2.formLineDashEffect = DashPathEffect(floatArrayOf(10f, 10f), 0f)
@@ -486,15 +469,18 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         // text size of values
         set2.valueTextSize = 9f
         set2.setDrawValues(false)
+        set2.circleColors = listOf(mMainColor)
+        set2.circleHoleColor = Color.parseColor("#ffffff")
         set2.highLightColor = mHighlightLineColor
         set2.highlightLineWidth = mHighlightLineWidth
         set2.setDrawHorizontalHighlightIndicator(false)
         set2.setDrawVerticalHighlightIndicator(true)
+
         var lineData = LineData()
         lineData.addDataSet(set2)
         val combinedData = CombinedData()
-        combinedData.setData(candleData)
         combinedData.setData(lineData)
+        combinedData.setData(candleData)
 //         // set data
         chart.data = combinedData
         chart.isHighlightPerDragEnabled = false
@@ -551,6 +537,10 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
 
 
     fun initChart() {
+        // draw bars behind lines
+        chart.drawOrder = arrayOf(
+            DrawOrder.CANDLE, DrawOrder.LINE
+        )
         chart.renderer = CustomCombinedChartRenderer(chart, chart.animator, chart.viewPortHandler)
 //        chart.setBackgroundColor(bgColor)
         chart.description.isEnabled = false
@@ -627,7 +617,7 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
                     set1.getEntryForXValue(chart.lowestVisibleX, 0f).data as CandleSourceData
                 highestVisibleData =
                     set1.getEntryForXValue(chart.highestVisibleX, 0f).data as CandleSourceData
-             }
+            }
 
             override fun onAnimationCancel(animation: Animator?) {
             }
@@ -676,7 +666,7 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         if (mCandleValues.size >= mChartVisibleXRangeMaximum) {
             updateDateRange(mCandleValues.size - mChartVisibleXRangeMaximum.toInt())
             tv_date.visibility = View.VISIBLE
-        }else{
+        } else {
             tv_date.visibility = View.INVISIBLE
         }
     }
@@ -859,6 +849,11 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
 
     fun setTextColor(color: Int) {
         this.mTextColor = color
+        initView()
+    }
+
+    fun setMainColor(color:Int){
+        this.mMainColor = color
         initView()
     }
 

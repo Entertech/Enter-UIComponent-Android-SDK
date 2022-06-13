@@ -28,6 +28,7 @@ class CandleChartFullScreenActivity : AppCompatActivity() {
         var gridLineColor = intent.getIntExtra("gridLineColor",Color.parseColor("#E9EBF1"))
         var xAxisUnit = intent.getStringExtra("xAxisUnit")
         var textColor = intent.getIntExtra("textColor",Color.parseColor("#333333"))
+        var mainColor = intent.getIntExtra("mainColor",Color.parseColor("#333333"))
         var bgColor = intent.getIntExtra("bgColor",Color.WHITE)
         var averageLineColor = intent.getIntExtra("averageLineColor",Color.parseColor("#11152E"))
         var labelColor = intent.getIntExtra("labelColor",Color.parseColor("#9AA1A9"))
@@ -47,6 +48,7 @@ class CandleChartFullScreenActivity : AppCompatActivity() {
         chart_candle_stick.setGridLineColor(gridLineColor)
         chart_candle_stick.setXAxisUnit(xAxisUnit)
         chart_candle_stick.setTextColor(textColor)
+        chart_candle_stick.setMainColor(mainColor)
         chart_candle_stick.bgColor = bgColor
         chart_candle_stick.setAverageLineColor(averageLineColor)
         chart_candle_stick.setLabelColor(labelColor)

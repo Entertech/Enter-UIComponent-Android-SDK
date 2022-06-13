@@ -92,15 +92,12 @@
                     android:layout_height="350dp"
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:background="@color/white"
-                    app:rlcc_isTitleMenuIconShow="true"
-                    app:rlcc_lineColor="#FF6682"
-                    app:rlcc_lineWidth="1dp"
-                    app:rlcc_markViewTitle="@string/sdk_heart_rate"
-                    app:rlcc_pointCount="100"
-                    app:rlcc_timeUnit="400"
-                    app:rlcc_title="@string/sdk_heart_rate"
-                    app:rlcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
-                    app:rlcc_xAxisUnit=""
+                    app:rcscc_textColor="#7A7C8A"
+                    app:rcscc_mainColor="#FF6682"
+                    app:rcscc_lineWidth="2dp"
+                    app:rcscc_unit="min"
+                    app:rcscc_markViewTitle="@string/sdk_heart_rate"
+                    app:rcscc_titleMenuIcon="@drawable/vector_drawable_full_screen"
                     />
 
             <cn.entertech.uicomponentsdk.report.ReportBarChartCard
