@@ -20,6 +20,7 @@ import cn.entertech.uicomponentsdk.utils.*
 import cn.entertech.uicomponentsdk.utils.ScreenUtil.isPad
 import cn.entertech.uicomponentsdk.widget.ChartIconView
 import cn.entertech.uicomponentsdk.widget.LineChartMarkView
+import cn.entertech.uicomponentsdk.widget.SessionCommonChartMarkView
 import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
@@ -48,6 +49,7 @@ class SessionCommonChart @JvmOverloads constructor(
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
+    private var mDataType: Int = 0
     private var mSourceDataList: List<Double>? = null
     private var mStartTime: String = ""
     private var mLevelBgColor: Int = Color.parseColor("#E5EAF7")
@@ -252,6 +254,7 @@ class SessionCommonChart @JvmOverloads constructor(
             R.styleable.SessionCommonChart_scc_valueLevelTextColor,
             mLevelTextColor
         )
+        mDataType = typeArray.getInt(R.styleable.SessionCommonChart_scc_dataType,0)
         typeArray.recycle()
         initView()
     }
@@ -700,12 +703,14 @@ class SessionCommonChart @JvmOverloads constructor(
         chart.isDragEnabled = mIsChartEnable
         chart.isScaleXEnabled = mIsChartEnable
         chart.isScaleYEnabled = false
-        val marker = LineChartMarkView(context, mLineColor, mMarkViewTitle)
+        val marker = SessionCommonChartMarkView(context, mMarkViewTitle,mStartTime,mDataType)
         marker.chartView = chart
+        marker.setMainColor(mMainColor)
+        marker.setTextColor(mTextColor)
+        marker.setShowLevel(mIsShowLevel,mLevelTextColor,mLevelBgColor)
+        marker.setUnit(mTitleUnit)
         marker.setYOffset(10f.dp())
-        marker.setMarkTitleColor(mMarkViewTitleColor)
         marker.setMarkViewBgColor(mMarkViewBgColor)
-        marker.setMarkViewValueColor(mMarkViewValueColor)
         chart.marker = marker
         chart.extraTopOffset = mChartExtraTopOffset
         val xAxis: XAxis = chart.xAxis

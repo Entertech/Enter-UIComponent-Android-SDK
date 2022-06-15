@@ -560,6 +560,13 @@
         <attr name="scc_isShowLevel" format="boolean" />
         <attr name="scc_valueLevelBgColor" format="color" />
         <attr name="scc_valueLevelTextColor" format="color" />
+        <attr name="scc_dataType" format="enum" >
+            <enum name="hr" value="0"/>
+            <enum name="hrv" value="1"/>
+            <enum name="coherence" value="2"/>
+            <enum name="attention" value="3"/>
+            <enum name="relaxation" value="4"/>
+        </attr>
     </declare-styleable>
 
 

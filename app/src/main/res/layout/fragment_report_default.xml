@@ -206,7 +206,7 @@
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:background="@color/white"
                     app:scc_bgLineColor="#DDE1EB"
-                    app:scc_isShowLevel="true"
+                    app:scc_isShowLevel="false"
                     app:scc_isShowMenuIconBg="false"
                     app:scc_isTitleMenuIconShow="true"
                     app:scc_lineWidth="1dp"

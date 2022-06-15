@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ll_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_markview_bg"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_margin_half"
+        android:paddingTop="@dimen/dp_4"
+        android:paddingRight="@dimen/activity_margin_half"
+        android:paddingBottom="@dimen/dp_4"
+        >
+
+    <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HEART RATE"
+            android:textSize="12sp"
+            />
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+        <TextView
+                android:id="@+id/tv_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="65"
+                android:textColor="@color/colorGammaWave"
+                android:textSize="28sp"
+                />
+
+        <TextView
+                android:id="@+id/tv_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:text="bpm"
+                android:textFontWeight="600"
+                android:textSize="14sp"
+                />
+
+        <TextView
+                android:id="@+id/tv_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_4"
+                android:background="@drawable/shape_common_chart_level_bg"
+                android:paddingLeft="@dimen/activity_margin_half"
+                android:paddingTop="3dp"
+                android:paddingRight="@dimen/activity_margin_half"
+                android:paddingBottom="3dp"
+                android:text="med."
+                android:textSize="12sp"
+                android:visibility="gone"
+                />
+    </LinearLayout>
+
+    <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="--"
+            android:textColor="#7A7C8A"
+            android:textSize="12sp"
+            />
+</LinearLayout>
