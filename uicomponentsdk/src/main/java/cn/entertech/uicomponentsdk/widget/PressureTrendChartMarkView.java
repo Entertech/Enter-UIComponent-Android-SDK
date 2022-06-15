@@ -2,6 +2,8 @@ package cn.entertech.uicomponentsdk.widget;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.components.MarkerView;
@@ -10,25 +12,33 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.MPPointF;
 
 import cn.entertech.uicomponentsdk.R;
-import cn.entertech.uicomponentsdk.report.ReportBarChartCard;
 import cn.entertech.uicomponentsdk.report.ReportPressureTrendCard;
+import cn.entertech.uicomponentsdk.utils.TimeUtils;
 
 public class PressureTrendChartMarkView extends MarkerView {
 
     private final TextView tvValue;
+    private final TextView tvMarkTitle;
+    private final LinearLayout llBg;
     private final TextView tvDate;
+    private final TextView tvUnit;
+    private final TextView tvLevel;
     private float yOffset;
 
-    public PressureTrendChartMarkView(Context context, int color, String markText) {
-        super(context, R.layout.layout_markview_bar);
+    public PressureTrendChartMarkView(Context context, String markText) {
+        super(context, R.layout.layout_session_common_markview);
         tvValue = findViewById(R.id.tv_value);
-//        setTextViewColor(tvColor, color);
         tvDate = findViewById(R.id.tv_date);
+        tvUnit = findViewById(R.id.tv_unit);
+        tvLevel = findViewById(R.id.tv_level);
+        llBg = findViewById(R.id.ll_bg);
+        tvMarkTitle = findViewById(R.id.tv_title);
+        tvMarkTitle.setText(markText);
     }
 
     @Override
     public MPPointF getOffsetForDrawingAtPoint(float posX, float posY) {
-        return new MPPointF(super.getOffsetForDrawingAtPoint(posX, posY).getX(), -posY);
+        return new MPPointF(super.getOffsetForDrawingAtPoint(posX, posY).getX(), -posY + yOffset);
     }
 
     @Override
@@ -47,22 +57,60 @@ public class PressureTrendChartMarkView extends MarkerView {
 
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
-        ReportPressureTrendCard.LineSourceData lineSourceData = ( ReportPressureTrendCard.LineSourceData) e.getData();
-        tvValue.setText(lineSourceData.getValue() + "");
-        tvDate.setText("2022年3月" + lineSourceData.getDate() + "日");
+        ReportPressureTrendCard.LineSourceData lineSourceData = (ReportPressureTrendCard.LineSourceData) e.getData();
+        long date = TimeUtils.getStringToDate(lineSourceData.getDate(), "yyyy-MM-dd");
+        float floatValue = lineSourceData.getValue();
+        if (floatValue >= 0 && floatValue < 25) {
+            tvValue.setText(getContext().getString(R.string.pressure_level_low));
+        } else if (floatValue >= 25 && floatValue < 50) {
+            tvValue.setText(getContext().getString(R.string.pressure_level_normal));
+        } else if (floatValue >= 50 && floatValue < 75) {
+            tvValue.setText(getContext().getString(R.string.pressure_level_elevated));
+        } else {
+            tvValue.setText(getContext().getString(R.string.pressure_level_high));
+        }
+        tvLevel.setVisibility(View.GONE);
+        tvUnit.setVisibility(View.GONE);
+        if (floatValue >= 0 && floatValue < 29) {
+            tvLevel.setText(getContext().getString(R.string.sdk_report_low));
+        } else if (floatValue >= 30 && floatValue < 69) {
+            tvLevel.setText(getContext().getString(R.string.sdk_report_nor));
+        } else {
+            tvLevel.setText(getContext().getString(R.string.sdk_report_high));
+        }
+        tvDate.setText(TimeUtils.getFormatTime(date, "MMM dd,yyyy"));
         super.refreshContent(e, highlight);
     }
-//
-//    public void setMarkViewBgColor(int color) {
-//        ((GradientDrawable) llBg.getBackground()).setColor(color);
-//    }
-//
-//    public void setMarkViewValueColor(int color) {
-//        tvValue.setTextColor(color);
-//    }
-//
-//    public void setMarkTitleColor(int color) {
-//        tvMarkTitle.setTextColor(color);
-//    }
+
+    public void setMarkViewBgColor(int color) {
+        ((GradientDrawable) llBg.getBackground()).setColor(color);
+    }
+
+    public void setMainColor(int color) {
+        tvValue.setTextColor(color);
+    }
+
+    public void setTextColor(int color) {
+        tvMarkTitle.setTextColor(color);
+        tvDate.setTextColor(color);
+        tvUnit.setTextColor(color);
+    }
+
+    public void setShowLevel(boolean showLevel, int levelTextColor, int levelBgColor) {
+        if (showLevel) {
+            tvLevel.setTextColor(levelTextColor);
+            GradientDrawable bg = (GradientDrawable) tvLevel.getBackground();
+            bg.setColor(levelBgColor);
+            tvUnit.setVisibility(View.GONE);
+            tvLevel.setVisibility(View.VISIBLE);
+        } else {
+            tvUnit.setVisibility(View.VISIBLE);
+            tvLevel.setVisibility(View.GONE);
+        }
+    }
+
+    public void setUnit(String unit) {
+        tvUnit.setText(unit);
+    }
 
 }

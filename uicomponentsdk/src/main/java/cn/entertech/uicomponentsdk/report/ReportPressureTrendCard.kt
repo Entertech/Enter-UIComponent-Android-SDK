@@ -420,6 +420,12 @@ class ReportPressureTrendCard @JvmOverloads constructor(
         this.mPages = initPages(mData!!, cycle)
         this.mChartVisibleXRangeMaximum = initChartVisibleXRangeMaximum(cycle)
         this.mValues = initChartValues(mData!!)
+        val title = if (mCycle == "month") {
+            "DAILY AVERAGE"
+        } else {
+            "MONTHLY AVERAGE"
+        }
+        tv_title.text = title
         initChartXLabel(mData!!)
         for (i in yLimitLineValues.indices) {
             val ll = LimitLine(yLimitLineValues[i], "")
@@ -450,11 +456,15 @@ class ReportPressureTrendCard @JvmOverloads constructor(
         set.circleColors = listOf(mMainColor)
         set.circleHoleColor = Color.parseColor("#ffffff")
         set.setDrawValues(false)
-        set.highLightColor = mHighlightLineColor
+        set.highLightColor = mGridLineColor
+        set.highlightLineWidth = 2f
+        set.setDrawHighlightIndicators(false)
+        set.setDrawVerticalHighlightIndicator(true)
         var lineData = LineData()
         lineData.addDataSet(set)
 //         // set data
         chart.data = lineData
+        initChart()
         chart.notifyDataSetChanged()
         chart.setVisibleXRangeMaximum(mChartVisibleXRangeMaximum)
         chart.viewTreeObserver.addOnGlobalLayoutListener {
@@ -542,24 +552,30 @@ class ReportPressureTrendCard @JvmOverloads constructor(
         chart.isDragEnabled = true
         chart.isScaleXEnabled = false
         chart.isScaleYEnabled = false
-        val marker = PressureTrendChartMarkView(context, mLineColor, mMarkViewTitle)
+        var markViewTitle = if (mCycle == "month") {
+            "DAILY AVERAGE"
+        } else {
+            "MONTHLY AVERAGE"
+        }
+        var marker = PressureTrendChartMarkView(context, markViewTitle)
         marker.chartView = chart
-//        marker.setMarkTitleColor(mMarkViewTitleColor)
-//        marker.setMarkViewBgColor(mMarkViewBgColor)
-//        marker.setMarkViewValueColor(mMarkViewValueColor)
-
+        marker.setMainColor(mMainColor)
+        marker.setTextColor(mTextColor)
+        marker.setShowLevel(mShowLevel, mLevelTextColor, mLevelBgColor)
+        marker.setUnit(mUnit)
+        marker.setYOffset(10f.dp())
         chart.marker = marker
         chart.extraTopOffset = 28f.dp()
         val xAxis: XAxis = chart.xAxis
         xAxis.setDrawAxisLine(true)
         xAxis.axisLineColor = mXAxisLineColor
+        xAxis.gridColor = mGridLineColor
         xAxis.axisLineWidth = 1f
         xAxis.setDrawGridLines(false)
         xAxis.position = XAxis.XAxisPosition.BOTTOM
         val yAxis: YAxis = chart.axisLeft
         xAxis.setDrawLabels(false)
         chart.axisRight.isEnabled = false
-//        chart.setMaxVisibleValueCount(100000)
         yAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
         yAxis.setLabelCount(5, false)
         yAxis.gridColor = mGridLineColor
@@ -791,12 +807,11 @@ class ReportPressureTrendCard @JvmOverloads constructor(
             override fun onValueSelected(e: Entry, h: Highlight?) {
                 ll_title.visibility = View.INVISIBLE
                 chart.highlightValue(null, false)
-                set.setDrawIcons(true)
+                set.setDrawIcons(false)
                 set.iconsOffset = MPPointF(0f, 3f)
                 set.values.forEach {
                     it.icon = null
                 }
-                e.icon = drawableIcon
                 chart.highlightValue(h, false)
             }
         })
