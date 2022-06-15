@@ -2,6 +2,7 @@ package cn.entertech.uicomponentsdk.widget;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -149,7 +150,9 @@ public class SessionBrainwaveChartMarkView extends MarkerView {
         }
         long startTimeMs = TimeUtils.getStringToDate(startTime, "yyyy-MM-dd HH:mm:ss");
         long curPointTimeMs = startTimeMs + (long) (e.getX() * 600);
-        tvDate.setText(TimeUtils.getFormatTime(curPointTimeMs, "MMM dd,yyyy HH:mm a"));
+        String curDate = TimeUtils.getFormatTime(curPointTimeMs, "MMM dd,yyyy HH:mm a");
+        tvDate.setText(curDate);
+        Log.d("#####","start time is "+startTime+"::date x is "+e.getX()+"::cur date "+curPointTimeMs);
         super.refreshContent(e, highlight);
     }
 

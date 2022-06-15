@@ -96,7 +96,7 @@ class SessionBrainwaveChart @JvmOverloads constructor(
     private var mIsTitleMenuIconBgShow: Boolean = true
 
     /*数据时间间隔：单位毫秒*/
-    var mTimeUnit: Int = 400
+    var mTimeUnit: Int = 600
     var mPointCount: Int = 100
     var mTimeOfTwoPoint: Int = 0
 
@@ -830,14 +830,15 @@ class SessionBrainwaveChart @JvmOverloads constructor(
         mStartTime = startTime
         var startTimestamp = TimeUtils.getStringToDate(startTime, "yyyy-MM-dd HH:mm:ss")
         var endTimestamp = startTimestamp + dataTotalTimeMs
-        var startTimeDay = TimeUtils.getFormatTime(startTimestamp, "dd.MM.yyyy")
-        var endTimeDay = TimeUtils.getFormatTime(endTimestamp, "dd.MM.yyyy")
-        var startTimeHourMin = TimeUtils.getFormatTime(startTimestamp, "HH:mm")
-        var endTimeHourMin = TimeUtils.getFormatTime(endTimestamp, "HH:mm")
+        var startTimeDay = TimeUtils.getFormatTime(startTimestamp, "MMM dd,yyyy")
+        var endTimeDay = TimeUtils.getFormatTime(endTimestamp, "MMM dd,yyyy")
+        var startTimeHourMin = TimeUtils.getFormatTime(startTimestamp, "HH:mm a")
+        var endTimeHourMin = TimeUtils.getFormatTime(endTimestamp, "HH:mm a")
         if (startTimeDay == endTimeDay) {
-            tv_date.text = "${startTimeHourMin}-${endTimeHourMin} $startTimeDay"
+            tv_date.text = "$startTimeDay ${startTimeHourMin}-${endTimeHourMin}"
         } else {
-            tv_date.text = "${startTimeHourMin} $startTimeDay-${endTimeHourMin} $endTimeDay"
+            tv_date.text = "$startTimeDay ${startTimeHourMin}-$endTimeDay ${endTimeHourMin} "
         }
+        initView()
     }
 }

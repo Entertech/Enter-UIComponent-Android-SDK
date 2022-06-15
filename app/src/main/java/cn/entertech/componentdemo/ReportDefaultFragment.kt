@@ -98,6 +98,7 @@ class ReportDefaultFragment : Fragment() {
         )
 //        控制可展示的脑波曲线
         chart_session_brainwave.setLegendShowList(listOf(true, true, true, true, true))
+        chart_session_brainwave.setStartTime("2022-06-13 22:19:13")
         chart_brainwave.setLegendShowList(listOf(true, true, true, true, true))
         chart_brainwave.isChartEnable(true)
         chart_session_brainwave.isChartEnable(true)
@@ -160,7 +161,7 @@ class ReportDefaultFragment : Fragment() {
         chart_hrv.isShowDetail = false
         chart_hrv.setData(reportData.reportHRDataEntity?.hrRec, hrvSecondLine, false)
         chart_session_common.setData(reportData.reportHRDataEntity?.hrRec, null, null,true)
-        chart_session_common.setStartTime("2022-06-13 23:59:13")
+        chart_session_common.setStartTime("2022-06-13 22:59:13")
         chart_session_pressure.setData(reportData.reportPressureEnitty?.pressureRec,true)
         chart_session_pressure.setStartTime("2022-06-13 23:59:13")
         chart_hrv.setOnClickListener {
