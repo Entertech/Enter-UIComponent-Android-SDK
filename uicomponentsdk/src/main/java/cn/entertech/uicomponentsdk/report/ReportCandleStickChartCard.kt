@@ -38,11 +38,13 @@ import com.github.mikephil.charting.listener.ChartTouchListener
 import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.MPPointF
-import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.*
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.chart
+import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.iv_menu
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.ll_title
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.rl_bg
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.tv_date
+import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.tv_level
+import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.tv_title
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.tv_unit
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.tv_value
 import java.io.Serializable
@@ -336,9 +338,26 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
     }
 
     fun initChartXLabel(data: ArrayList<CandleSourceData>) {
+        var xLabelOffset = 0
+        if (mCycle == CYCLE_MONTH) {
+            xLabelOffset = 7
+        } else {
+            xLabelOffset = 1
+        }
         for (i in data.indices) {
-            if ((i + 1) % 7 == 0) {
+            if (((i + 1) % xLabelOffset == 0 && i + 1 < data.size)) {
                 val llXAxis = LimitLine(i.toFloat() + 0.5f, "${data[i + 1].xLabel}")
+                llXAxis.lineWidth = 1f
+                llXAxis.labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
+                llXAxis.textSize = 12f
+                llXAxis.yOffset = -15f
+                llXAxis.enableDashedLine(10f, 10f, 0f)
+                llXAxis.lineColor = getOpacityColor(mTextColor, 0.2f)
+                llXAxis.textColor = mLabelColor
+                chart.xAxis.addLimitLine(llXAxis)
+            }
+            if (i == 0 && mCycle == CYCLE_YEAR) {
+                val llXAxis = LimitLine(i.toFloat()-0.5f, "${data[0].xLabel}")
                 llXAxis.lineWidth = 1f
                 llXAxis.labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
                 llXAxis.textSize = 12f
@@ -585,7 +604,7 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         } else {
             "MONTHLY AVERAGE"
         }
-        val marker = CandleChartMarkView(context, markViewTitle,mCycle)
+        val marker = CandleChartMarkView(context, markViewTitle, mCycle)
         marker.chartView = chart
         marker.setMainColor(mMainColor)
         marker.setTextColor(mTextColor)
@@ -692,8 +711,33 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
 
     fun updateDateRange(startIndex: Int) {
         lowestVisibleData = set2.getEntryForIndex(startIndex).data as CandleSourceData
-        highestVisibleData = set2.getEntryForIndex(startIndex + 30).data as CandleSourceData
-        tv_date.text = "${lowestVisibleData.date}-${highestVisibleData.date}"
+        highestVisibleData =
+            set2.getEntryForIndex(startIndex + mChartVisibleXRangeMaximum.toInt() - 1).data as CandleSourceData
+        if (mCycle == "month") {
+            tv_date.text = "${
+                lowestVisibleData.date.formatTime(
+                    "yyyy-MM-dd",
+                    "MMM dd,yyyy"
+                )
+            }-${
+                highestVisibleData.date.formatTime(
+                    "yyyy-MM-dd",
+                    "MMM dd,yyyy"
+                )
+            }"
+        } else {
+            tv_date.text = "${
+                lowestVisibleData.date.formatTime(
+                    "yyyy-MM",
+                    "MMM yyyy"
+                )
+            }-${
+                highestVisibleData.date.formatTime(
+                    "yyyy-MM",
+                    "MMM yyyy"
+                )
+            }"
+        }
     }
 
     fun initDateRange() {

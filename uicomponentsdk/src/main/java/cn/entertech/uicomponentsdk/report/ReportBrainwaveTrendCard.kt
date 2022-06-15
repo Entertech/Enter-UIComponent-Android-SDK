@@ -14,14 +14,12 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.AttributeSet
-import android.util.Log
 import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.LinearLayout
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.activity.BrainwaveTrendChartFullScreenActivity
-import cn.entertech.uicomponentsdk.activity.PressureTrendChartFullScreenActivity
 import cn.entertech.uicomponentsdk.report.ReportCandleStickChartCard.Companion.CYCLE_MONTH
 import cn.entertech.uicomponentsdk.utils.*
 import cn.entertech.uicomponentsdk.widget.*
@@ -36,7 +34,6 @@ import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.MPPointF
 import com.github.mikephil.charting.utils.Utils
-import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.*
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.chart
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.legend_alpha
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.legend_beta
@@ -47,6 +44,9 @@ import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.l
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.ll_title
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.rl_bg
 import kotlinx.android.synthetic.main.layout_card_brainwave_trend_chart.view.*
+import kotlinx.android.synthetic.main.layout_card_brainwave_trend_chart.view.iv_menu
+import kotlinx.android.synthetic.main.layout_card_brainwave_trend_chart.view.tv_date
+import kotlinx.android.synthetic.main.layout_card_brainwave_trend_chart.view.tv_title
 import java.io.Serializable
 import kotlin.math.abs
 
@@ -64,8 +64,6 @@ class ReportBrainwaveTrendCard @JvmOverloads constructor(
     private var mAlphaAverage: Int = 0
     private var mBetaAverage: Int = 0
     private var mGammaAverage: Int = 0
-    private var mLevelTextColor: Int = Color.GRAY
-    private var mLevelBgColor: Int = Color.GRAY
     private var mUnit: String? = ""
     private var mXAxisLineColor: Int = Color.parseColor("#9AA1A9")
     private var mChartVisibleXRangeMaximum: Int = 0
@@ -796,7 +794,27 @@ class ReportBrainwaveTrendCard @JvmOverloads constructor(
             chart.data.dataSets[0].getEntryForIndex(startIndex).data as BrainwaveLineSourceData
         highestVisibleData =
             chart.data.dataSets[0].getEntryForIndex(startIndex + mChartVisibleXRangeMaximum - 1).data as BrainwaveLineSourceData
-        tv_date.text = "${lowestVisibleData.date}-${highestVisibleData.date}"
+        if (mCycle == "month"){
+            tv_date.text = "${
+                lowestVisibleData.date.formatTime(
+                    "yyyy-MM-dd",
+                    "MMM dd,yyyy"
+                )
+            }-${highestVisibleData.date.formatTime(
+                "yyyy-MM-dd",
+                "MMM dd,yyyy"
+            )}"
+        }else{
+            tv_date.text = "${
+                lowestVisibleData.date.formatTime(
+                    "yyyy-MM",
+                    "MMM yyyy"
+                )
+            }-${highestVisibleData.date.formatTime(
+                "yyyy-MM",
+                "MMM yyyy"
+            )}"
+        }
         val curGammaAverage =
             mData!!.subList(startIndex, startIndex + mChartVisibleXRangeMaximum)
                 .map { it.gamma }.average().toInt()

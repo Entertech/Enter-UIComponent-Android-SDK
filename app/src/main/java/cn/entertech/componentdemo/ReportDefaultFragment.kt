@@ -110,15 +110,22 @@ class ReportDefaultFragment : Fragment() {
         var lineValues = ArrayList<ReportPressureTrendCard.LineSourceData>()
         var brainwaveLineValues = ArrayList<ReportBrainwaveTrendCard.BrainwaveLineSourceData>()
         var dates = getDateList()
-        for (i in dates.indices) {
+        var yearDates = getYearDateList()
+        Log.d("########","year date is ${yearDates}")
+        for (i in yearDates.indices){
             var candleSourceData = ReportCandleStickChartCard.CandleSourceData()
             val value = Random().nextInt(30) + 60.0f
             candleSourceData.average = value
             candleSourceData.max = value + 5
             candleSourceData.min = value - 5
-            candleSourceData.date = "${dates[i]}"
-            candleSourceData.xLabel = "${dates[i].split("-")[2]}"
+            candleSourceData.date = "${yearDates[i]}"
+            Log.d("########","year label is ${yearDates[i].split("-")[1]}")
+            candleSourceData.xLabel = "${yearDates[i].split("-")[1]}"
             candleStickValues.add(candleSourceData)
+        }
+        for (i in dates.indices) {
+
+            val value = Random().nextInt(30) + 60.0f
             var barSourceData = ReportBarChartCard.BarSourceData()
             barSourceData.value = value
             barSourceData.date =  "${dates[i]}"
@@ -140,7 +147,7 @@ class ReportDefaultFragment : Fragment() {
             brainwaveLineSourceData.xLabel = "${dates[i].split("-")[2]}"
             brainwaveLineValues.add(brainwaveLineSourceData)
         }
-        chart_candle_stick.setData(candleStickValues, "month")
+        chart_candle_stick.setData(candleStickValues, "year")
         chart_bar.setData(barValues,"month")
         chart_pressure_trend.setData(lineValues,"month")
         chart_brainwave_trend.setData(brainwaveLineValues,"month")
@@ -187,6 +194,16 @@ class ReportDefaultFragment : Fragment() {
         }
         for (i in 1..31){
             dates.add("2022-05-${String.format("%02d", i)}")
+        }
+        return dates
+    }
+
+    fun getYearDateList(): ArrayList<String> {
+        var dates = ArrayList<String>()
+        for (j in 1..5){
+            for (i in 1..12){
+                dates.add("202${j}-${String.format("%02d", i)}")
+            }
         }
         return dates
     }

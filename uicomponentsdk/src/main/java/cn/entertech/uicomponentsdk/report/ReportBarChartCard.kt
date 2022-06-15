@@ -2,6 +2,7 @@ package cn.entertech.uicomponentsdk.report
 
 import android.animation.Animator
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -534,7 +535,7 @@ class ReportBarChartCard @JvmOverloads constructor(
         } else {
             "MONTHLY AVERAGE"
         }
-        val marker = BarChartMarkView(context, markViewTitle,mCycle)
+        val marker = BarChartMarkView(context, markViewTitle, mCycle)
         marker.chartView = chart
         marker.setMainColor(mMainColor)
         marker.setTextColor(mTextColor)
@@ -630,11 +631,32 @@ class ReportBarChartCard @JvmOverloads constructor(
         chart.moveViewToAnimated(prePageIndex - 0.5f, 0f, YAxis.AxisDependency.LEFT, 500)
     }
 
+    @SuppressLint("SetTextI18n")
     fun updateDateRange(startIndex: Int) {
         lowestVisibleData = set.getEntryForIndex(startIndex).data as BarSourceData
         highestVisibleData =
             set.getEntryForIndex(startIndex + mChartVisibleXRangeMaximum.toInt() - 1).data as BarSourceData
-        tv_date.text = "${lowestVisibleData.date}-${highestVisibleData.date}"
+        if (mCycle == "month"){
+            tv_date.text = "${
+                lowestVisibleData.date.formatTime(
+                    "yyyy-MM-dd",
+                    "MMM dd,yyyy"
+                )
+            }-${highestVisibleData.date.formatTime(
+                "yyyy-MM-dd",
+                "MMM dd,yyyy"
+            )}"
+        }else{
+            tv_date.text = "${
+                lowestVisibleData.date.formatTime(
+                    "yyyy-MM",
+                    "MMM yyyy"
+                )
+            }-${highestVisibleData.date.formatTime(
+                "yyyy-MM",
+                "MMM yyyy"
+            )}"
+        }
     }
 
     fun moveToNextPage() {

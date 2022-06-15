@@ -19,7 +19,6 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.LinearLayout
 import cn.entertech.uicomponentsdk.R
-import cn.entertech.uicomponentsdk.activity.BarChartFullScreenActivity
 import cn.entertech.uicomponentsdk.activity.PressureTrendChartFullScreenActivity
 import cn.entertech.uicomponentsdk.report.ReportCandleStickChartCard.Companion.CYCLE_MONTH
 import cn.entertech.uicomponentsdk.utils.*
@@ -34,12 +33,14 @@ import com.github.mikephil.charting.listener.ChartTouchListener
 import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.MPPointF
-import kotlinx.android.synthetic.main.layout_card_pressure_trend_chart.view.*
 import kotlinx.android.synthetic.main.layout_card_pressure_trend_chart.view.chart
+import kotlinx.android.synthetic.main.layout_card_pressure_trend_chart.view.iv_menu
 import kotlinx.android.synthetic.main.layout_card_pressure_trend_chart.view.ll_title
 import kotlinx.android.synthetic.main.layout_card_pressure_trend_chart.view.rl_bg
 import kotlinx.android.synthetic.main.layout_card_pressure_trend_chart.view.tv_date
 import kotlinx.android.synthetic.main.layout_card_pressure_trend_chart.view.tv_time_unit_des
+import kotlinx.android.synthetic.main.layout_card_pressure_trend_chart.view.tv_title
+import kotlinx.android.synthetic.main.layout_card_pressure_trend_chart.view.tv_value
 import java.io.Serializable
 import kotlin.math.abs
 import kotlin.math.ceil
@@ -675,7 +676,27 @@ class ReportPressureTrendCard @JvmOverloads constructor(
         lowestVisibleData = set.getEntryForIndex(startIndex).data as LineSourceData
         highestVisibleData =
             set.getEntryForIndex(startIndex + mChartVisibleXRangeMaximum.toInt() - 1).data as LineSourceData
-        tv_date.text = "${lowestVisibleData.date}-${highestVisibleData.date}"
+        if (mCycle == "month"){
+            tv_date.text = "${
+                lowestVisibleData.date.formatTime(
+                    "yyyy-MM-dd",
+                    "MMM dd,yyyy"
+                )
+            }-${highestVisibleData.date.formatTime(
+                "yyyy-MM-dd",
+                "MMM dd,yyyy"
+            )}"
+        }else{
+            tv_date.text = "${
+                lowestVisibleData.date.formatTime(
+                    "yyyy-MM",
+                    "MMM yyyy"
+                )
+            }-${highestVisibleData.date.formatTime(
+                "yyyy-MM",
+                "MMM yyyy"
+            )}"
+        }
         val curDataList  = mData!!.subList(startIndex,startIndex + mChartVisibleXRangeMaximum.toInt()).map { it.value }
         when(curDataList.average()){
             in 0.0..24.0->{
