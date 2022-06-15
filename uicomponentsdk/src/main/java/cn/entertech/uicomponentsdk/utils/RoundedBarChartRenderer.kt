@@ -18,6 +18,7 @@ class RoundedBarChartRenderer(
     animator: ChartAnimator?,
     viewPortHandler: ViewPortHandler?
 ) : BarChartRenderer(chart, animator, viewPortHandler) {
+    private var mHighlightColor: Int = Color.BLACK
     private var mRadius = 5f
     fun setRadius(radius: Float) {
         this.mRadius = radius
@@ -189,14 +190,12 @@ class RoundedBarChartRenderer(
         c: Canvas,
         x: Float
     ) {
-
-        Log.d("######","x is ${x}")
         // set color and stroke-width
-        mHighlightPaint.color = Color.parseColor("#000000")
-        mHighlightPaint.strokeWidth =1.5f
+        mHighlightPaint.color = mHighlightColor
+        mHighlightPaint.strokeWidth = 2f.dp()
 
-        // draw highlighted lines (if enabled)
-        mHighlightPaint.pathEffect =  DashPathEffect(floatArrayOf(10f, 10f), 0f)
+//        // draw highlighted lines (if enabled)
+//        mHighlightPaint.pathEffect =  DashPathEffect(floatArrayOf(10f, 10f), 0f)
 
         // create vertical path
         highlightLinePath.reset()
@@ -225,4 +224,10 @@ class RoundedBarChartRenderer(
 //            c.drawPath(mHighlightLinePath, mHighlightPaint)
 //        }
     }
+
+
+    fun setHighlightColor(color: Int) {
+        this.mHighlightColor = color
+    }
+
 }

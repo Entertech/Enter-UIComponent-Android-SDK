@@ -23,7 +23,6 @@ import cn.entertech.uicomponentsdk.activity.BarChartFullScreenActivity
 import cn.entertech.uicomponentsdk.report.ReportCandleStickChartCard.Companion.CYCLE_MONTH
 import cn.entertech.uicomponentsdk.utils.*
 import cn.entertech.uicomponentsdk.widget.BarChartMarkView
-import cn.entertech.uicomponentsdk.widget.CandleChartMarkView
 import cn.entertech.uicomponentsdk.widget.ChartIconView
 import cn.entertech.uicomponentsdk.widget.CustomBarChart
 import com.github.mikephil.charting.components.LimitLine
@@ -45,7 +44,6 @@ import kotlinx.android.synthetic.main.layout_card_bar_chart.view.tv_level
 import kotlinx.android.synthetic.main.layout_card_bar_chart.view.tv_title
 import kotlinx.android.synthetic.main.layout_card_bar_chart.view.tv_unit
 import kotlinx.android.synthetic.main.layout_card_bar_chart.view.tv_value
-import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.*
 import java.io.Serializable
 import kotlin.math.abs
 import kotlin.math.ceil
@@ -418,6 +416,11 @@ class ReportBarChartCard @JvmOverloads constructor(
         this.mPages = initPages(mData!!, cycle)
         this.mChartVisibleXRangeMaximum = initChartVisibleXRangeMaximum(cycle)
         this.mValues = initChartValues(mData!!)
+        when (mDataAverage) {
+            in 0..29 -> tv_level.text = context.getString(R.string.sdk_report_low)
+            in 30..69 -> tv_level.text = context.getString(R.string.sdk_report_nor)
+            else -> tv_level.text = context.getString(R.string.sdk_report_high)
+        }
         initChartXLabel(mData!!)
         set = BarDataSet(mValues, "")
         set.setDrawIcons(true)
@@ -426,18 +429,18 @@ class ReportBarChartCard @JvmOverloads constructor(
         // black lines and points
         set.color = mMainColor
         // customize legend entry
-        set.formLineWidth = 1f
-        set.formLineDashEffect = DashPathEffect(floatArrayOf(10f, 10f), 0f)
-        set.formSize = 15f
-        set.isHighlightEnabled = true
+//        set.formLineWidth = 1f
+//        set.formLineDashEffect = DashPathEffect(floatArrayOf(10f, 10f), 0f)
+//        set.formSize = 15f
         // text size of values
         set.valueTextSize = 9f
         set.setDrawValues(false)
-        set.highLightColor = mHighlightLineColor
+        set.isHighlightEnabled = true
         var barData = BarData()
         barData.addDataSet(set)
 //         // set data
         chart.data = barData
+        chart.setHighlightColor(mGridLineColor)
         calNiceLabel(mData!!)
         initChart()
         chart.notifyDataSetChanged()
@@ -748,12 +751,11 @@ class ReportBarChartCard @JvmOverloads constructor(
             override fun onValueSelected(e: Entry, h: Highlight?) {
                 ll_title.visibility = View.INVISIBLE
                 chart.highlightValue(null, false)
-                set.setDrawIcons(true)
+                set.setDrawIcons(false)
                 set.iconsOffset = MPPointF(0f, 3f)
                 set.values.forEach {
                     it.icon = null
                 }
-                e.icon = drawableIcon
                 chart.highlightValue(h, false)
             }
         })

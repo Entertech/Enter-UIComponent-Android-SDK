@@ -243,11 +243,6 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         if (mIsShowLevel) {
             tv_unit.visibility = View.GONE
             tv_level.visibility = View.VISIBLE
-            when (mDataAverage) {
-                in 0..29 -> tv_level.text = context.getString(R.string.sdk_report_low)
-                in 30..69 -> tv_level.text = context.getString(R.string.sdk_report_nor)
-                else -> tv_level.text = context.getString(R.string.sdk_report_high)
-            }
             tv_level.setTextColor(mLevelTextColor)
             var bg = tv_level.background as GradientDrawable
             bg.setColor(mLevelBgColor)
@@ -457,6 +452,12 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
             "year" -> {
                 tv_title.text = "MONTHLY AVERAGE"
             }
+        }
+
+        when (mDataAverage) {
+            in 0..29 -> tv_level.text = context.getString(R.string.sdk_report_low)
+            in 30..69 -> tv_level.text = context.getString(R.string.sdk_report_nor)
+            else -> tv_level.text = context.getString(R.string.sdk_report_high)
         }
         // create a dataset and give it a type
         set1 = CandleDataSet(mCandleValues, "")

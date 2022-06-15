@@ -61,8 +61,16 @@ public class CandleChartMarkView extends MarkerView {
     public void refreshContent(Entry e, Highlight highlight) {
         ReportCandleStickChartCard.CandleSourceData candleSourceData = (ReportCandleStickChartCard.CandleSourceData) e.getData();
         long startTimeMs = TimeUtils.getStringToDate(candleSourceData.getDate(), "yyyy-MM-dd");
-        tvValue.setText((int)candleSourceData.getAverage()+"");
+        int value = (int)candleSourceData.getAverage();
+        tvValue.setText(value+"");
         tvDate.setText(TimeUtils.getFormatTime(startTimeMs,"MMM dd,yyyy"));
+        if (value >= 0 && value < 29) {
+            tvLevel.setText(getContext().getString(R.string.sdk_report_low));
+        } else if (value >= 30 && value < 69) {
+            tvLevel.setText(getContext().getString(R.string.sdk_report_nor));
+        } else {
+            tvLevel.setText(getContext().getString(R.string.sdk_report_high));
+        }
         super.refreshContent(e, highlight);
     }
 

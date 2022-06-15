@@ -11,6 +11,8 @@ import cn.entertech.uicomponentsdk.utils.CustomYAxisRenderer;
 import cn.entertech.uicomponentsdk.utils.RoundedBarChartRenderer;
 
 public class CustomBarChart extends BarChart {
+    private RoundedBarChartRenderer renderer;
+
     public CustomBarChart(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
@@ -19,7 +21,7 @@ public class CustomBarChart extends BarChart {
     @Override
     protected void init() {
         super.init();
-        RoundedBarChartRenderer renderer = new RoundedBarChartRenderer(this,getAnimator(),mViewPortHandler);
+        renderer = new RoundedBarChartRenderer(this,getAnimator(),mViewPortHandler);
         renderer.setRadius(10f);
         mRenderer = renderer;
         mXAxisRenderer = new CustomXAxisRenderer(mViewPortHandler, mXAxis, mLeftAxisTransformer);
@@ -28,6 +30,10 @@ public class CustomBarChart extends BarChart {
     }
     public void setYLimitLabelBgColor(int color){
         ((CustomYAxisRenderer)mAxisRendererLeft).setMLimitLabelBgColor(color);
+    }
+
+    public void setHighlightColor(int color){
+        renderer.setHighlightColor(color);
     }
 
 }

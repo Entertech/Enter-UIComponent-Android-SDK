@@ -98,6 +98,9 @@
                     app:rcscc_gridLineColor="#DDE1EB"
                     app:rcscc_lineWidth="2dp"
                     app:rcscc_unit="min"
+                    app:rcscc_isShowLevel="false"
+                    app:rcscc_valueLevelBgColor="#E0FCEE"
+                    app:rcscc_valueLevelTextColor="#324039"
                     app:rcscc_markViewTitle="@string/sdk_heart_rate"
                     app:rcscc_titleMenuIcon="@drawable/vector_drawable_full_screen"
                     />
@@ -112,8 +115,11 @@
                     app:rbcc_xAxisLineColor="#9AA1A9"
                     app:rbcc_gridLineColor="#DDE1EB"
                     app:rbcc_textColor="#7A7C8A"
-                    app:rbcc_mainColor="#FF6682"
+                    app:rbcc_mainColor="#5FC695"
                     app:rbcc_unit="min"
+                    app:rbcc_isShowLevel="true"
+                    app:rbcc_valueLevelBgColor="#E0FCEE"
+                    app:rbcc_valueLevelTextColor="#324039"
                     app:rbcc_markViewTitle="@string/sdk_heart_rate"
                     app:rbcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
                     />
