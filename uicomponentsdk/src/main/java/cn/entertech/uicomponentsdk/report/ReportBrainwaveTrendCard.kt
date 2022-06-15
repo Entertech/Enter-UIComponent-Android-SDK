@@ -482,7 +482,6 @@ class ReportBrainwaveTrendCard @JvmOverloads constructor(
                         temSum -= brainwaveDataList[checkIndexList[z]][i]
                     }
                 }
-                Log.d("#######", "sum is ${temSum}")
                 valuesList[j].add(
                     Entry(
                         i.toFloat(),
@@ -521,10 +520,23 @@ class ReportBrainwaveTrendCard @JvmOverloads constructor(
         this.mAlphaAverage = mData!!.map { it.alpha }.average().toInt()
         this.mThetaAverage = mData!!.map { it.theta }.average().toInt()
         this.mDeltaAverage = mData!!.map { it.delta }.average().toInt()
-        //todo
+        tv_value_gamma.text = "$mGammaAverage"
+        tv_value_beta.text = "$mBetaAverage"
+        tv_value_alpha.text = "$mAlphaAverage"
+        tv_value_theta.text = "$mThetaAverage"
+        tv_value_delta.text =
+            "${100 - mGammaAverage - mBetaAverage - mAlphaAverage - mThetaAverage}"
         this.mCycle = cycle
         this.mPages = initPages(mData!!, cycle)
         this.mChartVisibleXRangeMaximum = initChartVisibleXRangeMaximum(cycle)
+        when (mCycle) {
+            "month" -> {
+                tv_title.text = "DAILY AVERAGE PERCENTAGE"
+            }
+            "year" -> {
+                tv_title.text = "MONTHLY AVERAGE PERCENTAGE"
+            }
+        }
         refreshChart()
     }
 
@@ -556,13 +568,17 @@ class ReportBrainwaveTrendCard @JvmOverloads constructor(
                 currentYLabels!!.add(yLabels[i])
                 curYEntries.add(entry)
                 entry += 25f
-                var set = LineDataSet(mValues[lineStartIndex++], "")
+                var set = LineDataSet(mValues[lineStartIndex++], "$i")
                 set.setDrawIcons(false)
                 // draw dashed line
 //            set1.enableDashedLine(10f, 5f, 0f)
                 // black lines and points
                 set.color = Color.parseColor(mFillColorArray!![i])
+                set.highLightColor = mGridLineColor
+                set.highlightLineWidth = 2f
                 set.setDrawFilled(true)
+                set.setDrawHorizontalHighlightIndicator(false)
+                set.setDrawVerticalHighlightIndicator(true)
                 if (mFillColorArray != null) {
                     set.lineWidth = 2f
                     if (Utils.getSDKInt() >= 18) {
@@ -584,7 +600,6 @@ class ReportBrainwaveTrendCard @JvmOverloads constructor(
                 set.valueTextSize = 9f
                 set.setDrawCircles(false)
                 set.setDrawValues(false)
-                set.highLightColor = mHighlightLineColor
                 lineData.addDataSet(set)
 
             }
@@ -609,6 +624,7 @@ class ReportBrainwaveTrendCard @JvmOverloads constructor(
 //        }
 //         // set data
         chart.data = lineData
+        initChart()
         chart.notifyDataSetChanged()
         chart.setVisibleXRangeMaximum(mChartVisibleXRangeMaximum.toFloat())
         chart.viewTreeObserver.addOnGlobalLayoutListener {
@@ -650,12 +666,23 @@ class ReportBrainwaveTrendCard @JvmOverloads constructor(
         chart.isDragEnabled = true
         chart.isScaleXEnabled = false
         chart.isScaleYEnabled = false
-        val marker = BrainwaveTrendChartMarkView(context, mLineColor, mMarkViewTitle)
+        var markViewTitle = if (mCycle == "month") {
+            "DAILY AVERAGE PERCENTAGE"
+        } else {
+            "MONTH AVERAGE PERCENTAGE"
+        }
+        val marker = BrainwaveTrendChartMarkView(
+            context,
+            mFillColorArray?.map { Color.parseColor(it) }?.toIntArray(),
+            mGridLineColor,
+            markViewTitle
+        )
         marker.chartView = chart
-//        marker.setMarkTitleColor(mMarkViewTitleColor)
-//        marker.setMarkViewBgColor(mMarkViewBgColor)
-//        marker.setMarkViewValueColor(mMarkViewValueColor)
-
+        marker.setTextColor(mTextColor)
+        marker.setMarkViewBgColor(mMarkViewBgColor)
+        if (chart.data != null) {
+            marker.setDataSets(chart.data.dataSets)
+        }
         chart.marker = marker
         chart.extraTopOffset = 28f.dp()
         val xAxis: XAxis = chart.xAxis
@@ -680,17 +707,17 @@ class ReportBrainwaveTrendCard @JvmOverloads constructor(
         yAxis.axisMaximum = 100f
         yAxis.mEntries = floatArrayOf(0f, 25f, 50f, 75f, 100f)
         yAxis.mEntryCount = 5
-        yAxis.valueFormatter = object : ValueFormatter() {
-            override fun getFormattedValue(value: Float): String {
-                val index = yAxis.mEntries.indexOf(value)
-                if (index == -1) {
-                    return ""
-                } else {
-                    val label = currentYLabels[checkIndexList[index]]
-                    return label
-                }
-            }
-        }
+//        yAxis.valueFormatter = object : ValueFormatter() {
+//            override fun getFormattedValue(value: Float): String {
+//                val index = yAxis.mEntries.indexOf(value)
+//                if (index == -1) {
+//                    return ""
+//                } else {
+//                    val label = currentYLabels[checkIndexList[index]]
+//                    return label
+//                }
+//            }
+//        }
         yAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
         yAxis.setDrawGridLines(false)
         setChartListener()
@@ -989,6 +1016,7 @@ class ReportBrainwaveTrendCard @JvmOverloads constructor(
         this.mUnit = unit
         initView()
     }
+
     fun setXAxisLineColor(color: Int) {
         this.mXAxisLineColor = color
         initView()

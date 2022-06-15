@@ -18,7 +18,6 @@ import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout
 import cn.entertech.uicomponentsdk.R
-import cn.entertech.uicomponentsdk.activity.BrainwaveOptionalLineChartActivity
 import cn.entertech.uicomponentsdk.activity.SessionBrainwaveChartFullScreenActivity
 import cn.entertech.uicomponentsdk.utils.TimeUtils
 import cn.entertech.uicomponentsdk.utils.dp
@@ -436,6 +435,15 @@ class SessionBrainwaveChart @JvmOverloads constructor(
         }
         this.dataTotalTimeMs = brainwaveSpectrums[0].size * mTimeUnit
         this.mBrainwaveSpectrums = brainwaveSpectrums
+        val gammaValueAverage = brainwaveSpectrums[0].average().toInt()
+        val betaValueAverage = brainwaveSpectrums[1].average().toInt()
+        val alphaValueAverage = brainwaveSpectrums[2].average().toInt()
+        val thetaValueAverage = brainwaveSpectrums[3].average().toInt()
+        tv_gamma.text = "$gammaValueAverage"
+        tv_beta.text = "$betaValueAverage"
+        tv_alpha.text = "$alphaValueAverage"
+        tv_theta.text = "$thetaValueAverage"
+        tv_delta.text = "${100-gammaValueAverage-betaValueAverage-alphaValueAverage-thetaValueAverage}"
         fixData()
         var sample = brainwaveSpectrums[0].size / mPointCount
         if (isShowAllData || sample <= 1) {
@@ -699,6 +707,9 @@ class SessionBrainwaveChart @JvmOverloads constructor(
         )
         marker.setTextColor(mTextColor)
         marker.setMarkViewBgColor(mMarkViewBgColor)
+        if (chart.data != null){
+            marker.setDataSets(chart.data.dataSets)
+        }
         marker.chartView = chart
         chart.marker = marker
         chart.getDescription().setEnabled(false)

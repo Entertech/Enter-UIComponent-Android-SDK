@@ -10,13 +10,16 @@
         android:paddingRight="@dimen/activity_margin_half"
         android:background="@drawable/shape_markview_bg"
         >
+
     <TextView
+            android:id="@+id/tv_markview_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="RHYTHMS PERCENTAGE"
-            android:id="@+id/tv_markview_title"
             android:textColor="#7A7C8A"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            />
+
     <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
