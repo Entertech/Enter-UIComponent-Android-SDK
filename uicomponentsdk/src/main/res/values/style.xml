@@ -433,6 +433,24 @@
         <attr name="rptc_fillGradientStartColor" format="color" />
         <attr name="rptc_fillGradientEndColor" format="color" />
     </declare-styleable>
+
+    <declare-styleable name="ReportBrainwaveTrendCard">
+        <attr name="rbtc_isTitleMenuIconShow" format="boolean" />
+        <attr name="rbtc_titleMenuIcon" format="reference" />
+        <attr name="rbtc_mainColor" format="color" />
+        <attr name="rbtc_textColor" format="color" />
+        <attr name="rbtc_background" format="color|reference" />
+        <attr name="rbtc_lineWidth" format="dimension" />
+        <attr name="rbtc_gridLineColor" format="color" />
+        <attr name="rbtc_highlightLineColor" format="color"/>
+        <attr name="rbtc_highlightLineWidth" format="float"/>
+        <attr name="rbtc_markViewBgColor" format="color"/>
+        <attr name="rbtc_markViewTitle" format="string"/>
+        <attr name="rbtc_markViewTitleColor" format="color"/>
+        <attr name="rbtc_markViewValueColor" format="color"/>
+        <attr name="rbtc_xAxisLineColor" format="color"/>
+        <attr name="rbtc_fillColors" format="string" />
+    </declare-styleable>
     <declare-styleable name="ReportCandleStickChartCard">
         <attr name="rcscc_mainColor" format="color" />
         <attr name="rcscc_textColor" format="color" />

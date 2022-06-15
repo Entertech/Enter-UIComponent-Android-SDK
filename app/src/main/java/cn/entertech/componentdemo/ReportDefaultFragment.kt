@@ -107,6 +107,7 @@ class ReportDefaultFragment : Fragment() {
         var candleStickValues = ArrayList<ReportCandleStickChartCard.CandleSourceData>()
         var barValues = ArrayList<ReportBarChartCard.BarSourceData>()
         var lineValues = ArrayList<ReportPressureTrendCard.LineSourceData>()
+        var brainwaveLineValues = ArrayList<ReportBrainwaveTrendCard.BrainwaveLineSourceData>()
         var dates = getDateList()
         for (i in dates.indices) {
             var candleSourceData = ReportCandleStickChartCard.CandleSourceData()
@@ -127,10 +128,21 @@ class ReportDefaultFragment : Fragment() {
             lineSourceData.date = "${dates[i]}"
             lineSourceData.xLabel = "${dates[i].split("-")[2]}"
             lineValues.add(lineSourceData)
+
+            val brainwaveLineSourceData = ReportBrainwaveTrendCard.BrainwaveLineSourceData()
+            brainwaveLineSourceData.gamma = 20f
+            brainwaveLineSourceData.alpha = 20f
+            brainwaveLineSourceData.beta = 20f
+            brainwaveLineSourceData.delta = 20f
+            brainwaveLineSourceData.theta = 20f
+            brainwaveLineSourceData.date = "${dates[i]}"
+            brainwaveLineSourceData.xLabel = "${dates[i].split("-")[2]}"
+            brainwaveLineValues.add(brainwaveLineSourceData)
         }
         chart_candle_stick.setData(candleStickValues, "month")
         chart_bar.setData(barValues,"month")
         chart_pressure_trend.setData(lineValues,"month")
+        chart_brainwave_trend.setData(brainwaveLineValues,"month")
 //        chart_hrv.setAverage("${reportData.reportHRDataEntity?.hrvAvg!!.toInt()}")
         var hrvSecondLine = ArrayList<Double>()
         var hrvSecondLineSize = reportData.reportHRDataEntity!!.hrRec!!.size / 9f.toInt()

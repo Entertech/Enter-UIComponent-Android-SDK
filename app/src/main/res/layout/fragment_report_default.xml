@@ -165,6 +165,21 @@
                     app:rptc_fillGradientStartColor="#80FB9C98"
                     app:rptc_fillGradientEndColor="#805F76FF"
                     />
+
+            <cn.entertech.uicomponentsdk.report.ReportBrainwaveTrendCard
+                    android:id="@+id/chart_brainwave_trend"
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp"
+                    android:layout_marginTop="@dimen/activity_margin_half"
+                    android:background="@color/white"
+                    app:rbtc_isTitleMenuIconShow="true"
+                    app:rbtc_textColor="#7A7C8A"
+                    app:rbtc_mainColor="#FF6682"
+                    app:rbtc_gridLineColor="#DDE1EB"
+                    app:rbtc_markViewTitle="@string/sdk_heart_rate"
+                    app:rbtc_titleMenuIcon="@drawable/vector_drawable_full_screen"
+                    app:rbtc_fillColors="#FF6682,#58B9E0,#F7C77E,#5FC695,#5E75FF"
+                    />
             <cn.entertech.uicomponentsdk.report.ReportHRLineChartCard
                     android:id="@+id/chart_hrv"
                     android:layout_width="match_parent"
