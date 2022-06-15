@@ -19,13 +19,13 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.activity.BrainwaveOptionalLineChartActivity
+import cn.entertech.uicomponentsdk.activity.SessionBrainwaveChartFullScreenActivity
 import cn.entertech.uicomponentsdk.utils.TimeUtils
 import cn.entertech.uicomponentsdk.utils.dp
 import cn.entertech.uicomponentsdk.utils.getOpacityColor
 import cn.entertech.uicomponentsdk.utils.toDrawable
 import cn.entertech.uicomponentsdk.widget.ChartIconView
 import cn.entertech.uicomponentsdk.widget.OptionalBrainChartLegendView
-import cn.entertech.uicomponentsdk.widget.OptionalBrainwaveSpectrumChartMarkView
 import cn.entertech.uicomponentsdk.widget.SessionBrainwaveChartMarkView
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.LimitLine
@@ -55,8 +55,6 @@ import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.r
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.rl_corner_icon_bg
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.rl_no_data_cover
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.tv_unit
-import kotlinx.android.synthetic.main.layout_common_card_title.view.*
-import kotlinx.android.synthetic.main.layout_common_card_title.view.tv_title
 import kotlinx.android.synthetic.main.layout_session_brainwave_chart.view.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -259,26 +257,12 @@ class SessionBrainwaveChart @JvmOverloads constructor(
     fun initTitle() {
         tv_title.text = mTitleText
         tv_title.setTextColor(mTextColor)
-        if (mIsShowTitleIcon) {
-            iv_icon.visibility = View.VISIBLE
-            iv_icon.setImageDrawable(mTitleIcon)
-        } else {
-            iv_icon.visibility = View.GONE
-        }
-        if (mSmallTitle != null) {
-            tv_small_title.visibility = View.VISIBLE
-            tv_small_title.text = mSmallTitle
-            tv_small_title.setTextColor(mTextColor)
-        }
+
         if (mIsShowTitleMenuIcon) {
             iv_menu.visibility = View.VISIBLE
             iv_menu.setImageDrawable(mTitleMenuIcon)
         } else {
             iv_menu.visibility = View.GONE
-        }
-        iv_info.setOnClickListener {
-            var uri = Uri.parse(mInfoUrl)
-            context.startActivity(Intent(Intent.ACTION_VIEW, uri))
         }
         if (mIsTitleMenuIconBgShow) {
             rl_corner_icon_bg.visibility = View.VISIBLE
@@ -291,7 +275,7 @@ class SessionBrainwaveChart @JvmOverloads constructor(
                 if (isFullScreen) {
                     (context as Activity).finish()
                 } else {
-                    var intent = Intent(context, BrainwaveOptionalLineChartActivity::class.java)
+                    var intent = Intent(context, SessionBrainwaveChartFullScreenActivity::class.java)
                     intent.putExtra("pointCount", mPointCount)
                     intent.putExtra("timeUnit", mTimeUnit)
                     intent.putExtra("highlightLineColor", mHighlightLineColor)

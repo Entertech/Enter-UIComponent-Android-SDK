@@ -67,7 +67,7 @@
                     app:sbc_isTitleMenuIconShow="true"
                     app:sbc_menuIconBg="@mipmap/pic_report_top_bg_hr"
                     app:sbc_pointCount="100"
-                    app:sbc_spectrumColors="#FF6682,#FB9C98,#F7C77E,#5FC695,#5E75FF"
+                    app:sbc_spectrumColors="#FF6682,#58B9E0,#F7C77E,#5FC695,#5E75FF"
                     app:sbc_timeUnit="700"
                     app:sbc_title="@string/sdk_brainwave_spectrum"
                     app:sbc_titleMenuIcon="@drawable/vector_drawable_full_screen"
