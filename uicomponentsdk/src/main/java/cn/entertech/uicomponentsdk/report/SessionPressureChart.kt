@@ -23,6 +23,7 @@ import cn.entertech.uicomponentsdk.utils.*
 import cn.entertech.uicomponentsdk.utils.ScreenUtil.isPad
 import cn.entertech.uicomponentsdk.widget.ChartIconView
 import cn.entertech.uicomponentsdk.widget.LineChartMarkView
+import cn.entertech.uicomponentsdk.widget.SessionPressureChartMarkView
 import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
@@ -37,7 +38,12 @@ import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.MPPointF
 import com.github.mikephil.charting.utils.Utils
+import kotlinx.android.synthetic.main.layout_card_attention.view.*
 import kotlinx.android.synthetic.main.layout_session_pressure_chart.view.*
+import kotlinx.android.synthetic.main.layout_session_pressure_chart.view.chart
+import kotlinx.android.synthetic.main.layout_session_pressure_chart.view.ll_title
+import kotlinx.android.synthetic.main.layout_session_pressure_chart.view.rl_bg
+import kotlinx.android.synthetic.main.layout_session_pressure_chart.view.tv_time_unit_des
 
 class SessionPressureChart @JvmOverloads constructor(
     context: Context,
@@ -237,8 +243,14 @@ class SessionPressureChart @JvmOverloads constructor(
             typeArray.getBoolean(R.styleable.SessionPressureChart_spc_showXAxisUnit, false)
         mXAxisLineColor =
             typeArray.getColor(R.styleable.SessionPressureChart_spc_xAxisLineColor, mXAxisLineColor)
-        mFillGradientStartColor = typeArray.getColor(R.styleable.SessionPressureChart_spc_fillGradientStartColor,mFillGradientStartColor)
-        mFillGradientEndColor = typeArray.getColor(R.styleable.SessionPressureChart_spc_fillGradientEndColor,mFillGradientEndColor)
+        mFillGradientStartColor = typeArray.getColor(
+            R.styleable.SessionPressureChart_spc_fillGradientStartColor,
+            mFillGradientStartColor
+        )
+        mFillGradientEndColor = typeArray.getColor(
+            R.styleable.SessionPressureChart_spc_fillGradientEndColor,
+            mFillGradientEndColor
+        )
         typeArray.recycle()
         initView()
     }
@@ -297,10 +309,10 @@ class SessionPressureChart @JvmOverloads constructor(
         tv_description.setTextColor(mTextColor)
 
         when (mDataAverage) {
-            in 0..24 -> tv_level.text = "low"
-            in 25..50 -> tv_level.text = "normal"
-            in 50..75 -> tv_level.text = "elevated"
-            else -> tv_level.text = "high"
+            in 0..24 -> tv_level.text = context.getString(R.string.pressure_level_low)
+            in 25..50 -> tv_level.text = context.getString(R.string.pressure_level_normal)
+            in 50..75 -> tv_level.text = context.getString(R.string.pressure_level_elevated)
+            else -> tv_level.text = context.getString(R.string.pressure_level_high)
         }
         tv_date.setTextColor(mTextColor)
 
@@ -353,7 +365,7 @@ class SessionPressureChart @JvmOverloads constructor(
         return sampleData
     }
 
-    var yLimitLineValues = listOf(25f,50f,75f)
+    var yLimitLineValues = listOf(25f, 50f, 75f)
 
     fun setData(
         data: List<Double>?,
@@ -419,7 +431,7 @@ class SessionPressureChart @JvmOverloads constructor(
                 chart.axisLeft.addLimitLine(ll1)
             }
         }
-        for (i in yLimitLineValues.indices){
+        for (i in yLimitLineValues.indices) {
             val ll = LimitLine(yLimitLineValues[i], "")
             ll.lineWidth = 1f
             ll.enableDashedLine(10f, 10f, 0f)
@@ -549,17 +561,18 @@ class SessionPressureChart @JvmOverloads constructor(
         chart.setYLimitLabelBgColor(mAverageLabelBgColor)
         chart.animateX(500)
         chart.setDrawGridBackground(true)
-        chart.setGridBackgroundColors(intArrayOf(mFillGradientStartColor,mFillGradientEndColor))
+        chart.setGridBackgroundColors(intArrayOf(mFillGradientStartColor, mFillGradientEndColor))
         chart.isHighlightPerDragEnabled = false
         chart.isDragEnabled = mIsChartEnable
         chart.isScaleXEnabled = mIsChartEnable
         chart.isScaleYEnabled = false
-        val marker = LineChartMarkView(context, mLineColor, mMarkViewTitle)
+        val marker = SessionPressureChartMarkView(context, mMarkViewTitle, mStartTime)
         marker.chartView = chart
         marker.setYOffset(10f.dp())
-        marker.setMarkTitleColor(mMarkViewTitleColor)
+        marker.chartView = chart
+        marker.setMainColor(mMainColor)
+        marker.setTextColor(mTextColor)
         marker.setMarkViewBgColor(mMarkViewBgColor)
-        marker.setMarkViewValueColor(mMarkViewValueColor)
         chart.marker = marker
         chart.extraTopOffset = mChartExtraTopOffset
         val xAxis: XAxis = chart.xAxis
@@ -590,14 +603,14 @@ class SessionPressureChart @JvmOverloads constructor(
         yAxis.valueFormatter = object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
                 if (value == 12.5f) {
-                    return "低"
+                    return context.getString(R.string.pressure_level_low)
                 } else if (value == 37.5f) {
-                    return "偏低"
+                    return context.getString(R.string.pressure_level_normal)
                 } else if (value == 62.5f) {
-                    return "偏高"
-                } else if (value ==  87.5f){
-                    return "高"
-                }else{
+                    return context.getString(R.string.pressure_level_elevated)
+                } else if (value == 87.5f) {
+                    return context.getString(R.string.pressure_level_high)
+                } else {
                     return ""
                 }
             }
@@ -812,7 +825,7 @@ class SessionPressureChart @JvmOverloads constructor(
         initView()
     }
 
-    fun setMainColor(mainColor:Int){
+    fun setMainColor(mainColor: Int) {
         this.mMainColor = mainColor
         initView()
     }
