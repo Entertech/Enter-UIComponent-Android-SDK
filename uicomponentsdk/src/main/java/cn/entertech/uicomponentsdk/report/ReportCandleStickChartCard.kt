@@ -56,6 +56,7 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
+    private var mXAxisLineColor: Int =  Color.GRAY
     private var mDataAverage: Double = 0.0
     private var mUnit: String? = ""
     private var mLevelTextColor: Int = Color.RED
@@ -186,6 +187,7 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         mLevelBgColor = typeArray.getColor(R.styleable.ReportCandleStickChartCard_rcscc_valueLevelBgColor,mLevelBgColor)
         mLevelTextColor = typeArray.getColor(R.styleable.ReportCandleStickChartCard_rcscc_valueLevelTextColor,mLevelTextColor)
         mUnit = typeArray.getString(R.styleable.ReportCandleStickChartCard_rcscc_unit)
+        mXAxisLineColor = typeArray.getColor(R.styleable.ReportCandleStickChartCard_rcscc_xAxisLineColor,mXAxisLineColor)
         typeArray.recycle()
         initView()
     }
@@ -253,6 +255,7 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
                 intent.putExtra("markViewTitleColor", mMarkViewTitleColor)
                 intent.putExtra("markViewValueColor", mMarkViewValueColor)
                 intent.putExtra("gridLineColor", mGridLineColor)
+                intent.putExtra("xAxisLineColor", mXAxisLineColor)
                 intent.putExtra("xAxisUnit", mXAxisUnit)
                 intent.putExtra("textColor", mTextColor)
                 intent.putExtra("mainColor", mMainColor)
@@ -471,7 +474,7 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         set2.setDrawValues(false)
         set2.circleColors = listOf(mMainColor)
         set2.circleHoleColor = Color.parseColor("#ffffff")
-        set2.highLightColor = mHighlightLineColor
+        set2.highLightColor = mGridLineColor
         set2.highlightLineWidth = mHighlightLineWidth
         set2.setDrawHorizontalHighlightIndicator(false)
         set2.setDrawVerticalHighlightIndicator(true)
@@ -482,6 +485,8 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         combinedData.setData(lineData)
         combinedData.setData(candleData)
 //         // set data
+
+        initChart()
         chart.data = combinedData
         chart.isHighlightPerDragEnabled = false
         calNiceLabel(mData!!)
@@ -554,16 +559,24 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         chart.isDragEnabled = true
         chart.isScaleXEnabled = false
         chart.isScaleYEnabled = false
-        val marker = CandleChartMarkView(context, mLineColor, mMarkViewTitle)
+        val markViewTitle = if (mCycle == "month"){
+            "DAILY AVERAGE"
+        }else{
+            "MONTHLY AVERAGE"
+        }
+        val marker = CandleChartMarkView(context, markViewTitle)
         marker.chartView = chart
-//        marker.setMarkTitleColor(mMarkViewTitleColor)
-//        marker.setMarkViewBgColor(mMarkViewBgColor)
-//        marker.setMarkViewValueColor(mMarkViewValueColor)
+        marker.setMainColor(mMainColor)
+        marker.setTextColor(mTextColor)
+        marker.setShowLevel(mIsShowLevel,mLevelTextColor,mLevelBgColor)
+        marker.setUnit(mUnit)
+        marker.setYOffset(10f.dp())
         chart.marker = marker
         chart.extraTopOffset = 28f.dp()
         val xAxis: XAxis = chart.xAxis
         xAxis.setDrawAxisLine(true)
-        xAxis.axisLineColor = getOpacityColor(mTextColor, 0.6f)
+        xAxis.gridColor = mGridLineColor
+        xAxis.axisLineColor = mXAxisLineColor
         xAxis.axisLineWidth = 1f
         xAxis.setDrawGridLines(false)
         xAxis.position = XAxis.XAxisPosition.BOTTOM
@@ -574,11 +587,11 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         yAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
         yAxis.setLabelCount(5, false)
         yAxis.setDrawGridLines(true)
-        yAxis.gridColor = getOpacityColor(mTextColor, 0.2f)
+        yAxis.gridColor =mGridLineColor
         yAxis.gridLineWidth = 1f
         yAxis.setGridDashedLine(DashPathEffect(floatArrayOf(10f, 10f), 0f))
         yAxis.textSize = 12f
-        yAxis.textColor = Color.parseColor("#9AA1A9")
+        yAxis.textColor = mTextColor
         xAxis.setDrawLimitLinesBehindData(true)
         yAxis.setDrawAxisLine(false)
         setChartListener()
@@ -786,7 +799,12 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
                 override fun onValueSelected(e: Entry, h: Highlight?) {
                     ll_title.visibility = View.INVISIBLE
                     chart.highlightValue(null, false)
-                    set1.setDrawIcons(true)
+                    set2.setDrawIcons(false)
+                    set2.iconsOffset = MPPointF(0f, 3f)
+                    set2.values.forEach {
+                        it.icon = null
+                    }
+                    set1.setDrawIcons(false)
                     set1.iconsOffset = MPPointF(0f, 3f)
                     set1.values.forEach {
                         it.icon = null
@@ -854,6 +872,10 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
 
     fun setMainColor(color:Int){
         this.mMainColor = color
+        initView()
+    }
+    fun setXAxisLineColor(color:Int){
+        this.mXAxisLineColor = color
         initView()
     }
 

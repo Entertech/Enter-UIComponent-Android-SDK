@@ -1,92 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ll_bg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/ll_bg"
         android:background="@drawable/shape_markview_bg"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_margin_half"
+        android:paddingTop="@dimen/dp_4"
+        android:paddingRight="@dimen/activity_margin_half"
+        android:paddingBottom="@dimen/dp_4"
         >
 
-    <LinearLayout
-            android:layout_marginTop="@dimen/activity_margin_half"
-            android:layout_marginLeft="@dimen/activity_margin"
-            android:layout_marginRight="@dimen/activity_margin"
+    <TextView
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-        <LinearLayout
+            android:text="HEART RATE"
+            android:textSize="12sp"
+            />
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+        <TextView
+                android:id="@+id/tv_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="平均"/>
-            <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                android:text="65"
+                android:textColor="@color/colorGammaWave"
+                android:textSize="28sp"
+                />
 
-                <TextView
-                        android:id="@+id/tv_average"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="78"
-                        android:textColor="#00ff00"
-                        android:textStyle="bold"
-                        android:textSize="24sp"/>
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=" 次/分"/>
-            </LinearLayout>
-        </LinearLayout>
-        <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="#cccccc"
+        <TextView
+                android:id="@+id/tv_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:text="bpm"
+                android:textFontWeight="600"
+                android:textSize="14sp"
+                />
+
+        <TextView
+                android:id="@+id/tv_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_4"
-                android:layout_marginRight="@dimen/dp_4"
-                android:layout_marginTop="@dimen/activity_margin_half"
-                android:layout_marginBottom="@dimen/activity_margin_half"/>
-        <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="范围"/>
-
-            <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                <TextView
-                        android:id="@+id/tv_range"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="60-82"
-                        android:textStyle="bold"
-                        android:textSize="24sp"/>
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=" 次/分"/>
-            </LinearLayout>
-        </LinearLayout>
+                android:background="@drawable/shape_common_chart_level_bg"
+                android:paddingLeft="@dimen/activity_margin_half"
+                android:paddingTop="3dp"
+                android:paddingRight="@dimen/activity_margin_half"
+                android:paddingBottom="3dp"
+                android:text="med."
+                android:textSize="12sp"
+                android:visibility="gone"
+                />
     </LinearLayout>
 
     <TextView
-            android:layout_marginLeft="@dimen/activity_margin"
-            android:layout_marginRight="@dimen/activity_margin"
             android:id="@+id/tv_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="@dimen/activity_margin_half"
-            android:text="2022年3月15日"
-            android:textSize="16sp"
+            android:layout_marginTop="2dp"
+            android:text="--"
+            android:textColor="#7A7C8A"
+            android:textSize="12sp"
             />
 </LinearLayout>

@@ -34,6 +34,7 @@ class CandleChartFullScreenActivity : AppCompatActivity() {
         var labelColor = intent.getIntExtra("labelColor",Color.parseColor("#9AA1A9"))
         var average = intent.getStringExtra("average")
         var averageBgColor = intent.getIntExtra("averageBgColor",0)
+        var xAxisLineColor = intent.getIntExtra("xAxisLineColor",0)
         var lineColor = intent.getIntExtra("lineColor",Color.RED)
         var cycle = intent.getStringExtra("cycle")
         chart_candle_stick.setLineWidth(lineWidth)
@@ -46,6 +47,7 @@ class CandleChartFullScreenActivity : AppCompatActivity() {
         chart_candle_stick.mMarkViewTitle = markViewTitle
         chart_candle_stick.mAverageLabelBgColor = averageBgColor
         chart_candle_stick.setGridLineColor(gridLineColor)
+        chart_candle_stick.setXAxisLineColor(xAxisLineColor)
         chart_candle_stick.setXAxisUnit(xAxisUnit)
         chart_candle_stick.setTextColor(textColor)
         chart_candle_stick.setMainColor(mainColor)

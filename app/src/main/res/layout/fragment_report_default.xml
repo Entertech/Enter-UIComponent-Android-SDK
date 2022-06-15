@@ -94,6 +94,8 @@
                     android:background="@color/white"
                     app:rcscc_textColor="#7A7C8A"
                     app:rcscc_mainColor="#FF6682"
+                    app:rcscc_xAxisLineColor="#9AA1A9"
+                    app:rcscc_gridLineColor="#DDE1EB"
                     app:rcscc_lineWidth="2dp"
                     app:rcscc_unit="min"
                     app:rcscc_markViewTitle="@string/sdk_heart_rate"
