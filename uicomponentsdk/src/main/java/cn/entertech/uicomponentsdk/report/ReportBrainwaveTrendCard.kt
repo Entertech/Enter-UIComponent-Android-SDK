@@ -675,7 +675,7 @@ class ReportBrainwaveTrendCard @JvmOverloads constructor(
             context,
             mFillColorArray?.map { Color.parseColor(it) }?.toIntArray(),
             mGridLineColor,
-            markViewTitle
+            markViewTitle,mCycle
         )
         marker.chartView = chart
         marker.setTextColor(mTextColor)

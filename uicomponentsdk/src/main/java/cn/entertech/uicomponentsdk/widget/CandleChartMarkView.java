@@ -25,9 +25,10 @@ public class CandleChartMarkView extends MarkerView {
     private final TextView tvDate;
     private final TextView tvUnit;
     private final TextView tvLevel;
+    private final String cycle;
     private float yOffset;
 
-    public CandleChartMarkView(Context context, String markText) {
+    public CandleChartMarkView(Context context, String markText,String cycle) {
         super(context, R.layout.layout_markview_candle);
         tvValue = findViewById(R.id.tv_value);
         tvDate = findViewById(R.id.tv_date);
@@ -36,6 +37,7 @@ public class CandleChartMarkView extends MarkerView {
         llBg = findViewById(R.id.ll_bg);
         tvMarkTitle = findViewById(R.id.tv_title);
         tvMarkTitle.setText(markText);
+        this.cycle = cycle;
     }
 
     @Override
@@ -63,13 +65,17 @@ public class CandleChartMarkView extends MarkerView {
         long startTimeMs = TimeUtils.getStringToDate(candleSourceData.getDate(), "yyyy-MM-dd");
         int value = (int)candleSourceData.getAverage();
         tvValue.setText(value+"");
-        tvDate.setText(TimeUtils.getFormatTime(startTimeMs,"MMM dd,yyyy"));
         if (value >= 0 && value < 29) {
             tvLevel.setText(getContext().getString(R.string.sdk_report_low));
         } else if (value >= 30 && value < 69) {
             tvLevel.setText(getContext().getString(R.string.sdk_report_nor));
         } else {
             tvLevel.setText(getContext().getString(R.string.sdk_report_high));
+        }
+        if ("month".equals(cycle)){
+            tvDate.setText(TimeUtils.getFormatTime(startTimeMs,"MMM dd,yyyy"));
+        }else{
+            tvDate.setText(TimeUtils.getFormatTime(startTimeMs,"MMM,yyyy"));
         }
         super.refreshContent(e, highlight);
     }

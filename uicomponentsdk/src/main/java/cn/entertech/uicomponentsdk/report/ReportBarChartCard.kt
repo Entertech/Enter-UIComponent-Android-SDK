@@ -534,7 +534,7 @@ class ReportBarChartCard @JvmOverloads constructor(
         } else {
             "MONTHLY AVERAGE"
         }
-        val marker = BarChartMarkView(context, markViewTitle)
+        val marker = BarChartMarkView(context, markViewTitle,mCycle)
         marker.chartView = chart
         marker.setMainColor(mMainColor)
         marker.setTextColor(mTextColor)

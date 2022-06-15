@@ -585,7 +585,7 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         } else {
             "MONTHLY AVERAGE"
         }
-        val marker = CandleChartMarkView(context, markViewTitle)
+        val marker = CandleChartMarkView(context, markViewTitle,mCycle)
         marker.chartView = chart
         marker.setMainColor(mMainColor)
         marker.setTextColor(mTextColor)

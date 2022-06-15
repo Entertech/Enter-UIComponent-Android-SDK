@@ -43,11 +43,12 @@ public class BrainwaveTrendChartMarkView extends MarkerView {
     private final TextView tvValueUnit4;
     private final TextView tvValueUnit5;
     private final String markViewTitle;
+    private final String cycle;
     private List<ILineDataSet> dataSets;
     private List<TextView> tvValues = new ArrayList<>();
     private List<LinearLayout> llMarks = new ArrayList<>();
 
-    public BrainwaveTrendChartMarkView(Context context, int[] valueColor, int divideLineColor, String markViewTitle) {
+    public BrainwaveTrendChartMarkView(Context context, int[] valueColor, int divideLineColor, String markViewTitle,String cycle) {
         super(context, R.layout.layout_markview_session_brainwave);
         tvValue1 = findViewById(R.id.tv_value_1);
         tvValue2 = findViewById(R.id.tv_value_2);
@@ -100,6 +101,7 @@ public class BrainwaveTrendChartMarkView extends MarkerView {
         llMarks.add((LinearLayout) findViewById(R.id.ll_mark_3));
         llMarks.add((LinearLayout) findViewById(R.id.ll_mark_4));
         llMarks.add((LinearLayout) findViewById(R.id.ll_mark_5));
+        this.cycle = cycle;
     }
 
     @Override
@@ -155,8 +157,12 @@ public class BrainwaveTrendChartMarkView extends MarkerView {
         }
 
         long startTimeMs = TimeUtils.getStringToDate(brainwaveLineSourceData.getDate(), "yyyy-MM-dd");
-        tvDate.setText(TimeUtils.getFormatTime(startTimeMs, "MMM dd,yyyy"));
         tvMarkViewTitle.setText(markViewTitle);
+        if ("month".equals(cycle)){
+            tvDate.setText(TimeUtils.getFormatTime(startTimeMs, "MMM dd,yyyy"));
+        }else{
+            tvDate.setText(TimeUtils.getFormatTime(startTimeMs, "MMM,yyyy"));
+        }
         super.refreshContent(e, highlight);
     }
 

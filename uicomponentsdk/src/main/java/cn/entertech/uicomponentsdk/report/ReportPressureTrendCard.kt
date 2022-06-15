@@ -557,7 +557,7 @@ class ReportPressureTrendCard @JvmOverloads constructor(
         } else {
             "MONTHLY AVERAGE"
         }
-        var marker = PressureTrendChartMarkView(context, markViewTitle)
+        var marker = PressureTrendChartMarkView(context, markViewTitle,mCycle)
         marker.chartView = chart
         marker.setMainColor(mMainColor)
         marker.setTextColor(mTextColor)

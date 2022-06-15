@@ -23,9 +23,10 @@ public class PressureTrendChartMarkView extends MarkerView {
     private final TextView tvDate;
     private final TextView tvUnit;
     private final TextView tvLevel;
+    private final String cycle;
     private float yOffset;
 
-    public PressureTrendChartMarkView(Context context, String markText) {
+    public PressureTrendChartMarkView(Context context, String markText,String cycle) {
         super(context, R.layout.layout_session_common_markview);
         tvValue = findViewById(R.id.tv_value);
         tvDate = findViewById(R.id.tv_date);
@@ -34,6 +35,7 @@ public class PressureTrendChartMarkView extends MarkerView {
         llBg = findViewById(R.id.ll_bg);
         tvMarkTitle = findViewById(R.id.tv_title);
         tvMarkTitle.setText(markText);
+        this.cycle = cycle;
     }
 
     @Override
@@ -78,7 +80,11 @@ public class PressureTrendChartMarkView extends MarkerView {
         } else {
             tvLevel.setText(getContext().getString(R.string.sdk_report_high));
         }
-        tvDate.setText(TimeUtils.getFormatTime(date, "MMM dd,yyyy"));
+        if ("month".equals(cycle)){
+            tvDate.setText(TimeUtils.getFormatTime(date, "MMM dd,yyyy"));
+        }else{
+            tvDate.setText(TimeUtils.getFormatTime(date, "MMM,yyyy"));
+        }
         super.refreshContent(e, highlight);
     }
 
