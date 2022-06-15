@@ -56,7 +56,7 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
-    private var mXAxisLineColor: Int =  Color.GRAY
+    private var mXAxisLineColor: Int = Color.GRAY
     private var mDataAverage: Double = 0.0
     private var mUnit: String? = ""
     private var mLevelTextColor: Int = Color.RED
@@ -109,7 +109,6 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
     private var mLineColor: Int = Color.RED
     private var mGridLineColor: Int = Color.parseColor("#E9EBF1")
     private var mLabelColor: Int = Color.parseColor("#9AA1A9")
-    private var mIsTitleMenuIconShow: Boolean = true
     private var mData: ArrayList<CandleSourceData>? = null
     private var mBg: Drawable? = null
 
@@ -151,15 +150,24 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
             attributeSet,
             R.styleable.ReportCandleStickChartCard
         )
-        mMainColor = typeArray.getColor(R.styleable.ReportCandleStickChartCard_rcscc_mainColor, mMainColor)
-        mTextColor = typeArray.getColor(R.styleable.ReportCandleStickChartCard_rcscc_textColor, mTextColor)
+        mMainColor =
+            typeArray.getColor(R.styleable.ReportCandleStickChartCard_rcscc_mainColor, mMainColor)
+        mTextColor =
+            typeArray.getColor(R.styleable.ReportCandleStickChartCard_rcscc_textColor, mTextColor)
         mBg = typeArray.getDrawable(R.styleable.ReportCandleStickChartCard_rcscc_background)
 
         mGridLineColor =
-            typeArray.getColor(R.styleable.ReportCandleStickChartCard_rcscc_gridLineColor, mGridLineColor)
+            typeArray.getColor(
+                R.styleable.ReportCandleStickChartCard_rcscc_gridLineColor,
+                mGridLineColor
+            )
         mLineWidth =
-            typeArray.getDimension(R.styleable.ReportCandleStickChartCard_rcscc_lineWidth, mLineWidth)
-        mIsDrawFill = typeArray.getBoolean(R.styleable.ReportCandleStickChartCard_rcscc_isDrawFill, false)
+            typeArray.getDimension(
+                R.styleable.ReportCandleStickChartCard_rcscc_lineWidth,
+                mLineWidth
+            )
+        mIsDrawFill =
+            typeArray.getBoolean(R.styleable.ReportCandleStickChartCard_rcscc_isDrawFill, false)
 
         mHighlightLineColor = typeArray.getColor(
             R.styleable.ReportCandleStickChartCard_rcscc_highlightLineColor,
@@ -173,7 +181,8 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
             R.styleable.ReportCandleStickChartCard_rcscc_markViewBgColor,
             mMarkViewBgColor
         )
-        mMarkViewTitle = typeArray.getString(R.styleable.ReportCandleStickChartCard_rcscc_markViewTitle)
+        mMarkViewTitle =
+            typeArray.getString(R.styleable.ReportCandleStickChartCard_rcscc_markViewTitle)
         mMarkViewTitleColor = typeArray.getColor(
             R.styleable.ReportCandleStickChartCard_rcscc_markViewTitleColor,
             mMarkViewTitleColor
@@ -182,12 +191,23 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
             R.styleable.ReportCandleStickChartCard_rcscc_markViewValueColor,
             mMarkViewValueColor
         )
-        mTitleMenuIcon = typeArray.getDrawable(R.styleable.ReportCandleStickChartCard_rcscc_titleMenuIcon)
-        mIsShowLevel = typeArray.getBoolean(R.styleable.ReportCandleStickChartCard_rcscc_isShowLevel,false)
-        mLevelBgColor = typeArray.getColor(R.styleable.ReportCandleStickChartCard_rcscc_valueLevelBgColor,mLevelBgColor)
-        mLevelTextColor = typeArray.getColor(R.styleable.ReportCandleStickChartCard_rcscc_valueLevelTextColor,mLevelTextColor)
+        mTitleMenuIcon =
+            typeArray.getDrawable(R.styleable.ReportCandleStickChartCard_rcscc_titleMenuIcon)
+        mIsShowLevel =
+            typeArray.getBoolean(R.styleable.ReportCandleStickChartCard_rcscc_isShowLevel, false)
+        mLevelBgColor = typeArray.getColor(
+            R.styleable.ReportCandleStickChartCard_rcscc_valueLevelBgColor,
+            mLevelBgColor
+        )
+        mLevelTextColor = typeArray.getColor(
+            R.styleable.ReportCandleStickChartCard_rcscc_valueLevelTextColor,
+            mLevelTextColor
+        )
         mUnit = typeArray.getString(R.styleable.ReportCandleStickChartCard_rcscc_unit)
-        mXAxisLineColor = typeArray.getColor(R.styleable.ReportCandleStickChartCard_rcscc_xAxisLineColor,mXAxisLineColor)
+        mXAxisLineColor = typeArray.getColor(
+            R.styleable.ReportCandleStickChartCard_rcscc_xAxisLineColor,
+            mXAxisLineColor
+        )
         typeArray.recycle()
         initView()
     }
@@ -430,11 +450,11 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         this.mLineValues = initChartLineValues(mData!!)
         this.mPages = initPages(data, cycle)
         initChartXLabel(data)
-        when(mCycle){
-            "month"->{
+        when (mCycle) {
+            "month" -> {
                 tv_title.text = "DAILY AVERAGE"
             }
-            "year"->{
+            "year" -> {
                 tv_title.text = "MONTHLY AVERAGE"
             }
         }
@@ -464,7 +484,7 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
 //            set1.enableDashedLine(10f, 5f, 0f)
         // black lines and points
         set2.color = mMainColor
-        set2.lineWidth = ScreenUtil.px2dip(context,mLineWidth).toFloat()
+        set2.lineWidth = ScreenUtil.px2dip(context, mLineWidth).toFloat()
         // customize legend entry
         set2.formLineWidth = 1f
         set2.formLineDashEffect = DashPathEffect(floatArrayOf(10f, 10f), 0f)
@@ -559,16 +579,16 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         chart.isDragEnabled = true
         chart.isScaleXEnabled = false
         chart.isScaleYEnabled = false
-        val markViewTitle = if (mCycle == "month"){
+        val markViewTitle = if (mCycle == "month") {
             "DAILY AVERAGE"
-        }else{
+        } else {
             "MONTHLY AVERAGE"
         }
         val marker = CandleChartMarkView(context, markViewTitle)
         marker.chartView = chart
         marker.setMainColor(mMainColor)
         marker.setTextColor(mTextColor)
-        marker.setShowLevel(mIsShowLevel,mLevelTextColor,mLevelBgColor)
+        marker.setShowLevel(mIsShowLevel, mLevelTextColor, mLevelBgColor)
         marker.setUnit(mUnit)
         marker.setYOffset(10f.dp())
         chart.marker = marker
@@ -587,7 +607,7 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         yAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
         yAxis.setLabelCount(5, false)
         yAxis.setDrawGridLines(true)
-        yAxis.gridColor =mGridLineColor
+        yAxis.gridColor = mGridLineColor
         yAxis.gridLineWidth = 1f
         yAxis.setGridDashedLine(DashPathEffect(floatArrayOf(10f, 10f), 0f))
         yAxis.textSize = 12f
@@ -738,15 +758,6 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
                 moveY = -1f
                 downX = me.x
                 downY = me.y
-//                var entry = set1.getEntryForXValue(me.x,0f)
-                var entry = chart.getEntryByTouchPoint(me.x, me.y)
-                var xValue = chart.getPixelForValues(entry.x, entry.y, AxisDependency.LEFT)
-                Log.d(
-                    "#####",
-                    "downx is ${me.x},entry x ${entry.x},xvalue is ${xValue},chart width ${chart.width},viewholer width ${chart.viewPortHandler.chartWidth}"
-                )
-//                set1.setDrawVerticalHighlightIndicator(true)
-//                set1.setDrawHorizontalHighlightIndicator(false)
             }
 
             override fun onChartScale(me: MotionEvent?, scaleX: Float, scaleY: Float) {
@@ -870,11 +881,12 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         initView()
     }
 
-    fun setMainColor(color:Int){
+    fun setMainColor(color: Int) {
         this.mMainColor = color
         initView()
     }
-    fun setXAxisLineColor(color:Int){
+
+    fun setXAxisLineColor(color: Int) {
         this.mXAxisLineColor = color
         initView()
     }
