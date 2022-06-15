@@ -26,6 +26,7 @@ import cn.entertech.uicomponentsdk.utils.toDrawable
 import cn.entertech.uicomponentsdk.widget.ChartIconView
 import cn.entertech.uicomponentsdk.widget.OptionalBrainChartLegendView
 import cn.entertech.uicomponentsdk.widget.OptionalBrainwaveSpectrumChartMarkView
+import cn.entertech.uicomponentsdk.widget.SessionBrainwaveChartMarkView
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.XAxis
@@ -74,7 +75,7 @@ class SessionBrainwaveChart @JvmOverloads constructor(
     private var sampleData: java.util.ArrayList<java.util.ArrayList<Double>>? = null
     private var mSmallTitle: String? = ""
     var isFullScreen: Boolean = false
-    private lateinit var marker: OptionalBrainwaveSpectrumChartMarkView
+    private lateinit var marker: SessionBrainwaveChartMarkView
     private var dataSets: ArrayList<ILineDataSet> = ArrayList()
     var bgColor: Int = Color.WHITE
     private var mXAxisUnit: String? = "Time(min)"
@@ -246,8 +247,12 @@ class SessionBrainwaveChart @JvmOverloads constructor(
             R.styleable.SessionBrainwaveChart_sbc_lineWidth,
             mLineWidth
         )
-        mXAxisLineColor = typeArray.getColor(R.styleable.SessionBrainwaveChart_sbc_xAxisLineColor,mXAxisLineColor)
-        mShowXAxisUnit = typeArray.getBoolean(R.styleable.SessionBrainwaveChart_sbc_showXAxisUnit,false)
+        mXAxisLineColor = typeArray.getColor(
+            R.styleable.SessionBrainwaveChart_sbc_xAxisLineColor,
+            mXAxisLineColor
+        )
+        mShowXAxisUnit =
+            typeArray.getBoolean(R.styleable.SessionBrainwaveChart_sbc_showXAxisUnit, false)
         initView()
     }
 
@@ -330,13 +335,13 @@ class SessionBrainwaveChart @JvmOverloads constructor(
     fun initUnit() {
         tv_unit.setTextColor(getOpacityColor(mTextColor, 0.7f))
         tv_unit.text = mXAxisUnit
-        if (mShowXAxisUnit){
+        if (mShowXAxisUnit) {
             if (mIsAbsoluteTime) {
                 tv_unit.visibility = View.GONE
             } else {
                 tv_unit.visibility = View.VISIBLE
             }
-        }else{
+        } else {
             tv_unit.visibility = View.GONE
         }
     }
@@ -445,7 +450,7 @@ class SessionBrainwaveChart @JvmOverloads constructor(
         if (brainwaveSpectrums == null) {
             return
         }
-        this.dataTotalTimeMs = brainwaveSpectrums[0].size*mTimeUnit
+        this.dataTotalTimeMs = brainwaveSpectrums[0].size * mTimeUnit
         this.mBrainwaveSpectrums = brainwaveSpectrums
         fixData()
         var sample = brainwaveSpectrums[0].size / mPointCount
@@ -491,9 +496,9 @@ class SessionBrainwaveChart @JvmOverloads constructor(
             llXAxis.textColor = mTextColor
             if (currentMin == 0) {
                 llXAxis.xOffset = -3f
-            }else if (currentMin < totalMin && currentMin > totalMin * 7f / 8) {
+            } else if (currentMin < totalMin && currentMin > totalMin * 7f / 8) {
                 llXAxis.xOffset = 5f
-            }else {
+            } else {
                 llXAxis.xOffset = -1f
             }
             chart.xAxis.addLimitLine(llXAxis)
@@ -556,9 +561,9 @@ class SessionBrainwaveChart @JvmOverloads constructor(
             dataSets.add(set1) // add the data sets
         }
         // create a data object with the data sets
-        maxValue = maxValue!! +(maxValue -minValue!!)/8f
-        minValue = minValue - (maxValue - minValue)/8f
-        if (minValue<0){
+        maxValue = maxValue!! + (maxValue - minValue!!) / 8f
+        minValue = minValue - (maxValue - minValue) / 8f
+        if (minValue < 0) {
             minValue = 0f
         }
         drawYLimit(maxValue, minValue)
@@ -649,7 +654,7 @@ class SessionBrainwaveChart @JvmOverloads constructor(
             }
 
             override fun onChartLongPressed(me: MotionEvent) {
-                if (isDrag){
+                if (isDrag) {
                     return
                 }
                 chart.isDragEnabled = false
@@ -704,12 +709,11 @@ class SessionBrainwaveChart @JvmOverloads constructor(
 //        chart.setBackgroundColor(bgColor)
         // disable description text
 
-        marker = OptionalBrainwaveSpectrumChartMarkView(
+        marker = SessionBrainwaveChartMarkView(
             context,
-            mSpectrumColors!!.toIntArray(), mMarkViewValueColor,
-            getOpacityColor(mMarkDivideLineColor, 0.3f), mMarkViewTitleColor,
-            arrayOf("γ", "β", "α", "θ", "δ")
+            mSpectrumColors?.toIntArray(), mGridLineColor,mStartTime
         )
+        marker.setTextColor(mTextColor)
         marker.setMarkViewBgColor(mMarkViewBgColor)
         marker.chartView = chart
         chart.marker = marker
