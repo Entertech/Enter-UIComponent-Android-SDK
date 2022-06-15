@@ -109,6 +109,8 @@
                     android:layout_marginTop="@dimen/activity_margin_half"
                     android:background="@color/white"
                     app:rbcc_isTitleMenuIconShow="true"
+                    app:rbcc_xAxisLineColor="#9AA1A9"
+                    app:rbcc_gridLineColor="#DDE1EB"
                     app:rbcc_textColor="#7A7C8A"
                     app:rbcc_mainColor="#FF6682"
                     app:rbcc_unit="min"

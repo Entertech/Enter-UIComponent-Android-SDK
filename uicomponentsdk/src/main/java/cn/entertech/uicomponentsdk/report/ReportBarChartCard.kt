@@ -23,6 +23,7 @@ import cn.entertech.uicomponentsdk.activity.BarChartFullScreenActivity
 import cn.entertech.uicomponentsdk.report.ReportCandleStickChartCard.Companion.CYCLE_MONTH
 import cn.entertech.uicomponentsdk.utils.*
 import cn.entertech.uicomponentsdk.widget.BarChartMarkView
+import cn.entertech.uicomponentsdk.widget.CandleChartMarkView
 import cn.entertech.uicomponentsdk.widget.ChartIconView
 import cn.entertech.uicomponentsdk.widget.CustomBarChart
 import com.github.mikephil.charting.components.LimitLine
@@ -35,6 +36,16 @@ import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.MPPointF
 import kotlinx.android.synthetic.main.layout_card_bar_chart.view.*
+import kotlinx.android.synthetic.main.layout_card_bar_chart.view.chart
+import kotlinx.android.synthetic.main.layout_card_bar_chart.view.iv_menu
+import kotlinx.android.synthetic.main.layout_card_bar_chart.view.ll_title
+import kotlinx.android.synthetic.main.layout_card_bar_chart.view.rl_bg
+import kotlinx.android.synthetic.main.layout_card_bar_chart.view.tv_date
+import kotlinx.android.synthetic.main.layout_card_bar_chart.view.tv_level
+import kotlinx.android.synthetic.main.layout_card_bar_chart.view.tv_title
+import kotlinx.android.synthetic.main.layout_card_bar_chart.view.tv_unit
+import kotlinx.android.synthetic.main.layout_card_bar_chart.view.tv_value
+import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.*
 import java.io.Serializable
 import kotlin.math.abs
 import kotlin.math.ceil
@@ -428,6 +439,7 @@ class ReportBarChartCard @JvmOverloads constructor(
 //         // set data
         chart.data = barData
         calNiceLabel(mData!!)
+        initChart()
         chart.notifyDataSetChanged()
         chart.setVisibleXRangeMaximum(mChartVisibleXRangeMaximum)
         chart.viewTreeObserver.addOnGlobalLayoutListener {
@@ -514,11 +526,18 @@ class ReportBarChartCard @JvmOverloads constructor(
         chart.isDragEnabled = true
         chart.isScaleXEnabled = false
         chart.isScaleYEnabled = false
-        val marker = BarChartMarkView(context, mLineColor, mMarkViewTitle)
+        val markViewTitle = if (mCycle == "month") {
+            "DAILY AVERAGE"
+        } else {
+            "MONTHLY AVERAGE"
+        }
+        val marker = BarChartMarkView(context, markViewTitle)
         marker.chartView = chart
-//        marker.setMarkTitleColor(mMarkViewTitleColor)
-//        marker.setMarkViewBgColor(mMarkViewBgColor)
-//        marker.setMarkViewValueColor(mMarkViewValueColor)
+        marker.setMainColor(mMainColor)
+        marker.setTextColor(mTextColor)
+        marker.setShowLevel(mShowLevel, mLevelTextColor, mLevelBgColor)
+        marker.setUnit(mUnit)
+        marker.setYOffset(10f.dp())
 
         chart.marker = marker
         chart.extraTopOffset = 28f.dp()
@@ -526,6 +545,7 @@ class ReportBarChartCard @JvmOverloads constructor(
         xAxis.setDrawAxisLine(true)
         xAxis.axisLineColor = mXAxisLineColor
         xAxis.axisLineWidth = 1f
+        xAxis.gridColor = mGridLineColor
         xAxis.setDrawGridLines(false)
         xAxis.position = XAxis.XAxisPosition.BOTTOM
         val yAxis: YAxis = chart.axisLeft
