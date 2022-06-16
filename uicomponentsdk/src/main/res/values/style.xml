@@ -733,6 +733,10 @@
         <attr name="rchrv_levelBgColor" format="color" />
         <attr name="rchrv_arrowColor" format="color" />
         <attr name="rchrv_showIndicator" format="boolean" />
+        <attr name="rchrv_showTitleIcon" format="boolean" />
+        <attr name="rchrv_titleIcon" format="reference" />
+        <attr name="rchrv_showTitleMenuIcon" format="boolean" />
+        <attr name="rchrv_titleMenuIcon" format="reference" />
     </declare-styleable>
 
     <declare-styleable name="ReportRelaxationAndAttentionCard">

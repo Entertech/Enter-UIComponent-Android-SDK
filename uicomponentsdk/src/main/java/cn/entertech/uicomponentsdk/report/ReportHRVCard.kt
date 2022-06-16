@@ -28,6 +28,10 @@ class ReportHRVCard @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var mTitleMenuIcon: Drawable?
+    private var mTitleIcon: Drawable?
+    private var mShowTitleMenuIcon: Boolean = false
+    private var mShowTitleIcon: Boolean = false
     private var mShowIndicator: Boolean = false
     private var mTopBg: Drawable?
     private var mIsShortCard: Boolean = false
@@ -74,6 +78,10 @@ class ReportHRVCard @JvmOverloads constructor(
         mArrowColor =
             typeArray.getColor(R.styleable.ReportHRVCard_rchrv_arrowColor, mArrowColor)
         mShowIndicator = typeArray.getBoolean(R.styleable.ReportHRVCard_rchrv_showIndicator,false)
+        mShowTitleIcon = typeArray.getBoolean(R.styleable.ReportHRVCard_rchrv_showTitleIcon,false)
+        mShowTitleMenuIcon = typeArray.getBoolean(R.styleable.ReportHRVCard_rchrv_showTitleMenuIcon,false)
+        mTitleIcon = typeArray.getDrawable(R.styleable.ReportHRVCard_rchrv_titleIcon)
+        mTitleMenuIcon = typeArray.getDrawable(R.styleable.ReportHRVCard_rchrv_titleMenuIcon)
         initView()
     }
 
@@ -103,13 +111,24 @@ class ReportHRVCard @JvmOverloads constructor(
     }
 
     fun initTitle() {
-        iv_arrow.setColorFilter(mArrowColor)
-        if (!mIsShortCard) {
+        iv_menu.visibility = View.GONE
+        if (mShowTitleMenuIcon){
+            iv_arrow.visibility = View.VISIBLE
+            iv_arrow.setColorFilter(mArrowColor)
+            if (mTitleMenuIcon != null){
+                iv_arrow.setImageDrawable(mTitleMenuIcon)
+            }
+        }else{
+            iv_arrow.visibility = View.GONE
+        }
+        if (mShowTitleIcon){
             iv_icon.visibility = View.VISIBLE
-        } else {
+            if (mTitleIcon != null){
+                iv_icon.setImageDrawable(mTitleIcon)
+            }
+        }else{
             iv_icon.visibility = View.GONE
         }
-        iv_icon.setImageResource(R.drawable.vector_drawable_title_icon_hrv)
         tv_title.text = context.getString(R.string.sdk_hrv_simple)
         tv_title.setTextColor(mTextColor)
 
