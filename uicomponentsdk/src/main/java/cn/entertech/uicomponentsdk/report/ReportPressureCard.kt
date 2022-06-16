@@ -14,7 +14,6 @@ import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.utils.dp
 import kotlinx.android.synthetic.main.layout_common_card_title.view.*
 import kotlinx.android.synthetic.main.layout_common_card_title.view.tv_title
-import kotlinx.android.synthetic.main.layout_report_hrv_card.view.*
 import kotlinx.android.synthetic.main.layout_report_pressure_card.view.*
 import kotlinx.android.synthetic.main.layout_report_pressure_card.view.iv_arrow
 import kotlinx.android.synthetic.main.layout_report_pressure_card.view.iv_corner_icon_bg
@@ -26,6 +25,9 @@ class ReportPressureCard @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var mTitleText: String?=""
+    private var mShowInnerLevel: Boolean = false
+    private var mIsShowTitleMenuIcon: Boolean
     private var mTopBg: Drawable?
     private var mIsShowTitleIcon: Boolean = false
     private var mBarWidth: Float = 18f.dp()
@@ -73,6 +75,12 @@ class ReportPressureCard @JvmOverloads constructor(
             R.styleable.ReportPressureCard_rpc_isShowTitleIcon,
             mIsShowTitleIcon
         )
+        mIsShowTitleMenuIcon = typeArray.getBoolean(
+            R.styleable.ReportPressureCard_rpc_isShowTitleMenuIcon,
+            false
+        )
+        mShowInnerLevel = typeArray.getBoolean(R.styleable.ReportPressureCard_rpc_showInnerLevel,false)
+        mTitleText = typeArray.getString(R.styleable.ReportPressureCard_rpc_titleText)
         initView()
 
     }
@@ -88,19 +96,26 @@ class ReportPressureCard @JvmOverloads constructor(
         bar_pressure.setScaleLineLength(mBarScaleLength)
         bar_pressure.setValueTextColor(mTextColor)
         bar_pressure.setBarBgColor(mBarBgColor)
+        bar_pressure.setShowLevel(mShowInnerLevel)
         tv_pressure_level.setTextColor(mLevelTextColor)
         (tv_pressure_level.background as GradientDrawable).setColor(mLevelBgColor)
     }
 
     private fun initTitle() {
-        iv_arrow.setColorFilter(mArrowColor)
+        iv_menu.visibility = View.GONE
+        if (mIsShowTitleMenuIcon){
+            iv_arrow.visibility = View.VISIBLE
+            iv_arrow.setColorFilter(mArrowColor)
+        }else{
+            iv_arrow.visibility = View.GONE
+        }
         if (!mIsShowTitleIcon) {
             iv_icon.visibility = View.GONE
         } else {
             iv_icon.visibility = View.VISIBLE
         }
         iv_icon.setImageResource(R.drawable.vector_drawable_title_icon_pressure)
-        tv_title.text = context.getString(R.string.sdk_pressure)
+        tv_title.text = mTitleText
         tv_title.setTextColor(mTextColor)
         if (mTopBg != null) {
             rl_corner_icon_bg.visibility = View.VISIBLE
@@ -122,10 +137,15 @@ class ReportPressureCard @JvmOverloads constructor(
 
     fun setValue(pressure: Int) {
         bar_pressure.setValue(pressure)
-        when (pressure) {
-            in 0..19 -> tv_pressure_level.text = context.getString(R.string.sdk_report_low)
-            in 20..69 -> tv_pressure_level.text = context.getString(R.string.sdk_report_nor)
-            else -> tv_pressure_level.text = context.getString(R.string.sdk_report_high)
+        if (mShowInnerLevel){
+            tv_pressure_level.visibility = View.GONE
+        }else{
+            tv_pressure_level.visibility = View.VISIBLE
+            when (pressure) {
+                in 0..19 -> tv_pressure_level.text = context.getString(R.string.sdk_report_low)
+                in 20..69 -> tv_pressure_level.text = context.getString(R.string.sdk_report_nor)
+                else -> tv_pressure_level.text = context.getString(R.string.sdk_report_high)
+            }
         }
     }
 

@@ -331,23 +331,50 @@
                     app:rlcc_xAxisUnit="@string/sdk_time_unit"
                     />
 
-
-            <cn.entertech.uicomponentsdk.report.ReportPressureCard
-                    android:id="@+id/report_pressure"
+            <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="180dp"
-                    android:layout_marginTop="@dimen/activity_margin_half"
-                    app:rpc_arrowColor="#F5F5F5"
-                    app:rpc_background="#FFFFFF"
-                    app:rpc_barBgColor="#DDE1EB"
-                    app:rpc_barScaleLength="56dp"
-                    app:rpc_barWidth="48dp"
-                    app:rpc_isShowTitleIcon="true"
-                    app:rpc_levelBgColor="#FFE7E6"
-                    app:rpc_levelTextColor="#402D30"
-                    app:rpc_textColor="#11152E"
-                    app:rpc_topBackground="@mipmap/pic_report_top_bg_hr"
-                    />
+                    android:layout_height="wrap_content">
+
+                <cn.entertech.uicomponentsdk.report.ReportPressureCard
+                        android:id="@+id/report_pressure"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="141dp"
+                        android:layout_marginTop="@dimen/activity_margin_half"
+                        app:rpc_isShowTitleMenuIcon="false"
+                        app:rpc_background="#FFFFFF"
+                        app:rpc_barBgColor="#DDE1EB"
+                        app:rpc_showInnerLevel="true"
+                        app:rpc_barScaleLength="24dp"
+                        app:rpc_barWidth="18dp"
+                        app:rpc_isShowTitleIcon="false"
+                        app:rpc_levelBgColor="#FFE7E6"
+                        app:rpc_titleText="Stress"
+                        app:rpc_levelTextColor="#402D30"
+                        app:rpc_textColor="#11152E"
+                        app:rpc_topBackground="@mipmap/pic_report_top_bg_hr"
+                        />
+
+                <cn.entertech.uicomponentsdk.report.ReportPressureCard
+                        android:id="@+id/report_pressure2"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="141dp"
+                        android:layout_marginTop="@dimen/activity_margin_half"
+                        app:rpc_isShowTitleMenuIcon="false"
+                        app:rpc_background="#FFFFFF"
+                        app:rpc_barBgColor="#DDE1EB"
+                        app:rpc_showInnerLevel="true"
+                        app:rpc_titleText="Stress"
+                        app:rpc_barScaleLength="24dp"
+                        app:rpc_barWidth="18dp"
+                        app:rpc_isShowTitleIcon="false"
+                        app:rpc_levelBgColor="#FFE7E6"
+                        app:rpc_levelTextColor="#402D30"
+                        app:rpc_textColor="#11152E"
+                        app:rpc_topBackground="@mipmap/pic_report_top_bg_hr"
+                        />
+            </LinearLayout>
 
             <cn.entertech.uicomponentsdk.report.StackedAreaChart
                     android:id="@+id/stack_chart"

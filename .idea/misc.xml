@@ -61,11 +61,14 @@
         <entry key="uicomponentsdk/src/main/res/layout/layout_markview_candle.xml" value="0.3484375" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_markview_session_brainwave.xml" value="0.32864583333333336" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_report_corherence_card.xml" value="0.165" />
-        <entry key="uicomponentsdk/src/main/res/layout/layout_report_pressure_card.xml" value="0.1" />
+        <entry key="uicomponentsdk/src/main/res/layout/layout_report_hr_card.xml" value="0.33" />
+        <entry key="uicomponentsdk/src/main/res/layout/layout_report_hrv_card.xml" value="0.16540020263424518" />
+        <entry key="uicomponentsdk/src/main/res/layout/layout_report_pressure_card.xml" value="0.18" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_session_brainwave_chart.xml" value="0.178125" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_session_common_chart.xml" value="0.25" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_session_common_markview.xml" value="0.5" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_session_pressure_chart.xml" value="0.15896739130434784" />
+        <entry key="uicomponentsdk/src/main/res/layout/view_common_cardview.xml" value="0.33" />
         <entry key="uicomponentsdk/src/main/res/layout/view_heart_rate.xml" value="0.16843971631205673" />
         <entry key="uicomponentsdk/src/main/res/layout/view_meditation_brainwave.xml" value="0.2477355072463768" />
         <entry key="uicomponentsdk/src/main/res/layout/view_meditation_brainwave_spectrum.xml" value="0.33" />

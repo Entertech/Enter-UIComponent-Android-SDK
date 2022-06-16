@@ -12,6 +12,9 @@ class GradientSweepBar @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     def: Int = 0
 ) : View(context, attributeSet, def) {
+    private var mLevel: String = "--"
+    private var mTextStyle: Int
+    private var mShowLevel: Boolean = false
     private var mPercent: Float = 0f
     private var mValue: String = "0"
     private var mMarginBottomDegree: Int = 4
@@ -58,7 +61,8 @@ class GradientSweepBar @JvmOverloads constructor(
                 R.styleable.GradientSweepBar_gsv_textBottomMargin,
                 mTextBottomMargin
             )
-
+        mShowLevel = typeArray.getBoolean(R.styleable.GradientSweepBar_gsv_showLevel,false)
+        mTextStyle = typeArray.getInt(R.styleable.GradientSweepBar_gsv_textStyle,0)
         typeArray.recycle()
 
         initPaint()
@@ -75,6 +79,11 @@ class GradientSweepBar @JvmOverloads constructor(
         mTextPaint = Paint(Paint.ANTI_ALIAS_FLAG)
         mTextPaint.textAlign = Paint.Align.CENTER
         mTextPaint.textSize = mTextSize
+        if (mTextStyle == 0){
+            mTextPaint.typeface = Typeface.DEFAULT_BOLD
+        }else{
+            mTextPaint.typeface = Typeface.DEFAULT
+        }
         mTextPaint.color = mTextColor
         mScaleLinePaint = Paint(Paint.ANTI_ALIAS_FLAG)
         mScaleLinePaint.color = mScaleLineColor
@@ -142,12 +151,30 @@ class GradientSweepBar @JvmOverloads constructor(
     private fun onDrawText(canvas: Canvas?) {
         canvas?.save()
         canvas?.translate(width / 2f, height.toFloat())
-        canvas?.drawText(mValue, 0f, -mTextBottomMargin, mTextPaint)
+        if (mShowLevel){
+            canvas?.drawText(mLevel.toLowerCase(), 0f, -mTextBottomMargin, mTextPaint)
+        }else{
+            canvas?.drawText(mValue, 0f, -mTextBottomMargin, mTextPaint)
+        }
         canvas?.restore()
     }
 
-
     fun setValue(value: Int) {
+        mLevel = when(value){
+            in 0..24->{
+                context.getString(R.string.pressure_level_low)
+            }
+            in 25..49->{
+                context.getString(R.string.pressure_level_normal)
+            }
+            in 50..74->{
+                context.getString(R.string.pressure_level_elevated)
+            }
+            in 75..100->{
+                context.getString(R.string.pressure_level_high)
+            }
+            else -> "--"
+        }
         this.mValue = "$value"
         this.mPercent = value / 100f
         invalidate()
@@ -173,6 +200,11 @@ class GradientSweepBar @JvmOverloads constructor(
 
     fun setScaleLineLength(width: Float){
         this.mScaleLineLength = width
+        invalidate()
+    }
+
+    fun setShowLevel(showLevel:Boolean){
+        this.mShowLevel = showLevel
         invalidate()
     }
 }
