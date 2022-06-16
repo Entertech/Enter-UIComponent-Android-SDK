@@ -7,16 +7,16 @@
         tools:context=".activity.LineChartFullScreenActivity"
         >
 
-    <cn.entertech.uicomponentsdk.report.ReportBarChartCard
+    <cn.entertech.uicomponentsdk.report.TrendCommonBarChart
             android:id="@+id/chart_bar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/activity_margin_half"
             android:background="@color/white"
-            app:rbcc_isTitleMenuIconShow="true"
-            app:rbcc_lineWidth="1dp"
-            app:rbcc_markViewTitle="@string/sdk_heart_rate"
-            app:rbcc_titleMenuIcon="@drawable/vector_drawable_screen_shrink"
+            app:tcbc_isTitleMenuIconShow="true"
+            app:tcbc_lineWidth="1dp"
+            app:tcbc_markViewTitle="@string/sdk_heart_rate"
+            app:tcbc_titleMenuIcon="@drawable/vector_drawable_screen_shrink"
             />
 
 </LinearLayout>

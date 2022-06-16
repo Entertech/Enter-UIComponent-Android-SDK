@@ -12,7 +12,7 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.MPPointF;
 
 import cn.entertech.uicomponentsdk.R;
-import cn.entertech.uicomponentsdk.report.ReportPressureTrendCard;
+import cn.entertech.uicomponentsdk.report.TrendPressureChart;
 import cn.entertech.uicomponentsdk.utils.TimeUtils;
 
 public class PressureTrendChartMarkView extends MarkerView {
@@ -59,7 +59,7 @@ public class PressureTrendChartMarkView extends MarkerView {
 
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
-        ReportPressureTrendCard.LineSourceData lineSourceData = (ReportPressureTrendCard.LineSourceData) e.getData();
+        TrendPressureChart.LineSourceData lineSourceData = (TrendPressureChart.LineSourceData) e.getData();
         long date = TimeUtils.getStringToDate(lineSourceData.getDate(), "yyyy-MM-dd");
         float floatValue = lineSourceData.getValue();
         if (floatValue >= 0 && floatValue < 25) {

@@ -2,7 +2,6 @@ package cn.entertech.uicomponentsdk.widget;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.entertech.uicomponentsdk.R;
-import cn.entertech.uicomponentsdk.report.ReportBrainwaveTrendCard;
+import cn.entertech.uicomponentsdk.report.TrendBrainwaveChart;
 import cn.entertech.uicomponentsdk.utils.TimeUtils;
 
 public class BrainwaveTrendChartMarkView extends MarkerView {
@@ -122,7 +121,7 @@ public class BrainwaveTrendChartMarkView extends MarkerView {
 
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
-        ReportBrainwaveTrendCard.BrainwaveLineSourceData brainwaveLineSourceData = (ReportBrainwaveTrendCard.BrainwaveLineSourceData) e.getData();
+        TrendBrainwaveChart.BrainwaveLineSourceData brainwaveLineSourceData = (TrendBrainwaveChart.BrainwaveLineSourceData) e.getData();
         valueList.clear();
         valueList.add(brainwaveLineSourceData.getGamma());
         valueList.add(brainwaveLineSourceData.getBeta());

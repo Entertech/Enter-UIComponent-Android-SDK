@@ -7,18 +7,18 @@
         tools:context=".activity.LineChartFullScreenActivity"
         >
 
-    <cn.entertech.uicomponentsdk.report.ReportCandleStickChartCard
+    <cn.entertech.uicomponentsdk.report.TrendCommonCandleChart
             android:id="@+id/chart_candle_stick"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
-            app:rcscc_mainColor="#FF6682"
-            app:rcscc_textColor="#7A7C8A"
-            app:rcscc_lineWidth="2dp"
-            app:rcscc_markViewTitle="@string/sdk_heart_rate"
-            app:rcscc_titleMenuIcon="@drawable/vector_drawable_screen_shrink"
-            app:rcscc_unit="min"
-            app:rcscc_xAxisLineColor="#9AA1A9"
+            app:tccc_mainColor="#FF6682"
+            app:tccc_textColor="#7A7C8A"
+            app:tccc_lineWidth="2dp"
+            app:tccc_markViewTitle="@string/sdk_heart_rate"
+            app:tccc_titleMenuIcon="@drawable/vector_drawable_screen_shrink"
+            app:tccc_unit="min"
+            app:tccc_xAxisLineColor="#9AA1A9"
             />
 
 </LinearLayout>

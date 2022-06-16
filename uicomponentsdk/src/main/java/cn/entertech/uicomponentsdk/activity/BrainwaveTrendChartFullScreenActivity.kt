@@ -6,7 +6,7 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import cn.entertech.uicomponentsdk.R
-import cn.entertech.uicomponentsdk.report.ReportBrainwaveTrendCard
+import cn.entertech.uicomponentsdk.report.TrendBrainwaveChart
 import kotlinx.android.synthetic.main.activity_brainwave_trend_chart_full_screen.*
 
 class BrainwaveTrendChartFullScreenActivity : AppCompatActivity() {
@@ -17,7 +17,7 @@ class BrainwaveTrendChartFullScreenActivity : AppCompatActivity() {
         setContentView(R.layout.activity_brainwave_trend_chart_full_screen)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
-        var lineData = intent.getSerializableExtra("lineData") as ArrayList<ReportBrainwaveTrendCard.BrainwaveLineSourceData>
+        var lineData = intent.getSerializableExtra("lineData") as ArrayList<TrendBrainwaveChart.BrainwaveLineSourceData>
         var lineWidth = intent.getFloatExtra("lineWidth",1.5f)
         var highlightLineColor = intent.getIntExtra("highlightLineColor",Color.parseColor("#11152E"))
         var highlightLineWidth = intent.getFloatExtra("highlightLineWidth",1.5f)

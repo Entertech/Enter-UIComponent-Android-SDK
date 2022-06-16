@@ -7,16 +7,16 @@
         tools:context=".activity.LineChartFullScreenActivity"
         >
 
-    <cn.entertech.uicomponentsdk.report.ReportBrainwaveTrendCard
+    <cn.entertech.uicomponentsdk.report.TrendBrainwaveChart
             android:id="@+id/chart_brainwave_trend"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/activity_margin_half"
             android:background="@color/white"
-            app:rbtc_isTitleMenuIconShow="true"
-            app:rbtc_lineWidth="1dp"
-            app:rbtc_markViewTitle="@string/sdk_heart_rate"
-            app:rbtc_titleMenuIcon="@drawable/vector_drawable_screen_shrink"
+            app:tbc_isTitleMenuIconShow="true"
+            app:tbc_lineWidth="1dp"
+            app:tbc_markViewTitle="@string/sdk_heart_rate"
+            app:tbc_titleMenuIcon="@drawable/vector_drawable_screen_shrink"
             />
 
 </LinearLayout>

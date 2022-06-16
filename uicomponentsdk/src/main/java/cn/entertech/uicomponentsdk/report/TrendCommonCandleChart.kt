@@ -52,7 +52,7 @@ import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.floor
 
-class ReportCandleStickChartCard @JvmOverloads constructor(
+class TrendCommonCandleChart @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0, layoutId: Int? = null
@@ -150,64 +150,64 @@ class ReportCandleStickChartCard @JvmOverloads constructor(
         addView(mSelfView)
         var typeArray = context.obtainStyledAttributes(
             attributeSet,
-            R.styleable.ReportCandleStickChartCard
+            R.styleable.TrendCommonCandleChart
         )
         mMainColor =
-            typeArray.getColor(R.styleable.ReportCandleStickChartCard_rcscc_mainColor, mMainColor)
+            typeArray.getColor(R.styleable.TrendCommonCandleChart_tccc_mainColor, mMainColor)
         mTextColor =
-            typeArray.getColor(R.styleable.ReportCandleStickChartCard_rcscc_textColor, mTextColor)
-        mBg = typeArray.getDrawable(R.styleable.ReportCandleStickChartCard_rcscc_background)
+            typeArray.getColor(R.styleable.TrendCommonCandleChart_tccc_textColor, mTextColor)
+        mBg = typeArray.getDrawable(R.styleable.TrendCommonCandleChart_tccc_background)
 
         mGridLineColor =
             typeArray.getColor(
-                R.styleable.ReportCandleStickChartCard_rcscc_gridLineColor,
+                R.styleable.TrendCommonCandleChart_tccc_gridLineColor,
                 mGridLineColor
             )
         mLineWidth =
             typeArray.getDimension(
-                R.styleable.ReportCandleStickChartCard_rcscc_lineWidth,
+                R.styleable.TrendCommonCandleChart_tccc_lineWidth,
                 mLineWidth
             )
         mIsDrawFill =
-            typeArray.getBoolean(R.styleable.ReportCandleStickChartCard_rcscc_isDrawFill, false)
+            typeArray.getBoolean(R.styleable.TrendCommonCandleChart_tccc_isDrawFill, false)
 
         mHighlightLineColor = typeArray.getColor(
-            R.styleable.ReportCandleStickChartCard_rcscc_highlightLineColor,
+            R.styleable.TrendCommonCandleChart_tccc_highlightLineColor,
             mHighlightLineColor
         )
         mHighlightLineWidth = typeArray.getFloat(
-            R.styleable.ReportCandleStickChartCard_rcscc_highlightLineWidth,
+            R.styleable.TrendCommonCandleChart_tccc_highlightLineWidth,
             mHighlightLineWidth
         )
         mMarkViewBgColor = typeArray.getColor(
-            R.styleable.ReportCandleStickChartCard_rcscc_markViewBgColor,
+            R.styleable.TrendCommonCandleChart_tccc_markViewBgColor,
             mMarkViewBgColor
         )
         mMarkViewTitle =
-            typeArray.getString(R.styleable.ReportCandleStickChartCard_rcscc_markViewTitle)
+            typeArray.getString(R.styleable.TrendCommonCandleChart_tccc_markViewTitle)
         mMarkViewTitleColor = typeArray.getColor(
-            R.styleable.ReportCandleStickChartCard_rcscc_markViewTitleColor,
+            R.styleable.TrendCommonCandleChart_tccc_markViewTitleColor,
             mMarkViewTitleColor
         )
         mMarkViewValueColor = typeArray.getColor(
-            R.styleable.ReportCandleStickChartCard_rcscc_markViewValueColor,
+            R.styleable.TrendCommonCandleChart_tccc_markViewValueColor,
             mMarkViewValueColor
         )
         mTitleMenuIcon =
-            typeArray.getDrawable(R.styleable.ReportCandleStickChartCard_rcscc_titleMenuIcon)
+            typeArray.getDrawable(R.styleable.TrendCommonCandleChart_tccc_titleMenuIcon)
         mIsShowLevel =
-            typeArray.getBoolean(R.styleable.ReportCandleStickChartCard_rcscc_isShowLevel, false)
+            typeArray.getBoolean(R.styleable.TrendCommonCandleChart_tccc_isShowLevel, false)
         mLevelBgColor = typeArray.getColor(
-            R.styleable.ReportCandleStickChartCard_rcscc_valueLevelBgColor,
+            R.styleable.TrendCommonCandleChart_tccc_valueLevelBgColor,
             mLevelBgColor
         )
         mLevelTextColor = typeArray.getColor(
-            R.styleable.ReportCandleStickChartCard_rcscc_valueLevelTextColor,
+            R.styleable.TrendCommonCandleChart_tccc_valueLevelTextColor,
             mLevelTextColor
         )
-        mUnit = typeArray.getString(R.styleable.ReportCandleStickChartCard_rcscc_unit)
+        mUnit = typeArray.getString(R.styleable.TrendCommonCandleChart_tccc_unit)
         mXAxisLineColor = typeArray.getColor(
-            R.styleable.ReportCandleStickChartCard_rcscc_xAxisLineColor,
+            R.styleable.TrendCommonCandleChart_tccc_xAxisLineColor,
             mXAxisLineColor
         )
         typeArray.recycle()

@@ -20,7 +20,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.LinearLayout
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.activity.PressureTrendChartFullScreenActivity
-import cn.entertech.uicomponentsdk.report.ReportCandleStickChartCard.Companion.CYCLE_MONTH
+import cn.entertech.uicomponentsdk.report.TrendCommonCandleChart.Companion.CYCLE_MONTH
 import cn.entertech.uicomponentsdk.utils.*
 import cn.entertech.uicomponentsdk.widget.*
 import com.github.mikephil.charting.components.LimitLine
@@ -46,7 +46,7 @@ import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.floor
 
-class ReportPressureTrendCard @JvmOverloads constructor(
+class TrendPressureChart @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0, layoutId: Int? = null
@@ -143,72 +143,72 @@ class ReportPressureTrendCard @JvmOverloads constructor(
         addView(mSelfView)
         var typeArray = context.obtainStyledAttributes(
             attributeSet,
-            R.styleable.ReportPressureTrendCard
+            R.styleable.TrendPressureChart
         )
         mMainColor =
-            typeArray.getColor(R.styleable.ReportPressureTrendCard_rptc_mainColor, mMainColor)
+            typeArray.getColor(R.styleable.TrendPressureChart_tpc_mainColor, mMainColor)
         mTextColor =
-            typeArray.getColor(R.styleable.ReportPressureTrendCard_rptc_textColor, mTextColor)
-        mBg = typeArray.getDrawable(R.styleable.ReportPressureTrendCard_rptc_background)
+            typeArray.getColor(R.styleable.TrendPressureChart_tpc_textColor, mTextColor)
+        mBg = typeArray.getDrawable(R.styleable.TrendPressureChart_tpc_background)
         mIsTitleMenuIconShow = typeArray.getBoolean(
-            R.styleable.ReportPressureTrendCard_rptc_isTitleMenuIconShow,
+            R.styleable.TrendPressureChart_tpc_isTitleMenuIconShow,
             mIsTitleMenuIconShow
         )
         mTitleMenuIcon =
-            typeArray.getDrawable(R.styleable.ReportPressureTrendCard_rptc_titleMenuIcon)
+            typeArray.getDrawable(R.styleable.TrendPressureChart_tpc_titleMenuIcon)
 
         mGridLineColor =
             typeArray.getColor(
-                R.styleable.ReportPressureTrendCard_rptc_gridLineColor,
+                R.styleable.TrendPressureChart_tpc_gridLineColor,
                 mGridLineColor
             )
         mLineWidth =
-            typeArray.getDimension(R.styleable.ReportPressureTrendCard_rptc_lineWidth, mLineWidth)
+            typeArray.getDimension(R.styleable.TrendPressureChart_tpc_lineWidth, mLineWidth)
 
         mHighlightLineColor = typeArray.getColor(
-            R.styleable.ReportPressureTrendCard_rptc_highlightLineColor,
+            R.styleable.TrendPressureChart_tpc_highlightLineColor,
             mHighlightLineColor
         )
         mHighlightLineWidth = typeArray.getFloat(
-            R.styleable.ReportPressureTrendCard_rptc_highlightLineWidth,
+            R.styleable.TrendPressureChart_tpc_highlightLineWidth,
             mHighlightLineWidth
         )
         mMarkViewBgColor = typeArray.getColor(
-            R.styleable.ReportPressureTrendCard_rptc_markViewBgColor,
+            R.styleable.TrendPressureChart_tpc_markViewBgColor,
             mMarkViewBgColor
         )
-        mMarkViewTitle = typeArray.getString(R.styleable.ReportPressureTrendCard_rptc_markViewTitle)
+        mMarkViewTitle = typeArray.getString(R.styleable.TrendPressureChart_tpc_markViewTitle)
         mMarkViewTitleColor = typeArray.getColor(
-            R.styleable.ReportPressureTrendCard_rptc_markViewTitleColor,
+            R.styleable.TrendPressureChart_tpc_markViewTitleColor,
             mMarkViewTitleColor
         )
         mMarkViewValueColor = typeArray.getColor(
-            R.styleable.ReportPressureTrendCard_rptc_markViewValueColor,
+            R.styleable.TrendPressureChart_tpc_markViewValueColor,
             mMarkViewValueColor
         )
         mXAxisLineColor =
             typeArray.getColor(
-                R.styleable.ReportPressureTrendCard_rptc_xAxisLineColor,
+                R.styleable.TrendPressureChart_tpc_xAxisLineColor,
                 mXAxisLineColor
             )
-        mUnit = typeArray.getString(R.styleable.ReportPressureTrendCard_rptc_unit)
+        mUnit = typeArray.getString(R.styleable.TrendPressureChart_tpc_unit)
         mShowLevel =
-            typeArray.getBoolean(R.styleable.ReportPressureTrendCard_rptc_isShowLevel, false)
+            typeArray.getBoolean(R.styleable.TrendPressureChart_tpc_isShowLevel, false)
         mLevelBgColor =
             typeArray.getColor(
-                R.styleable.ReportPressureTrendCard_rptc_valueLevelBgColor,
+                R.styleable.TrendPressureChart_tpc_valueLevelBgColor,
                 mLevelBgColor
             )
         mLevelTextColor = typeArray.getColor(
-            R.styleable.ReportPressureTrendCard_rptc_valueLevelTextColor,
+            R.styleable.TrendPressureChart_tpc_valueLevelTextColor,
             mLevelTextColor
         )
         mFillGradientStartColor = typeArray.getColor(
-            R.styleable.ReportPressureTrendCard_rptc_fillGradientStartColor,
+            R.styleable.TrendPressureChart_tpc_fillGradientStartColor,
             mFillGradientStartColor
         )
         mFillGradientEndColor = typeArray.getColor(
-            R.styleable.ReportPressureTrendCard_rptc_fillGradientEndColor,
+            R.styleable.TrendPressureChart_tpc_fillGradientEndColor,
             mFillGradientEndColor
         )
         typeArray.recycle()
@@ -294,7 +294,7 @@ class ReportPressureTrendCard @JvmOverloads constructor(
     ): ArrayList<LineSourceData> {
         var firstData = sourceData[0]
         when (cycle) {
-            ReportCandleStickChartCard.CYCLE_MONTH -> {
+            TrendCommonCandleChart.CYCLE_MONTH -> {
                 var date = firstData.date
                 var day = date.split("-")[2]
                 if (day != "01") {
@@ -311,7 +311,7 @@ class ReportPressureTrendCard @JvmOverloads constructor(
                     sourceData.addAll(0, preData)
                 }
             }
-            ReportCandleStickChartCard.CYCLE_YEAR -> {
+            TrendCommonCandleChart.CYCLE_YEAR -> {
                 var date = firstData.date
                 var month = date.split("-")[1]
                 if (month != "01") {
@@ -347,7 +347,7 @@ class ReportPressureTrendCard @JvmOverloads constructor(
         var pages = ArrayList<ChartPage>()
         for (i in data.indices) {
             when (cycle) {
-                ReportCandleStickChartCard.CYCLE_MONTH -> {
+                TrendCommonCandleChart.CYCLE_MONTH -> {
                     var date = data[i].date
                     var dateSplit = date.split("-")
                     if (dateSplit.size > 1) {
@@ -364,7 +364,7 @@ class ReportPressureTrendCard @JvmOverloads constructor(
                     }
 
                 }
-                ReportCandleStickChartCard.CYCLE_YEAR -> {
+                TrendCommonCandleChart.CYCLE_YEAR -> {
                     var curYear = data[i].date.split("-")[0]
                     if (curYear != lastYear) {
                         var page = ChartPage()
@@ -395,16 +395,33 @@ class ReportPressureTrendCard @JvmOverloads constructor(
     }
 
     fun initChartXLabel(data: ArrayList<LineSourceData>) {
+        var xLabelOffset = 0
+        if (mCycle == CYCLE_MONTH) {
+            xLabelOffset = 7
+        } else {
+            xLabelOffset = 1
+        }
         for (i in data.indices) {
-            if ((i + 1) % 7 == 0) {
+            if (((i + 1) % xLabelOffset == 0 && i + 1 < data.size)) {
                 val llXAxis = LimitLine(i.toFloat() + 0.5f, "${data[i + 1].xLabel}")
                 llXAxis.lineWidth = 1f
                 llXAxis.labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
                 llXAxis.textSize = 12f
                 llXAxis.yOffset = -15f
                 llXAxis.enableDashedLine(10f, 10f, 0f)
-                llXAxis.lineColor = mGridLineColor
-                llXAxis.textColor = mTextColor
+                llXAxis.lineColor = getOpacityColor(mTextColor, 0.2f)
+                llXAxis.textColor = mLabelColor
+                chart.xAxis.addLimitLine(llXAxis)
+            }
+            if (i == 0 && mCycle == TrendCommonCandleChart.CYCLE_YEAR) {
+                val llXAxis = LimitLine(i.toFloat()-0.5f, "${data[0].xLabel}")
+                llXAxis.lineWidth = 1f
+                llXAxis.labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
+                llXAxis.textSize = 12f
+                llXAxis.yOffset = -15f
+                llXAxis.enableDashedLine(10f, 10f, 0f)
+                llXAxis.lineColor = getOpacityColor(mTextColor, 0.2f)
+                llXAxis.textColor = mLabelColor
                 chart.xAxis.addLimitLine(llXAxis)
             }
         }

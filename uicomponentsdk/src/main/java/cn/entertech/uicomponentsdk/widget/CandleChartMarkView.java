@@ -7,14 +7,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.components.MarkerView;
-import com.github.mikephil.charting.data.CandleEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.MPPointF;
-import com.github.mikephil.charting.utils.Utils;
 
 import cn.entertech.uicomponentsdk.R;
-import cn.entertech.uicomponentsdk.report.ReportCandleStickChartCard;
+import cn.entertech.uicomponentsdk.report.TrendCommonCandleChart;
 import cn.entertech.uicomponentsdk.utils.TimeUtils;
 
 public class CandleChartMarkView extends MarkerView {
@@ -61,7 +59,7 @@ public class CandleChartMarkView extends MarkerView {
 
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
-        ReportCandleStickChartCard.CandleSourceData candleSourceData = (ReportCandleStickChartCard.CandleSourceData) e.getData();
+        TrendCommonCandleChart.CandleSourceData candleSourceData = (TrendCommonCandleChart.CandleSourceData) e.getData();
         long startTimeMs = TimeUtils.getStringToDate(candleSourceData.getDate(), "yyyy-MM-dd");
         int value = (int)candleSourceData.getAverage();
         tvValue.setText(value+"");

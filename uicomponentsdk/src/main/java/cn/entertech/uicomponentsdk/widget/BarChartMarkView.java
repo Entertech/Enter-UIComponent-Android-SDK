@@ -12,8 +12,7 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.MPPointF;
 
 import cn.entertech.uicomponentsdk.R;
-import cn.entertech.uicomponentsdk.report.ReportBarChartCard;
-import cn.entertech.uicomponentsdk.report.ReportCandleStickChartCard;
+import cn.entertech.uicomponentsdk.report.TrendCommonBarChart;
 import cn.entertech.uicomponentsdk.utils.TimeUtils;
 
 public class BarChartMarkView extends MarkerView {
@@ -60,7 +59,7 @@ public class BarChartMarkView extends MarkerView {
 
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
-        ReportBarChartCard.BarSourceData candleSourceData = (ReportBarChartCard.BarSourceData) e.getData();
+        TrendCommonBarChart.BarSourceData candleSourceData = (TrendCommonBarChart.BarSourceData) e.getData();
         long startTimeMs = TimeUtils.getStringToDate(candleSourceData.getDate(), "yyyy-MM-dd");
         int value = (int)candleSourceData.getValue();
         tvValue.setText(value+"");

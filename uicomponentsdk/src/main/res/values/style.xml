@@ -390,86 +390,86 @@
         <attr name="rlcc_averageLabelBgColor" format="color"/>
         <attr name="rlcc_smallTitle" format="string" />
     </declare-styleable>
-    <declare-styleable name="ReportBarChartCard">
-        <attr name="rbcc_isTitleMenuIconShow" format="boolean" />
-        <attr name="rbcc_titleMenuIcon" format="reference" />
-        <attr name="rbcc_mainColor" format="color" />
-        <attr name="rbcc_textColor" format="color" />
-        <attr name="rbcc_background" format="color|reference" />
-        <attr name="rbcc_lineWidth" format="dimension" />
-        <attr name="rbcc_gridLineColor" format="color" />
-        <attr name="rbcc_highlightLineColor" format="color"/>
-        <attr name="rbcc_highlightLineWidth" format="float"/>
-        <attr name="rbcc_markViewBgColor" format="color"/>
-        <attr name="rbcc_markViewTitle" format="string"/>
-        <attr name="rbcc_markViewTitleColor" format="color"/>
-        <attr name="rbcc_markViewValueColor" format="color"/>
-        <attr name="rbcc_xAxisLineColor" format="color"/>
-        <attr name="rbcc_unit" format="string"/>
-        <attr name="rbcc_isShowLevel" format="boolean"/>
-        <attr name="rbcc_valueLevelBgColor" format="color" />
-        <attr name="rbcc_valueLevelTextColor" format="color" />
+    <declare-styleable name="TrendCommonBarChart">
+        <attr name="tcbc_isTitleMenuIconShow" format="boolean" />
+        <attr name="tcbc_titleMenuIcon" format="reference" />
+        <attr name="tcbc_mainColor" format="color" />
+        <attr name="tcbc_textColor" format="color" />
+        <attr name="tcbc_background" format="color|reference" />
+        <attr name="tcbc_lineWidth" format="dimension" />
+        <attr name="tcbc_gridLineColor" format="color" />
+        <attr name="tcbc_highlightLineColor" format="color"/>
+        <attr name="tcbc_highlightLineWidth" format="float"/>
+        <attr name="tcbc_markViewBgColor" format="color"/>
+        <attr name="tcbc_markViewTitle" format="string"/>
+        <attr name="tcbc_markViewTitleColor" format="color"/>
+        <attr name="tcbc_markViewValueColor" format="color"/>
+        <attr name="tcbc_xAxisLineColor" format="color"/>
+        <attr name="tcbc_unit" format="string"/>
+        <attr name="tcbc_isShowLevel" format="boolean"/>
+        <attr name="tcbc_valueLevelBgColor" format="color" />
+        <attr name="tcbc_valueLevelTextColor" format="color" />
     </declare-styleable>
 
-    <declare-styleable name="ReportPressureTrendCard">
-        <attr name="rptc_isTitleMenuIconShow" format="boolean" />
-        <attr name="rptc_titleMenuIcon" format="reference" />
-        <attr name="rptc_mainColor" format="color" />
-        <attr name="rptc_textColor" format="color" />
-        <attr name="rptc_background" format="color|reference" />
-        <attr name="rptc_lineWidth" format="dimension" />
-        <attr name="rptc_gridLineColor" format="color" />
-        <attr name="rptc_highlightLineColor" format="color"/>
-        <attr name="rptc_highlightLineWidth" format="float"/>
-        <attr name="rptc_markViewBgColor" format="color"/>
-        <attr name="rptc_markViewTitle" format="string"/>
-        <attr name="rptc_markViewTitleColor" format="color"/>
-        <attr name="rptc_markViewValueColor" format="color"/>
-        <attr name="rptc_xAxisLineColor" format="color"/>
-        <attr name="rptc_unit" format="string"/>
-        <attr name="rptc_isShowLevel" format="boolean"/>
-        <attr name="rptc_valueLevelBgColor" format="color" />
-        <attr name="rptc_valueLevelTextColor" format="color" />
-        <attr name="rptc_fillGradientStartColor" format="color" />
-        <attr name="rptc_fillGradientEndColor" format="color" />
+    <declare-styleable name="TrendPressureChart">
+        <attr name="tpc_isTitleMenuIconShow" format="boolean" />
+        <attr name="tpc_titleMenuIcon" format="reference" />
+        <attr name="tpc_mainColor" format="color" />
+        <attr name="tpc_textColor" format="color" />
+        <attr name="tpc_background" format="color|reference" />
+        <attr name="tpc_lineWidth" format="dimension" />
+        <attr name="tpc_gridLineColor" format="color" />
+        <attr name="tpc_highlightLineColor" format="color"/>
+        <attr name="tpc_highlightLineWidth" format="float"/>
+        <attr name="tpc_markViewBgColor" format="color"/>
+        <attr name="tpc_markViewTitle" format="string"/>
+        <attr name="tpc_markViewTitleColor" format="color"/>
+        <attr name="tpc_markViewValueColor" format="color"/>
+        <attr name="tpc_xAxisLineColor" format="color"/>
+        <attr name="tpc_unit" format="string"/>
+        <attr name="tpc_isShowLevel" format="boolean"/>
+        <attr name="tpc_valueLevelBgColor" format="color" />
+        <attr name="tpc_valueLevelTextColor" format="color" />
+        <attr name="tpc_fillGradientStartColor" format="color" />
+        <attr name="tpc_fillGradientEndColor" format="color" />
     </declare-styleable>
 
-    <declare-styleable name="ReportBrainwaveTrendCard">
-        <attr name="rbtc_isTitleMenuIconShow" format="boolean" />
-        <attr name="rbtc_titleMenuIcon" format="reference" />
-        <attr name="rbtc_mainColor" format="color" />
-        <attr name="rbtc_textColor" format="color" />
-        <attr name="rbtc_background" format="color|reference" />
-        <attr name="rbtc_lineWidth" format="dimension" />
-        <attr name="rbtc_gridLineColor" format="color" />
-        <attr name="rbtc_highlightLineColor" format="color"/>
-        <attr name="rbtc_highlightLineWidth" format="float"/>
-        <attr name="rbtc_markViewBgColor" format="color"/>
-        <attr name="rbtc_markViewTitle" format="string"/>
-        <attr name="rbtc_markViewTitleColor" format="color"/>
-        <attr name="rbtc_markViewValueColor" format="color"/>
-        <attr name="rbtc_xAxisLineColor" format="color"/>
-        <attr name="rbtc_fillColors" format="string" />
+    <declare-styleable name="TrendBrainwaveChart">
+        <attr name="tbc_isTitleMenuIconShow" format="boolean" />
+        <attr name="tbc_titleMenuIcon" format="reference" />
+        <attr name="tbc_mainColor" format="color" />
+        <attr name="tbc_textColor" format="color" />
+        <attr name="tbc_background" format="color|reference" />
+        <attr name="tbc_lineWidth" format="dimension" />
+        <attr name="tbc_gridLineColor" format="color" />
+        <attr name="tbc_highlightLineColor" format="color"/>
+        <attr name="tbc_highlightLineWidth" format="float"/>
+        <attr name="tbc_markViewBgColor" format="color"/>
+        <attr name="tbc_markViewTitle" format="string"/>
+        <attr name="tbc_markViewTitleColor" format="color"/>
+        <attr name="tbc_markViewValueColor" format="color"/>
+        <attr name="tbc_xAxisLineColor" format="color"/>
+        <attr name="tbc_fillColors" format="string" />
     </declare-styleable>
-    <declare-styleable name="ReportCandleStickChartCard">
-        <attr name="rcscc_mainColor" format="color" />
-        <attr name="rcscc_textColor" format="color" />
-        <attr name="rcscc_background" format="color|reference" />
-        <attr name="rcscc_lineWidth" format="dimension" />
-        <attr name="rcscc_gridLineColor" format="color" />
-        <attr name="rcscc_isDrawFill" format="boolean" />
-        <attr name="rcscc_highlightLineColor" format="color"/>
-        <attr name="rcscc_highlightLineWidth" format="float"/>
-        <attr name="rcscc_markViewBgColor" format="color"/>
-        <attr name="rcscc_markViewTitle" format="string"/>
-        <attr name="rcscc_markViewTitleColor" format="color"/>
-        <attr name="rcscc_markViewValueColor" format="color"/>
-        <attr name="rcscc_xAxisLineColor" format="color"/>
-        <attr name="rcscc_titleMenuIcon" format="reference"/>
-        <attr name="rcscc_unit" format="string"/>
-        <attr name="rcscc_isShowLevel" format="boolean" />
-        <attr name="rcscc_valueLevelBgColor" format="color" />
-        <attr name="rcscc_valueLevelTextColor" format="color" />
+    <declare-styleable name="TrendCommonCandleChart">
+        <attr name="tccc_mainColor" format="color" />
+        <attr name="tccc_textColor" format="color" />
+        <attr name="tccc_background" format="color|reference" />
+        <attr name="tccc_lineWidth" format="dimension" />
+        <attr name="tccc_gridLineColor" format="color" />
+        <attr name="tccc_isDrawFill" format="boolean" />
+        <attr name="tccc_highlightLineColor" format="color"/>
+        <attr name="tccc_highlightLineWidth" format="float"/>
+        <attr name="tccc_markViewBgColor" format="color"/>
+        <attr name="tccc_markViewTitle" format="string"/>
+        <attr name="tccc_markViewTitleColor" format="color"/>
+        <attr name="tccc_markViewValueColor" format="color"/>
+        <attr name="tccc_xAxisLineColor" format="color"/>
+        <attr name="tccc_titleMenuIcon" format="reference"/>
+        <attr name="tccc_unit" format="string"/>
+        <attr name="tccc_isShowLevel" format="boolean" />
+        <attr name="tccc_valueLevelBgColor" format="color" />
+        <attr name="tccc_valueLevelTextColor" format="color" />
     </declare-styleable>
 <!--    <declare-styleable name="ReportBarChartCard">-->
 <!--        <attr name="rbcc_isTitleIconShow" format="boolean" />-->

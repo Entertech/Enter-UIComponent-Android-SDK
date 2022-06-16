@@ -2,7 +2,6 @@ package cn.entertech.uicomponentsdk.report
 
 import android.animation.Animator
 import android.animation.ValueAnimator
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -20,51 +19,56 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.LinearLayout
 import cn.entertech.uicomponentsdk.R
-import cn.entertech.uicomponentsdk.activity.BarChartFullScreenActivity
-import cn.entertech.uicomponentsdk.report.ReportCandleStickChartCard.Companion.CYCLE_MONTH
+import cn.entertech.uicomponentsdk.activity.BrainwaveTrendChartFullScreenActivity
+import cn.entertech.uicomponentsdk.report.TrendCommonCandleChart.Companion.CYCLE_MONTH
 import cn.entertech.uicomponentsdk.utils.*
-import cn.entertech.uicomponentsdk.widget.BarChartMarkView
-import cn.entertech.uicomponentsdk.widget.ChartIconView
-import cn.entertech.uicomponentsdk.widget.CustomBarChart
+import cn.entertech.uicomponentsdk.widget.*
 import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.ChartTouchListener
 import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.MPPointF
-import kotlinx.android.synthetic.main.layout_card_bar_chart.view.*
-import kotlinx.android.synthetic.main.layout_card_bar_chart.view.chart
-import kotlinx.android.synthetic.main.layout_card_bar_chart.view.iv_menu
-import kotlinx.android.synthetic.main.layout_card_bar_chart.view.ll_title
-import kotlinx.android.synthetic.main.layout_card_bar_chart.view.rl_bg
-import kotlinx.android.synthetic.main.layout_card_bar_chart.view.tv_date
-import kotlinx.android.synthetic.main.layout_card_bar_chart.view.tv_level
-import kotlinx.android.synthetic.main.layout_card_bar_chart.view.tv_title
-import kotlinx.android.synthetic.main.layout_card_bar_chart.view.tv_unit
-import kotlinx.android.synthetic.main.layout_card_bar_chart.view.tv_value
+import com.github.mikephil.charting.utils.Utils
+import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.chart
+import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.legend_alpha
+import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.legend_beta
+import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.legend_delta
+import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.legend_gamma
+import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.legend_theta
+import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.ll_legend_parent
+import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.ll_title
+import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.rl_bg
+import kotlinx.android.synthetic.main.layout_card_brainwave_trend_chart.view.*
+import kotlinx.android.synthetic.main.layout_card_brainwave_trend_chart.view.iv_menu
+import kotlinx.android.synthetic.main.layout_card_brainwave_trend_chart.view.tv_date
+import kotlinx.android.synthetic.main.layout_card_brainwave_trend_chart.view.tv_title
 import java.io.Serializable
 import kotlin.math.abs
-import kotlin.math.ceil
-import kotlin.math.floor
 
-class ReportBarChartCard @JvmOverloads constructor(
+class TrendBrainwaveChart @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
-    private var mDataAverage: Double = 0.0
-    private var mLevelTextColor: Int = Color.GRAY
-    private var mLevelBgColor: Int = Color.GRAY
-    private var mShowLevel: Boolean
+    private lateinit var checkIndexList: java.util.ArrayList<Int>
+    private var mFillColorArray: List<String>? = null
+    private var mFillColors: String? = ""
+    private var mDeltaAverage: Int = 0
+    private var mThetaAverage: Int = 0
+    private var mAlphaAverage: Int = 0
+    private var mBetaAverage: Int = 0
+    private var mGammaAverage: Int = 0
     private var mUnit: String? = ""
     private var mXAxisLineColor: Int = Color.parseColor("#9AA1A9")
-    private var mChartVisibleXRangeMaximum: Float = 0f
-    private lateinit var highestVisibleData: BarSourceData
-    private lateinit var lowestVisibleData: BarSourceData
+    private var mChartVisibleXRangeMaximum: Int = 0
+    private lateinit var highestVisibleData: BrainwaveLineSourceData
+    private lateinit var lowestVisibleData: BrainwaveLineSourceData
     private var mVisibleDataCount: Int = 12
     var mAverageLabelBgColor: Int = Color.parseColor("#ffffff")
 
@@ -100,6 +104,11 @@ class ReportBarChartCard @JvmOverloads constructor(
             initView()
         }
 
+    var legendIsCheckList = listOf(true, true, true, true, true)
+
+    //    var yLabels  =  mutableListOf("δ","θ","α","β","γ")
+    val yLabels = mutableListOf("γ", "β", "α", "θ", "δ")
+    var currentYLabels = mutableListOf("γ", "δ", "θ", "α", "β")
     private lateinit var drawableIcon: Drawable
     private var mAverageLineColor: Int = Color.parseColor("#11152E")
     private var mAverageValue: String = "0"
@@ -109,7 +118,7 @@ class ReportBarChartCard @JvmOverloads constructor(
     private var mGridLineColor: Int = Color.parseColor("#E9EBF1")
     private var mLabelColor: Int = Color.parseColor("#9AA1A9")
     private var mIsTitleMenuIconShow: Boolean = true
-    private var mData: ArrayList<BarSourceData>? = null
+    private var mData: ArrayList<BrainwaveLineSourceData>? = null
     private var mBg: Drawable? = null
 
     private var mTitleMenuIcon: Drawable?
@@ -133,7 +142,8 @@ class ReportBarChartCard @JvmOverloads constructor(
     init {
         if (layoutId == null) {
             mSelfView =
-                LayoutInflater.from(context).inflate(R.layout.layout_card_bar_chart, null)
+                LayoutInflater.from(context)
+                    .inflate(R.layout.layout_card_brainwave_trend_chart, null)
             var layoutParams = ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT)
             mSelfView?.layoutParams = layoutParams
         } else {
@@ -144,54 +154,57 @@ class ReportBarChartCard @JvmOverloads constructor(
         addView(mSelfView)
         var typeArray = context.obtainStyledAttributes(
             attributeSet,
-            R.styleable.ReportBarChartCard
+            R.styleable.TrendBrainwaveChart
         )
-        mMainColor = typeArray.getColor(R.styleable.ReportBarChartCard_rbcc_mainColor, mMainColor)
-        mTextColor = typeArray.getColor(R.styleable.ReportBarChartCard_rbcc_textColor, mTextColor)
-        mBg = typeArray.getDrawable(R.styleable.ReportBarChartCard_rbcc_background)
+        mMainColor =
+            typeArray.getColor(R.styleable.TrendBrainwaveChart_tbc_mainColor, mMainColor)
+        mTextColor =
+            typeArray.getColor(R.styleable.TrendBrainwaveChart_tbc_textColor, mTextColor)
+        mBg = typeArray.getDrawable(R.styleable.TrendBrainwaveChart_tbc_background)
         mIsTitleMenuIconShow = typeArray.getBoolean(
-            R.styleable.ReportBarChartCard_rbcc_isTitleMenuIconShow,
+            R.styleable.TrendBrainwaveChart_tbc_isTitleMenuIconShow,
             mIsTitleMenuIconShow
         )
         mTitleMenuIcon =
-            typeArray.getDrawable(R.styleable.ReportBarChartCard_rbcc_titleMenuIcon)
+            typeArray.getDrawable(R.styleable.TrendBrainwaveChart_tbc_titleMenuIcon)
 
         mGridLineColor =
-            typeArray.getColor(R.styleable.ReportBarChartCard_rbcc_gridLineColor, mGridLineColor)
+            typeArray.getColor(
+                R.styleable.TrendBrainwaveChart_tbc_gridLineColor,
+                mGridLineColor
+            )
         mLineWidth =
-            typeArray.getDimension(R.styleable.ReportBarChartCard_rbcc_lineWidth, mLineWidth)
+            typeArray.getDimension(R.styleable.TrendBrainwaveChart_tbc_lineWidth, mLineWidth)
 
         mHighlightLineColor = typeArray.getColor(
-            R.styleable.ReportBarChartCard_rbcc_highlightLineColor,
+            R.styleable.TrendBrainwaveChart_tbc_highlightLineColor,
             mHighlightLineColor
         )
         mHighlightLineWidth = typeArray.getFloat(
-            R.styleable.ReportBarChartCard_rbcc_highlightLineWidth,
+            R.styleable.TrendBrainwaveChart_tbc_highlightLineWidth,
             mHighlightLineWidth
         )
         mMarkViewBgColor = typeArray.getColor(
-            R.styleable.ReportBarChartCard_rbcc_markViewBgColor,
+            R.styleable.TrendBrainwaveChart_tbc_markViewBgColor,
             mMarkViewBgColor
         )
-        mMarkViewTitle = typeArray.getString(R.styleable.ReportBarChartCard_rbcc_markViewTitle)
+        mMarkViewTitle =
+            typeArray.getString(R.styleable.TrendBrainwaveChart_tbc_markViewTitle)
         mMarkViewTitleColor = typeArray.getColor(
-            R.styleable.ReportBarChartCard_rbcc_markViewTitleColor,
+            R.styleable.TrendBrainwaveChart_tbc_markViewTitleColor,
             mMarkViewTitleColor
         )
         mMarkViewValueColor = typeArray.getColor(
-            R.styleable.ReportBarChartCard_rbcc_markViewValueColor,
+            R.styleable.TrendBrainwaveChart_tbc_markViewValueColor,
             mMarkViewValueColor
         )
         mXAxisLineColor =
-            typeArray.getColor(R.styleable.ReportBarChartCard_rbcc_xAxisLineColor, mXAxisLineColor)
-        mUnit = typeArray.getString(R.styleable.ReportBarChartCard_rbcc_unit)
-        mShowLevel = typeArray.getBoolean(R.styleable.ReportBarChartCard_rbcc_isShowLevel, false)
-        mLevelBgColor =
-            typeArray.getColor(R.styleable.ReportBarChartCard_rbcc_valueLevelBgColor, mLevelBgColor)
-        mLevelTextColor = typeArray.getColor(
-            R.styleable.ReportBarChartCard_rbcc_valueLevelTextColor,
-            mLevelTextColor
-        )
+            typeArray.getColor(
+                R.styleable.TrendBrainwaveChart_tbc_xAxisLineColor,
+                mXAxisLineColor
+            )
+        mFillColors = typeArray.getString(R.styleable.TrendBrainwaveChart_tbc_fillColors)
+        mFillColorArray = mFillColors?.split(",")
         typeArray.recycle()
         initView()
     }
@@ -200,14 +213,75 @@ class ReportBarChartCard @JvmOverloads constructor(
     fun initView() {
         initBg()
         initTitle()
-        initTimeUnit()
         initChart()
         initChartIcon()
+        initLegend()
     }
 
-    fun initTimeUnit() {
-        tv_time_unit_des.setTextColor(getOpacityColor(mTextColor, 0.7f))
-        tv_time_unit_des.text = mXAxisUnit
+    fun initLegend() {
+        if (mFillColorArray != null) {
+            legend_gamma.setLegendIconColor(Color.parseColor(mFillColorArray!![0]))
+            legend_beta.setLegendIconColor(Color.parseColor(mFillColorArray!![1]))
+            legend_alpha.setLegendIconColor(Color.parseColor(mFillColorArray!![2]))
+            legend_theta.setLegendIconColor(Color.parseColor(mFillColorArray!![3]))
+            legend_delta.setLegendIconColor(Color.parseColor(mFillColorArray!![4]))
+        }
+        for (i in legendIsCheckList.indices) {
+            (ll_legend_parent.getChildAt(i) as OptionalBrainChartLegendView).setCheck(
+                legendIsCheckList[i]
+            )
+        }
+        legend_gamma.setOnClickListener {
+            if (isLegendClickable() || !legend_gamma.mIsChecked) {
+                legend_gamma.setCheck(!legend_gamma.mIsChecked)
+                initChartIsShowList()
+            }
+        }
+        legend_beta.setOnClickListener {
+            if (isLegendClickable() || !legend_beta.mIsChecked) {
+                legend_beta.setCheck(!legend_beta.mIsChecked)
+                initChartIsShowList()
+            }
+        }
+        legend_alpha.setOnClickListener {
+            if (isLegendClickable() || !legend_alpha.mIsChecked) {
+                legend_alpha.setCheck(!legend_alpha.mIsChecked)
+                initChartIsShowList()
+            }
+        }
+        legend_theta.setOnClickListener {
+            if (isLegendClickable() || !legend_theta.mIsChecked) {
+                legend_theta.setCheck(!legend_theta.mIsChecked)
+                initChartIsShowList()
+            }
+        }
+        legend_delta.setOnClickListener {
+            if (isLegendClickable() || !legend_delta.mIsChecked) {
+                legend_delta.setCheck(!legend_delta.mIsChecked)
+                initChartIsShowList()
+            }
+        }
+    }
+
+    fun isLegendClickable(): Boolean {
+        var isCheckCount = 0
+        for (isChecked in legendIsCheckList) {
+            if (isChecked) {
+                isCheckCount++
+            }
+        }
+        return isCheckCount > 1
+    }
+
+    fun initChartIsShowList() {
+        legendIsCheckList = listOf(
+            legend_gamma.mIsChecked,
+            legend_beta.mIsChecked,
+            legend_alpha.mIsChecked,
+            legend_theta.mIsChecked,
+            legend_delta.mIsChecked
+        )
+        refreshChart()
     }
 
     fun initBg() {
@@ -230,33 +304,15 @@ class ReportBarChartCard @JvmOverloads constructor(
     }
 
     fun initTitle() {
-        if (mShowLevel) {
-            tv_unit.visibility = View.GONE
-            tv_level.visibility = View.VISIBLE
-            when (mDataAverage) {
-                in 0..29 -> tv_level.text = context.getString(R.string.sdk_report_low)
-                in 30..69 -> tv_level.text = context.getString(R.string.sdk_report_nor)
-                else -> tv_level.text = context.getString(R.string.sdk_report_high)
-            }
-            tv_level.setTextColor(mLevelTextColor)
-            var bg = tv_level.background as GradientDrawable
-            bg.setColor(mLevelBgColor)
-        } else {
-            tv_unit.visibility = View.VISIBLE
-            tv_level.visibility = View.GONE
-            tv_unit.setTextColor(mTextColor)
-            tv_unit.text = mUnit
-        }
-        tv_value.setTextColor(mMainColor)
+//        tv_value.setTextColor(mMainColor)
         tv_date.setTextColor(mTextColor)
         tv_title.setTextColor(mTextColor)
-        tv_unit.setTextColor(mTextColor)
         iv_menu.setImageDrawable(mTitleMenuIcon)
         iv_menu.setOnClickListener {
             if (isFullScreen) {
                 (context as Activity).finish()
             } else {
-                var intent = Intent(context, BarChartFullScreenActivity::class.java)
+                var intent = Intent(context, BrainwaveTrendChartFullScreenActivity::class.java)
                 intent.putExtra("lineWidth", mLineWidth)
                 intent.putExtra("highlightLineColor", mHighlightLineColor)
                 intent.putExtra("highlightLineWidth", mHighlightLineWidth)
@@ -275,32 +331,33 @@ class ReportBarChartCard @JvmOverloads constructor(
                 intent.putExtra("mainColor", mMainColor)
                 intent.putExtra("lineData", mData!! as Serializable)
                 intent.putExtra("cycle", mCycle)
-                intent.putExtra("unit", mUnit)
-                intent.putExtra("showLevel", mShowLevel)
-                intent.putExtra("levelBgColor", mLevelBgColor)
-                intent.putExtra("levelTextColor", mLevelTextColor)
                 intent.putExtra("xAxisLineColor", mXAxisLineColor)
+                intent.putExtra("fillColors", mFillColors)
                 context.startActivity(intent)
             }
         }
     }
 
     fun completeSourceData(
-        sourceData: ArrayList<BarSourceData>,
+        sourceData: ArrayList<BrainwaveLineSourceData>,
         cycle: String
-    ): ArrayList<BarSourceData> {
+    ): ArrayList<BrainwaveLineSourceData> {
         var firstData = sourceData[0]
         when (cycle) {
-            ReportCandleStickChartCard.CYCLE_MONTH -> {
+            TrendCommonCandleChart.CYCLE_MONTH -> {
                 var date = firstData.date
                 var day = date.split("-")[2]
                 if (day != "01") {
-                    var preData = ArrayList<BarSourceData>()
+                    var preData = ArrayList<BrainwaveLineSourceData>()
                     var dayIntValue = Integer.parseInt(day)
                     for (j in 1 until dayIntValue) {
                         var curDayString = String.format("%02d", j)
-                        var barSourceData = BarSourceData()
-                        barSourceData.value = 0f
+                        var barSourceData = BrainwaveLineSourceData()
+                        barSourceData.gamma = 20f
+                        barSourceData.beta = 20f
+                        barSourceData.alpha = 20f
+                        barSourceData.theta = 20f
+                        barSourceData.delta = 20f
                         barSourceData.date = "${day[0]}-${day[1]}-${curDayString}"
                         barSourceData.xLabel = curDayString
                         preData.add(barSourceData)
@@ -308,16 +365,20 @@ class ReportBarChartCard @JvmOverloads constructor(
                     sourceData.addAll(0, preData)
                 }
             }
-            ReportCandleStickChartCard.CYCLE_YEAR -> {
+            TrendCommonCandleChart.CYCLE_YEAR -> {
                 var date = firstData.date
                 var month = date.split("-")[1]
                 if (month != "01") {
-                    var preData = ArrayList<BarSourceData>()
+                    var preData = ArrayList<BrainwaveLineSourceData>()
                     var monthIntValue = Integer.parseInt(month)
                     for (j in 1 until monthIntValue) {
                         var curMonthString = String.format("%02d", j)
-                        var barSourceData = BarSourceData()
-                        barSourceData.value = 0f
+                        var barSourceData = BrainwaveLineSourceData()
+                        barSourceData.gamma = 20f
+                        barSourceData.beta = 20f
+                        barSourceData.alpha = 20f
+                        barSourceData.theta = 20f
+                        barSourceData.delta = 20f
                         barSourceData.date = "${month[0]}-${curMonthString}"
                         barSourceData.xLabel = curMonthString
                         preData.add(barSourceData)
@@ -332,19 +393,18 @@ class ReportBarChartCard @JvmOverloads constructor(
     var mPages = ArrayList<ChartPage>()
     var curPage = -1
 
-    var mValues = ArrayList<BarEntry>()
+    var mValues = ArrayList<ArrayList<Entry>>()
     private var mCycle: String = ""
-    lateinit var set: BarDataSet
     var firstIn = true
 
-    fun initPages(data: ArrayList<BarSourceData>, cycle: String): ArrayList<ChartPage> {
+    fun initPages(data: ArrayList<BrainwaveLineSourceData>, cycle: String): ArrayList<ChartPage> {
         var curPage = 0
         var lastMonth = ""
         var lastYear = ""
         var pages = ArrayList<ChartPage>()
         for (i in data.indices) {
             when (cycle) {
-                ReportCandleStickChartCard.CYCLE_MONTH -> {
+                TrendCommonCandleChart.CYCLE_MONTH -> {
                     var date = data[i].date
                     var dateSplit = date.split("-")
                     if (dateSplit.size > 1) {
@@ -361,7 +421,7 @@ class ReportBarChartCard @JvmOverloads constructor(
                     }
 
                 }
-                ReportCandleStickChartCard.CYCLE_YEAR -> {
+                TrendCommonCandleChart.CYCLE_YEAR -> {
                     var curYear = data[i].date.split("-")[0]
                     if (curYear != lastYear) {
                         var page = ChartPage()
@@ -378,74 +438,210 @@ class ReportBarChartCard @JvmOverloads constructor(
         return pages
     }
 
-    fun initChartValues(data: ArrayList<BarSourceData>): ArrayList<BarEntry> {
-        val values = ArrayList<BarEntry>()
+    fun initChartValues(data: ArrayList<BrainwaveLineSourceData>): ArrayList<ArrayList<Entry>> {
+        val gammaDataList = ArrayList<Float>()
+        val betaDataList = ArrayList<Float>()
+        val alphaDataList = ArrayList<Float>()
+        val thetaDataList = ArrayList<Float>()
+        val deltaDataList = ArrayList<Float>()
+        val brainwaveDataList = ArrayList<ArrayList<Float>>()
+        val valuesList = ArrayList<ArrayList<Entry>>()
         for (i in data.indices) {
-            values.add(
-                BarEntry(
-                    i.toFloat(),
-                    data[i].value, data[i]
-                )
-            )
+            gammaDataList.add(data[i].gamma)
+            betaDataList.add(data[i].beta)
+            alphaDataList.add(data[i].alpha)
+            thetaDataList.add(data[i].theta)
+            deltaDataList.add(data[i].delta)
         }
-        return values
+        brainwaveDataList.add(gammaDataList)
+        brainwaveDataList.add(betaDataList)
+        brainwaveDataList.add(alphaDataList)
+        brainwaveDataList.add(thetaDataList)
+        brainwaveDataList.add(deltaDataList)
+        checkIndexList = ArrayList<Int>()
+        for (j in legendIsCheckList.indices) {
+            if (legendIsCheckList[j]) {
+                checkIndexList.add(j)
+                valuesList.add(ArrayList())
+            }
+        }
+
+        for (i in data.indices) {
+            var sum = 0f
+            for (j in checkIndexList.indices) {
+                val brainwaveData = brainwaveDataList[checkIndexList[j]]
+                sum += brainwaveData[i]
+            }
+
+            for (j in checkIndexList.indices) {
+                var temSum = sum
+                if (j != 0) {
+                    for (z in 0 until j) {
+                        temSum -= brainwaveDataList[checkIndexList[z]][i]
+                    }
+                }
+                valuesList[j].add(
+                    Entry(
+                        i.toFloat(),
+                        temSum, data[i]
+                    )
+                )
+            }
+        }
+        return valuesList
     }
 
-    fun initChartXLabel(data: ArrayList<BarSourceData>) {
+    fun initChartXLabel(data: ArrayList<BrainwaveLineSourceData>) {
+        var xLabelOffset = 0
+        if (mCycle == CYCLE_MONTH) {
+            xLabelOffset = 7
+        } else {
+            xLabelOffset = 1
+        }
         for (i in data.indices) {
-            if ((i + 1) % 7 == 0) {
+            if (((i + 1) % xLabelOffset == 0 && i + 1 < data.size)) {
                 val llXAxis = LimitLine(i.toFloat() + 0.5f, "${data[i + 1].xLabel}")
                 llXAxis.lineWidth = 1f
                 llXAxis.labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
                 llXAxis.textSize = 12f
                 llXAxis.yOffset = -15f
                 llXAxis.enableDashedLine(10f, 10f, 0f)
-                llXAxis.lineColor = mGridLineColor
-                llXAxis.textColor = mTextColor
+                llXAxis.lineColor = getOpacityColor(mTextColor, 0.2f)
+                llXAxis.textColor = mLabelColor
+                chart.xAxis.addLimitLine(llXAxis)
+            }
+            if (i == 0 && mCycle == TrendCommonCandleChart.CYCLE_YEAR) {
+                val llXAxis = LimitLine(i.toFloat()-0.5f, "${data[0].xLabel}")
+                llXAxis.lineWidth = 1f
+                llXAxis.labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
+                llXAxis.textSize = 12f
+                llXAxis.yOffset = -15f
+                llXAxis.enableDashedLine(10f, 10f, 0f)
+                llXAxis.lineColor = getOpacityColor(mTextColor, 0.2f)
+                llXAxis.textColor = mLabelColor
                 chart.xAxis.addLimitLine(llXAxis)
             }
         }
     }
 
-    fun setData(data: ArrayList<BarSourceData>?, cycle: String) {
+    var yLimitLineValues = listOf(25f, 50f, 75f)
+    fun setData(data: ArrayList<BrainwaveLineSourceData>?, cycle: String) {
         if (data == null) {
             return
         }
-        this.mDataAverage = data.map { it.value }.average()
         this.mData = completeSourceData(data, cycle)
+        this.mGammaAverage = mData!!.map { it.gamma }.average().toInt()
+        this.mBetaAverage = mData!!.map { it.beta }.average().toInt()
+        this.mAlphaAverage = mData!!.map { it.alpha }.average().toInt()
+        this.mThetaAverage = mData!!.map { it.theta }.average().toInt()
+        this.mDeltaAverage = mData!!.map { it.delta }.average().toInt()
+        tv_value_gamma.text = "$mGammaAverage"
+        tv_value_beta.text = "$mBetaAverage"
+        tv_value_alpha.text = "$mAlphaAverage"
+        tv_value_theta.text = "$mThetaAverage"
+        tv_value_delta.text =
+            "${100 - mGammaAverage - mBetaAverage - mAlphaAverage - mThetaAverage}"
         this.mCycle = cycle
         this.mPages = initPages(mData!!, cycle)
         this.mChartVisibleXRangeMaximum = initChartVisibleXRangeMaximum(cycle)
-        this.mValues = initChartValues(mData!!)
-        when (mDataAverage) {
-            in 0..29 -> tv_level.text = context.getString(R.string.sdk_report_low)
-            in 30..69 -> tv_level.text = context.getString(R.string.sdk_report_nor)
-            else -> tv_level.text = context.getString(R.string.sdk_report_high)
+        when (mCycle) {
+            "month" -> {
+                tv_title.text = "DAILY AVERAGE PERCENTAGE"
+            }
+            "year" -> {
+                tv_title.text = "MONTHLY AVERAGE PERCENTAGE"
+            }
         }
+        refreshChart()
+    }
+
+    fun refreshChart() {
+        this.mValues = initChartValues(mData!!)
         initChartXLabel(mData!!)
-        set = BarDataSet(mValues, "")
-        set.setDrawIcons(true)
-        // draw dashed line
+        for (i in yLimitLineValues.indices) {
+            val ll = LimitLine(yLimitLineValues[i], "")
+            ll.lineWidth = 1f
+            ll.enableDashedLine(10f, 10f, 0f)
+            ll.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
+            ll.textSize = 12f
+            ll.xOffset = 10f
+            ll.yOffset = 8f
+            ll.textColor = mTextColor
+            ll.lineColor = mGridLineColor
+            chart.axisLeft.addLimitLine(ll)
+        }
+
+        var lineData = LineData()
+        var lineStartIndex = 0
+        var entry = 0f
+        val curYEntries = mutableListOf<Float>()
+        currentYLabels.clear()
+        checkIndexList.reverse()
+
+        for (i in legendIsCheckList.indices) {
+            if (legendIsCheckList[i]) {
+                currentYLabels!!.add(yLabels[i])
+                curYEntries.add(entry)
+                entry += 25f
+                var set = LineDataSet(mValues[lineStartIndex++], "$i")
+                set.setDrawIcons(false)
+                // draw dashed line
 //            set1.enableDashedLine(10f, 5f, 0f)
-        // black lines and points
-        set.color = mMainColor
-        // customize legend entry
-//        set.formLineWidth = 1f
-//        set.formLineDashEffect = DashPathEffect(floatArrayOf(10f, 10f), 0f)
-//        set.formSize = 15f
-        // text size of values
-        set.valueTextSize = 9f
-        set.setDrawValues(false)
-        set.isHighlightEnabled = true
-        var barData = BarData()
-        barData.addDataSet(set)
+                // black lines and points
+                set.color = Color.parseColor(mFillColorArray!![i])
+                set.highLightColor = mGridLineColor
+                set.highlightLineWidth = 2f
+                set.setDrawFilled(true)
+                set.setDrawHorizontalHighlightIndicator(false)
+                set.setDrawVerticalHighlightIndicator(true)
+                if (mFillColorArray != null) {
+                    set.lineWidth = 2f
+                    if (Utils.getSDKInt() >= 18) {
+                        var gradientDrawable = GradientDrawable()
+                        gradientDrawable.setColor(Color.parseColor(mFillColorArray!![i]))
+                        gradientDrawable.gradientType = GradientDrawable.LINEAR_GRADIENT
+                        gradientDrawable.shape = GradientDrawable.RECTANGLE
+                        set.fillDrawable = gradientDrawable
+                    } else {
+                        set.fillColor = Color.parseColor(mFillColorArray!![i])
+                    }
+                }
+                // customize legend entry
+                set.formLineWidth = 1f
+                set.formLineDashEffect = DashPathEffect(floatArrayOf(10f, 10f), 0f)
+                set.formSize = 15f
+                set.isHighlightEnabled = true
+                // text size of values
+                set.valueTextSize = 9f
+                set.setDrawCircles(false)
+                set.setDrawValues(false)
+                lineData.addDataSet(set)
+
+            }
+        }
+        curYEntries.reverse()
+        chart.axisLeft.mEntries = curYEntries.toFloatArray()
+        chart.axisLeft.mEntryCount = legendIsCheckList.filter { it }.size
+        chart.axisLeft.valueFormatter = object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                val index = curYEntries.indexOf(value)
+                if (index == -1) {
+                    return ""
+                } else {
+                    val label = currentYLabels[index]
+                    return label
+                }
+            }
+        }
+//        if (mFillColorArray != null) {
+//            chart.setDrawGridBackground(true)
+//            chart.setGridBackgroundColor((Color.parseColor(mFillColorArray!![0])))
+//        }
 //         // set data
-        chart.data = barData
-        chart.setHighlightColor(mGridLineColor)
-        calNiceLabel(mData!!)
+        chart.data = lineData
         initChart()
         chart.notifyDataSetChanged()
-        chart.setVisibleXRangeMaximum(mChartVisibleXRangeMaximum)
+        chart.setVisibleXRangeMaximum(mChartVisibleXRangeMaximum.toFloat())
         chart.viewTreeObserver.addOnGlobalLayoutListener {
             if (firstIn) {
                 initLowestAndHighestVisibleData()
@@ -456,8 +652,8 @@ class ReportBarChartCard @JvmOverloads constructor(
     }
 
     fun initDateRange() {
-        if (mValues.size >= mChartVisibleXRangeMaximum) {
-            updateDateRange(mValues.size - mChartVisibleXRangeMaximum.toInt())
+        if (mData?.size ?: 0 >= mChartVisibleXRangeMaximum) {
+            updateDateRange((mData?.size ?: 0) - mChartVisibleXRangeMaximum)
             tv_date.visibility = View.VISIBLE
         } else {
             tv_date.visibility = View.INVISIBLE
@@ -465,117 +661,92 @@ class ReportBarChartCard @JvmOverloads constructor(
     }
 
 
-    private fun initChartVisibleXRangeMaximum(cycle: String): Float {
+    private fun initChartVisibleXRangeMaximum(cycle: String): Int {
         return if (cycle == CYCLE_MONTH) {
-            31f
+            31
         } else {
-            12f
+            12
         }
 
     }
-
-    private fun calNiceLabel(data: List<BarSourceData>) {
-        var min = data.map { it.value }.min()!!
-        var max = data.map { it.value }.max()!!
-        var yAxisMax = (max / 1f)
-        var yAxisMin = (min * 1f)
-        if (min == max) {
-            if (min == 0f) {
-                chart.axisLeft.axisMaximum = 100f
-                chart.axisLeft.axisMinimum = 0f
-                chart.axisLeft.mEntries = floatArrayOf(0f, 25f, 50f, 75f, 100f)
-                chart.axisLeft.mEntryCount = 5
-                return
-            } else {
-                yAxisMax = min + 10
-                if (yAxisMax > 100) {
-                    yAxisMax = 100f
-                }
-                yAxisMin = min - 10
-                if (yAxisMin < 0) {
-                    yAxisMin = 0f
-                }
-            }
-        }
-        var interval = calNiceInterval(yAxisMin.toDouble(), yAxisMax.toDouble())
-        var firstLabel = floor(yAxisMin / interval) * interval
-        firstLabel = if (firstLabel - 10 < 0) {
-            0f
-        } else {
-            floor(firstLabel - 10)
-        }
-        var lastLabel = ceil(yAxisMax / interval) * interval
-        var labels = ArrayList<Float>()
-        var i = firstLabel
-        while (i <= lastLabel) {
-            labels.add(i)
-            i += interval
-        }
-        chart.axisLeft.axisMaximum = lastLabel
-        chart.axisLeft.axisMinimum = firstLabel
-        chart.axisLeft.mEntries = labels.toFloatArray()
-        chart.axisLeft.mEntryCount = labels.size
-    }
-
 
     fun initChart() {
-//        chart.setBackgroundColor(bgColor)
+        chart.setBackgroundColor(Color.TRANSPARENT)
         chart.description.isEnabled = false
         chart.legend.isEnabled = false
 //        chart.setTouchEnabled(true)
 //        chart.setYLimitLabelBgColor(mAverageLabelBgColor)
         chart.animateX(500)
-        chart.setDrawGridBackground(false)
 //        chart.isHighlightPerDragEnabled = false
         chart.isDragEnabled = true
         chart.isScaleXEnabled = false
         chart.isScaleYEnabled = false
-        val markViewTitle = if (mCycle == "month") {
-            "DAILY AVERAGE"
+        var markViewTitle = if (mCycle == "month") {
+            "DAILY AVERAGE PERCENTAGE"
         } else {
-            "MONTHLY AVERAGE"
+            "MONTH AVERAGE PERCENTAGE"
         }
-        val marker = BarChartMarkView(context, markViewTitle, mCycle)
+        val marker = BrainwaveTrendChartMarkView(
+            context,
+            mFillColorArray?.map { Color.parseColor(it) }?.toIntArray(),
+            mGridLineColor,
+            markViewTitle,mCycle
+        )
         marker.chartView = chart
-        marker.setMainColor(mMainColor)
         marker.setTextColor(mTextColor)
-        marker.setShowLevel(mShowLevel, mLevelTextColor, mLevelBgColor)
-        marker.setUnit(mUnit)
-        marker.setYOffset(10f.dp())
-
+        marker.setMarkViewBgColor(mMarkViewBgColor)
+        if (chart.data != null) {
+            marker.setDataSets(chart.data.dataSets)
+        }
         chart.marker = marker
         chart.extraTopOffset = 28f.dp()
         val xAxis: XAxis = chart.xAxis
         xAxis.setDrawAxisLine(true)
         xAxis.axisLineColor = mXAxisLineColor
         xAxis.axisLineWidth = 1f
-        xAxis.gridColor = mGridLineColor
         xAxis.setDrawGridLines(false)
         xAxis.position = XAxis.XAxisPosition.BOTTOM
         val yAxis: YAxis = chart.axisLeft
         xAxis.setDrawLabels(false)
         chart.axisRight.isEnabled = false
-//        chart.setMaxVisibleValueCount(100000)
-        yAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
         yAxis.setLabelCount(5, false)
-        yAxis.setDrawGridLines(true)
         yAxis.gridColor = mGridLineColor
         yAxis.gridLineWidth = 1f
         yAxis.setGridDashedLine(DashPathEffect(floatArrayOf(10f, 10f), 0f))
         yAxis.textSize = 12f
         yAxis.textColor = mTextColor
-        xAxis.setDrawLimitLinesBehindData(true)
+        xAxis.setDrawLimitLinesBehindData(false)
         yAxis.setDrawAxisLine(false)
+        yAxis.setDrawLimitLinesBehindData(false)
+        yAxis.axisMinimum = 0f
+        yAxis.axisMaximum = 100f
+        yAxis.mEntries = floatArrayOf(0f, 25f, 50f, 75f, 100f)
+        yAxis.mEntryCount = 5
+//        yAxis.valueFormatter = object : ValueFormatter() {
+//            override fun getFormattedValue(value: Float): String {
+//                val index = yAxis.mEntries.indexOf(value)
+//                if (index == -1) {
+//                    return ""
+//                } else {
+//                    val label = currentYLabels[checkIndexList[index]]
+//                    return label
+//                }
+//            }
+//        }
+        yAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
+        yAxis.setDrawGridLines(false)
         setChartListener()
     }
 
     fun cancelHighlight() {
         ll_title.visibility = View.VISIBLE
         chart.highlightValue(null)
-        set.setDrawIcons(false)
+        chart?.data?.dataSets?.forEach {
+            it.setDrawIcons(false)
+        }
     }
 
-    fun translateChartX(chart: CustomBarChart, translateX: Float) {
+    fun translateChartX(chart: CustomLineChart, translateX: Float) {
         var matrix = chart.viewPortHandler.matrixTouch
         matrix.postTranslate(translateX, 0f)
         chart.viewPortHandler.refresh(matrix, chart, true)
@@ -610,8 +781,12 @@ class ReportBarChartCard @JvmOverloads constructor(
     }
 
     fun initLowestAndHighestVisibleData() {
-        lowestVisibleData = set.getEntryForXValue(chart.lowestVisibleX, 0f).data as BarSourceData
-        highestVisibleData = set.getEntryForXValue(chart.highestVisibleX, 0f).data as BarSourceData
+        lowestVisibleData =
+            chart?.data?.dataSets?.get(0)
+                ?.getEntryForXValue(chart.lowestVisibleX, 0f)?.data as BrainwaveLineSourceData
+        highestVisibleData =
+            chart?.data?.dataSets?.get(0)
+                ?.getEntryForXValue(chart.highestVisibleX, 0f)?.data as BrainwaveLineSourceData
     }
 
     var downX = 0f
@@ -631,11 +806,11 @@ class ReportBarChartCard @JvmOverloads constructor(
         chart.moveViewToAnimated(prePageIndex - 0.5f, 0f, YAxis.AxisDependency.LEFT, 500)
     }
 
-    @SuppressLint("SetTextI18n")
     fun updateDateRange(startIndex: Int) {
-        lowestVisibleData = set.getEntryForIndex(startIndex).data as BarSourceData
+        lowestVisibleData =
+            chart.data.dataSets[0].getEntryForIndex(startIndex).data as BrainwaveLineSourceData
         highestVisibleData =
-            set.getEntryForIndex(startIndex + mChartVisibleXRangeMaximum.toInt() - 1).data as BarSourceData
+            chart.data.dataSets[0].getEntryForIndex(startIndex + mChartVisibleXRangeMaximum - 1).data as BrainwaveLineSourceData
         if (mCycle == "month"){
             tv_date.text = "${
                 lowestVisibleData.date.formatTime(
@@ -657,6 +832,24 @@ class ReportBarChartCard @JvmOverloads constructor(
                 "MMM yyyy"
             )}"
         }
+        val curGammaAverage =
+            mData!!.subList(startIndex, startIndex + mChartVisibleXRangeMaximum)
+                .map { it.gamma }.average().toInt()
+        val curBetaAverage =
+            mData!!.subList(startIndex, startIndex + mChartVisibleXRangeMaximum)
+                .map { it.beta }.average().toInt()
+        val curAlphaAverage =
+            mData!!.subList(startIndex, startIndex + mChartVisibleXRangeMaximum)
+                .map { it.alpha }.average().toInt()
+        val curThetaAverage =
+            mData!!.subList(startIndex, startIndex + mChartVisibleXRangeMaximum)
+                .map { it.theta }.average().toInt()
+        tv_value_gamma.text = "$curGammaAverage"
+        tv_value_beta.text = "$curBetaAverage"
+        tv_value_alpha.text = "$curAlphaAverage"
+        tv_value_theta.text = "$curThetaAverage"
+        tv_value_delta.text =
+            "${100 - curGammaAverage - curBetaAverage - curAlphaAverage - curThetaAverage}"
     }
 
     fun moveToNextPage() {
@@ -773,11 +966,14 @@ class ReportBarChartCard @JvmOverloads constructor(
             override fun onValueSelected(e: Entry, h: Highlight?) {
                 ll_title.visibility = View.INVISIBLE
                 chart.highlightValue(null, false)
-                set.setDrawIcons(false)
-                set.iconsOffset = MPPointF(0f, 3f)
-                set.values.forEach {
-                    it.icon = null
+                chart.data.dataSets.forEach {
+                    it.setDrawIcons(true)
+                    it.iconsOffset = MPPointF(0f, 3f)
+                    (it as LineDataSet).values.forEach {
+                        it.icon = null
+                    }
                 }
+                e.icon = drawableIcon
                 chart.highlightValue(h, false)
             }
         })
@@ -853,28 +1049,23 @@ class ReportBarChartCard @JvmOverloads constructor(
         initView()
     }
 
-    fun setShowLevel(showLevel: Boolean) {
-        this.mShowLevel = showLevel
-        initView()
-    }
-
-    fun setLevelBgColor(color: Int) {
-        this.mLevelBgColor = color
-        initView()
-    }
-
-    fun setLevelTextColor(color: Int) {
-        this.mLevelTextColor = color
-        initView()
-    }
-
     fun setXAxisLineColor(color: Int) {
         this.mXAxisLineColor = color
         initView()
     }
 
-    class BarSourceData : Serializable {
-        var value: Float = 0f
+    fun setFillColors(colors: String) {
+        this.mFillColors = colors
+        mFillColorArray = mFillColors?.split(",")
+        initView()
+    }
+
+    class BrainwaveLineSourceData : Serializable {
+        var gamma: Float = 0f
+        var beta: Float = 0f
+        var alpha: Float = 0f
+        var theta: Float = 0f
+        var delta: Float = 0f
         var date: String = ""
         var xLabel: String = ""
     }

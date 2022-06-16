@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import cn.entertech.uicomponentsdk.report.*
 import cn.entertech.uicomponentsdk.report.file.ReportFileHelper
-import cn.entertech.uicomponentsdk.utils.dp
 import kotlinx.android.synthetic.main.fragment_report_default.*
 import kotlinx.android.synthetic.main.fragment_report_default.report_pressure
 import java.util.*
@@ -105,15 +104,15 @@ class ReportDefaultFragment : Fragment() {
         chart_hr.setAverage("99")
         chart_hr.setData(reportData.reportHRDataEntity?.hrRec)
         chart_pressure.setData(reportData.reportHRDataEntity?.hrRec)
-        var candleStickValues = ArrayList<ReportCandleStickChartCard.CandleSourceData>()
-        var barValues = ArrayList<ReportBarChartCard.BarSourceData>()
-        var lineValues = ArrayList<ReportPressureTrendCard.LineSourceData>()
-        var brainwaveLineValues = ArrayList<ReportBrainwaveTrendCard.BrainwaveLineSourceData>()
+        var candleStickValues = ArrayList<TrendCommonCandleChart.CandleSourceData>()
+        var barValues = ArrayList<TrendCommonBarChart.BarSourceData>()
+        var lineValues = ArrayList<TrendPressureChart.LineSourceData>()
+        var brainwaveLineValues = ArrayList<TrendBrainwaveChart.BrainwaveLineSourceData>()
         var dates = getDateList()
         var yearDates = getYearDateList()
         Log.d("########","year date is ${yearDates}")
         for (i in yearDates.indices){
-            var candleSourceData = ReportCandleStickChartCard.CandleSourceData()
+            var candleSourceData = TrendCommonCandleChart.CandleSourceData()
             val value = Random().nextInt(30) + 60.0f
             candleSourceData.average = value
             candleSourceData.max = value + 5
@@ -126,18 +125,18 @@ class ReportDefaultFragment : Fragment() {
         for (i in dates.indices) {
 
             val value = Random().nextInt(30) + 60.0f
-            var barSourceData = ReportBarChartCard.BarSourceData()
+            var barSourceData = TrendCommonBarChart.BarSourceData()
             barSourceData.value = value
             barSourceData.date =  "${dates[i]}"
             barSourceData.xLabel = "${dates[i].split("-")[2]}"
             barValues.add(barSourceData)
-            var lineSourceData = ReportPressureTrendCard.LineSourceData()
+            var lineSourceData = TrendPressureChart.LineSourceData()
             lineSourceData.value = value
             lineSourceData.date = "${dates[i]}"
             lineSourceData.xLabel = "${dates[i].split("-")[2]}"
             lineValues.add(lineSourceData)
 
-            val brainwaveLineSourceData = ReportBrainwaveTrendCard.BrainwaveLineSourceData()
+            val brainwaveLineSourceData = TrendBrainwaveChart.BrainwaveLineSourceData()
             brainwaveLineSourceData.gamma = 20f
             brainwaveLineSourceData.alpha = 20f
             brainwaveLineSourceData.beta = 20f
