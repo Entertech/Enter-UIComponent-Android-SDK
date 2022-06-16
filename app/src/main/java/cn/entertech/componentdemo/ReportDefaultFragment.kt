@@ -52,7 +52,7 @@ class ReportDefaultFragment : Fragment() {
         )
         chart_relaxation.setData(reportData.reportRelaxationEnitty?.relaxationRec)
         chart_attention.setData(reportData.reportAttentionEnitty?.attentionRec)
-
+        report_relaxation.setValue(50)
 //        脑波各个频率曲线
         var spectrumList = listOf(
             reportData.reportEEGDataEntity!!.gammaCurve!!.map { it * 100.0 } as ArrayList<Double>,

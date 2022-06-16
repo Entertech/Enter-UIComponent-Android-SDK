@@ -376,6 +376,21 @@
                         />
             </LinearLayout>
 
+            <cn.entertech.uicomponentsdk.report.ReportRelaxationAndAttentionCard
+                    app:rcraa_topBackground="@mipmap/pic_report_top_bg_hr"
+                    android:id="@+id/report_relaxation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:rcraa_barColor="#4B5DCC"
+                    app:rcraa_levelBgColor="#E5EAF7"
+                    app:rcraa_levelTextColor="#2B2E40"
+                    app:rcraa_textColor="#11152E"
+                    app:rcraa_lineColor="#DDE1EB"
+                    app:rcraa_titleText="Relaxation"
+                    app:rcraa_showTitleIcon="true"
+                    app:rcraa_showTitleMenuIcon="false"
+                    app:rcraa_titleIcon="@drawable/vector_drawable_heart"/>
+
             <cn.entertech.uicomponentsdk.report.StackedAreaChart
                     android:id="@+id/stack_chart"
                     android:layout_width="match_parent"

@@ -23,6 +23,11 @@ class ReportRelaxationAndAttentionCard @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var mTitleMenuIcon: Drawable? = null
+    private var mShowTitleMenuIcon: Boolean
+    private var mTitleIcon: Drawable? = null
+    private var mShowTitleIcon: Boolean = false
+    private var mTitleText: String=""
     private var mTopBg: Drawable? = null
     var mSelfView: View =
         LayoutInflater.from(context).inflate(R.layout.layout_report_attention_card, null)
@@ -30,13 +35,9 @@ class ReportRelaxationAndAttentionCard @JvmOverloads constructor(
     private var mArrowColor: Int = Color.parseColor("#ffffff")
     private var mTextColor: Int = Color.parseColor("#FDF1EA")
     private var mBg: Drawable? = null
-    private var mMainColor: Int = Color.parseColor("#333333")
-    private var mAttentionColor: Int = Color.parseColor("#5B6DD9")
-    private var mRelaxationColor: Int = Color.parseColor("#6DD1A1")
-    private var mAttentionLevelBg: Int = Color.parseColor("#2B2E40")
-    private var mRelaxationLevelBg: Int = Color.parseColor("#324039")
-    private var mAttentionLevelTextColor: Int = Color.parseColor("#324039")
-    private var mRelaxationLevelTextColor: Int = Color.parseColor("#324039")
+    private var mBarColor: Int = Color.parseColor("#5B6DD9")
+    private var mLevelBg: Int = Color.parseColor("#2B2E40")
+    private var mLevelTextColor: Int = Color.parseColor("#324039")
     private var mLineColor: Int = Color.parseColor("#3A3A42")
 
     init {
@@ -61,42 +62,31 @@ class ReportRelaxationAndAttentionCard @JvmOverloads constructor(
                 R.styleable.ReportRelaxationAndAttentionCard_rcraa_arrowColor,
                 mArrowColor
             )
-        mAttentionColor =
+        mBarColor =
             typeArray.getColor(
-                R.styleable.ReportRelaxationAndAttentionCard_rcraa_attentionColor,
-                mAttentionColor
+                R.styleable.ReportRelaxationAndAttentionCard_rcraa_barColor,
+                mBarColor
             )
-        mRelaxationColor =
+        mLevelBg =
             typeArray.getColor(
-                R.styleable.ReportRelaxationAndAttentionCard_rcraa_relaxationColor,
-                mRelaxationColor
-            )
-        mAttentionLevelBg =
-            typeArray.getColor(
-                R.styleable.ReportRelaxationAndAttentionCard_rcraa_attentionLevelBgColor,
-                mAttentionLevelBg
-            )
-        mRelaxationLevelBg =
-            typeArray.getColor(
-                R.styleable.ReportRelaxationAndAttentionCard_rcraa_relaxationLevelBgColor,
-                mRelaxationLevelBg
+                R.styleable.ReportRelaxationAndAttentionCard_rcraa_levelBgColor,
+                mLevelBg
             )
         mLineColor =
             typeArray.getColor(
                 R.styleable.ReportRelaxationAndAttentionCard_rcraa_lineColor,
                 mLineColor
             )
-        mAttentionLevelTextColor =
+        mLevelTextColor =
             typeArray.getColor(
-                R.styleable.ReportRelaxationAndAttentionCard_rcraa_attentionLevelTextColor,
-                mAttentionLevelTextColor
+                R.styleable.ReportRelaxationAndAttentionCard_rcraa_levelTextColor,
+                mLevelTextColor
             )
-        mRelaxationLevelTextColor =
-            typeArray.getColor(
-                R.styleable.ReportRelaxationAndAttentionCard_rcraa_relaxationLevelTextColor,
-                mRelaxationLevelTextColor
-            )
-
+        mTitleText = typeArray.getString(R.styleable.ReportRelaxationAndAttentionCard_rcraa_titleText)?:""
+        mShowTitleIcon = typeArray.getBoolean(R.styleable.ReportRelaxationAndAttentionCard_rcraa_showTitleIcon,false)
+        mTitleIcon = typeArray.getDrawable(R.styleable.ReportRelaxationAndAttentionCard_rcraa_titleIcon)
+        mShowTitleMenuIcon = typeArray.getBoolean(R.styleable.ReportRelaxationAndAttentionCard_rcraa_showTitleMenuIcon,false)
+        mTitleMenuIcon = typeArray.getDrawable(R.styleable.ReportAverageChartCard_racc_titleMenuIcon)
         initView()
 
     }
@@ -109,28 +99,36 @@ class ReportRelaxationAndAttentionCard @JvmOverloads constructor(
     }
 
     fun initBarColor(){
-        bar_relaxation.setBarColor(mRelaxationColor)
-        bar_relaxation.setBarBgColor(mLineColor)
-        bar_relaxation.setBarTextColor(mTextColor)
-        bar_attention.setBarColor(mAttentionColor)
+        bar_attention.setBarText(mTitleText)
+        bar_attention.setBarColor(mBarColor)
         bar_attention.setBarBgColor(mLineColor)
         bar_attention.setBarTextColor(mTextColor)
     }
 
     fun initValueView() {
-        tv_relaxation.setTextColor(mTextColor)
         tv_attention.setTextColor(mTextColor)
-        tv_relaxation_level.setTextColor(mRelaxationLevelTextColor)
-        tv_attention_level.setTextColor(mAttentionLevelTextColor)
-        (tv_relaxation_level.background as GradientDrawable).setColor(mRelaxationLevelBg)
-        (tv_attention_level.background as GradientDrawable).setColor(mAttentionLevelBg)
+        tv_attention_level.setTextColor(mLevelTextColor)
+        (tv_attention_level.background as GradientDrawable).setColor(mLevelBg)
     }
 
     fun initTitle() {
-        iv_arrow.setColorFilter(mArrowColor)
-        iv_icon.visibility = View.VISIBLE
-        iv_icon.setImageResource(R.drawable.vector_drawable_title_icon_relaxtion)
-        tv_title.text = context.getString(R.string.sdk_relaxation_and_attention)
+        if (mShowTitleIcon && mTitleIcon != null){
+            iv_icon.visibility = View.VISIBLE
+            iv_icon.setImageDrawable(mTitleIcon!!)
+        }else{
+            iv_icon.visibility = View.GONE
+        }
+        iv_menu.visibility = View.GONE
+        if (mShowTitleMenuIcon ){
+            iv_arrow.visibility = View.VISIBLE
+            if (mTitleMenuIcon != null){
+                iv_arrow.setImageDrawable(mTitleMenuIcon)
+            }
+            iv_arrow.setColorFilter(mArrowColor)
+        }else{
+            iv_arrow.visibility = View.GONE
+        }
+        tv_title.text = mTitleText
         tv_title.setTextColor(mTextColor)
         if (mTopBg != null) {
             rl_corner_icon_bg.visibility = View.VISIBLE
@@ -150,17 +148,10 @@ class ReportRelaxationAndAttentionCard @JvmOverloads constructor(
         }
     }
 
-    fun setValue(relaxation: Int, attention: Int) {
-        tv_relaxation.text = "$relaxation"
-        bar_relaxation.setValue(relaxation)
-        tv_attention.text = "$attention"
-        bar_attention.setValue(attention)
-        when (relaxation) {
-            in 0..29 -> tv_relaxation_level.text = context.getString(R.string.sdk_report_low)
-            in 30..69 -> tv_relaxation_level.text = context.getString(R.string.sdk_report_nor)
-            else -> tv_relaxation_level.text = context.getString(R.string.sdk_report_high)
-        }
-        when (attention) {
+    fun setValue(value: Int) {
+        tv_attention.text = "$value"
+        bar_attention.setValue(value)
+        when (value) {
             in 0..29 -> tv_attention_level.text = context.getString(R.string.sdk_report_low)
             in 30..69 -> tv_attention_level.text = context.getString(R.string.sdk_report_nor)
             else -> tv_attention_level.text = context.getString(R.string.sdk_report_high)

@@ -732,20 +732,23 @@
         <attr name="rchrv_indicatorTriangleColor" format="color" />
         <attr name="rchrv_levelBgColor" format="color" />
         <attr name="rchrv_arrowColor" format="color" />
+        <attr name="rchrv_showIndicator" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="ReportRelaxationAndAttentionCard">
         <attr name="rcraa_background" format="color|reference" />
         <attr name="rcraa_topBackground" format="color|reference" />
         <attr name="rcraa_textColor" format="color" />
-        <attr name="rcraa_attentionColor" format="color" />
-        <attr name="rcraa_relaxationColor" format="color" />
-        <attr name="rcraa_relaxationLevelTextColor" format="color" />
-        <attr name="rcraa_attentionLevelTextColor" format="color" />
-        <attr name="rcraa_attentionLevelBgColor" format="color" />
-        <attr name="rcraa_relaxationLevelBgColor" format="color" />
+        <attr name="rcraa_barColor" format="color" />
+        <attr name="rcraa_levelTextColor" format="color" />
+        <attr name="rcraa_levelBgColor" format="color" />
         <attr name="rcraa_arrowColor" format="color" />
         <attr name="rcraa_lineColor" format="color" />
+        <attr name="rcraa_titleText" format="string" />
+        <attr name="rcraa_titleIcon" format="reference" />
+        <attr name="rcraa_titleMenuIcon" format="reference" />
+        <attr name="rcraa_showTitleIcon" format="boolean" />
+        <attr name="rcraa_showTitleMenuIcon" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="ReportPressureCard">

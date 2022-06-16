@@ -28,6 +28,7 @@ class ReportHRVCard @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var mShowIndicator: Boolean = false
     private var mTopBg: Drawable?
     private var mIsShortCard: Boolean = false
     private var mArrowColor: Int = Color.parseColor("#ffffff")
@@ -72,7 +73,7 @@ class ReportHRVCard @JvmOverloads constructor(
             typeArray.getColor(R.styleable.ReportHRVCard_rchrv_levelBgColor, mLevelBgColor)
         mArrowColor =
             typeArray.getColor(R.styleable.ReportHRVCard_rchrv_arrowColor, mArrowColor)
-
+        mShowIndicator = typeArray.getBoolean(R.styleable.ReportHRVCard_rchrv_showIndicator,false)
         initView()
     }
 
@@ -84,7 +85,7 @@ class ReportHRVCard @JvmOverloads constructor(
     }
 
     fun initIndicator() {
-        if (mIsShortCard){
+        if (!mShowIndicator){
             eiv_hrv.visibility = View.GONE
             return
         }
@@ -156,8 +157,8 @@ class ReportHRVCard @JvmOverloads constructor(
         }
     }
 
-    fun setIsShortCard(isShow: Boolean) {
-        mIsShortCard = isShow
+    fun setShowIndicator(isShow: Boolean) {
+        mShowIndicator = isShow
         initView()
     }
 

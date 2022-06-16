@@ -108,20 +108,25 @@ class HalfCircleProgressBar @JvmOverloads constructor(
         invalidate()
     }
 
-    fun setBarColor(color:Int){
+    fun setBarColor(color: Int) {
         this.mBarColor = color
         mBarPaint.color = mBarColor
         invalidate()
     }
 
-    fun setBarTextColor(color:Int){
+    fun setBarTextColor(color: Int) {
         this.mTextColor = color
         mTextPaint.color = mTextColor
         invalidate()
     }
 
-    fun setBarBgColor(color:Int){
+    fun setBarBgColor(color: Int) {
         this.mBarBgColor = color
+        invalidate()
+    }
+
+    fun setBarText(text: String) {
+        this.mText = text
         invalidate()
     }
 }
