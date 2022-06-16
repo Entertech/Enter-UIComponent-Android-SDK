@@ -628,7 +628,7 @@ class TrendBrainwaveChart @JvmOverloads constructor(
                 if (index == -1) {
                     return ""
                 } else {
-                    val label = currentYLabels[index]
+                    val label = "${curYEntries[index].toInt()}%"
                     return label
                 }
             }
