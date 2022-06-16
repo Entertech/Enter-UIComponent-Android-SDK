@@ -451,6 +451,24 @@
         <attr name="tbc_xAxisLineColor" format="color"/>
         <attr name="tbc_fillColors" format="string" />
     </declare-styleable>
+
+    <declare-styleable name="SessionBrainwaveStackChart">
+        <attr name="sbsc_isTitleMenuIconShow" format="boolean" />
+        <attr name="sbsc_titleMenuIcon" format="reference" />
+        <attr name="sbsc_mainColor" format="color" />
+        <attr name="sbsc_textColor" format="color" />
+        <attr name="sbsc_background" format="color|reference" />
+        <attr name="sbsc_lineWidth" format="dimension" />
+        <attr name="sbsc_gridLineColor" format="color" />
+        <attr name="sbsc_highlightLineColor" format="color"/>
+        <attr name="sbsc_highlightLineWidth" format="float"/>
+        <attr name="sbsc_markViewBgColor" format="color"/>
+        <attr name="sbsc_markViewTitle" format="string"/>
+        <attr name="sbsc_markViewTitleColor" format="color"/>
+        <attr name="sbsc_markViewValueColor" format="color"/>
+        <attr name="sbsc_xAxisLineColor" format="color"/>
+        <attr name="sbsc_fillColors" format="string" />
+    </declare-styleable>
     <declare-styleable name="TrendCommonCandleChart">
         <attr name="tccc_mainColor" format="color" />
         <attr name="tccc_textColor" format="color" />

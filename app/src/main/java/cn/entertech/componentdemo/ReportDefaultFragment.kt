@@ -96,6 +96,9 @@ class ReportDefaultFragment : Fragment() {
             spectrumList
         )
 //        控制可展示的脑波曲线
+        chart_brainwave_session_stack.setData(spectrumList)
+        chart_brainwave_session_stack.setLegendShowList(listOf(true, true, true, true, true))
+        chart_brainwave_session_stack.setStartTime("2022-06-13 22:19:13")
         chart_session_brainwave.setLegendShowList(listOf(true, true, true, true, true))
         chart_session_brainwave.setStartTime("2022-06-13 22:19:13")
         chart_brainwave.setLegendShowList(listOf(true, true, true, true, true))
