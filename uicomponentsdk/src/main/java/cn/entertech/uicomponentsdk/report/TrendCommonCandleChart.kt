@@ -738,6 +738,10 @@ class TrendCommonCandleChart @JvmOverloads constructor(
                 )
             }"
         }
+        var showDataAverage =
+            mData?.subList(startIndex, startIndex + mChartVisibleXRangeMaximum.toInt())
+                ?.filter { it.average != 0f }?.map { it.average }?.average()?:0.0
+        tv_value.text = "${ceil(showDataAverage).toInt()}"
     }
 
     fun initDateRange() {

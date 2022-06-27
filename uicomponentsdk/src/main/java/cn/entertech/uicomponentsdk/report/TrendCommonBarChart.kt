@@ -187,7 +187,10 @@ class TrendCommonBarChart @JvmOverloads constructor(
         mUnit = typeArray.getString(R.styleable.TrendCommonBarChart_tcbc_unit)
         mShowLevel = typeArray.getBoolean(R.styleable.TrendCommonBarChart_tcbc_isShowLevel, false)
         mLevelBgColor =
-            typeArray.getColor(R.styleable.TrendCommonBarChart_tcbc_valueLevelBgColor, mLevelBgColor)
+            typeArray.getColor(
+                R.styleable.TrendCommonBarChart_tcbc_valueLevelBgColor,
+                mLevelBgColor
+            )
         mLevelTextColor = typeArray.getColor(
             R.styleable.TrendCommonBarChart_tcbc_valueLevelTextColor,
             mLevelTextColor
@@ -411,7 +414,7 @@ class TrendCommonBarChart @JvmOverloads constructor(
                 chart.xAxis.addLimitLine(llXAxis)
             }
             if (i == 0 && mCycle == TrendCommonCandleChart.CYCLE_YEAR) {
-                val llXAxis = LimitLine(i.toFloat()-0.5f, "${data[0].xLabel}")
+                val llXAxis = LimitLine(i.toFloat() - 0.5f, "${data[0].xLabel}")
                 llXAxis.lineWidth = 1f
                 llXAxis.labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
                 llXAxis.textSize = 12f
@@ -653,27 +656,35 @@ class TrendCommonBarChart @JvmOverloads constructor(
         lowestVisibleData = set.getEntryForIndex(startIndex).data as BarSourceData
         highestVisibleData =
             set.getEntryForIndex(startIndex + mChartVisibleXRangeMaximum.toInt() - 1).data as BarSourceData
-        if (mCycle == "month"){
+        if (mCycle == "month") {
             tv_date.text = "${
                 lowestVisibleData.date.formatTime(
                     "yyyy-MM-dd",
                     "MMM dd,yyyy"
                 )
-            }-${highestVisibleData.date.formatTime(
-                "yyyy-MM-dd",
-                "MMM dd,yyyy"
-            )}"
-        }else{
+            }-${
+                highestVisibleData.date.formatTime(
+                    "yyyy-MM-dd",
+                    "MMM dd,yyyy"
+                )
+            }"
+        } else {
             tv_date.text = "${
                 lowestVisibleData.date.formatTime(
                     "yyyy-MM",
                     "MMM yyyy"
                 )
-            }-${highestVisibleData.date.formatTime(
-                "yyyy-MM",
-                "MMM yyyy"
-            )}"
+            }-${
+                highestVisibleData.date.formatTime(
+                    "yyyy-MM",
+                    "MMM yyyy"
+                )
+            }"
         }
+        var showDataAverage =
+            mData?.subList(startIndex, startIndex + mChartVisibleXRangeMaximum.toInt())
+                ?.filter { it.value != 0f }?.map { it.value }?.average()?:0.0
+        tv_value.text = "${ceil(showDataAverage).toInt()}"
     }
 
     fun moveToNextPage() {
