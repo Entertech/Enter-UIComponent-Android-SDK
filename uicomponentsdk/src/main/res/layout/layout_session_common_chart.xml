@@ -45,7 +45,7 @@
                             android:id="@+id/tv_value"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="8"
+                            android:text="--"
                             android:textColor="#ff0000"
                             android:textSize="28sp"
                             />
@@ -55,7 +55,7 @@
                             android:id="@+id/tv_unit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="min"
+                            android:text="--"
                             android:textSize="14sp"
                             />
 
@@ -64,7 +64,7 @@
                             android:id="@+id/tv_level"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="min"
+                            android:text="--"
                             android:textFontWeight="600"
                             android:paddingTop="3dp"
                             android:paddingBottom="3dp"
@@ -79,7 +79,7 @@
                         android:id="@+id/tv_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="14:00-14:33 29.05.2022"
+                        android:text="--"
                         android:textSize="12sp"
                         />
             </LinearLayout>

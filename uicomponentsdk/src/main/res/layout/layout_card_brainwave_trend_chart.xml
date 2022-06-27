@@ -125,7 +125,7 @@
                                 android:id="@+id/tv_value_gamma"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="8"
+                                android:text="--"
                                 android:textSize="18sp"
                                 android:textColor="@color/colorGammaWave"/>
 
@@ -160,7 +160,7 @@
                                 android:id="@+id/tv_value_beta"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="8"
+                                android:text="--"
                                 android:textSize="18sp"
                                 android:textColor="@color/colorBetaWave"/>
 
@@ -195,7 +195,7 @@
                                 android:id="@+id/tv_value_alpha"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="8"
+                                android:text="--"
                                 android:textSize="18sp"
                                 android:textColor="@color/colorAlphaWave"/>
 
@@ -230,7 +230,7 @@
                                 android:id="@+id/tv_value_theta"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="8"
+                                android:text="--"
                                 android:textSize="18sp"
                                 android:textColor="@color/colorThetaWave"/>
 
@@ -265,7 +265,7 @@
                                 android:id="@+id/tv_value_delta"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="8"
+                                android:text="--"
                                 android:textSize="18sp"
                                 android:textColor="@color/colorDeltaWave"/>
 
@@ -283,7 +283,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/activity_margin_half"
-                        android:text="2022年3月15日"
+                        android:text="--"
                         android:textSize="12sp"
                         app:layout_constraintLeft_toLeftOf="@id/iv_gamma"
                         app:layout_constraintTop_toBottomOf="@id/iv_gamma"
@@ -379,7 +379,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif"
-                        android:text="平均: 78"
+                        android:text="平均: --"
                         android:textColor="#333333"
                         android:textSize="14sp"
                         android:textStyle="normal"

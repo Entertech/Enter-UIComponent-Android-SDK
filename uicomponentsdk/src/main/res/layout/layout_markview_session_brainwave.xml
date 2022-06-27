@@ -44,7 +44,7 @@
                     android:id="@+id/tv_value_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="8"
+                    android:text="--"
                     android:textSize="18sp"
                     android:textColor="@color/colorGammaWave"/>
 
@@ -82,7 +82,7 @@
                     android:id="@+id/tv_value_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="8"
+                    android:text="--"
                     android:textSize="18sp"
                     android:textColor="@color/colorBetaWave"/>
 
@@ -120,7 +120,7 @@
                     android:id="@+id/tv_value_3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="8"
+                    android:text="--"
                     android:textSize="18sp"
                     android:textColor="@color/colorAlphaWave"/>
 
@@ -158,7 +158,7 @@
                     android:id="@+id/tv_value_4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="8"
+                    android:text="--"
                     android:textSize="18sp"
                     android:textColor="@color/colorThetaWave"/>
 
@@ -196,7 +196,7 @@
                     android:id="@+id/tv_value_5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="8"
+                    android:text="--"
                     android:textSize="18sp"
                     android:textColor="@color/colorDeltaWave"/>
 

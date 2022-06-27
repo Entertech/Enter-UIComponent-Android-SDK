@@ -38,7 +38,7 @@
                         android:id="@+id/tv_level"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Normal"
+                        android:text="--"
                         android:textSize="24sp"
                         android:textStyle="bold"
                         android:textColor="#ff6682"/>
@@ -47,7 +47,7 @@
                         android:id="@+id/tv_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="14:00-14:33 29.05.2022"
+                        android:text="--"
                         android:textSize="12sp"
                         />
             </LinearLayout>

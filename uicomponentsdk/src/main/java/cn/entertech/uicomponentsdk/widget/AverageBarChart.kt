@@ -196,6 +196,7 @@ class AverageBarChart @JvmOverloads constructor(
         }
         mValues = values
         transferValues(values)
+        invalidate()
     }
 
     fun setIsValueFloat(isValueFloat: Boolean) {

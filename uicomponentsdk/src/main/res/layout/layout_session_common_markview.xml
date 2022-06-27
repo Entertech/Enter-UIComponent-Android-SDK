@@ -15,7 +15,7 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="HEART RATE"
+            android:text="--"
             android:textSize="12sp"
             />
 
@@ -29,7 +29,7 @@
                 android:id="@+id/tv_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="65"
+                android:text="--"
                 android:textColor="@color/colorGammaWave"
                 android:textSize="28sp"
                 />
@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
-                android:text="bpm"
+                android:text="--"
                 android:textFontWeight="600"
                 android:textSize="14sp"
                 />
@@ -54,7 +54,7 @@
                 android:paddingTop="3dp"
                 android:paddingRight="@dimen/activity_margin_half"
                 android:paddingBottom="3dp"
-                android:text="med."
+                android:text="--."
                 android:textSize="12sp"
                 android:visibility="gone"
                 />

@@ -44,7 +44,7 @@
                             android:id="@+id/tv_value"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="78"
+                            android:text="--"
                             android:textColor="#00ff00"
                             android:textStyle="bold"
                             android:textSize="24sp"/>
@@ -54,7 +54,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/activity_margin_half"
-                        android:text="2022年3月15日"
+                        android:text="--"
                         android:textSize="12sp"
                         />
             </LinearLayout>
