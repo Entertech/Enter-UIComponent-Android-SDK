@@ -453,6 +453,14 @@ class TrendCommonCandleChart @JvmOverloads constructor(
     var mLineValues = ArrayList<Entry>()
     private var mChartVisibleXRangeMaximum: Float = 0f
     fun setData(data: ArrayList<CandleSourceData>?, cycle: String) {
+        when (cycle) {
+            "month" -> {
+                tv_title.text = "DAILY AVERAGE"
+            }
+            "year" -> {
+                tv_title.text = "MONTHLY AVERAGE"
+            }
+        }
         if (data == null || data.isEmpty()) {
             return
         }
@@ -464,14 +472,6 @@ class TrendCommonCandleChart @JvmOverloads constructor(
         this.mLineValues = initChartLineValues(mData!!)
         this.mPages = initPages(data, cycle)
         initChartXLabel(data)
-        when (mCycle) {
-            "month" -> {
-                tv_title.text = "DAILY AVERAGE"
-            }
-            "year" -> {
-                tv_title.text = "MONTHLY AVERAGE"
-            }
-        }
 
         when (mDataAverage) {
             in 0..29 -> tv_level.text = context.getString(R.string.sdk_report_low)

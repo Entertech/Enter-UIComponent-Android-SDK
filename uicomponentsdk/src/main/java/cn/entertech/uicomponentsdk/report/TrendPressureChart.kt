@@ -429,6 +429,12 @@ class TrendPressureChart @JvmOverloads constructor(
 
     var yLimitLineValues = listOf(25f, 50f, 75f)
     fun setData(data: ArrayList<LineSourceData>?, cycle: String) {
+        val title = if (cycle == "month") {
+            "DAILY AVERAGE"
+        } else {
+            "MONTHLY AVERAGE"
+        }
+        tv_title.text = title
         if (data == null) {
             return
         }
@@ -438,12 +444,6 @@ class TrendPressureChart @JvmOverloads constructor(
         this.mPages = initPages(mData!!, cycle)
         this.mChartVisibleXRangeMaximum = initChartVisibleXRangeMaximum(cycle)
         this.mValues = initChartValues(mData!!)
-        val title = if (mCycle == "month") {
-            "DAILY AVERAGE"
-        } else {
-            "MONTHLY AVERAGE"
-        }
-        tv_title.text = title
         initChartXLabel(mData!!)
         for (i in yLimitLineValues.indices) {
             val ll = LimitLine(yLimitLineValues[i], "")

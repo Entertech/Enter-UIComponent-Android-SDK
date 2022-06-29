@@ -35,13 +35,13 @@ import com.github.mikephil.charting.listener.ChartTouchListener
 import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.MPPointF
-import kotlinx.android.synthetic.main.layout_card_bar_chart.view.*
 import kotlinx.android.synthetic.main.layout_card_bar_chart.view.chart
 import kotlinx.android.synthetic.main.layout_card_bar_chart.view.iv_menu
 import kotlinx.android.synthetic.main.layout_card_bar_chart.view.ll_title
 import kotlinx.android.synthetic.main.layout_card_bar_chart.view.rl_bg
 import kotlinx.android.synthetic.main.layout_card_bar_chart.view.tv_date
 import kotlinx.android.synthetic.main.layout_card_bar_chart.view.tv_level
+import kotlinx.android.synthetic.main.layout_card_bar_chart.view.tv_time_unit_des
 import kotlinx.android.synthetic.main.layout_card_bar_chart.view.tv_title
 import kotlinx.android.synthetic.main.layout_card_bar_chart.view.tv_unit
 import kotlinx.android.synthetic.main.layout_card_bar_chart.view.tv_value
@@ -428,6 +428,14 @@ class TrendCommonBarChart @JvmOverloads constructor(
     }
 
     fun setData(data: ArrayList<BarSourceData>?, cycle: String) {
+        when (cycle) {
+            "month" -> {
+                tv_title.text = "DAILY AVERAGE"
+            }
+            "year" -> {
+                tv_title.text = "MONTHLY AVERAGE"
+            }
+        }
         if (data == null) {
             return
         }
