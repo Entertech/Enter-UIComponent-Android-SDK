@@ -28,6 +28,7 @@ class ReportHRVCard @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var mShowHRVIcon: Boolean = true
     private var mTitleMenuIcon: Drawable?
     private var mTitleIcon: Drawable?
     private var mShowTitleMenuIcon: Boolean = false
@@ -82,6 +83,7 @@ class ReportHRVCard @JvmOverloads constructor(
         mShowTitleMenuIcon = typeArray.getBoolean(R.styleable.ReportHRVCard_rchrv_showTitleMenuIcon,false)
         mTitleIcon = typeArray.getDrawable(R.styleable.ReportHRVCard_rchrv_titleIcon)
         mTitleMenuIcon = typeArray.getDrawable(R.styleable.ReportHRVCard_rchrv_titleMenuIcon)
+        mShowHRVIcon = typeArray.getBoolean(R.styleable.ReportHRVCard_rchrv_showHRVIcon, true)
         initView()
     }
 
@@ -147,7 +149,7 @@ class ReportHRVCard @JvmOverloads constructor(
         tv_level_2.setTextColor(mTextColor)
         var bg = tv_level.background as GradientDrawable
         bg.setColor(mLevelBgColor)
-        if (!mIsShortCard) {
+        if (!mShowHRVIcon) {
             ll_value_tip_1.visibility = View.VISIBLE
             ll_value_tip_2.visibility = View.GONE
         } else {

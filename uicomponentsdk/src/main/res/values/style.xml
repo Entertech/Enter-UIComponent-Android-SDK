@@ -755,6 +755,7 @@
         <attr name="rchrv_titleIcon" format="reference" />
         <attr name="rchrv_showTitleMenuIcon" format="boolean" />
         <attr name="rchrv_titleMenuIcon" format="reference" />
+        <attr name="rchrv_showHRVIcon" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="ReportRelaxationAndAttentionCard">
