@@ -37,7 +37,7 @@ class SessionPressureChartFullScreenActivity : AppCompatActivity() {
         var lineColor = intent.getIntExtra("lineColor", Color.RED)
         var secondLineColor = intent.getIntExtra("secondLineColor", Color.GREEN)
         var bgLineColor = intent.getIntExtra("bgLineColor", Color.GREEN)
-        var titleDescription = intent.getStringExtra("titleDescription")
+//        var titleDescription = intent.getStringExtra("titleDescription")
         var fillStartGradientColor = intent.getIntExtra("fillStartGradientColor", Color.GREEN)
         var fillEndGradientColor = intent.getIntExtra("fillEndGradientColor", Color.GREEN)
         var startTime = intent.getStringExtra("startTime")
@@ -63,7 +63,7 @@ class SessionPressureChartFullScreenActivity : AppCompatActivity() {
         session_pressure_chart.setSecondLineColor(secondLineColor)
         session_pressure_chart.isShowDetail = false
         session_pressure_chart.setBgLineColor(bgLineColor)
-        session_pressure_chart.setTitleDescription(titleDescription)
+//        session_pressure_chart.setTitleDescription(titleDescription)
         session_pressure_chart.setFillStartGradientColorColor(fillStartGradientColor)
         session_pressure_chart.setFillEndGradientColorColor(fillEndGradientColor)
         session_pressure_chart.setMainColor(mainColor)

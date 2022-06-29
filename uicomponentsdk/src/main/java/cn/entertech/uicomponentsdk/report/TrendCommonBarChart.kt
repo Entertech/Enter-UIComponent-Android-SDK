@@ -109,7 +109,7 @@ class TrendCommonBarChart @JvmOverloads constructor(
     private var mGridLineColor: Int = Color.parseColor("#E9EBF1")
     private var mLabelColor: Int = Color.parseColor("#9AA1A9")
     private var mIsTitleMenuIconShow: Boolean = true
-    private var mData: ArrayList<BarSourceData>? = null
+    private var mData = ArrayList<BarSourceData>()
     private var mBg: Drawable? = null
 
     private var mTitleMenuIcon: Drawable?
@@ -276,7 +276,7 @@ class TrendCommonBarChart @JvmOverloads constructor(
                 intent.putExtra("average", mAverageValue)
                 intent.putExtra("averageBgColor", mAverageLabelBgColor)
                 intent.putExtra("mainColor", mMainColor)
-                intent.putExtra("lineData", mData!! as Serializable)
+                intent.putExtra("lineData", mData as Serializable)
                 intent.putExtra("cycle", mCycle)
                 intent.putExtra("unit", mUnit)
                 intent.putExtra("showLevel", mShowLevel)

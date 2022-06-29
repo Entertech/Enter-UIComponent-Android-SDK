@@ -41,6 +41,7 @@ class HalfCircleProgressBar @JvmOverloads constructor(
         mBarPaint.color = mBarColor
         mBarPaint.strokeWidth = mBarWidth
         mBarPaint.style = Paint.Style.STROKE
+        mBarPaint.strokeCap = Paint.Cap.ROUND
 
         mTextPaint = Paint()
         mTextPaint.color = mTextColor
@@ -68,16 +69,16 @@ class HalfCircleProgressBar @JvmOverloads constructor(
         canvas?.drawArc(
             rectF,
             -176f,
-            percent * 180 - 8,
+            percent * (180 - 8),
             false,
             mBarPaint
         )
-        mBarPaint.style = Paint.Style.FILL
-        canvas?.rotate(-86f)
-        canvas?.drawCircle(0f, -height + mBarWidth / 2f, mBarWidth / 2f, mBarPaint)
-        canvas?.rotate(percent * 180 - 8, 0f, 0f)
-        canvas?.drawCircle(0f, -height + mBarWidth / 2f, mBarWidth / 2f, mBarPaint)
-        mBarPaint.style = Paint.Style.STROKE
+//        mBarPaint.style = Paint.Style.FILL
+//        canvas?.rotate(-86f)
+//        canvas?.drawCircle(0f, -height + mBarWidth / 2f, mBarWidth / 2f, mBarPaint)
+//        canvas?.rotate(percent * 180 - 8, 0f, 0f)
+//        canvas?.drawCircle(0f, -height + mBarWidth / 2f, mBarWidth / 2f, mBarPaint)
+//        mBarPaint.style = Paint.Style.STROKE
         canvas?.restore()
     }
 

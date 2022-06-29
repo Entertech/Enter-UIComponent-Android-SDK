@@ -343,7 +343,7 @@ class SessionPressureChart @JvmOverloads constructor(
                     intent.putExtra("lineColor", mLineColor)
                     intent.putExtra("lineData", mSourceDataList?.toDoubleArray())
                     intent.putExtra("bgLineColor", mBgLineColor)
-                    intent.putExtra("titleDescription", mTitleDescription)
+//                    intent.putExtra("titleDescription", mTitleDescription)
                     intent.putExtra("fillStartGradientColor", mFillGradientStartColor)
                     intent.putExtra("fillEndGradientColor", mFillGradientEndColor)
                     intent.putExtra("startTime", mStartTime)

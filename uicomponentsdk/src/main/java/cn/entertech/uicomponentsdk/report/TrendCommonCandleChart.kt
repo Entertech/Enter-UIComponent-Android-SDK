@@ -111,7 +111,7 @@ class TrendCommonCandleChart @JvmOverloads constructor(
     private var mLineColor: Int = Color.RED
     private var mGridLineColor: Int = Color.parseColor("#E9EBF1")
     private var mLabelColor: Int = Color.parseColor("#9AA1A9")
-    private var mData: ArrayList<CandleSourceData>? = null
+    private var mData =  ArrayList<CandleSourceData>()
     private var mBg: Drawable? = null
 
 
@@ -282,7 +282,7 @@ class TrendCommonCandleChart @JvmOverloads constructor(
                 intent.putExtra("average", mAverageValue)
                 intent.putExtra("averageBgColor", mAverageLabelBgColor)
                 intent.putExtra("lineColor", mLineColor)
-                intent.putExtra("lineData", mData!! as Serializable)
+                intent.putExtra("lineData", mData as Serializable)
                 intent.putExtra("cycle", mCycle)
                 context.startActivity(intent)
             }

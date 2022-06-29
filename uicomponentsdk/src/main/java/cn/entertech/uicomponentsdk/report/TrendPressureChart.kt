@@ -105,7 +105,7 @@ class TrendPressureChart @JvmOverloads constructor(
     private var mGridLineColor: Int = Color.parseColor("#E9EBF1")
     private var mLabelColor: Int = Color.parseColor("#9AA1A9")
     private var mIsTitleMenuIconShow: Boolean = true
-    private var mData: ArrayList<LineSourceData>? = null
+    private var mData: ArrayList<LineSourceData> = ArrayList()
     private var mBg: Drawable? = null
     private var mFillGradientStartColor: Int = Color.parseColor("#80FB9C98")
     private var mFillGradientEndColor: Int = Color.parseColor("#805F76FF")
@@ -274,7 +274,7 @@ class TrendPressureChart @JvmOverloads constructor(
                 intent.putExtra("average", mAverageValue)
                 intent.putExtra("averageBgColor", mAverageLabelBgColor)
                 intent.putExtra("mainColor", mMainColor)
-                intent.putExtra("lineData", mData!! as Serializable)
+                intent.putExtra("lineData", mData as Serializable)
                 intent.putExtra("cycle", mCycle)
                 intent.putExtra("unit", mUnit)
                 intent.putExtra("showLevel", mShowLevel)
