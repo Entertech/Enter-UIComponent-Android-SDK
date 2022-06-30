@@ -162,16 +162,16 @@ class GradientSweepBar @JvmOverloads constructor(
     fun setValue(value: Int) {
         mLevel = when(value){
             in 0..24->{
-                context.getString(R.string.pressure_level_low)
+                context.getString(R.string.pressure_level_simple_low)
             }
             in 25..49->{
-                context.getString(R.string.pressure_level_normal)
+                context.getString(R.string.pressure_level_simple_normal)
             }
             in 50..74->{
-                context.getString(R.string.pressure_level_elevated)
+                context.getString(R.string.pressure_level_simple_elevated)
             }
             in 75..100->{
-                context.getString(R.string.pressure_level_high)
+                context.getString(R.string.pressure_level_simple_high)
             }
             else -> "--"
         }

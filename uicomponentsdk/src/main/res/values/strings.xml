@@ -52,8 +52,12 @@
     <string name="sdk_breath_coherence">Breath Coherence</string>
     <string name="sdk_coherence_time">Coherence Time</string>
     <string name="sdk_x_axis_label">Time(min)</string>
-    <string name="pressure_level_low">low.</string>
-    <string name="pressure_level_normal">nor.</string>
-    <string name="pressure_level_elevated">elev.</string>
-    <string name="pressure_level_high">high.</string>
+    <string name="pressure_level_low">Low</string>
+    <string name="pressure_level_normal">Normal</string>
+    <string name="pressure_level_elevated">Elevated</string>
+    <string name="pressure_level_high">High</string>
+    <string name="pressure_level_simple_low">low.</string>
+    <string name="pressure_level_simple_normal">nor.</string>
+    <string name="pressure_level_simple_elevated">elev.</string>
+    <string name="pressure_level_simple_high">high.</string>
 </resources>
