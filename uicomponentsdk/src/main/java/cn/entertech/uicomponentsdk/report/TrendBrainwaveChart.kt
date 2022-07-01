@@ -338,6 +338,45 @@ class TrendBrainwaveChart @JvmOverloads constructor(
         }
     }
 
+    fun fillPreDataWhenZero(
+        sourceData: ArrayList<BrainwaveLineSourceData>
+    ): ArrayList<BrainwaveLineSourceData> {
+        if (sourceData.isEmpty()){
+            return sourceData
+        }
+        var firstValidValue: BrainwaveLineSourceData? = null
+        var preValidValue: BrainwaveLineSourceData? = null
+        var validValueList = sourceData.filter { it.alpha != 0f }
+        if (validValueList.isNullOrEmpty()){
+            return sourceData
+        }
+        if (validValueList.isNotEmpty()){
+            firstValidValue = validValueList[0]
+        }
+        for (i in sourceData.indices){
+            if (sourceData[i].alpha == 0f){
+                if (i == 0){
+                    sourceData[i].gamma = firstValidValue!!.gamma
+                    sourceData[i].alpha = firstValidValue.alpha
+                    sourceData[i].beta = firstValidValue.beta
+                    sourceData[i].delta = firstValidValue.delta
+                    sourceData[i].theta = firstValidValue.theta
+                    preValidValue = firstValidValue
+                }else{
+                    sourceData[i].gamma = preValidValue!!.gamma
+                    sourceData[i].alpha = preValidValue.alpha
+                    sourceData[i].beta = preValidValue.beta
+                    sourceData[i].delta = preValidValue.delta
+                    sourceData[i].theta = preValidValue.theta
+                    preValidValue = sourceData[i]
+                }
+            }else{
+                preValidValue = sourceData[i]
+            }
+        }
+        return sourceData
+    }
+
     fun completeSourceData(
         sourceData: ArrayList<BrainwaveLineSourceData>,
         cycle: String
@@ -353,11 +392,11 @@ class TrendBrainwaveChart @JvmOverloads constructor(
                     for (j in 1 until dayIntValue) {
                         var curDayString = String.format("%02d", j)
                         var barSourceData = BrainwaveLineSourceData()
-                        barSourceData.gamma = 20f
-                        barSourceData.beta = 20f
-                        barSourceData.alpha = 20f
-                        barSourceData.theta = 20f
-                        barSourceData.delta = 20f
+                        barSourceData.gamma = 0f
+                        barSourceData.beta = 0f
+                        barSourceData.alpha = 0f
+                        barSourceData.theta = 0f
+                        barSourceData.delta = 0f
                         barSourceData.date = "${day[0]}-${day[1]}-${curDayString}"
                         barSourceData.xLabel = curDayString
                         preData.add(barSourceData)
@@ -374,11 +413,11 @@ class TrendBrainwaveChart @JvmOverloads constructor(
                     for (j in 1 until monthIntValue) {
                         var curMonthString = String.format("%02d", j)
                         var barSourceData = BrainwaveLineSourceData()
-                        barSourceData.gamma = 20f
-                        barSourceData.beta = 20f
-                        barSourceData.alpha = 20f
-                        barSourceData.theta = 20f
-                        barSourceData.delta = 20f
+                        barSourceData.gamma = 0f
+                        barSourceData.beta = 0f
+                        barSourceData.alpha = 0f
+                        barSourceData.theta = 0f
+                        barSourceData.delta = 0f
                         barSourceData.date = "${month[0]}-${curMonthString}"
                         barSourceData.xLabel = curMonthString
                         preData.add(barSourceData)
@@ -511,7 +550,7 @@ class TrendBrainwaveChart @JvmOverloads constructor(
                 chart.xAxis.addLimitLine(llXAxis)
             }
             if (i == 0 && mCycle == TrendCommonCandleChart.CYCLE_YEAR) {
-                val llXAxis = LimitLine(i.toFloat()-0.5f, "${data[0].xLabel}")
+                val llXAxis = LimitLine(i.toFloat() - 0.5f, "${data[0].xLabel}")
                 llXAxis.lineWidth = 1f
                 llXAxis.labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
                 llXAxis.textSize = 12f
@@ -529,7 +568,7 @@ class TrendBrainwaveChart @JvmOverloads constructor(
         if (data == null) {
             return
         }
-        this.mData = completeSourceData(data, cycle)
+        this.mData = fillPreDataWhenZero(completeSourceData(data, cycle))
         this.mGammaAverage = mData!!.map { it.gamma }.average().toInt()
         this.mBetaAverage = mData!!.map { it.beta }.average().toInt()
         this.mAlphaAverage = mData!!.map { it.alpha }.average().toInt()
@@ -690,7 +729,7 @@ class TrendBrainwaveChart @JvmOverloads constructor(
             context,
             mFillColorArray?.map { Color.parseColor(it) }?.toIntArray(),
             mGridLineColor,
-            markViewTitle,mCycle
+            markViewTitle, mCycle
         )
         marker.chartView = chart
         marker.setTextColor(mTextColor)
@@ -807,37 +846,41 @@ class TrendBrainwaveChart @JvmOverloads constructor(
     }
 
     fun updateDateRange(startIndex: Int) {
-        if (mData == null){
+        if (mData == null) {
             return
         }
         var finalStartIndex = startIndex
         if (startIndex + mChartVisibleXRangeMaximum - 1 >= mData!!.size) {
-            finalStartIndex = mData!!.size-mChartVisibleXRangeMaximum
+            finalStartIndex = mData!!.size - mChartVisibleXRangeMaximum
         }
         lowestVisibleData =
             chart.data.dataSets[0].getEntryForIndex(finalStartIndex).data as BrainwaveLineSourceData
         highestVisibleData =
             chart.data.dataSets[0].getEntryForIndex(finalStartIndex + mChartVisibleXRangeMaximum - 1).data as BrainwaveLineSourceData
-        if (mCycle == "month"){
+        if (mCycle == "month") {
             tv_date.text = "${
                 lowestVisibleData.date.formatTime(
                     "yyyy-MM-dd",
                     "MMM dd,yyyy"
                 )
-            }-${highestVisibleData.date.formatTime(
-                "yyyy-MM-dd",
-                "MMM dd,yyyy"
-            )}"
-        }else{
+            }-${
+                highestVisibleData.date.formatTime(
+                    "yyyy-MM-dd",
+                    "MMM dd,yyyy"
+                )
+            }"
+        } else {
             tv_date.text = "${
                 lowestVisibleData.date.formatTime(
                     "yyyy-MM",
                     "MMM yyyy"
                 )
-            }-${highestVisibleData.date.formatTime(
-                "yyyy-MM",
-                "MMM yyyy"
-            )}"
+            }-${
+                highestVisibleData.date.formatTime(
+                    "yyyy-MM",
+                    "MMM yyyy"
+                )
+            }"
         }
         val curGammaAverage =
             mData!!.subList(finalStartIndex, finalStartIndex + mChartVisibleXRangeMaximum)
