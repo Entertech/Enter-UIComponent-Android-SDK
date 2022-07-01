@@ -726,6 +726,9 @@
         <attr name="racc_unit" format="string" />
         <attr name="racc_infoUrl" format="string" />
         <attr name="racc_isMenuIconInfo" format="boolean" />
+        <attr name="racc_valueBiggerIcon" format="reference" />
+        <attr name="racc_valueSmallerIcon" format="reference" />
+        <attr name="racc_valueEqualIcon" format="reference" />
     </declare-styleable>
 
     <declare-styleable name="ReportHRCard">

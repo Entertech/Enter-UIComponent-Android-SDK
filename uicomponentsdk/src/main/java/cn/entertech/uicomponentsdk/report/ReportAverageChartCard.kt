@@ -24,6 +24,9 @@ class ReportAverageChartCard @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var mValueEqualIcon: Drawable? = null
+    private var mValueSmallerIcon: Drawable? = null
+    private var mValueBiggerIcon: Drawable? = null
     private var mIsAverageInt: Boolean = false
     private var mBarHighLightColor: Int = Color.parseColor("#FFE4BB")
     private var mTag: String? = ""
@@ -91,6 +94,9 @@ class ReportAverageChartCard @JvmOverloads constructor(
         mInfoUrl = typeArray.getString(R.styleable.ReportAverageChartCard_racc_infoUrl)
         mIsMenuIconInfo =
             typeArray.getBoolean(R.styleable.ReportAverageChartCard_racc_isMenuIconInfo, false)
+        mValueBiggerIcon = typeArray.getDrawable(R.styleable.ReportAverageChartCard_racc_valueBiggerIcon)
+        mValueSmallerIcon = typeArray.getDrawable(R.styleable.ReportAverageChartCard_racc_valueSmallerIcon)
+        mValueEqualIcon = typeArray.getDrawable(R.styleable.ReportAverageChartCard_racc_valueEqualIcon)
         initView()
 
     }
@@ -145,13 +151,13 @@ class ReportAverageChartCard @JvmOverloads constructor(
         var lastValue = values[values.size - 1]
         if (lastValue > average) {
             tv_tip.text = "${context.getString(R.string.sdk_report_last_7_time_tip_head)} $mTag ${context.getString(R.string.sdk_report_last_7_time_tip_foot_1)}"
-            iv_arrow.setImageResource(R.drawable.vector_drawable_report_average_arrow_up)
+            iv_arrow.setImageDrawable(mValueBiggerIcon)
         } else if (lastValue < average) {
             tv_tip.text = "${context.getString(R.string.sdk_report_last_7_time_tip_head)} $mTag ${context.getString(R.string.sdk_report_last_7_time_tip_foot_2)}"
-            iv_arrow.setImageResource(R.drawable.vector_drawable_report_average_arrow_down)
+            iv_arrow.setImageDrawable(mValueSmallerIcon)
         } else {
             tv_tip.text = "${context.getString(R.string.sdk_report_last_7_time_tip_head)} $mTag ${context.getString(R.string.sdk_report_last_7_time_tip_foot_3)}"
-            iv_arrow.setImageResource(R.mipmap.ic_average_equal)
+            iv_arrow.setImageDrawable(mValueEqualIcon)
         }
 
     }
