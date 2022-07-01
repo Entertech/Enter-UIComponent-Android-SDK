@@ -661,9 +661,13 @@ class TrendCommonBarChart @JvmOverloads constructor(
 
     @SuppressLint("SetTextI18n")
     fun updateDateRange(startIndex: Int) {
-        lowestVisibleData = set.getEntryForIndex(startIndex).data as BarSourceData
+        var finalStartIndex = startIndex
+        if (startIndex + mChartVisibleXRangeMaximum.toInt() - 1 >= mData.size) {
+            finalStartIndex = mData.size-mChartVisibleXRangeMaximum.toInt()
+        }
+        lowestVisibleData = set.getEntryForIndex(finalStartIndex).data as BarSourceData
         highestVisibleData =
-            set.getEntryForIndex(startIndex + mChartVisibleXRangeMaximum.toInt() - 1).data as BarSourceData
+            set.getEntryForIndex(finalStartIndex + mChartVisibleXRangeMaximum.toInt() - 1).data as BarSourceData
         if (mCycle == "month") {
             tv_date.text = "${
                 lowestVisibleData.date.formatTime(
@@ -690,8 +694,8 @@ class TrendCommonBarChart @JvmOverloads constructor(
             }"
         }
         var showDataAverage =
-            mData?.subList(startIndex, startIndex + mChartVisibleXRangeMaximum.toInt())
-                ?.filter { it.value != 0f }?.map { it.value }?.average()?:0.0
+            mData?.subList(finalStartIndex, finalStartIndex + mChartVisibleXRangeMaximum.toInt())
+                ?.filter { it.value != 0f }?.map { it.value }?.average() ?: 0.0
         tv_value.text = "${ceil(showDataAverage).toInt()}"
     }
 

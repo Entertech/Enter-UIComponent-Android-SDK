@@ -690,9 +690,13 @@ class TrendPressureChart @JvmOverloads constructor(
     }
 
     fun updateDateRange(startIndex: Int) {
-        lowestVisibleData = set.getEntryForIndex(startIndex).data as LineSourceData
+        var finalStartIndex = startIndex
+        if (startIndex + mChartVisibleXRangeMaximum.toInt() - 1 >= mData.size) {
+            finalStartIndex = mData.size-mChartVisibleXRangeMaximum.toInt()
+        }
+        lowestVisibleData = set.getEntryForIndex(finalStartIndex).data as LineSourceData
         highestVisibleData =
-            set.getEntryForIndex(startIndex + mChartVisibleXRangeMaximum.toInt() - 1).data as LineSourceData
+            set.getEntryForIndex(finalStartIndex + mChartVisibleXRangeMaximum.toInt() - 1).data as LineSourceData
         if (mCycle == "month"){
             tv_date.text = "${
                 lowestVisibleData.date.formatTime(
@@ -714,7 +718,7 @@ class TrendPressureChart @JvmOverloads constructor(
                 "MMM yyyy"
             )}"
         }
-        val curDataList  = mData!!.subList(startIndex,startIndex + mChartVisibleXRangeMaximum.toInt()).map { it.value }
+        val curDataList  = mData!!.subList(finalStartIndex,finalStartIndex + mChartVisibleXRangeMaximum.toInt()).map { it.value }
         when(curDataList.average()){
             in 0.0..24.0->{
                 tv_value.text = context.getString(R.string.pressure_level_low)

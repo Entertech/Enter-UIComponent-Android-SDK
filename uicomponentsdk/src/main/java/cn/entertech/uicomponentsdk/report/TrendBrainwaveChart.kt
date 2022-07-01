@@ -807,10 +807,17 @@ class TrendBrainwaveChart @JvmOverloads constructor(
     }
 
     fun updateDateRange(startIndex: Int) {
+        if (mData == null){
+            return
+        }
+        var finalStartIndex = startIndex
+        if (startIndex + mChartVisibleXRangeMaximum - 1 >= mData!!.size) {
+            finalStartIndex = mData!!.size-mChartVisibleXRangeMaximum
+        }
         lowestVisibleData =
-            chart.data.dataSets[0].getEntryForIndex(startIndex).data as BrainwaveLineSourceData
+            chart.data.dataSets[0].getEntryForIndex(finalStartIndex).data as BrainwaveLineSourceData
         highestVisibleData =
-            chart.data.dataSets[0].getEntryForIndex(startIndex + mChartVisibleXRangeMaximum - 1).data as BrainwaveLineSourceData
+            chart.data.dataSets[0].getEntryForIndex(finalStartIndex + mChartVisibleXRangeMaximum - 1).data as BrainwaveLineSourceData
         if (mCycle == "month"){
             tv_date.text = "${
                 lowestVisibleData.date.formatTime(
@@ -833,16 +840,16 @@ class TrendBrainwaveChart @JvmOverloads constructor(
             )}"
         }
         val curGammaAverage =
-            mData!!.subList(startIndex, startIndex + mChartVisibleXRangeMaximum)
+            mData!!.subList(finalStartIndex, finalStartIndex + mChartVisibleXRangeMaximum)
                 .map { it.gamma }.average().toInt()
         val curBetaAverage =
-            mData!!.subList(startIndex, startIndex + mChartVisibleXRangeMaximum)
+            mData!!.subList(finalStartIndex, finalStartIndex + mChartVisibleXRangeMaximum)
                 .map { it.beta }.average().toInt()
         val curAlphaAverage =
-            mData!!.subList(startIndex, startIndex + mChartVisibleXRangeMaximum)
+            mData!!.subList(finalStartIndex, finalStartIndex + mChartVisibleXRangeMaximum)
                 .map { it.alpha }.average().toInt()
         val curThetaAverage =
-            mData!!.subList(startIndex, startIndex + mChartVisibleXRangeMaximum)
+            mData!!.subList(finalStartIndex, finalStartIndex + mChartVisibleXRangeMaximum)
                 .map { it.theta }.average().toInt()
         tv_value_gamma.text = "$curGammaAverage"
         tv_value_beta.text = "$curBetaAverage"

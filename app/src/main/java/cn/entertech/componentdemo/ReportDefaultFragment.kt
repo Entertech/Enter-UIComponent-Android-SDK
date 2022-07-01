@@ -113,7 +113,6 @@ class ReportDefaultFragment : Fragment() {
         var brainwaveLineValues = ArrayList<TrendBrainwaveChart.BrainwaveLineSourceData>()
         var dates = getDateList()
         var yearDates = getYearDateList()
-        Log.d("########","year date is ${yearDates}")
         for (i in yearDates.indices){
             var candleSourceData = TrendCommonCandleChart.CandleSourceData()
             val value = Random().nextInt(30) + 60.0f
@@ -121,7 +120,6 @@ class ReportDefaultFragment : Fragment() {
             candleSourceData.max = value + 5
             candleSourceData.min = value - 5
             candleSourceData.date = "${yearDates[i]}"
-            Log.d("########","year label is ${yearDates[i].split("-")[1]}")
             candleSourceData.xLabel = "${yearDates[i].split("-")[1]}"
             candleStickValues.add(candleSourceData)
         }
@@ -194,7 +192,7 @@ class ReportDefaultFragment : Fragment() {
         for (i in 1..30){
             dates.add("2022-04-${String.format("%02d", i)}")
         }
-        for (i in 1..31){
+        for (i in 1..14){
             dates.add("2022-05-${String.format("%02d", i)}")
         }
         return dates

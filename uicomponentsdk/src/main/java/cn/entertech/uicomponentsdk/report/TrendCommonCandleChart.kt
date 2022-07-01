@@ -710,9 +710,13 @@ class TrendCommonCandleChart @JvmOverloads constructor(
     }
 
     fun updateDateRange(startIndex: Int) {
-        lowestVisibleData = set2.getEntryForIndex(startIndex).data as CandleSourceData
+        var finalStartIndex = startIndex
+        if (startIndex + mChartVisibleXRangeMaximum.toInt() - 1 >= mData.size) {
+            finalStartIndex = mData.size-mChartVisibleXRangeMaximum.toInt()
+        }
+        lowestVisibleData = set2.getEntryForIndex(finalStartIndex).data as CandleSourceData
         highestVisibleData =
-            set2.getEntryForIndex(startIndex + mChartVisibleXRangeMaximum.toInt() - 1).data as CandleSourceData
+            set2.getEntryForIndex(finalStartIndex + mChartVisibleXRangeMaximum.toInt() - 1).data as CandleSourceData
         if (mCycle == "month") {
             tv_date.text = "${
                 lowestVisibleData.date.formatTime(
@@ -739,7 +743,7 @@ class TrendCommonCandleChart @JvmOverloads constructor(
             }"
         }
         var showDataAverage =
-            mData?.subList(startIndex, startIndex + mChartVisibleXRangeMaximum.toInt())
+            mData?.subList(finalStartIndex, finalStartIndex + mChartVisibleXRangeMaximum.toInt())
                 ?.filter { it.average != 0f }?.map { it.average }?.average()?:0.0
         tv_value.text = "${ceil(showDataAverage).toInt()}"
     }
