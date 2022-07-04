@@ -572,7 +572,7 @@ class TrendCommonBarChart @JvmOverloads constructor(
         marker.setYOffset(10f.dp())
 
         chart.marker = marker
-        chart.extraTopOffset = 28f.dp()
+        chart.extraTopOffset = 84f
         val xAxis: XAxis = chart.xAxis
         xAxis.setDrawAxisLine(true)
         xAxis.axisLineColor = mXAxisLineColor

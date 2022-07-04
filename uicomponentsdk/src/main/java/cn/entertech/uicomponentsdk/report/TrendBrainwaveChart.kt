@@ -738,7 +738,7 @@ class TrendBrainwaveChart @JvmOverloads constructor(
             marker.setDataSets(chart.data.dataSets)
         }
         chart.marker = marker
-        chart.extraTopOffset = 28f.dp()
+        chart.extraTopOffset = 72f
         val xAxis: XAxis = chart.xAxis
         xAxis.setDrawAxisLine(true)
         xAxis.axisLineColor = mXAxisLineColor

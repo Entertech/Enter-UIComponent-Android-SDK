@@ -583,7 +583,7 @@ class TrendPressureChart @JvmOverloads constructor(
         marker.setUnit(mUnit)
         marker.setYOffset(10f.dp())
         chart.marker = marker
-        chart.extraTopOffset = 28f.dp()
+        chart.extraTopOffset = 72f
         val xAxis: XAxis = chart.xAxis
         xAxis.setDrawAxisLine(true)
         xAxis.axisLineColor = mXAxisLineColor

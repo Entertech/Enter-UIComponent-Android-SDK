@@ -612,7 +612,7 @@ class TrendCommonCandleChart @JvmOverloads constructor(
         marker.setUnit(mUnit)
         marker.setYOffset(10f.dp())
         chart.marker = marker
-        chart.extraTopOffset = 28f.dp()
+        chart.extraTopOffset = 84f
         val xAxis: XAxis = chart.xAxis
         xAxis.setDrawAxisLine(true)
         xAxis.gridColor = mGridLineColor
