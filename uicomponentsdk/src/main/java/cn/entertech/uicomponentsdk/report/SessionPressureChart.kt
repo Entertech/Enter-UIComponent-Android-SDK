@@ -574,7 +574,7 @@ class SessionPressureChart @JvmOverloads constructor(
         marker.setTextColor(mTextColor)
         marker.setMarkViewBgColor(mMarkViewBgColor)
         chart.marker = marker
-        chart.extraTopOffset = mChartExtraTopOffset
+        chart.extraTopOffset = 66f
         val xAxis: XAxis = chart.xAxis
         xAxis.setDrawAxisLine(true)
         xAxis.axisLineColor = mXAxisLineColor

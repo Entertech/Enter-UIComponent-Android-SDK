@@ -725,7 +725,7 @@ class SessionBrainwaveChart @JvmOverloads constructor(
 //        chart.setScaleEnabled(true)
         chart.setScaleXEnabled(mIsChartEnable)
         chart.setScaleYEnabled(false)
-        chart.extraTopOffset = 21f.dp()
+        chart.extraTopOffset = 72f
         // force pinch zoom along both axis
         chart.setPinchZoom(true)
         val xAxis: XAxis = chart.xAxis

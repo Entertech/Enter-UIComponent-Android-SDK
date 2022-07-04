@@ -712,7 +712,7 @@ class SessionCommonChart @JvmOverloads constructor(
         marker.setYOffset(10f.dp())
         marker.setMarkViewBgColor(mMarkViewBgColor)
         chart.marker = marker
-        chart.extraTopOffset = mChartExtraTopOffset
+        chart.extraTopOffset = 72f
         val xAxis: XAxis = chart.xAxis
         xAxis.setDrawAxisLine(true)
         xAxis.axisLineColor = mXAxisLineColor
