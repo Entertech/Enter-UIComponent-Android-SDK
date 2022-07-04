@@ -555,7 +555,7 @@ class TrendCommonBarChart @JvmOverloads constructor(
         chart.animateX(500)
         chart.setDrawGridBackground(false)
 //        chart.isHighlightPerDragEnabled = false
-        chart.isDragEnabled = true
+        chart.isDragEnabled = false
         chart.isScaleXEnabled = false
         chart.isScaleYEnabled = false
         val markViewTitle = if (mCycle == "month") {
@@ -715,25 +715,25 @@ class TrendCommonBarChart @JvmOverloads constructor(
                 me: MotionEvent,
                 lastPerformedGesture: ChartTouchListener.ChartGesture?
             ) {
-                chart.isDragEnabled = true
+                chart.isDragEnabled = false
                 if (chart.isHighlightPerDragEnabled) {
                     chart.isHighlightPerDragEnabled = false
                     cancelHighlight()
                 } else {
-                    var chartWidth = chart.viewPortHandler.contentWidth()
-                    var deltaX = me.x - downX
-                    if (abs(deltaX) >= chartWidth / 3) {
-                        if (curPage == -1) {
-                            curPage = mPages.size - 1
-                        }
-                        if (deltaX > 0) {
-                            moveToPrePage()
-                        } else {
-                            moveToNextPage()
-                        }
-                    } else {
-                        startChartTranslateAnim(-deltaX)
-                    }
+//                    var chartWidth = chart.viewPortHandler.contentWidth()
+//                    var deltaX = me.x - downX
+//                    if (abs(deltaX) >= chartWidth / 3) {
+//                        if (curPage == -1) {
+//                            curPage = mPages.size - 1
+//                        }
+//                        if (deltaX > 0) {
+//                            moveToPrePage()
+//                        } else {
+//                            moveToNextPage()
+//                        }
+//                    } else {
+//                        startChartTranslateAnim(-deltaX)
+//                    }
                 }
             }
 
@@ -744,7 +744,7 @@ class TrendCommonBarChart @JvmOverloads constructor(
                 velocityY: Float
             ) {
                 cancelHighlight()
-                chart.isDragEnabled = true
+                chart.isDragEnabled = false
             }
 
             override fun onChartSingleTapped(me: MotionEvent) {
@@ -787,7 +787,7 @@ class TrendCommonBarChart @JvmOverloads constructor(
                             val highlightByTouchPoint = chart.getHighlightByTouchPoint(me.x, me.y)
                             chart.highlightValue(highlightByTouchPoint, true)
                         } else {
-                            chart.isDragEnabled = true
+                            chart.isDragEnabled = false
                             chart.isHighlightPerDragEnabled = false
                             cancelHighlight()
                         }

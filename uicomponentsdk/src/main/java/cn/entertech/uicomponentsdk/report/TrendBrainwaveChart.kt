@@ -717,7 +717,7 @@ class TrendBrainwaveChart @JvmOverloads constructor(
 //        chart.setYLimitLabelBgColor(mAverageLabelBgColor)
         chart.animateX(500)
 //        chart.isHighlightPerDragEnabled = false
-        chart.isDragEnabled = true
+        chart.isDragEnabled = false
         chart.isScaleXEnabled = false
         chart.isScaleYEnabled = false
         var markViewTitle = if (mCycle == "month") {
@@ -918,25 +918,25 @@ class TrendBrainwaveChart @JvmOverloads constructor(
                 me: MotionEvent,
                 lastPerformedGesture: ChartTouchListener.ChartGesture?
             ) {
-                chart.isDragEnabled = true
+//                chart.isDragEnabled = true
                 if (chart.isHighlightPerDragEnabled) {
                     chart.isHighlightPerDragEnabled = false
                     cancelHighlight()
                 } else {
-                    var chartWidth = chart.viewPortHandler.contentWidth()
-                    var deltaX = me.x - downX
-                    if (abs(deltaX) >= chartWidth / 3) {
-                        if (curPage == -1) {
-                            curPage = mPages.size - 1
-                        }
-                        if (deltaX > 0) {
-                            moveToPrePage()
-                        } else {
-                            moveToNextPage()
-                        }
-                    } else {
-                        startChartTranslateAnim(-deltaX)
-                    }
+//                    var chartWidth = chart.viewPortHandler.contentWidth()
+//                    var deltaX = me.x - downX
+//                    if (abs(deltaX) >= chartWidth / 3) {
+//                        if (curPage == -1) {
+//                            curPage = mPages.size - 1
+//                        }
+//                        if (deltaX > 0) {
+//                            moveToPrePage()
+//                        } else {
+//                            moveToNextPage()
+//                        }
+//                    } else {
+//                        startChartTranslateAnim(-deltaX)
+//                    }
                 }
             }
 
@@ -947,7 +947,7 @@ class TrendBrainwaveChart @JvmOverloads constructor(
                 velocityY: Float
             ) {
                 cancelHighlight()
-                chart.isDragEnabled = true
+//                chart.isDragEnabled = true
             }
 
             override fun onChartSingleTapped(me: MotionEvent) {
@@ -990,7 +990,7 @@ class TrendBrainwaveChart @JvmOverloads constructor(
                             val highlightByTouchPoint = chart.getHighlightByTouchPoint(me.x, me.y)
                             chart.highlightValue(highlightByTouchPoint, true)
                         } else {
-                            chart.isDragEnabled = true
+//                            chart.isDragEnabled = true
                             chart.isHighlightPerDragEnabled = false
                             cancelHighlight()
                         }
