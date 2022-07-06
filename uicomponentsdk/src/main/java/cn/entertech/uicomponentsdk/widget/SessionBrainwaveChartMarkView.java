@@ -145,7 +145,7 @@ public class SessionBrainwaveChartMarkView extends MarkerView {
                 }
             }
             if (maxLabel != 4){
-                llMarks.get(maxLabel).getChildAt(1).setVisibility(View.GONE);
+                llMarks.get(maxLabel).getChildAt(3).setVisibility(View.GONE);
             }
         }
         long startTimeMs = TimeUtils.getStringToDate(startTime, "yyyy-MM-dd HH:mm:ss");
