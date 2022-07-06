@@ -203,10 +203,11 @@ class SessionPressureChart @JvmOverloads constructor(
         mTimeUnit =
             typeArray.getInteger(R.styleable.SessionPressureChart_spc_timeUnit, mTimeUnit)
         mLineWidth =
-            typeArray.getDimension(
-                R.styleable.SessionPressureChart_spc_lineWidth,
-                mLineWidth
-            )
+            ScreenUtil.px2dip(context,
+                typeArray.getDimension(
+                    R.styleable.SessionPressureChart_spc_lineWidth,
+                    mLineWidth
+                )).toFloat()
         mXAxisUnit = typeArray.getString(R.styleable.SessionPressureChart_spc_xAxisUnit)
         mIsDrawFill =
             typeArray.getBoolean(R.styleable.SessionPressureChart_spc_isDrawFill, false)

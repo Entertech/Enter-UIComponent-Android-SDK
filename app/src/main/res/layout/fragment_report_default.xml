@@ -233,7 +233,7 @@
                     app:scc_isShowLevel="false"
                     app:scc_isShowMenuIconBg="false"
                     app:scc_isTitleMenuIconShow="true"
-                    app:scc_lineWidth="1dp"
+                    app:scc_lineWidth="2dp"
                     app:scc_mainColor="#FFC56F"
                     app:scc_markViewBgColor="#F1F5F6"
                     app:scc_markViewTitle="@string/sdk_hrv"

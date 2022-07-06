@@ -205,11 +205,11 @@ class SessionCommonChart @JvmOverloads constructor(
             )
         mTimeUnit =
             typeArray.getInteger(R.styleable.SessionCommonChart_scc_timeUnit, mTimeUnit)
-        mLineWidth =
+        mLineWidth = ScreenUtil.px2dip(context,
             typeArray.getDimension(
                 R.styleable.SessionCommonChart_scc_lineWidth,
                 mLineWidth
-            )
+            )).toFloat()
         mXAxisUnit = typeArray.getString(R.styleable.SessionCommonChart_scc_xAxisUnit)
         mIsDrawFill =
             typeArray.getBoolean(R.styleable.SessionCommonChart_scc_isDrawFill, false)
