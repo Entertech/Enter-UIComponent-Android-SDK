@@ -398,6 +398,9 @@ class TrendCommonCandleChart @JvmOverloads constructor(
     fun initChartLineValues(data: ArrayList<CandleSourceData>): ArrayList<Entry> {
         val lineValues = ArrayList<Entry>()
         for (i in data.indices) {
+            if (data[i].average == 0f){
+                continue
+            }
             lineValues.add(Entry(i.toFloat(), data[i].average, data[i]))
         }
         return lineValues
@@ -714,9 +717,9 @@ class TrendCommonCandleChart @JvmOverloads constructor(
         if (startIndex + mChartVisibleXRangeMaximum.toInt() - 1 >= mData.size) {
             finalStartIndex = mData.size-mChartVisibleXRangeMaximum.toInt()
         }
-        lowestVisibleData = set2.getEntryForIndex(finalStartIndex).data as CandleSourceData
+        lowestVisibleData = set1.getEntryForIndex(finalStartIndex).data as CandleSourceData
         highestVisibleData =
-            set2.getEntryForIndex(finalStartIndex + mChartVisibleXRangeMaximum.toInt() - 1).data as CandleSourceData
+            set1.getEntryForIndex(finalStartIndex + mChartVisibleXRangeMaximum.toInt() - 1).data as CandleSourceData
         if (mCycle == "month") {
             tv_date.text = "${
                 lowestVisibleData.date.formatTime(
