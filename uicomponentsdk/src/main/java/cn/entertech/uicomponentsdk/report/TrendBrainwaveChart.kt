@@ -861,12 +861,12 @@ class TrendBrainwaveChart @JvmOverloads constructor(
             tv_date.text = "${
                 lowestVisibleData.date.formatTime(
                     "yyyy-MM-dd",
-                    "MMM dd,yyyy"
+                    "MMM dd, yyyy"
                 )
             }-${
                 highestVisibleData.date.formatTime(
                     "yyyy-MM-dd",
-                    "MMM dd,yyyy"
+                    "MMM dd, yyyy"
                 )
             }"
         } else {

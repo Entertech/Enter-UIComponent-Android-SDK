@@ -71,9 +71,9 @@ public class CandleChartMarkView extends MarkerView {
             tvLevel.setText(getContext().getString(R.string.sdk_report_high));
         }
         if ("month".equals(cycle)){
-            tvDate.setText(TimeUtils.getFormatTime(startTimeMs,"MMM dd,yyyy"));
+            tvDate.setText(TimeUtils.getFormatTime(startTimeMs,"MMM dd, yyyy"));
         }else{
-            tvDate.setText(TimeUtils.getFormatTime(startTimeMs,"MMM,yyyy"));
+            tvDate.setText(TimeUtils.getFormatTime(startTimeMs,"MMM, yyyy"));
         }
         super.refreshContent(e, highlight);
     }

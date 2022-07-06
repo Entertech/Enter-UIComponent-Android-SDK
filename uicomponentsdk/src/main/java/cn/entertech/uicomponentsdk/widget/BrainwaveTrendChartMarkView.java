@@ -158,9 +158,9 @@ public class BrainwaveTrendChartMarkView extends MarkerView {
         long startTimeMs = TimeUtils.getStringToDate(brainwaveLineSourceData.getDate(), "yyyy-MM-dd");
         tvMarkViewTitle.setText(markViewTitle);
         if ("month".equals(cycle)){
-            tvDate.setText(TimeUtils.getFormatTime(startTimeMs, "MMM dd,yyyy"));
+            tvDate.setText(TimeUtils.getFormatTime(startTimeMs, "MMM dd, yyyy"));
         }else{
-            tvDate.setText(TimeUtils.getFormatTime(startTimeMs, "MMM,yyyy"));
+            tvDate.setText(TimeUtils.getFormatTime(startTimeMs, "MMM, yyyy"));
         }
         super.refreshContent(e, highlight);
     }

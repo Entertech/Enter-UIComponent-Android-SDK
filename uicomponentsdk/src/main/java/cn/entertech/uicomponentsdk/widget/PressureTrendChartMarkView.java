@@ -81,9 +81,9 @@ public class PressureTrendChartMarkView extends MarkerView {
             tvLevel.setText(getContext().getString(R.string.sdk_report_high));
         }
         if ("month".equals(cycle)){
-            tvDate.setText(TimeUtils.getFormatTime(date, "MMM dd,yyyy"));
+            tvDate.setText(TimeUtils.getFormatTime(date, "MMM dd, yyyy"));
         }else{
-            tvDate.setText(TimeUtils.getFormatTime(date, "MMM,yyyy"));
+            tvDate.setText(TimeUtils.getFormatTime(date, "MMM, yyyy"));
         }
         super.refreshContent(e, highlight);
     }

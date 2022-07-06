@@ -829,8 +829,8 @@ class SessionCommonChart @JvmOverloads constructor(
         mStartTime = startTime
         var startTimestamp = TimeUtils.getStringToDate(startTime, "yyyy-MM-dd HH:mm:ss")
         var endTimestamp = startTimestamp + dataTotalTimeMs
-        var startTimeDay = TimeUtils.getFormatTime(startTimestamp, "MMM dd,yyyy")
-        var endTimeDay = TimeUtils.getFormatTime(endTimestamp, "MMM dd,yyyy")
+        var startTimeDay = TimeUtils.getFormatTime(startTimestamp, "MMM dd, yyyy")
+        var endTimeDay = TimeUtils.getFormatTime(endTimestamp, "MMM dd, yyyy")
         var startTimeHourMin = TimeUtils.getFormatTime(startTimestamp, "HH:mm a")
         var endTimeHourMin = TimeUtils.getFormatTime(endTimestamp, "HH:mm a")
         if (startTimeDay == endTimeDay) {
