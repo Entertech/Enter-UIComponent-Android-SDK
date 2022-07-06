@@ -76,8 +76,8 @@
 
         <cn.entertech.uicomponentsdk.widget.CustomLineChart
                 android:id="@+id/chart"
-                android:layout_marginLeft="@dimen/activity_margin"
-                android:layout_marginRight="@dimen/activity_margin"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
