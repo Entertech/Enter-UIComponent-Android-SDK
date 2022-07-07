@@ -60,7 +60,6 @@ public class CandleChartMarkView extends MarkerView {
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
         TrendCommonCandleChart.CandleSourceData candleSourceData = (TrendCommonCandleChart.CandleSourceData) e.getData();
-        long startTimeMs = TimeUtils.getStringToDate(candleSourceData.getDate(), "yyyy-MM-dd");
         int value = (int)candleSourceData.getAverage();
         tvValue.setText(value+"");
         if (value >= 0 && value < 29) {
@@ -71,8 +70,10 @@ public class CandleChartMarkView extends MarkerView {
             tvLevel.setText(getContext().getString(R.string.sdk_report_high));
         }
         if ("month".equals(cycle)){
+            long startTimeMs = TimeUtils.getStringToDate(candleSourceData.getDate(), "yyyy-MM-dd");
             tvDate.setText(TimeUtils.getFormatTime(startTimeMs,"MMM dd, yyyy"));
         }else{
+            long startTimeMs = TimeUtils.getStringToDate(candleSourceData.getDate(), "yyyy-MM");
             tvDate.setText(TimeUtils.getFormatTime(startTimeMs,"MMM, yyyy"));
         }
         super.refreshContent(e, highlight);

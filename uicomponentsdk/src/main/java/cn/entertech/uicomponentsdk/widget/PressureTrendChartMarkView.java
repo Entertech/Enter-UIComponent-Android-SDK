@@ -60,7 +60,6 @@ public class PressureTrendChartMarkView extends MarkerView {
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
         TrendPressureChart.LineSourceData lineSourceData = (TrendPressureChart.LineSourceData) e.getData();
-        long date = TimeUtils.getStringToDate(lineSourceData.getDate(), "yyyy-MM-dd");
         float floatValue = lineSourceData.getValue();
         if (floatValue >= 0 && floatValue < 25) {
             tvValue.setText(getContext().getString(R.string.pressure_level_low));
@@ -81,8 +80,10 @@ public class PressureTrendChartMarkView extends MarkerView {
             tvLevel.setText(getContext().getString(R.string.sdk_report_high));
         }
         if ("month".equals(cycle)){
+            long date = TimeUtils.getStringToDate(lineSourceData.getDate(), "yyyy-MM-dd");
             tvDate.setText(TimeUtils.getFormatTime(date, "MMM dd, yyyy"));
         }else{
+            long date = TimeUtils.getStringToDate(lineSourceData.getDate(), "yyyy-MM");
             tvDate.setText(TimeUtils.getFormatTime(date, "MMM, yyyy"));
         }
         super.refreshContent(e, highlight);
