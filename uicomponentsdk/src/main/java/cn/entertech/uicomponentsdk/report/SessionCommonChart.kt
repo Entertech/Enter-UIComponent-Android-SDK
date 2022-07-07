@@ -963,4 +963,9 @@ class SessionCommonChart @JvmOverloads constructor(
         initView()
     }
 
+    fun setDataType(dataType:Int){
+        this.mDataType = dataType
+        initView()
+    }
+
 }
