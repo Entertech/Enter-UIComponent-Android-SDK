@@ -14,6 +14,8 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.Utils;
 
+import java.util.List;
+
 import cn.entertech.uicomponentsdk.R;
 import cn.entertech.uicomponentsdk.utils.TimeUtils;
 
@@ -25,11 +27,12 @@ public class SessionCommonChartMarkView extends MarkerView {
     private final TextView tvDate;
     private final TextView tvUnit;
     private final TextView tvLevel;
-    private final int dataType;
+    private final String mMarkText;
+    private final boolean hasSecondLine;
     private String startTime;
     private float yOffset;
 
-    public SessionCommonChartMarkView(Context context, String markText, String startTime, int dataType) {
+    public SessionCommonChartMarkView(Context context, String markText, String startTime,boolean hasSecondLine) {
         super(context, R.layout.layout_session_common_markview);
         tvValue = findViewById(R.id.tv_value);
         tvDate = findViewById(R.id.tv_date);
@@ -37,8 +40,9 @@ public class SessionCommonChartMarkView extends MarkerView {
         tvLevel = findViewById(R.id.tv_level);
         llBg = findViewById(R.id.ll_bg);
         tvMarkTitle = findViewById(R.id.tv_title);
+        mMarkText = markText;
         tvMarkTitle.setText(markText);
-        this.dataType = dataType;
+        this.hasSecondLine = hasSecondLine;
         this.startTime = startTime;
     }
 
@@ -67,16 +71,23 @@ public class SessionCommonChartMarkView extends MarkerView {
         long curPointTimeMs = startTimeMs + (long) (e.getX() * 600);
         String value = Utils.formatNumber(e.getY(), 0, true);
         double doubleValue = Double.parseDouble(value);
-        if (dataType == 2) {//和谐度
-            if (doubleValue > 50) {
-                tvValue.setText("Coherent");
+        if (hasSecondLine) {//和谐度
+            if (e.getData() != null ) {
+                double coherenceFlag = (double)e.getData();
+                if (coherenceFlag >0.0){
+                    tvValue.setText("Coherent");
+                }else{
+                    tvValue.setText("Incoherent");
+                }
             } else {
                 tvValue.setText("Incoherent");
             }
             tvLevel.setVisibility(View.GONE);
             tvUnit.setVisibility(View.GONE);
+            tvMarkTitle.setText("COHERENCE STATE");
         } else {
             tvValue.setText(value);
+            tvMarkTitle.setText(mMarkText);
         }
         if (doubleValue >= 0 && doubleValue < 29) {
             tvLevel.setText(getContext().getString(R.string.sdk_report_low));

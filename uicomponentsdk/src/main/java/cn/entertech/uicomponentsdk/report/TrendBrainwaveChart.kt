@@ -506,6 +506,11 @@ class TrendBrainwaveChart @JvmOverloads constructor(
         }
 
         for (i in data.indices) {
+            val brainwaveData = brainwaveDataList[checkIndexList[0]]
+            //去掉无脑波数据点
+            if (brainwaveData[i] == 20f){
+                continue
+            }
             var sum = 0f
             for (j in checkIndexList.indices) {
                 val brainwaveData = brainwaveDataList[checkIndexList[j]]
@@ -683,7 +688,7 @@ class TrendBrainwaveChart @JvmOverloads constructor(
         chart.setVisibleXRangeMaximum(mChartVisibleXRangeMaximum.toFloat())
         chart.viewTreeObserver.addOnGlobalLayoutListener {
             if (firstIn) {
-                initLowestAndHighestVisibleData()
+//                initLowestAndHighestVisibleData()
                 translateChartX(chart, -Float.MAX_VALUE)
             }
         }
@@ -854,9 +859,9 @@ class TrendBrainwaveChart @JvmOverloads constructor(
             finalStartIndex = mData!!.size - mChartVisibleXRangeMaximum
         }
         lowestVisibleData =
-            chart.data.dataSets[0].getEntryForIndex(finalStartIndex).data as BrainwaveLineSourceData
+            mData!![finalStartIndex]
         highestVisibleData =
-            chart.data.dataSets[0].getEntryForIndex(finalStartIndex + mChartVisibleXRangeMaximum - 1).data as BrainwaveLineSourceData
+            mData!![finalStartIndex + mChartVisibleXRangeMaximum - 1]
         if (mCycle == "month") {
             tv_date.text = "${
                 lowestVisibleData.date.formatTime(

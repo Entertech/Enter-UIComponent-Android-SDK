@@ -504,7 +504,11 @@ class SessionCommonChart @JvmOverloads constructor(
         var tempLineValues: ArrayList<Entry>? = null
         var isFindFirstPointInSecondLine = false
         for (i in mSampleData!!.indices) {
-            values.add(Entry(i.toFloat(), mSampleData!![i].toFloat()))
+            if (mSampleSecondData != null){
+                values.add(Entry(i.toFloat(), mSampleData!![i].toFloat(),mSampleSecondData!![i]))
+            }else{
+                values.add(Entry(i.toFloat(), mSampleData!![i].toFloat()))
+            }
         }
 
         set1 = initDataSet(values, mLineColor)
@@ -703,7 +707,7 @@ class SessionCommonChart @JvmOverloads constructor(
         chart.isDragEnabled = mIsChartEnable
         chart.isScaleXEnabled = mIsChartEnable
         chart.isScaleYEnabled = false
-        val marker = SessionCommonChartMarkView(context, mMarkViewTitle,mStartTime,mDataType)
+        val marker = SessionCommonChartMarkView(context, mMarkViewTitle,mStartTime,mSampleSecondData!=null)
         marker.chartView = chart
         marker.setMainColor(mMainColor)
         marker.setTextColor(mTextColor)
