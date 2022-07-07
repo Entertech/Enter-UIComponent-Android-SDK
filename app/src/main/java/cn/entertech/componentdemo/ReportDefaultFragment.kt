@@ -142,7 +142,11 @@ class ReportDefaultFragment : Fragment() {
             barSourceData.xLabel = "${dates[i].split("-")[2]}"
             barValues.add(barSourceData)
             var lineSourceData = TrendPressureChart.LineSourceData()
-            lineSourceData.value = value
+            if (i in dates.size-15 until dates.size-4){
+                lineSourceData.value = 0f
+            }else{
+                lineSourceData.value = value
+            }
             lineSourceData.date = "${dates[i]}"
             lineSourceData.xLabel = "${dates[i].split("-")[2]}"
             lineValues.add(lineSourceData)

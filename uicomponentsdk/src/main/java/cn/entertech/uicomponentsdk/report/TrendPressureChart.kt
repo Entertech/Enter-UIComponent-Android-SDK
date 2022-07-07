@@ -384,12 +384,16 @@ class TrendPressureChart @JvmOverloads constructor(
     fun initChartValues(data: ArrayList<LineSourceData>): ArrayList<Entry> {
         val values = ArrayList<Entry>()
         for (i in data.indices) {
-            values.add(
-                Entry(
-                    i.toFloat(),
-                    data[i].value, data[i]
+            if (data[i].value == 0f){
+               continue
+            }else{
+                values.add(
+                    Entry(
+                        i.toFloat(),
+                        data[i].value, data[i]
+                    )
                 )
-            )
+            }
         }
         return values
     }
@@ -694,9 +698,9 @@ class TrendPressureChart @JvmOverloads constructor(
         if (startIndex + mChartVisibleXRangeMaximum.toInt() - 1 >= mData.size) {
             finalStartIndex = mData.size-mChartVisibleXRangeMaximum.toInt()
         }
-        lowestVisibleData = set.getEntryForIndex(finalStartIndex).data as LineSourceData
+        lowestVisibleData = mData[finalStartIndex]
         highestVisibleData =
-            set.getEntryForIndex(finalStartIndex + mChartVisibleXRangeMaximum.toInt() - 1).data as LineSourceData
+            mData[finalStartIndex + mChartVisibleXRangeMaximum.toInt() - 1]
         if (mCycle == "month"){
             tv_date.text = "${
                 lowestVisibleData.date.formatTime(
