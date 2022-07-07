@@ -122,6 +122,16 @@ class ReportDefaultFragment : Fragment() {
             candleSourceData.date = "${yearDates[i]}"
             candleSourceData.xLabel = "${yearDates[i].split("-")[1]}"
             candleStickValues.add(candleSourceData)
+
+            val brainwaveLineSourceData = TrendBrainwaveChart.BrainwaveLineSourceData()
+            brainwaveLineSourceData.gamma = 20f
+            brainwaveLineSourceData.alpha = 20f
+            brainwaveLineSourceData.beta = 20f
+            brainwaveLineSourceData.delta = 20f
+            brainwaveLineSourceData.theta = 20f
+            brainwaveLineSourceData.date =  "${yearDates[i]}"
+            brainwaveLineSourceData.xLabel = "${yearDates[i].split("-")[1]}"
+            brainwaveLineValues.add(brainwaveLineSourceData)
         }
         for (i in dates.indices) {
 
@@ -137,20 +147,12 @@ class ReportDefaultFragment : Fragment() {
             lineSourceData.xLabel = "${dates[i].split("-")[2]}"
             lineValues.add(lineSourceData)
 
-            val brainwaveLineSourceData = TrendBrainwaveChart.BrainwaveLineSourceData()
-            brainwaveLineSourceData.gamma = 20f
-            brainwaveLineSourceData.alpha = 20f
-            brainwaveLineSourceData.beta = 20f
-            brainwaveLineSourceData.delta = 20f
-            brainwaveLineSourceData.theta = 20f
-            brainwaveLineSourceData.date = "${dates[i]}"
-            brainwaveLineSourceData.xLabel = "${dates[i].split("-")[2]}"
-            brainwaveLineValues.add(brainwaveLineSourceData)
+
         }
         chart_candle_stick.setData(candleStickValues, "year")
         chart_bar.setData(barValues,"month")
         chart_pressure_trend.setData(lineValues,"month")
-        chart_brainwave_trend.setData(brainwaveLineValues,"month")
+        chart_brainwave_trend.setData(brainwaveLineValues,"year")
 //        chart_hrv.setAverage("${reportData.reportHRDataEntity?.hrvAvg!!.toInt()}")
         var hrvSecondLine = ArrayList<Double>()
         var hrvSecondLineSize = reportData.reportHRDataEntity!!.hrRec!!.size / 9f.toInt()

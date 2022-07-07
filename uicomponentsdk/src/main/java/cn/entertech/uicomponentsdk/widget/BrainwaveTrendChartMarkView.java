@@ -2,6 +2,7 @@ package cn.entertech.uicomponentsdk.widget;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -155,11 +156,12 @@ public class BrainwaveTrendChartMarkView extends MarkerView {
             llMarks.get(maxLabel).getChildAt(3).setVisibility(View.GONE);
         }
 
-        long startTimeMs = TimeUtils.getStringToDate(brainwaveLineSourceData.getDate(), "yyyy-MM-dd");
         tvMarkViewTitle.setText(markViewTitle);
         if ("month".equals(cycle)){
+            long startTimeMs = TimeUtils.getStringToDate(brainwaveLineSourceData.getDate(), "yyyy-MM-dd");
             tvDate.setText(TimeUtils.getFormatTime(startTimeMs, "MMM dd, yyyy"));
         }else{
+            long startTimeMs = TimeUtils.getStringToDate(brainwaveLineSourceData.getDate(), "yyyy-MM");
             tvDate.setText(TimeUtils.getFormatTime(startTimeMs, "MMM, yyyy"));
         }
         super.refreshContent(e, highlight);
