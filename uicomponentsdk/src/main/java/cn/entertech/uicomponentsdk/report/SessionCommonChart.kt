@@ -579,6 +579,7 @@ class SessionCommonChart @JvmOverloads constructor(
                 }
             }
         }
+        initChart()
         chart.notifyDataSetChanged()
     }
 

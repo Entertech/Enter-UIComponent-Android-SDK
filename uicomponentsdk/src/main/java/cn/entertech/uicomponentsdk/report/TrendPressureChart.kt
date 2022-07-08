@@ -499,8 +499,8 @@ class TrendPressureChart @JvmOverloads constructor(
     }
 
     fun initDateRange() {
-        if (mValues.size >= mChartVisibleXRangeMaximum) {
-            updateDateRange(mValues.size - mChartVisibleXRangeMaximum.toInt())
+        if (mData.size >= mChartVisibleXRangeMaximum) {
+            updateDateRange(mData.size - mChartVisibleXRangeMaximum.toInt())
             tv_date.visibility = View.VISIBLE
         } else {
             tv_date.visibility = View.INVISIBLE

@@ -508,7 +508,7 @@ class TrendBrainwaveChart @JvmOverloads constructor(
         for (i in data.indices) {
             val brainwaveData = brainwaveDataList[checkIndexList[0]]
             //去掉无脑波数据点
-            if (brainwaveData[i] == 20f){
+            if (brainwaveData[i] == 0f){
                 continue
             }
             var sum = 0f
@@ -573,7 +573,7 @@ class TrendBrainwaveChart @JvmOverloads constructor(
         if (data == null) {
             return
         }
-        this.mData = fillPreDataWhenZero(completeSourceData(data, cycle))
+        this.mData = completeSourceData(data, cycle)
         this.mGammaAverage = mData!!.map { it.gamma }.average().toInt()
         this.mBetaAverage = mData!!.map { it.beta }.average().toInt()
         this.mAlphaAverage = mData!!.map { it.alpha }.average().toInt()
