@@ -116,15 +116,15 @@ class ReportDefaultFragment : Fragment() {
         for (i in yearDates.indices){
             var candleSourceData = TrendCommonCandleChart.CandleSourceData()
             val value = Random().nextInt(30) + 60.0f
-            if (i in  yearDates.size-6 until yearDates.size-2){
-                candleSourceData.average = 0f
-                candleSourceData.max = 0f
-                candleSourceData.min = 0f
-            }else{
+//            if (i in  yearDates.size-6 until yearDates.size-2){
+//                candleSourceData.average = 0f
+//                candleSourceData.max = 0f
+//                candleSourceData.min = 0f
+//            }else{
                 candleSourceData.average = value
                 candleSourceData.max = value + 10
                 candleSourceData.min = value - 5
-            }
+//            }
             candleSourceData.date = "${yearDates[i]}"
             candleSourceData.xLabel = "${yearDates[i].split("-")[1]}"
             candleStickValues.add(candleSourceData)
@@ -213,11 +213,16 @@ class ReportDefaultFragment : Fragment() {
 
     fun getYearDateList(): ArrayList<String> {
         var dates = ArrayList<String>()
-        for (j in 1..5){
+        dates.add("2021-08")
+        dates.add("2021-09")
+        dates.add("2021-10")
+        dates.add("2021-11")
+        dates.add("2021-12")
+//        for (j in 1..5){
             for (i in 1..12){
-                dates.add("202${j}-${String.format("%02d", i)}")
+                dates.add("2022-${String.format("%02d", i)}")
             }
-        }
+//        }
         return dates
     }
 }

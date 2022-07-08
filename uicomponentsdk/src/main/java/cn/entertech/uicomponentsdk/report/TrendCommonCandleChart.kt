@@ -323,9 +323,9 @@ class TrendCommonCandleChart @JvmOverloads constructor(
                     for (j in 1 until monthIntValue) {
                         var curMonthString = String.format("%02d", j)
                         var candleSourceData = CandleSourceData()
-                        candleSourceData.average = 0f
-                        candleSourceData.max = 0f
-                        candleSourceData.min = 0f
+                        candleSourceData.average = -200f
+                        candleSourceData.max = -200f
+                        candleSourceData.min = -200f
                         candleSourceData.date = "${month[0]}-${curMonthString}"
                         candleSourceData.xLabel = curMonthString
                         preData.add(candleSourceData)
@@ -382,9 +382,6 @@ class TrendCommonCandleChart @JvmOverloads constructor(
     fun initChartCandleValues(data: ArrayList<CandleSourceData>): ArrayList<CandleEntry> {
         val values = ArrayList<CandleEntry>()
         for (i in data.indices) {
-            if (mData[i].max == 0f &&  mData[i].min == 0f){
-                continue
-            }
             values.add(
                 CandleEntry(
                     i.toFloat(),
@@ -536,7 +533,6 @@ class TrendCommonCandleChart @JvmOverloads constructor(
         chart.data = combinedData
         chart.isHighlightPerDragEnabled = false
         calNiceLabel(mData!!)
-        chart.notifyDataSetChanged()
         chart.setVisibleXRangeMaximum(mChartVisibleXRangeMaximum)
         chart.xAxis.axisMinimum = -0.5f
         chart.xAxis.axisMaximum = chart.data.xMax + 0.5f
@@ -546,10 +542,11 @@ class TrendCommonCandleChart @JvmOverloads constructor(
             }
         }
         initDateRange()
+        chart.notifyDataSetChanged()
     }
 
     private fun calNiceLabel(data: List<CandleSourceData>) {
-        var min = data.map { it.min }.min() ?: 5 - 5f
+        var min = data.map { it.min }.filter { it>0 }.min() ?: 5 - 5f
         var max = data.map { it.max }.max() ?: 99 + 5f
         var yAxisMax = (max / 1f)
         var yAxisMin = (min * 1f)
@@ -629,7 +626,6 @@ class TrendCommonCandleChart @JvmOverloads constructor(
         val yAxis: YAxis = chart.axisLeft
         xAxis.setDrawLabels(false)
         chart.axisRight.isEnabled = false
-        chart.setMaxVisibleValueCount(100000)
         yAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
         yAxis.setLabelCount(5, false)
         yAxis.setDrawGridLines(true)
