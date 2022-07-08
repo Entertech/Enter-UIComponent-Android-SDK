@@ -111,7 +111,7 @@ class TrendCommonCandleChart @JvmOverloads constructor(
     private var mLineColor: Int = Color.RED
     private var mGridLineColor: Int = Color.parseColor("#E9EBF1")
     private var mLabelColor: Int = Color.parseColor("#9AA1A9")
-    private var mData =  ArrayList<CandleSourceData>()
+    private var mData = ArrayList<CandleSourceData>()
     private var mBg: Drawable? = null
 
 
@@ -357,7 +357,7 @@ class TrendCommonCandleChart @JvmOverloads constructor(
                 chart.xAxis.addLimitLine(llXAxis)
             }
             if (i == 0 && mCycle == CYCLE_YEAR) {
-                val llXAxis = LimitLine(i.toFloat()-0.5f, "${data[0].xLabel}")
+                val llXAxis = LimitLine(i.toFloat() - 0.5f, "${data[0].xLabel}")
                 llXAxis.lineWidth = 1f
                 llXAxis.labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
                 llXAxis.textSize = 12f
@@ -382,13 +382,16 @@ class TrendCommonCandleChart @JvmOverloads constructor(
     fun initChartCandleValues(data: ArrayList<CandleSourceData>): ArrayList<CandleEntry> {
         val values = ArrayList<CandleEntry>()
         for (i in data.indices) {
+            if (mData[i].max == 0f &&  mData[i].min == 0f){
+                continue
+            }
             values.add(
                 CandleEntry(
                     i.toFloat(),
-                    mData!![i].max,
-                    mData!![i].min,
-                    mData!![i].max,
-                    mData!![i].min, mData!![i]
+                    mData[i].max,
+                    mData[i].min,
+                    mData[i].max,
+                    mData[i].min, mData[i]
                 )
             )
         }
@@ -398,10 +401,10 @@ class TrendCommonCandleChart @JvmOverloads constructor(
     fun initChartLineValues(data: ArrayList<CandleSourceData>): ArrayList<Entry> {
         val lineValues = ArrayList<Entry>()
         for (i in data.indices) {
-            if (data[i].average == 0f){
+            if (data[i].average == 0f) {
                 continue
             }
-            lineValues.add(Entry(i.toFloat(), data[i].average, data[i]))
+            lineValues.add(Entry(i.toFloat(), (data[i].max + data[i].min) / 2f, data[i]))
         }
         return lineValues
     }
@@ -489,12 +492,12 @@ class TrendCommonCandleChart @JvmOverloads constructor(
 //        set1.setColor(Color.rgb(80, 80, 80));
         //        set1.setColor(Color.rgb(80, 80, 80));
         set1.shadowColor = mGridLineColor
-        set1.shadowWidth = 0.7f
+        set1.shadowWidth = 4f
         set1.decreasingColor = mGridLineColor
         set1.decreasingPaintStyle = Paint.Style.FILL
         set1.increasingColor = mGridLineColor
         set1.increasingPaintStyle = Paint.Style.STROKE
-        set1.neutralColor = Color.BLUE
+        set1.neutralColor = mGridLineColor
 //        set1.barSpace = 0.3f
         val dataSets = ArrayList<ICandleDataSet>()
         dataSets.add(set1) // add the data sets
@@ -715,11 +718,11 @@ class TrendCommonCandleChart @JvmOverloads constructor(
     fun updateDateRange(startIndex: Int) {
         var finalStartIndex = startIndex
         if (startIndex + mChartVisibleXRangeMaximum.toInt() - 1 >= mData.size) {
-            finalStartIndex = mData.size-mChartVisibleXRangeMaximum.toInt()
+            finalStartIndex = mData.size - mChartVisibleXRangeMaximum.toInt()
         }
-        lowestVisibleData = set1.getEntryForIndex(finalStartIndex).data as CandleSourceData
+        lowestVisibleData = mData[finalStartIndex]
         highestVisibleData =
-            set1.getEntryForIndex(finalStartIndex + mChartVisibleXRangeMaximum.toInt() - 1).data as CandleSourceData
+            mData[finalStartIndex + mChartVisibleXRangeMaximum.toInt() - 1]
         if (mCycle == "month") {
             tv_date.text = "${
                 lowestVisibleData.date.formatTime(
@@ -747,13 +750,13 @@ class TrendCommonCandleChart @JvmOverloads constructor(
         }
         var showDataAverage =
             mData?.subList(finalStartIndex, finalStartIndex + mChartVisibleXRangeMaximum.toInt())
-                ?.filter { it.average != 0f }?.map { it.average }?.average()?:0.0
+                ?.filter { it.average != 0f }?.map { it.average }?.average() ?: 0.0
         tv_value.text = "${ceil(showDataAverage).toInt()}"
     }
 
     fun initDateRange() {
-        if (mCandleValues.size >= mChartVisibleXRangeMaximum) {
-            updateDateRange(mCandleValues.size - mChartVisibleXRangeMaximum.toInt())
+        if (mData.size >= mChartVisibleXRangeMaximum) {
+            updateDateRange(mData.size - mChartVisibleXRangeMaximum.toInt())
             tv_date.visibility = View.VISIBLE
         } else {
             tv_date.visibility = View.INVISIBLE
