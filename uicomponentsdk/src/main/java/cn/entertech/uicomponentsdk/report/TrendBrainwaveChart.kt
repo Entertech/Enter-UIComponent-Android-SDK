@@ -975,32 +975,36 @@ class TrendBrainwaveChart @JvmOverloads constructor(
             }
 
             override fun onChartLongPressed(me: MotionEvent) {
-                mainHandler.postDelayed({
-                    if (moveX == -1f && moveY == -1f) {
-                        chart.isDragEnabled = false
-                        chart.isHighlightPerDragEnabled = true
-                        val highlightByTouchPoint = chart.getHighlightByTouchPoint(me.x, me.y)
-                        chart.highlightValue(highlightByTouchPoint, true)
-                    } else {
-                        var deltaX = moveX - downX
-                        var deltaY = moveY - downY
-                        if (abs(deltaX) < ViewConfiguration.get(context).scaledTouchSlop && abs(
-                                deltaY
-                            ) < ViewConfiguration.get(
-                                context
-                            ).scaledTouchSlop
-                        ) {
-                            chart.isDragEnabled = false
-                            chart.isHighlightPerDragEnabled = true
-                            val highlightByTouchPoint = chart.getHighlightByTouchPoint(me.x, me.y)
-                            chart.highlightValue(highlightByTouchPoint, true)
-                        } else {
-//                            chart.isDragEnabled = true
-                            chart.isHighlightPerDragEnabled = false
-                            cancelHighlight()
-                        }
-                    }
-                }, 500)
+                chart.isDragEnabled = false
+                chart.isHighlightPerDragEnabled = true
+                val highlightByTouchPoint = chart.getHighlightByTouchPoint(me.x, me.y)
+                chart.highlightValue(highlightByTouchPoint, true)
+//                mainHandler.postDelayed({
+//                    if (moveX == -1f && moveY == -1f) {
+//                        chart.isDragEnabled = false
+//                        chart.isHighlightPerDragEnabled = true
+//                        val highlightByTouchPoint = chart.getHighlightByTouchPoint(me.x, me.y)
+//                        chart.highlightValue(highlightByTouchPoint, true)
+//                    } else {
+//                        var deltaX = moveX - downX
+//                        var deltaY = moveY - downY
+//                        if (abs(deltaX) < ViewConfiguration.get(context).scaledTouchSlop && abs(
+//                                deltaY
+//                            ) < ViewConfiguration.get(
+//                                context
+//                            ).scaledTouchSlop
+//                        ) {
+//                            chart.isDragEnabled = false
+//                            chart.isHighlightPerDragEnabled = true
+//                            val highlightByTouchPoint = chart.getHighlightByTouchPoint(me.x, me.y)
+//                            chart.highlightValue(highlightByTouchPoint, true)
+//                        } else {
+////                            chart.isDragEnabled = true
+//                            chart.isHighlightPerDragEnabled = false
+//                            cancelHighlight()
+//                        }
+//                    }
+//                }, 500)
 
             }
 
