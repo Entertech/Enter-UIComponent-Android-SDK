@@ -12,7 +12,6 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.dataprovider.CandleDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ICandleDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineScatterCandleRadarDataSet;
 import com.github.mikephil.charting.renderer.LineScatterCandleRadarRenderer;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointD;
@@ -31,6 +30,7 @@ class CustomCandleChartRenderer extends LineScatterCandleRadarRenderer {
    private float[] mRangeBuffers = new float[4];
    private float[] mOpenBuffers = new float[4];
    private float[] mCloseBuffers = new float[4];
+   private Paint shadowPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
    public CustomCandleChartRenderer(CandleDataProvider chart, ChartAnimator animator,
                                   ViewPortHandler viewPortHandler) {
@@ -67,7 +67,7 @@ class CustomCandleChartRenderer extends LineScatterCandleRadarRenderer {
       mXBounds.set(mChart, dataSet);
 
       mRenderPaint.setStrokeWidth(dataSet.getShadowWidth());
-
+      shadowPaint.setStrokeWidth(dataSet.getShadowWidth());
       // draw the body
       for (int j = mXBounds.min; j <= mXBounds.range + mXBounds.min; j++) {
 
@@ -142,6 +142,11 @@ class CustomCandleChartRenderer extends LineScatterCandleRadarRenderer {
                                dataSet.getColor(j) :
                                dataSet.getShadowColor()
                );
+               shadowPaint.setColor(
+                       dataSet.getShadowColor() == ColorTemplate.COLOR_NONE ?
+                               dataSet.getColor(j) :
+                               dataSet.getShadowColor()
+               );
             }
 
             mRenderPaint.setStyle(Paint.Style.STROKE);
@@ -198,10 +203,12 @@ class CustomCandleChartRenderer extends LineScatterCandleRadarRenderer {
                   mRenderPaint.setColor(dataSet.getNeutralColor());
                }
 
+               shadowPaint.setStyle(Paint.Style.STROKE);
+               shadowPaint.setStrokeCap(Paint.Cap.ROUND);
                c.drawLine(
                        mBodyBuffers[0], mBodyBuffers[1],
                        mBodyBuffers[2], mBodyBuffers[3],
-                       mRenderPaint);
+                       shadowPaint);
             }
          } else {
 

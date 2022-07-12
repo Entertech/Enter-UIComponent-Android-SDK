@@ -116,15 +116,15 @@ class ReportDefaultFragment : Fragment() {
         for (i in yearDates.indices){
             var candleSourceData = TrendCommonCandleChart.CandleSourceData()
             val value = Random().nextInt(30) + 60.0f
-//            if (i in  yearDates.size-6 until yearDates.size-2){
-//                candleSourceData.average = 0f
-//                candleSourceData.max = 0f
-//                candleSourceData.min = 0f
-//            }else{
+            if (i == yearDates.size-2){
+                candleSourceData.average = 58f
+                candleSourceData.max = 58f
+                candleSourceData.min = 58f
+            }else{
                 candleSourceData.average = value
                 candleSourceData.max = value + 10
                 candleSourceData.min = value - 5
-//            }
+            }
             candleSourceData.date = "${yearDates[i]}"
             candleSourceData.xLabel = "${yearDates[i].split("-")[1]}"
             candleStickValues.add(candleSourceData)
