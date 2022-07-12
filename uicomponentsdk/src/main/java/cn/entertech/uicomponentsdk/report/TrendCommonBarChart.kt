@@ -594,6 +594,9 @@ class TrendCommonBarChart @JvmOverloads constructor(
         yAxis.textColor = mTextColor
         xAxis.setDrawLimitLinesBehindData(true)
         yAxis.setDrawAxisLine(false)
+        chart.setNoDataText("")
+        chart.setNoDataTextColor(Color.TRANSPARENT);
+        chart.invalidate();
         setChartListener()
     }
 

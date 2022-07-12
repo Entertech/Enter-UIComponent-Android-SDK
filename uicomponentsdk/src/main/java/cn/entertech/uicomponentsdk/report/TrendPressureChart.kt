@@ -628,6 +628,9 @@ class TrendPressureChart @JvmOverloads constructor(
         }
         yAxis.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART)
         yAxis.setDrawGridLines(false)
+        chart.setNoDataText("")
+        chart.setNoDataTextColor(Color.TRANSPARENT);
+        chart.invalidate();
         setChartListener()
     }
 

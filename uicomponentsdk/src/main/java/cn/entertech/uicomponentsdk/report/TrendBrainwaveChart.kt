@@ -779,6 +779,9 @@ class TrendBrainwaveChart @JvmOverloads constructor(
 //        }
         yAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
         yAxis.setDrawGridLines(false)
+        chart.setNoDataText("")
+        chart.setNoDataTextColor(Color.TRANSPARENT);
+        chart.invalidate();
         setChartListener()
     }
 
