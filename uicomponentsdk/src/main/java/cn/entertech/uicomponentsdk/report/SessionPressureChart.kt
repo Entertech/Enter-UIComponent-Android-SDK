@@ -309,12 +309,7 @@ class SessionPressureChart @JvmOverloads constructor(
         tv_description.text = "AVERAGE"
         tv_description.setTextColor(mTextColor)
 
-        when (mDataAverage) {
-            in 0..24 -> tv_level.text = context.getString(R.string.pressure_level_low)
-            in 25..50 -> tv_level.text = context.getString(R.string.pressure_level_normal)
-            in 50..75 -> tv_level.text = context.getString(R.string.pressure_level_elevated)
-            else -> tv_level.text = context.getString(R.string.pressure_level_high)
-        }
+
         tv_date.setTextColor(mTextColor)
 
         if (!mIsTitleMenuIconBgShow) {
@@ -348,6 +343,7 @@ class SessionPressureChart @JvmOverloads constructor(
                     intent.putExtra("fillStartGradientColor", mFillGradientStartColor)
                     intent.putExtra("fillEndGradientColor", mFillGradientEndColor)
                     intent.putExtra("startTime", mStartTime)
+                    intent.putExtra("dataAverage", mDataAverage)
                     context.startActivity(intent)
                 }
 
@@ -369,7 +365,7 @@ class SessionPressureChart @JvmOverloads constructor(
     var yLimitLineValues = listOf(25f, 50f, 75f)
 
     fun setData(
-        data: List<Double>?,
+        data: List<Double>?,dataAverage:Double? = null,
         isShowAllData: Boolean = false
     ) {
         if (data == null) {
@@ -377,13 +373,23 @@ class SessionPressureChart @JvmOverloads constructor(
         }
         this.mSourceDataList = data
         this.dataTotalTimeMs = data.size * mTimeUnit
-        this.mDataAverage = data.average().toInt()
+        if (dataAverage == null){
+            this.mDataAverage = data.average().toInt()
+        }else{
+            this.mDataAverage = dataAverage.toInt()
+        }
+
         this.mFirstData = formatData(data)
         var sample = mFirstData!!.size / mPointCount
         if (isShowAllData || sample <= 1) {
             sample = 1
         }
-
+        when (mDataAverage) {
+            in 0..24 -> tv_level.text = context.getString(R.string.pressure_level_low)
+            in 25..50 -> tv_level.text = context.getString(R.string.pressure_level_normal)
+            in 50..75 -> tv_level.text = context.getString(R.string.pressure_level_elevated)
+            else -> tv_level.text = context.getString(R.string.pressure_level_high)
+        }
         mSampleData = sampleData(mFirstData, sample)
         mLineColor = mMainColor
         mTimeOfTwoPoint = mTimeUnit * sample
