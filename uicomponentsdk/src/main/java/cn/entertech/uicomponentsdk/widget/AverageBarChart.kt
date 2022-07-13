@@ -10,6 +10,7 @@ import cn.entertech.uicomponentsdk.utils.ScreenUtil
 import cn.entertech.uicomponentsdk.utils.TimeUtils
 import cn.entertech.uicomponentsdk.utils.getOpacityColor
 import java.text.DecimalFormat
+import kotlin.math.ceil
 
 class AverageBarChart @JvmOverloads constructor(
     context: Context,
@@ -153,15 +154,13 @@ class AverageBarChart @JvmOverloads constructor(
         mBarPaint.color = mBarValueBgColor
         canvas?.drawRect(valueRect, mBarPaint)
         mBarPaint.color = mPrimaryTextColor
-        var lastValue:Number = if (isValueFloat) {
-            mValues[i]
-        } else {
-            mValues[i].toInt()
-        }
-        if (mUnit == "second"){
+        var lastValue: Number=
+        if (isValueFloat) {
             var decimalFormat = DecimalFormat(".0")
-            var average = decimalFormat.format(lastValue.toInt() / 60F)
-            lastValue = java.lang.Float.parseFloat(average)
+            var average = decimalFormat.format(mValues[i])
+            java.lang.Float.parseFloat(average)
+        }else{
+            mValues[i].toInt()
         }
         var lastValueTextBound = Rect()
         mBarPaint.getTextBounds(
@@ -170,9 +169,9 @@ class AverageBarChart @JvmOverloads constructor(
             "$lastValue".length - 1,
             lastValueTextBound
         )
-        if (lastValueTextBound.width() >= 30){
+        if (lastValueTextBound.width() >= 30) {
             mBarPaint.textSize = ScreenUtil.dip2px(context, 8f).toFloat()
-        }else{
+        } else {
             mBarPaint.textSize = ScreenUtil.dip2px(context, 10f).toFloat()
         }
         var lastValueDescent = Math.abs(mBarPaint.fontMetrics.descent)
@@ -253,7 +252,7 @@ class AverageBarChart @JvmOverloads constructor(
         var averageRect = Rect()
         var averageFormatString = String.format("%.1f", average)
         if (mIsAverageInt) {
-            averageFormatString = "${average.toInt()}"
+            averageFormatString = "${ceil(average).toInt()}"
         }
         if (mUnit != null && mUnit == "second") {
             averageFormatString = TimeUtils.second2FormatString(context, average.toInt())
