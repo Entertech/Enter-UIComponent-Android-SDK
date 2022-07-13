@@ -314,11 +314,6 @@ class SessionCommonChart @JvmOverloads constructor(
         if (mIsShowLevel) {
             tv_unit.visibility = View.GONE
             tv_level.visibility = View.VISIBLE
-            when (mDataAverage) {
-                in 0..29 -> tv_level.text = context.getString(R.string.sdk_report_low)
-                in 30..69 -> tv_level.text = context.getString(R.string.sdk_report_nor)
-                else -> tv_level.text = context.getString(R.string.sdk_report_high)
-            }
             tv_level.setTextColor(mLevelTextColor)
             var bg = tv_level.background as GradientDrawable
             bg.setColor(mLevelBgColor)
@@ -357,6 +352,7 @@ class SessionCommonChart @JvmOverloads constructor(
                     intent.putExtra("lineColor", mLineColor)
                     intent.putExtra("secondLineColor", mSecondLineColor)
                     intent.putExtra("lineData", mSourceDataList?.toDoubleArray())
+                    intent.putExtra("lineDataAverage", mDataAverage)
                     intent.putExtra("secondLineData", mLineFlagData?.toDoubleArray())
                     intent.putExtra("bgLineColor", mBgLineColor)
                     intent.putExtra("titleDescription", mTitleDescription)
@@ -419,7 +415,7 @@ class SessionCommonChart @JvmOverloads constructor(
     }
 
     fun setData(
-        data: List<Double>?,
+        data: List<Double>?,dataAverage:Double?= null,
         lineFlagData: List<Double>? = null,
         lineFlagTotalTime: Int? = null,
         isShowAllData: Boolean = false
@@ -429,7 +425,11 @@ class SessionCommonChart @JvmOverloads constructor(
         }
         this.mSourceDataList = data
         this.dataTotalTimeMs = data.size * mTimeUnit
-        this.mDataAverage = data.average().toInt()
+        if (dataAverage == null){
+            this.mDataAverage = data.average().toInt()
+        }else{
+            this.mDataAverage = dataAverage.toInt()
+        }
         this.mFirstData = formatData(data)
         this.mLineFlagData = lineFlagData
         var sample = mFirstData!!.size / mPointCount
@@ -450,6 +450,11 @@ class SessionCommonChart @JvmOverloads constructor(
         } else {
             mLineColor = mMainColor
             tv_value.text = "$mDataAverage"
+            when (mDataAverage) {
+                in 0..29 -> tv_level.text = context.getString(R.string.sdk_report_low)
+                in 30..69 -> tv_level.text = context.getString(R.string.sdk_report_nor)
+                else -> tv_level.text = context.getString(R.string.sdk_report_high)
+            }
             tv_description.text = "AVERAGE"
         }
         mTimeOfTwoPoint = mTimeUnit * sample
