@@ -550,7 +550,7 @@ class TrendBrainwaveChart @JvmOverloads constructor(
                 llXAxis.textSize = 12f
                 llXAxis.yOffset = -15f
                 llXAxis.enableDashedLine(10f, 10f, 0f)
-                llXAxis.lineColor = getOpacityColor(mTextColor, 0.2f)
+                llXAxis.lineColor = mGridLineColor
                 llXAxis.textColor = mLabelColor
                 chart.xAxis.addLimitLine(llXAxis)
             }
@@ -561,7 +561,7 @@ class TrendBrainwaveChart @JvmOverloads constructor(
                 llXAxis.textSize = 12f
                 llXAxis.yOffset = -15f
                 llXAxis.enableDashedLine(10f, 10f, 0f)
-                llXAxis.lineColor = getOpacityColor(mTextColor, 0.2f)
+                llXAxis.lineColor = mGridLineColor
                 llXAxis.textColor = mLabelColor
                 chart.xAxis.addLimitLine(llXAxis)
             }
