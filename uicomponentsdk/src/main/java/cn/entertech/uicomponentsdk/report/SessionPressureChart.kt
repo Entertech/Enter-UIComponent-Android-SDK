@@ -399,7 +399,7 @@ class SessionPressureChart @JvmOverloads constructor(
         while (currentMin < totalMin) {
             var limitX = currentMin * 60f * 1000 / mTimeOfTwoPoint
             val llXAxis = LimitLine(limitX, "$currentMin")
-            llXAxis.lineWidth = 1f
+            llXAxis.lineWidth = 0.5f
             llXAxis.labelPosition = LimitLine.LimitLabelPosition.LEFT_BOTTOM
             llXAxis.textSize = 12f
             llXAxis.yOffset = -15f
@@ -427,7 +427,7 @@ class SessionPressureChart @JvmOverloads constructor(
                     average,
                     "${context.getString(R.string.sdk_report_average)}$mAverageValue"
                 )
-                ll1.lineWidth = 1f
+                ll1.lineWidth = 0.5f
                 ll1.enableDashedLine(10f, 10f, 0f)
                 ll1.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
                 ll1.textSize = 14f
@@ -440,7 +440,7 @@ class SessionPressureChart @JvmOverloads constructor(
         }
         for (i in yLimitLineValues.indices) {
             val ll = LimitLine(yLimitLineValues[i], "")
-            ll.lineWidth = 1f
+            ll.lineWidth = 0.5f
             ll.enableDashedLine(10f, 10f, 0f)
             ll.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
             ll.textSize = 12f
@@ -520,7 +520,7 @@ class SessionPressureChart @JvmOverloads constructor(
             // draw points as solid circles
             set.setDrawCircleHole(false)
             // customize legend entry
-            set.formLineWidth = 1f
+            set.formLineWidth = 0.5f
             set.formLineDashEffect = DashPathEffect(floatArrayOf(10f, 10f), 0f)
             set.formSize = 15f
             // text size of values
@@ -585,7 +585,7 @@ class SessionPressureChart @JvmOverloads constructor(
         val xAxis: XAxis = chart.xAxis
         xAxis.setDrawAxisLine(true)
         xAxis.axisLineColor = mXAxisLineColor
-        xAxis.axisLineWidth = 1f
+        xAxis.axisLineWidth = 0.5f
         xAxis.setDrawGridLines(false)
         xAxis.position = XAxis.XAxisPosition.BOTTOM
         val yAxis: YAxis = chart.axisLeft

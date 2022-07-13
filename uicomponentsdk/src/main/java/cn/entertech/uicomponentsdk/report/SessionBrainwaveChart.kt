@@ -479,7 +479,7 @@ class SessionBrainwaveChart @JvmOverloads constructor(
         while (currentMin < totalMin) {
             var limitX = currentMin * 60f * 1000 / mTimeOfTwoPoint
             val llXAxis = LimitLine(limitX, "$currentMin")
-            llXAxis.lineWidth = 1f
+            llXAxis.lineWidth = 0.5f
             llXAxis.labelPosition = LimitLine.LimitLabelPosition.LEFT_BOTTOM
             llXAxis.textSize = 12f
             llXAxis.yOffset = -15f
@@ -582,7 +582,7 @@ class SessionBrainwaveChart @JvmOverloads constructor(
             var limitLine: LimitLine?
             limitLine = LimitLine(it, "")
             limitLine.enableDashedLine(10f, 10f, 0f)
-            limitLine.lineWidth = 1f
+            limitLine.lineWidth = 0.5f
             limitLine.yOffset = -4f
             limitLine.textColor = mTextColor
             limitLine.lineColor = mGridLineColor
@@ -759,6 +759,7 @@ class SessionBrainwaveChart @JvmOverloads constructor(
         yAxis.setDrawLimitLinesBehindData(true)
         xAxis.setDrawLimitLinesBehindData(false)
         xAxis.axisLineColor = mXAxisLineColor
+        xAxis.axisLineWidth = 0.5f
         // add limit lines
         setChartListener()
     }

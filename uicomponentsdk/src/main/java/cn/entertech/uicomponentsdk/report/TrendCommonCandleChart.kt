@@ -347,7 +347,7 @@ class TrendCommonCandleChart @JvmOverloads constructor(
         for (i in data.indices) {
             if (((i + 1) % xLabelOffset == 0 && i + 1 < data.size)) {
                 val llXAxis = LimitLine(i.toFloat() + 0.5f, "${data[i + 1].xLabel}")
-                llXAxis.lineWidth = 1f
+                llXAxis.lineWidth = 0.5f
                 llXAxis.labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
                 llXAxis.textSize = 12f
                 llXAxis.yOffset = -15f
@@ -358,7 +358,7 @@ class TrendCommonCandleChart @JvmOverloads constructor(
             }
             if (i == 0 && mCycle == CYCLE_YEAR) {
                 val llXAxis = LimitLine(i.toFloat() - 0.5f, "${data[0].xLabel}")
-                llXAxis.lineWidth = 1f
+                llXAxis.lineWidth = 0.5f
                 llXAxis.labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
                 llXAxis.textSize = 12f
                 llXAxis.yOffset = -15f
@@ -509,7 +509,7 @@ class TrendCommonCandleChart @JvmOverloads constructor(
         set2.color = mMainColor
         set2.lineWidth = ScreenUtil.px2dip(context, mLineWidth).toFloat()
         // customize legend entry
-        set2.formLineWidth = 1f
+        set2.formLineWidth = 0.5f
         set2.formLineDashEffect = DashPathEffect(floatArrayOf(10f, 10f), 0f)
         set2.formSize = 15f
         // text size of values
@@ -620,7 +620,7 @@ class TrendCommonCandleChart @JvmOverloads constructor(
         xAxis.setDrawAxisLine(true)
         xAxis.gridColor = mGridLineColor
         xAxis.axisLineColor = mXAxisLineColor
-        xAxis.axisLineWidth = 1f
+        xAxis.axisLineWidth = 0.5f
         xAxis.setDrawGridLines(false)
         xAxis.position = XAxis.XAxisPosition.BOTTOM
         val yAxis: YAxis = chart.axisLeft
@@ -630,7 +630,7 @@ class TrendCommonCandleChart @JvmOverloads constructor(
         yAxis.setLabelCount(5, false)
         yAxis.setDrawGridLines(true)
         yAxis.gridColor = mGridLineColor
-        yAxis.gridLineWidth = 1f
+        yAxis.gridLineWidth = 0.5f
         yAxis.setGridDashedLine(DashPathEffect(floatArrayOf(10f, 10f), 0f))
         yAxis.textSize = 12f
         yAxis.textColor = mTextColor

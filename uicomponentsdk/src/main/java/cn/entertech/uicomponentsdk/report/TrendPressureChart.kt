@@ -408,23 +408,23 @@ class TrendPressureChart @JvmOverloads constructor(
         for (i in data.indices) {
             if (((i + 1) % xLabelOffset == 0 && i + 1 < data.size)) {
                 val llXAxis = LimitLine(i.toFloat() + 0.5f, "${data[i + 1].xLabel}")
-                llXAxis.lineWidth = 1f
+                llXAxis.lineWidth = 0.5f
                 llXAxis.labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
                 llXAxis.textSize = 12f
                 llXAxis.yOffset = -15f
                 llXAxis.enableDashedLine(10f, 10f, 0f)
-                llXAxis.lineColor = getOpacityColor(mTextColor, 0.2f)
+                llXAxis.lineColor = mGridLineColor
                 llXAxis.textColor = mLabelColor
                 chart.xAxis.addLimitLine(llXAxis)
             }
             if (i == 0 && mCycle == TrendCommonCandleChart.CYCLE_YEAR) {
                 val llXAxis = LimitLine(i.toFloat()-0.5f, "${data[0].xLabel}")
-                llXAxis.lineWidth = 1f
+                llXAxis.lineWidth = 0.5f
                 llXAxis.labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
                 llXAxis.textSize = 12f
                 llXAxis.yOffset = -15f
                 llXAxis.enableDashedLine(10f, 10f, 0f)
-                llXAxis.lineColor = getOpacityColor(mTextColor, 0.2f)
+                llXAxis.lineColor = mGridLineColor
                 llXAxis.textColor = mLabelColor
                 chart.xAxis.addLimitLine(llXAxis)
             }
@@ -451,7 +451,7 @@ class TrendPressureChart @JvmOverloads constructor(
         initChartXLabel(mData!!)
         for (i in yLimitLineValues.indices) {
             val ll = LimitLine(yLimitLineValues[i], "")
-            ll.lineWidth = 1f
+            ll.lineWidth = 0.5f
             ll.enableDashedLine(10f, 10f, 0f)
             ll.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
             ll.textSize = 12f
@@ -469,7 +469,7 @@ class TrendPressureChart @JvmOverloads constructor(
         set.color = mMainColor
         set.lineWidth = 2f
         // customize legend entry
-        set.formLineWidth = 1f
+        set.formLineWidth = 0.5f
         set.formLineDashEffect = DashPathEffect(floatArrayOf(10f, 10f), 0f)
         set.formSize = 15f
         set.isHighlightEnabled = true
@@ -592,7 +592,7 @@ class TrendPressureChart @JvmOverloads constructor(
         xAxis.setDrawAxisLine(true)
         xAxis.axisLineColor = mXAxisLineColor
         xAxis.gridColor = mGridLineColor
-        xAxis.axisLineWidth = 1f
+        xAxis.axisLineWidth = 0.5f
         xAxis.setDrawGridLines(false)
         xAxis.position = XAxis.XAxisPosition.BOTTOM
         val yAxis: YAxis = chart.axisLeft
@@ -601,7 +601,7 @@ class TrendPressureChart @JvmOverloads constructor(
         yAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
         yAxis.setLabelCount(5, false)
         yAxis.gridColor = mGridLineColor
-        yAxis.gridLineWidth = 1f
+        yAxis.gridLineWidth = 0.5f
         yAxis.setGridDashedLine(DashPathEffect(floatArrayOf(10f, 10f), 0f))
         yAxis.textSize = 12f
         yAxis.textColor = mTextColor

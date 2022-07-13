@@ -473,7 +473,7 @@ class SessionBrainwaveStackChart @JvmOverloads constructor(
         while (currentMin < totalMin) {
             var limitX = currentMin * 60f * 1000 / mTimeOfTwoPoint
             val llXAxis = LimitLine(limitX, "$currentMin")
-            llXAxis.lineWidth = 1f
+            llXAxis.lineWidth = 0.5f
             llXAxis.labelPosition = LimitLine.LimitLabelPosition.LEFT_BOTTOM
             llXAxis.textSize = 12f
             llXAxis.yOffset = -15f
@@ -523,7 +523,7 @@ class SessionBrainwaveStackChart @JvmOverloads constructor(
         this.mValues = initChartValues(sampleData!!)
         for (i in yLimitLineValues.indices) {
             val ll = LimitLine(yLimitLineValues[i], "")
-            ll.lineWidth = 1f
+            ll.lineWidth = 0.5f
             ll.enableDashedLine(10f, 10f, 0f)
             ll.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
             ll.textSize = 12f
@@ -637,7 +637,7 @@ class SessionBrainwaveStackChart @JvmOverloads constructor(
         val xAxis: XAxis = chart.xAxis
         xAxis.setDrawAxisLine(true)
         xAxis.axisLineColor = mXAxisLineColor
-        xAxis.axisLineWidth = 1f
+        xAxis.axisLineWidth = 0.5f
         xAxis.setDrawGridLines(false)
         xAxis.position = XAxis.XAxisPosition.BOTTOM
         val yAxis: YAxis = chart.axisLeft
