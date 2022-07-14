@@ -48,7 +48,7 @@ public class SessionBrainwaveChartMarkView extends MarkerView {
     private List<TextView> tvValues = new ArrayList<>();
     private List<LinearLayout> llMarks = new ArrayList<>();
 
-    public SessionBrainwaveChartMarkView(Context context,int[] valueColor, int divideLineColor,String startTime) {
+    public SessionBrainwaveChartMarkView(Context context, int[] valueColor, int divideLineColor, String startTime) {
         super(context, R.layout.layout_markview_session_brainwave);
         tvValue1 = findViewById(R.id.tv_value_1);
         tvValue2 = findViewById(R.id.tv_value_2);
@@ -133,18 +133,28 @@ public class SessionBrainwaveChartMarkView extends MarkerView {
                 LineDataSet dataSet = (LineDataSet) dataSets.get(i);
                 String label = dataSet.getLabel();
                 int labelInt = Integer.parseInt(label);
-                if (labelInt >= maxLabel){
+                if (labelInt >= maxLabel) {
                     maxLabel = labelInt;
                 }
                 llMarks.get(labelInt).setVisibility(View.VISIBLE);
-                List<Entry> entry = dataSet.getValues();
-                for (int j = 0; j < entry.size(); j++) {
-                    if (e.getX() == entry.get(j).getX()) {
-                        tvValues.get(labelInt).setText(Math.round(entry.get(j).getY())+"");
+                List<Entry> curEntries = dataSet.getValues();
+                if (i + 1 < dataSets.size()) {
+                    List<Entry> nextEntries = ((LineDataSet) dataSets.get(i + 1)).getValues();
+                    for (int j = 0; j < curEntries.size(); j++) {
+                        if (e.getX() == curEntries.get(j).getX()) {
+                            tvValues.get(labelInt).setText(Math.round(curEntries.get(j).getY()-Math.round(nextEntries.get(j).getY())) + "");
+                        }
+                    }
+                }else{
+                    for (int j = 0; j < curEntries.size(); j++) {
+                        if (e.getX() == curEntries.get(j).getX()) {
+                            tvValues.get(labelInt).setText(Math.round(curEntries.get(j).getY()) + "");
+                        }
                     }
                 }
+
             }
-            if (maxLabel != 4){
+            if (maxLabel != 4) {
                 llMarks.get(maxLabel).getChildAt(3).setVisibility(View.GONE);
             }
         }
@@ -158,7 +168,8 @@ public class SessionBrainwaveChartMarkView extends MarkerView {
     public void setMarkViewBgColor(int color) {
         ((GradientDrawable) llBg.getBackground()).setColor(color);
     }
-    public void setTextColor(int color){
+
+    public void setTextColor(int color) {
         tvMarkViewTitle.setTextColor(color);
         tvDate.setTextColor(color);
     }
