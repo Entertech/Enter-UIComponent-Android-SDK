@@ -467,7 +467,7 @@ class TrendCommonCandleChart @JvmOverloads constructor(
         if (data == null || data.isEmpty()) {
             return
         }
-        this.mDataAverage = data.map { it.average }.average()
+        this.mDataAverage = data.map { it.average }.filter { it != -200f && it != 0f }.average()
         this.mCycle = cycle
         this.mData = completeSourceData(data, cycle)
         this.mChartVisibleXRangeMaximum = initChartVisibleXRangeMaximum(cycle)
@@ -546,7 +546,7 @@ class TrendCommonCandleChart @JvmOverloads constructor(
     }
 
     private fun calNiceLabel(data: List<CandleSourceData>) {
-        var min = data.map { it.min }.filter { it>0 }.min() ?: 5 - 5f
+        var min = data.map { it.min }.filter { it > 0 }.min() ?: 5 - 5f
         var max = data.map { it.max }.max() ?: 99 + 5f
         var yAxisMax = (max / 1f)
         var yAxisMin = (min * 1f)
@@ -749,7 +749,7 @@ class TrendCommonCandleChart @JvmOverloads constructor(
         }
         var showDataAverage =
             mData?.subList(finalStartIndex, finalStartIndex + mChartVisibleXRangeMaximum.toInt())
-                ?.filter { it.average != 0f }?.map { it.average }?.average() ?: 0.0
+                ?.filter { it.average != 0f && it.average != -200f }?.map { it.average }?.average() ?: 0.0
         tv_value.text = "${ceil(showDataAverage).toInt()}"
     }
 
