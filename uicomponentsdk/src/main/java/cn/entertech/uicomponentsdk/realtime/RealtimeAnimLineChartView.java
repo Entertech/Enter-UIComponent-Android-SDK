@@ -252,6 +252,7 @@ public class RealtimeAnimLineChartView extends View {
 
     private void startTimer() {
         isTimerStart = true;
+        initRealData();
         handler.sendEmptyMessageDelayed(0, mRefreshTime);
     }
 
@@ -295,7 +296,7 @@ public class RealtimeAnimLineChartView extends View {
                 break;
             }
         }
-        return !isAnim && isSourceDataAvailable && mScreenDataList.size() != 0 && mScreenDataList.get(0).size() > mScreenPointCount + 1;
+        return !isAnim && mScreenDataList.size() != 0 && mScreenDataList.get(0).size() > mScreenPointCount + 1;
     }
 
     private float axisOffset = 0f;
@@ -454,8 +455,8 @@ public class RealtimeAnimLineChartView extends View {
         float pointOffset = (getWidth() - rightOffset) * 1f / mScreenPointCount;
         canvas.translate(mLeftPadding + mYAxisMargin - axisOffset, getHeight());
         float time = 1;
-        if (mMaxValue > 0){
-            time = getHeight()*1f/mMaxValue;
+        if (mMaxValue > 0) {
+            time = getHeight() * 1f / mMaxValue;
         }
         for (int i = 0; i < mScreenSampleDataList.size(); i++) {
             if (showLineIndexs != null && !showLineIndexs.contains(i)) {
@@ -465,8 +466,8 @@ public class RealtimeAnimLineChartView extends View {
 //        Log.d("####", "draw data is " + drawData.toString());
             for (int j = 0; j < mScreenSampleDataList.get(i).size(); j++) {
                 if (j == 0)
-                    mLinePathList.get(i).moveTo(j * pointOffset, (float) (-(mScreenSampleDataList.get(i).get(j))*time));
-                mLinePathList.get(i).lineTo(j * pointOffset, (float) (-(mScreenSampleDataList.get(i).get(j))*time));
+                    mLinePathList.get(i).moveTo(j * pointOffset, (float) (-(mScreenSampleDataList.get(i).get(j)) * time));
+                mLinePathList.get(i).lineTo(j * pointOffset, (float) (-(mScreenSampleDataList.get(i).get(j)) * time));
             }
             canvas.drawPath(mLinePathList.get(i), mLinePaintList.get(i));
         }
@@ -482,13 +483,18 @@ public class RealtimeAnimLineChartView extends View {
 //            realData.remove(0);
         } else {
             if (mSourceData.get(0) == 0) {
-                mSourceData.remove(0);
+                if (realData.size() == 0) {
+                    realData.add(mSourceData.get(0));
+                    mSourceData.remove(0);
+                } else {
+                    realData.add(realData.get(realData.size() - 1));
+                }
             } else {
                 realData.add((mSourceData.get(0)));
                 mSourceData.remove(0);
-                if (realData.size() > mScreenPointCount + 2) {
-                    realData.remove(0);
-                }
+            }
+            if (realData.size() > mScreenPointCount + 2) {
+                realData.remove(0);
             }
         }
         ArrayList<Double> screenData = new ArrayList<>();
@@ -514,6 +520,14 @@ public class RealtimeAnimLineChartView extends View {
             }
         }
         return screenData;
+    }
+
+    void initRealData() {
+        for (int i = 0; i < mRealDataList.size(); i++) {
+            for (int j = 0; j < mScreenPointCount; j++) {
+                mRealDataList.get(i).add(0.0);
+            }
+        }
     }
 
     private float lastPointY = 0f;
@@ -707,7 +721,7 @@ public class RealtimeAnimLineChartView extends View {
         invalidate();
     }
 
-    public void setVerticalPadding(int padding){
+    public void setVerticalPadding(int padding) {
         this.mVerticalPadding = padding;
         invalidate();
     }
