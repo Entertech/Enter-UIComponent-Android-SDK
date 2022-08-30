@@ -39,6 +39,9 @@
             <!--            robs_title ：  标题-->
             <!--            robs_titleMenuIcon ：  标题菜单图标-->
             <!--            robs_xAxisUnit ：  图表横轴单位标注    -->
+            <cn.entertech.uicomponentsdk.report.ReportFlowLineView
+                    android:layout_width="match_parent"
+                    android:layout_height="118dp"/>
             <cn.entertech.uicomponentsdk.report.ReportOptionalBrainwaveSpectrumView
                     android:id="@+id/chart_brainwave"
                     android:layout_width="match_parent"
