@@ -809,6 +809,12 @@
         <attr name="rflv_limitBottomColor" format="color"/>
         <attr name="rflv_lineWidth" format="dimension"/>
     </declare-styleable>
+    <declare-styleable name="ReportJournalCoherenceLineView">
+        <attr name="rgclv_gridColor" format="color"/>
+        <attr name="rgclv_lineBgColor" format="color"/>
+        <attr name="rgclv_lineColor" format="color"/>
+        <attr name="rgclv_lineWidth" format="dimension"/>
+    </declare-styleable>
     <declare-styleable name="CommonReportCurveCard">
          <attr name="crcc_titleIcon" format="reference"/>
          <attr name="crcc_title" format="string"/>

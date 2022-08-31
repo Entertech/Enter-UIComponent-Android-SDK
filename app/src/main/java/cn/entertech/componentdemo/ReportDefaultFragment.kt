@@ -112,14 +112,14 @@ class ReportDefaultFragment : Fragment() {
         var brainwaveLineValues = ArrayList<TrendBrainwaveChart.BrainwaveLineSourceData>()
         var dates = getDateList()
         var yearDates = getYearDateList()
-        for (i in yearDates.indices){
+        for (i in yearDates.indices) {
             var candleSourceData = TrendCommonCandleChart.CandleSourceData()
             val value = Random().nextInt(30) + 60.0f
-            if (i == yearDates.size-2){
+            if (i == yearDates.size - 2) {
                 candleSourceData.average = 58f
                 candleSourceData.max = 58f
                 candleSourceData.min = 58f
-            }else{
+            } else {
                 candleSourceData.average = value
                 candleSourceData.max = value + 10
                 candleSourceData.min = value - 5
@@ -134,7 +134,7 @@ class ReportDefaultFragment : Fragment() {
             brainwaveLineSourceData.beta = 20f
             brainwaveLineSourceData.delta = 20f
             brainwaveLineSourceData.theta = 20f
-            brainwaveLineSourceData.date =  "${yearDates[i]}"
+            brainwaveLineSourceData.date = "${yearDates[i]}"
             brainwaveLineSourceData.xLabel = "${yearDates[i].split("-")[1]}"
             brainwaveLineValues.add(brainwaveLineSourceData)
         }
@@ -143,13 +143,13 @@ class ReportDefaultFragment : Fragment() {
             val value = Random().nextInt(30) + 60.0f
             var barSourceData = TrendCommonBarChart.BarSourceData()
             barSourceData.value = value
-            barSourceData.date =  "${dates[i]}"
+            barSourceData.date = "${dates[i]}"
             barSourceData.xLabel = "${dates[i].split("-")[2]}"
             barValues.add(barSourceData)
             var lineSourceData = TrendPressureChart.LineSourceData()
-            if (i in dates.size-15 until dates.size-4){
+            if (i in dates.size - 15 until dates.size - 4) {
                 lineSourceData.value = 0f
-            }else{
+            } else {
                 lineSourceData.value = value
             }
             lineSourceData.date = "${dates[i]}"
@@ -159,9 +159,9 @@ class ReportDefaultFragment : Fragment() {
 
         }
         chart_candle_stick.setData(candleStickValues, "year")
-        chart_bar.setData(barValues,"month")
-        chart_pressure_trend.setData(lineValues,"month")
-        chart_brainwave_trend.setData(brainwaveLineValues,"year")
+        chart_bar.setData(barValues, "month")
+        chart_pressure_trend.setData(lineValues, "month")
+        chart_brainwave_trend.setData(brainwaveLineValues, "year")
 //        chart_hrv.setAverage("${reportData.reportHRDataEntity?.hrvAvg!!.toInt()}")
         var hrvSecondLine = ArrayList<Double>()
         var hrvSecondLineSize = reportData.reportHRDataEntity!!.hrRec!!.size / 9f.toInt()
@@ -179,9 +179,19 @@ class ReportDefaultFragment : Fragment() {
         chart_hrv.isShowDetail = false
         chart_hrv.setData(reportData.reportHRDataEntity?.hrRec, hrvSecondLine, false)
         chart_session_common.setDataType(2)
-        chart_session_common.setData(reportData.reportHRDataEntity?.hrRec, reportData.reportHRDataEntity?.hrAvg,null, null,true)
+        chart_session_common.setData(
+            reportData.reportHRDataEntity?.hrRec,
+            reportData.reportHRDataEntity?.hrAvg,
+            null,
+            null,
+            true
+        )
         chart_session_common.setStartTime("2022-06-13 22:59:13")
-        chart_session_pressure.setData(reportData.reportPressureEnitty?.pressureRec,reportData.reportPressureEnitty?.pressureAvg,true)
+        chart_session_pressure.setData(
+            reportData.reportPressureEnitty?.pressureRec,
+            reportData.reportPressureEnitty?.pressureAvg,
+            true
+        )
         chart_session_pressure.setStartTime("2022-06-13 23:59:13")
         chart_hrv.setOnClickListener {
             Toast.makeText(activity!!, "sfs", Toast.LENGTH_SHORT).show()
@@ -189,27 +199,41 @@ class ReportDefaultFragment : Fragment() {
         report_pressure.setValue(reportData.reportPressureEnitty?.pressureAvg!!.toInt())
 
         //flow
-        val view = LayoutInflater.from(activity).inflate(R.layout.card_content_view_flow_curve,null)
+        val view =
+            LayoutInflater.from(activity).inflate(R.layout.card_content_view_flow_curve, null)
         view.findViewById<ReportJournalFlowLineView>(R.id.line_view).setData(testData)
         card_flow.setContentView(view)
 
+        var flags = ArrayList<Int>()
+        var coherenceData = ArrayList<Double>()
+        for (i in 0..50) {
+            if (i in 30..45) {
+                flags.add(1)
+            } else if (i in 5..20) {
+                flags.add(1)
+            } else {
+                flags.add(0)
+            }
+            coherenceData.add(Random().nextDouble() * 100)
+        }
+        report_coherence.setData(coherenceData, flags)
     }
 
     fun getDateList(): ArrayList<String> {
         var dates = ArrayList<String>()
-        for (i in 1..31){
+        for (i in 1..31) {
             dates.add("2022-01-${String.format("%02d", i)}")
         }
-        for (i in 1..28){
+        for (i in 1..28) {
             dates.add("2022-02-${String.format("%02d", i)}")
         }
-        for (i in 1..31){
+        for (i in 1..31) {
             dates.add("2022-03-${String.format("%02d", i)}")
         }
-        for (i in 1..30){
+        for (i in 1..30) {
             dates.add("2022-04-${String.format("%02d", i)}")
         }
-        for (i in 1..14){
+        for (i in 1..14) {
             dates.add("2022-05-${String.format("%02d", i)}")
         }
         return dates
@@ -223,9 +247,9 @@ class ReportDefaultFragment : Fragment() {
         dates.add("2021-11")
         dates.add("2021-12")
 //        for (j in 1..5){
-            for (i in 1..12){
-                dates.add("2022-${String.format("%02d", i)}")
-            }
+        for (i in 1..12) {
+            dates.add("2022-${String.format("%02d", i)}")
+        }
 //        }
         return dates
     }

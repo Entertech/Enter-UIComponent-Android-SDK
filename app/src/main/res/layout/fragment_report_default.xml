@@ -39,6 +39,10 @@
             <!--            robs_title ：  标题-->
             <!--            robs_titleMenuIcon ：  标题菜单图标-->
             <!--            robs_xAxisUnit ：  图表横轴单位标注    -->
+            <cn.entertech.uicomponentsdk.report.ReportJournalCoherenceLineView
+                    android:id="@+id/report_coherence"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"/>
             <cn.entertech.uicomponentsdk.report.CommonReportCurveCard
                     android:id="@+id/card_flow"
                     android:layout_width="match_parent"
