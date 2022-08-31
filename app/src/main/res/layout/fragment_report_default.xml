@@ -39,6 +39,12 @@
             <!--            robs_title ：  标题-->
             <!--            robs_titleMenuIcon ：  标题菜单图标-->
             <!--            robs_xAxisUnit ：  图表横轴单位标注    -->
+            <cn.entertech.uicomponentsdk.report.CommonReportCurveCard
+                    android:id="@+id/card_flow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:crcc_title="Flow"
+                    app:crcc_subTitle="Flow time is 30% of total time"/>
             <cn.entertech.uicomponentsdk.report.ReportFlowLineView
                     android:layout_width="match_parent"
                     android:layout_height="118dp"/>

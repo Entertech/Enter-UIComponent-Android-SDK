@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        >
+    <cn.entertech.uicomponentsdk.report.ReportFlowLineView
+            android:id="@+id/line_view"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            app:rflv_activeColor="#FFC56F"
+            app:rflv_neutralColor="#99A7FF"
+            app:rflv_flowColor="#9661FF"
+            app:rflv_lineColor="#7684DA"
+            app:rflv_limitAboveColor="#CC9E59"
+            app:rflv_limitBottomColor="#4B5DCC"
+            app:rflv_lineWidth="1.5dp"
+            />
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="sfasdfasdf"/>
+</LinearLayout>

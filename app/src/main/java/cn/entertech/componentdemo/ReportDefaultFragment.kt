@@ -7,6 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.RelativeLayout
 import android.widget.Toast
 import cn.entertech.uicomponentsdk.report.*
 import cn.entertech.uicomponentsdk.report.file.ReportFileHelper
@@ -188,6 +191,11 @@ class ReportDefaultFragment : Fragment() {
             Toast.makeText(activity!!, "sfs", Toast.LENGTH_SHORT).show()
         }
         report_pressure.setValue(reportData.reportPressureEnitty?.pressureAvg!!.toInt())
+
+        //flow
+        val view = LayoutInflater.from(activity).inflate(R.layout.card_content_view_flow_curve,null)
+        view.findViewById<ReportFlowLineView>(R.id.line_view).setData(testData)
+        card_flow.setContentView(view)
 
     }
 

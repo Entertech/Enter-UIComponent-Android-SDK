@@ -800,7 +800,21 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
     <declare-styleable name="ReportFlowLineView">
+        <attr name="rflv_gridColor" format="color"/>
+        <attr name="rflv_activeColor" format="color"/>
+        <attr name="rflv_neutralColor" format="color"/>
+        <attr name="rflv_flowColor" format="color"/>
         <attr name="rflv_lineColor" format="color"/>
+        <attr name="rflv_limitAboveColor" format="color"/>
+        <attr name="rflv_limitBottomColor" format="color"/>
         <attr name="rflv_lineWidth" format="dimension"/>
+    </declare-styleable>
+    <declare-styleable name="CommonReportCurveCard">
+         <attr name="crcc_titleIcon" format="reference"/>
+         <attr name="crcc_title" format="string"/>
+         <attr name="crcc_titleColor" format="color"/>
+         <attr name="crcc_subTitle" format="string"/>
+         <attr name="crcc_subTitleColor" format="color"/>
+         <attr name="crcc_splitLineColor" format="color"/>
     </declare-styleable>
 </resources>

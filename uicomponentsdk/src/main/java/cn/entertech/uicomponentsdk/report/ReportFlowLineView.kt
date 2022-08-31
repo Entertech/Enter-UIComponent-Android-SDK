@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
+import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.utils.dp
 
 class ReportFlowLineView @JvmOverloads constructor(
@@ -13,16 +14,24 @@ class ReportFlowLineView @JvmOverloads constructor(
 ) :
     View(context, attributeSet, defStyleAttr) {
 
-    private var linePath: Path
-    private var linePaint: Paint
+    private var limitAboveColor: Int = Color.parseColor("#CC9E59")
+    private var limitBottomColor: Int = Color.parseColor("#4B5DCC")
+    private var lineWidth: Float = LINE_WIDTH
+    private var activeColor: Int = Color.parseColor("#FFC56F")
+    private var neutralColor: Int = Color.parseColor("#99A7FF")
+    private var flowColor: Int = Color.parseColor("#9661FF")
+    private var gridColor: Int = Color.parseColor("#DDE1EB")
+    private var lineColor: Int = Color.parseColor("#7684DA")
+    private lateinit var linePath: Path
+    private lateinit var linePaint: Paint
     private var mData: MutableList<Double>? = null
-    private var leftBarPaint: Paint
-    private var limitGridLinePath: Path
-    private var scaleLinePath: Path
-    private var scaleLinePaint: Paint
-    private var gridLineYPadding: Float
-    private var gridLinePath: Path
-    private var gridLinePaint: Paint
+    private lateinit var leftBarPaint: Paint
+    private lateinit var limitGridLinePath: Path
+    private lateinit var scaleLinePath: Path
+    private lateinit var scaleLinePaint: Paint
+    private var gridLineYPadding: Float = 0.0f
+    private lateinit var gridLinePath: Path
+    private lateinit var gridLinePaint: Paint
 
     companion object {
         val SCALE_LINE_WIDTH by lazy { 1f.dp() }
@@ -32,12 +41,35 @@ class ReportFlowLineView @JvmOverloads constructor(
         val LEFT_BAR_WIDTH by lazy { 4f.dp() }
         val LINE_VALUE_MAX = 100.0
         val LINE_VALUE_MIN = 0.0
+        val LINE_WIDTH by lazy { 1.5f.dp() }
     }
 
     init {
+        val typeArray = context.obtainStyledAttributes(
+            attributeSet,
+            R.styleable.ReportFlowLineView
+        )
+        gridColor = typeArray.getColor(R.styleable.ReportFlowLineView_rflv_gridColor, gridColor)
+        activeColor =
+            typeArray.getColor(R.styleable.ReportFlowLineView_rflv_activeColor, activeColor)
+        neutralColor =
+            typeArray.getColor(R.styleable.ReportFlowLineView_rflv_neutralColor, neutralColor)
+        flowColor = typeArray.getColor(R.styleable.ReportFlowLineView_rflv_flowColor, flowColor)
+        lineColor = typeArray.getColor(R.styleable.ReportFlowLineView_rflv_lineColor, lineColor)
+        limitAboveColor =
+            typeArray.getColor(R.styleable.ReportFlowLineView_rflv_limitAboveColor, limitAboveColor)
+        limitBottomColor = typeArray.getColor(
+            R.styleable.ReportFlowLineView_rflv_limitBottomColor,
+            limitBottomColor
+        )
+        lineWidth = typeArray.getDimension(R.styleable.ReportFlowLineView_rflv_lineWidth, lineWidth)
+        initPaint()
+    }
+
+    fun initPaint() {
         gridLinePaint = Paint(Paint.ANTI_ALIAS_FLAG)
         gridLinePaint.strokeWidth = 4f.dp()
-        gridLinePaint.color = Color.parseColor("#DDE1EB")
+        gridLinePaint.color = gridColor
         val pointPath = Path()
         pointPath.addCircle(0f, 0f, GRID_LINE_WIDTH / 2, Path.Direction.CCW)
         gridLinePaint.pathEffect =
@@ -48,7 +80,7 @@ class ReportFlowLineView @JvmOverloads constructor(
         limitGridLinePath = Path()
 
         scaleLinePaint = Paint(Paint.ANTI_ALIAS_FLAG)
-        scaleLinePaint.color = Color.parseColor("#DDE1EB")
+        scaleLinePaint.color = gridColor
         scaleLinePaint.strokeWidth = 1f.dp()
         scaleLinePaint.style = Paint.Style.STROKE
         scaleLinePath = Path()
@@ -59,18 +91,12 @@ class ReportFlowLineView @JvmOverloads constructor(
         leftBarPaint.color = Color.parseColor("#4B5DCC")
 
         linePaint = Paint(Paint.ANTI_ALIAS_FLAG)
-        linePaint.color = Color.parseColor("#7684DA")
+        linePaint.color = lineColor
         val pathEffect = CornerPathEffect(25f)
         linePaint.pathEffect = pathEffect
         linePaint.strokeWidth = 1.5f.dp()
         linePaint.style = Paint.Style.STROKE
         linePath = Path()
-        mData = ArrayList<Double>()
-        for (i in 0..100) {
-            val randomValue = java.util.Random().nextDouble() * 100
-            mData!!.add(randomValue)
-        }
-
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -92,7 +118,7 @@ class ReportFlowLineView @JvmOverloads constructor(
                 GRID_LINE_WIDTH / 2 + gridLineYPadding + i * yOffset
             )
         }
-        gridLinePaint.color = Color.parseColor("#DDE1EB")
+        gridLinePaint.color = gridColor
         canvas.drawPath(gridLinePath, gridLinePaint)
         for (i in 0 until GRID_LINE_COUNT) {
             if (i == 7 || i == 15) {
@@ -107,9 +133,9 @@ class ReportFlowLineView @JvmOverloads constructor(
                 )
                 var lineColor =
                     if (i == 7) {
-                        Color.parseColor("#CC9E59")
+                        limitAboveColor
                     } else {
-                        Color.parseColor("#4B5DCC")
+                        limitBottomColor
                     }
                 gridLinePaint.color = lineColor
                 canvas.drawPath(limitGridLinePath, gridLinePaint)
@@ -130,7 +156,7 @@ class ReportFlowLineView @JvmOverloads constructor(
 
     private fun onDrawLeftYBar(canvas: Canvas) {
         //top
-        leftBarPaint.color = Color.parseColor("#FFC56F")
+        leftBarPaint.color = activeColor
         leftBarPaint.strokeCap = Paint.Cap.ROUND
         canvas.drawLine(
             LEFT_BAR_WIDTH / 2,
@@ -141,7 +167,7 @@ class ReportFlowLineView @JvmOverloads constructor(
         )
 
         //bottom
-        leftBarPaint.color = Color.parseColor("#4B5DCC")
+        leftBarPaint.color = flowColor
         leftBarPaint.strokeCap = Paint.Cap.ROUND
         canvas.drawLine(
             LEFT_BAR_WIDTH / 2,
@@ -152,7 +178,7 @@ class ReportFlowLineView @JvmOverloads constructor(
         )
 
         //mid
-        leftBarPaint.color = Color.parseColor("#99A7FF")
+        leftBarPaint.color = neutralColor
         leftBarPaint.strokeCap = Paint.Cap.SQUARE
         canvas.drawLine(
             LEFT_BAR_WIDTH / 2,
@@ -177,7 +203,7 @@ class ReportFlowLineView @JvmOverloads constructor(
         val dataOffset = (width - LEFT_BAR_WIDTH) / (mData!!.size - 1)
         for (i in mData!!.indices) {
             val curX = dataOffset * i + LEFT_BAR_WIDTH
-            val curY = (mData!![i] - dataMin) * dataScale
+            val curY = (mData!![i] - dataMin) * dataScale + gridLineYPadding
             if (i == 0) {
                 linePath.moveTo(curX, curY.toFloat())
             } else {
