@@ -7,7 +7,7 @@ import android.view.View
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.utils.dp
 
-class ReportFlowLineView @JvmOverloads constructor(
+class ReportJournalFlowLineView @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -47,22 +47,22 @@ class ReportFlowLineView @JvmOverloads constructor(
     init {
         val typeArray = context.obtainStyledAttributes(
             attributeSet,
-            R.styleable.ReportFlowLineView
+            R.styleable.ReportJournalFlowLineView
         )
-        gridColor = typeArray.getColor(R.styleable.ReportFlowLineView_rflv_gridColor, gridColor)
+        gridColor = typeArray.getColor(R.styleable.ReportJournalFlowLineView_rflv_gridColor, gridColor)
         activeColor =
-            typeArray.getColor(R.styleable.ReportFlowLineView_rflv_activeColor, activeColor)
+            typeArray.getColor(R.styleable.ReportJournalFlowLineView_rflv_activeColor, activeColor)
         neutralColor =
-            typeArray.getColor(R.styleable.ReportFlowLineView_rflv_neutralColor, neutralColor)
-        flowColor = typeArray.getColor(R.styleable.ReportFlowLineView_rflv_flowColor, flowColor)
-        lineColor = typeArray.getColor(R.styleable.ReportFlowLineView_rflv_lineColor, lineColor)
+            typeArray.getColor(R.styleable.ReportJournalFlowLineView_rflv_neutralColor, neutralColor)
+        flowColor = typeArray.getColor(R.styleable.ReportJournalFlowLineView_rflv_flowColor, flowColor)
+        lineColor = typeArray.getColor(R.styleable.ReportJournalFlowLineView_rflv_lineColor, lineColor)
         limitAboveColor =
-            typeArray.getColor(R.styleable.ReportFlowLineView_rflv_limitAboveColor, limitAboveColor)
+            typeArray.getColor(R.styleable.ReportJournalFlowLineView_rflv_limitAboveColor, limitAboveColor)
         limitBottomColor = typeArray.getColor(
-            R.styleable.ReportFlowLineView_rflv_limitBottomColor,
+            R.styleable.ReportJournalFlowLineView_rflv_limitBottomColor,
             limitBottomColor
         )
-        lineWidth = typeArray.getDimension(R.styleable.ReportFlowLineView_rflv_lineWidth, lineWidth)
+        lineWidth = typeArray.getDimension(R.styleable.ReportJournalFlowLineView_rflv_lineWidth, lineWidth)
         initPaint()
     }
 

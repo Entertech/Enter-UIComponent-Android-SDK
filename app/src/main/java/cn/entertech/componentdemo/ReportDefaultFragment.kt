@@ -2,14 +2,10 @@ package cn.entertech.componentdemo
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import android.widget.RelativeLayout
 import android.widget.Toast
 import cn.entertech.uicomponentsdk.report.*
 import cn.entertech.uicomponentsdk.report.file.ReportFileHelper
@@ -194,7 +190,7 @@ class ReportDefaultFragment : Fragment() {
 
         //flow
         val view = LayoutInflater.from(activity).inflate(R.layout.card_content_view_flow_curve,null)
-        view.findViewById<ReportFlowLineView>(R.id.line_view).setData(testData)
+        view.findViewById<ReportJournalFlowLineView>(R.id.line_view).setData(testData)
         card_flow.setContentView(view)
 
     }
