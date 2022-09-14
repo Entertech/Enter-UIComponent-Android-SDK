@@ -9,7 +9,7 @@
         <entry key="app/src/main/res/layout/card_content_view_flow_curve.xml" value="0.1802536231884058" />
         <entry key="app/src/main/res/layout/fragment_custom_widget.xml" value="0.1802536231884058" />
         <entry key="app/src/main/res/layout/fragment_default.xml" value="0.16945288753799392" />
-        <entry key="app/src/main/res/layout/fragment_report_default.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_report_default.xml" value="0.18" />
         <entry key="uicomponentsdk/src/main/res/drawable/shape_brainwave_legend_right.xml" value="0.238" />
         <entry key="uicomponentsdk/src/main/res/drawable/shape_common_chart_level_bg.xml" value="0.1205" />
         <entry key="uicomponentsdk/src/main/res/drawable/shape_common_report_curve_bg.xml" value="0.227" />

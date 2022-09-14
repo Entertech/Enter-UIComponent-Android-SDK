@@ -67,4 +67,9 @@ class CommonReportCurveCard @JvmOverloads constructor(
         mSelfView?.findViewById<RelativeLayout>(R.id.rl_content_view)?.addView(contentView)
     }
 
+    fun setSubTitle(subTitle:String){
+        this.subTitle = subTitle
+        initView()
+    }
+
 }

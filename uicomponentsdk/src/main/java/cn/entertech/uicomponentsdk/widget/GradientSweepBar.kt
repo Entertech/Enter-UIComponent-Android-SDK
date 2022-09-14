@@ -12,6 +12,7 @@ class GradientSweepBar @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     def: Int = 0
 ) : View(context, attributeSet, def) {
+    private var mShowInnerText: Boolean = true
     private var mLevel: String = "--"
     private var mTextStyle: Int
     private var mShowLevel: Boolean = false
@@ -38,6 +39,7 @@ class GradientSweepBar @JvmOverloads constructor(
             attributeSet,
             R.styleable.GradientSweepBar
         )
+        mShowInnerText = typeArray.getBoolean(R.styleable.GradientSweepBar_gsv_showInnerText,true)
         mBarWidth = typeArray.getDimension(R.styleable.GradientSweepBar_gsv_barWidth, mBarWidth)
         mTextColor = typeArray.getColor(R.styleable.GradientSweepBar_gsv_textColor, mTextColor)
         mTextSize = typeArray.getDimension(R.styleable.GradientSweepBar_gsv_textSize, mTextSize)
@@ -95,7 +97,9 @@ class GradientSweepBar @JvmOverloads constructor(
         onDrawBgBar(canvas)
         onDrawBar(canvas, mPercent)
         onDrawScaleLine(canvas, mPercent)
-        onDrawText(canvas)
+        if (mShowInnerText){
+            onDrawText(canvas)
+        }
     }
 
     private fun onDrawBar(canvas: Canvas?, percent: Float, paint: Paint) {

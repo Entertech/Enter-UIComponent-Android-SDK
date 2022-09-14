@@ -695,6 +695,7 @@
         <attr name="gsv_marginBottomDegree" format="integer" />
         <attr name="gsv_textBottomMargin" format="dimension" />
         <attr name="gsv_showLevel" format="boolean" />
+        <attr name="gsv_showInnerText" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="AverageBarChart">

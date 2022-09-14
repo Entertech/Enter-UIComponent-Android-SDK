@@ -1,9 +1,12 @@
 package cn.entertech.uicomponentsdk.report
 
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.utils.dp
 
@@ -32,6 +35,11 @@ class ReportJournalFlowLineView @JvmOverloads constructor(
     private var gridLineYPadding: Float = 0.0f
     private lateinit var gridLinePath: Path
     private lateinit var gridLinePaint: Paint
+//    var curLineCurveIndex: Int = 0
+//        set(value) {
+//            field = value
+//            invalidate()
+//        }
 
     companion object {
         val SCALE_LINE_WIDTH by lazy { 1f.dp() }
@@ -49,20 +57,30 @@ class ReportJournalFlowLineView @JvmOverloads constructor(
             attributeSet,
             R.styleable.ReportJournalFlowLineView
         )
-        gridColor = typeArray.getColor(R.styleable.ReportJournalFlowLineView_rflv_gridColor, gridColor)
+        gridColor =
+            typeArray.getColor(R.styleable.ReportJournalFlowLineView_rflv_gridColor, gridColor)
         activeColor =
             typeArray.getColor(R.styleable.ReportJournalFlowLineView_rflv_activeColor, activeColor)
         neutralColor =
-            typeArray.getColor(R.styleable.ReportJournalFlowLineView_rflv_neutralColor, neutralColor)
-        flowColor = typeArray.getColor(R.styleable.ReportJournalFlowLineView_rflv_flowColor, flowColor)
-        lineColor = typeArray.getColor(R.styleable.ReportJournalFlowLineView_rflv_lineColor, lineColor)
+            typeArray.getColor(
+                R.styleable.ReportJournalFlowLineView_rflv_neutralColor,
+                neutralColor
+            )
+        flowColor =
+            typeArray.getColor(R.styleable.ReportJournalFlowLineView_rflv_flowColor, flowColor)
+        lineColor =
+            typeArray.getColor(R.styleable.ReportJournalFlowLineView_rflv_lineColor, lineColor)
         limitAboveColor =
-            typeArray.getColor(R.styleable.ReportJournalFlowLineView_rflv_limitAboveColor, limitAboveColor)
+            typeArray.getColor(
+                R.styleable.ReportJournalFlowLineView_rflv_limitAboveColor,
+                limitAboveColor
+            )
         limitBottomColor = typeArray.getColor(
             R.styleable.ReportJournalFlowLineView_rflv_limitBottomColor,
             limitBottomColor
         )
-        lineWidth = typeArray.getDimension(R.styleable.ReportJournalFlowLineView_rflv_lineWidth, lineWidth)
+        lineWidth =
+            typeArray.getDimension(R.styleable.ReportJournalFlowLineView_rflv_lineWidth, lineWidth)
         initPaint()
     }
 
@@ -215,6 +233,19 @@ class ReportJournalFlowLineView @JvmOverloads constructor(
 
     fun setData(data: MutableList<Double>) {
         this.mData = data
-        invalidate()
     }
+
+//    fun startLineDrawAnimation() {
+//        if (mData != null) {
+//            val objectAnimator = ObjectAnimator.ofInt(this, "curLineCurveIndex", 0, mData!!.size)
+//            objectAnimator.duration = 1000
+//            objectAnimator.interpolator = DecelerateInterpolator()
+//            objectAnimator.start()
+//        }
+//    }
+//
+//    override fun onVisibilityChanged(changedView: View, visibility: Int) {
+//        super.onVisibilityChanged(changedView, visibility)
+////        startLineDrawAnimation()
+//    }
 }
