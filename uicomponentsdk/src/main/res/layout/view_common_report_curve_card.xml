@@ -2,16 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:background="@drawable/shape_common_report_curve_bg"
+        android:orientation="vertical"
         >
 
     <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_margin"
             android:layout_marginTop="12.5dp"
-            android:layout_marginRight="@dimen/activity_margin"
+            android:layout_marginRight="12dp"
             android:orientation="horizontal"
             >
 
@@ -31,6 +31,19 @@
                 android:layout_marginLeft="2dp"
                 android:text="Flow"
                 android:textSize="14sp"
+                />
+
+        <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                />
+
+        <ImageView
+                android:layout_gravity="center_vertical"
+                android:id="@+id/iv_menu_icon"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 />
     </LinearLayout>
 

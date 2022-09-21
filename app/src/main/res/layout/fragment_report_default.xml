@@ -47,6 +47,8 @@
                     android:id="@+id/card_flow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:crcc_titleMenuIconColor="#ff0000"
+                    app:crcc_titleMenuIcon="@drawable/vector_drawable_brain"
                     app:crcc_title="Flow"
                     app:crcc_subTitle="Flow time is 30% of total time"/>
             <cn.entertech.uicomponentsdk.report.ReportJournalFlowLineView

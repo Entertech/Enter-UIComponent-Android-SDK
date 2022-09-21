@@ -1,6 +1,7 @@
 package cn.entertech.uicomponentsdk.report
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
@@ -19,6 +20,8 @@ class CommonReportCurveCard @JvmOverloads constructor(
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
+    private var titleMenuIconColor: Int = Color.parseColor("#6D6E7D")
+    private var titleMenuIcon: Drawable? = null
     private var splitLineColor: Int = Color.parseColor("#D3D3D3")
     private var subTitleColor: Int = Color.parseColor("#000000")
     private var subTitle: String = ""
@@ -38,6 +41,8 @@ class CommonReportCurveCard @JvmOverloads constructor(
             R.styleable.CommonReportCurveCard
         )
         titleIcon = typeArray.getDrawable(R.styleable.CommonReportCurveCard_crcc_titleIcon)
+        titleMenuIcon = typeArray.getDrawable(R.styleable.CommonReportCurveCard_crcc_titleMenuIcon)
+        titleMenuIconColor = typeArray.getColor(R.styleable.CommonReportCurveCard_crcc_titleMenuIconColor,titleMenuIconColor)
         title = typeArray.getString(R.styleable.CommonReportCurveCard_crcc_title) ?: ""
         titleColor =
             typeArray.getColor(R.styleable.CommonReportCurveCard_crcc_titleColor, Color.BLUE)
@@ -55,6 +60,10 @@ class CommonReportCurveCard @JvmOverloads constructor(
     fun initView() {
         if (titleIcon != null) {
             mSelfView?.findViewById<ImageView>(R.id.iv_title_icon)?.setImageDrawable(titleIcon!!)
+        }
+        if (titleMenuIcon != null){
+            mSelfView?.findViewById<ImageView>(R.id.iv_menu_icon)?.imageTintList = ColorStateList.valueOf(titleMenuIconColor)
+            mSelfView?.findViewById<ImageView>(R.id.iv_menu_icon)?.setImageDrawable(titleMenuIcon!!)
         }
         mSelfView?.findViewById<TextView>(R.id.tv_title)?.text = title
         mSelfView?.findViewById<TextView>(R.id.tv_title)?.setTextColor(titleColor)

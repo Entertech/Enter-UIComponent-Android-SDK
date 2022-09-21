@@ -823,5 +823,7 @@
          <attr name="crcc_subTitle" format="string"/>
          <attr name="crcc_subTitleColor" format="color"/>
          <attr name="crcc_splitLineColor" format="color"/>
+         <attr name="crcc_titleMenuIcon" format="reference"/>
+         <attr name="crcc_titleMenuIconColor" format="color"/>
     </declare-styleable>
 </resources>
