@@ -3,6 +3,7 @@ package cn.entertech.uicomponentsdk.report
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.utils.dp
@@ -186,14 +187,19 @@ class ReportJournalCoherenceLineView @JvmOverloads constructor(
         for (i in indexs.indices) {
             val curX = dataOffset * indexs[i] + LEFT_BAR_WIDTH
             val curY = (mData!![indexs[i]] - dataMin) * dataScale + gridLineYPadding
+            Log.d("#####","cur y is $curY")
             if (i == 0) {
-                linePath.moveTo(curX, curY.toFloat())
+                linePath.moveTo(curX, -curY.toFloat())
             } else {
-                linePath.lineTo(curX, curY.toFloat())
+                linePath.lineTo(curX, -curY.toFloat())
             }
         }
         linePaint.color = lineColor
+
+        canvas.save()
+        canvas.translate(0f, height.toFloat())
         canvas.drawPath(linePath, linePaint)
+        canvas.restore()
     }
 
     fun setData(data: MutableList<Double>, flags: MutableList<Int>) {
