@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
@@ -20,6 +21,7 @@ class CommonReportCurveCard @JvmOverloads constructor(
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
+    private var bgColor: Int = Color.parseColor("#ffffff")
     private var titleMenuIconColor: Int = Color.parseColor("#6D6E7D")
     private var titleMenuIcon: Drawable? = null
     private var splitLineColor: Int = Color.parseColor("#D3D3D3")
@@ -53,6 +55,7 @@ class CommonReportCurveCard @JvmOverloads constructor(
             R.styleable.CommonReportCurveCard_crcc_splitLineColor,
             splitLineColor
         )
+        bgColor = typeArray.getColor(R.styleable.CommonReportCurveCard_crcc_backgroundColor,bgColor)
         typeArray.recycle()
         initView()
     }
@@ -69,6 +72,8 @@ class CommonReportCurveCard @JvmOverloads constructor(
         mSelfView?.findViewById<TextView>(R.id.tv_title)?.setTextColor(titleColor)
         mSelfView?.findViewById<TextView>(R.id.tv_sub_title)?.text = subTitle
         mSelfView?.findViewById<TextView>(R.id.tv_sub_title)?.setTextColor(subTitleColor)
+        val bg = mSelfView?.findViewById<LinearLayout>(R.id.ll_bg)?.background as GradientDrawable
+        bg.setColor(bgColor)
     }
 
     fun setContentView(contentView: View) {
