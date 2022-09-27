@@ -49,6 +49,7 @@ class SessionCommonChart @JvmOverloads constructor(
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
+    private var lineFlagTotalTime: Int? = 0
     private var mDataType: Int = 0
     private var mSourceDataList: List<Double>? = null
     private var mStartTime: String = ""
@@ -362,6 +363,7 @@ class SessionCommonChart @JvmOverloads constructor(
                     intent.putExtra("levelTextColor", mLevelTextColor)
                     intent.putExtra("startTime", mStartTime)
                     intent.putExtra("dataTotalTime",dataTotalTimeMs)
+                    intent.putExtra("lineFlagTotalTime",lineFlagTotalTime)
                     context.startActivity(intent)
                 }
 
@@ -425,6 +427,7 @@ class SessionCommonChart @JvmOverloads constructor(
         }
         this.mSourceDataList = data
         this.dataTotalTimeMs = data.size * mTimeUnit
+        this.lineFlagTotalTime = lineFlagTotalTime
         if (dataAverage == null){
             this.mDataAverage = data.average().toInt()
         }else{
@@ -975,6 +978,11 @@ class SessionCommonChart @JvmOverloads constructor(
 
     fun setDataType(dataType:Int){
         this.mDataType = dataType
+        initView()
+    }
+
+    fun setLineFlagTotalTime(lineFlagTotalTime:Int){
+        this.lineFlagTotalTime = lineFlagTotalTime
         initView()
     }
 

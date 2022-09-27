@@ -182,8 +182,8 @@ class ReportDefaultFragment : Fragment() {
         chart_session_common.setData(
             reportData.reportHRDataEntity?.hrRec,
             reportData.reportHRDataEntity?.hrAvg,
-            null,
-            null,
+            reportData.reportHRDataEntity?.hrRec?.map { 0.0 },
+            600,
             true
         )
         chart_session_common.setStartTime("2022-06-13 22:59:13")
