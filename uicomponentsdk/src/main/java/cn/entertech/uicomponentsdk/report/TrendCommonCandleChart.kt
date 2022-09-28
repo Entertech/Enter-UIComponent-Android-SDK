@@ -477,8 +477,8 @@ class TrendCommonCandleChart @JvmOverloads constructor(
         initChartXLabel(data)
 
         when (mDataAverage) {
-            in 0..29 -> tv_level.text = context.getString(R.string.sdk_report_low)
-            in 30..69 -> tv_level.text = context.getString(R.string.sdk_report_nor)
+            in 0.0..29.0 -> tv_level.text = context.getString(R.string.sdk_report_low)
+            in 30.0..69.0 -> tv_level.text = context.getString(R.string.sdk_report_nor)
             else -> tv_level.text = context.getString(R.string.sdk_report_high)
         }
         // create a dataset and give it a type
@@ -546,8 +546,8 @@ class TrendCommonCandleChart @JvmOverloads constructor(
     }
 
     private fun calNiceLabel(data: List<CandleSourceData>) {
-        var min = data.map { it.min }.filter { it > 0 }.min() ?: 5 - 5f
-        var max = data.map { it.max }.max() ?: 99 + 5f
+        var min = data.map { it.min }.filter { it > 0 }.minOrNull() ?: 5 - 5f
+        var max = data.map { it.max }.maxOrNull() ?: 99 + 5f
         var yAxisMax = (max / 1f)
         var yAxisMin = (min * 1f)
         if (min == max) {

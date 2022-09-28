@@ -1,12 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ll_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ll_bg"
         android:orientation="vertical"
         >
 
     <include layout="@layout/layout_common_card_title" />
+
+    <RelativeLayout
+            android:background="@drawable/shape_last_7_time_item_select"
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:layout_marginRight="@dimen/activity_margin"
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            >
+
+        <TextView
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="item"
+                style="@style/text_body_regular"
+                android:textColor="#080A0E"
+                />
+        <ImageView
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/vector_drawable_arrow_down"
+                />
+    </RelativeLayout>
 
     <cn.entertech.uicomponentsdk.widget.AverageBarChart
             android:id="@+id/average_bar_chart"
@@ -56,9 +83,9 @@
                     android:paddingTop="@dimen/activity_margin_half"
                     android:paddingRight="@dimen/activity_margin"
                     android:paddingBottom="@dimen/activity_margin_half"
+                    android:text="The meditation time is shorter than the average of last 7 times."
                     android:textColor="#333333"
                     android:textSize="16sp"
-                    android:text="The meditation time is shorter than the average of last 7 times."
                     />
         </LinearLayout>
 

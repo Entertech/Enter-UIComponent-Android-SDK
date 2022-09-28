@@ -622,8 +622,8 @@ class ReportHRLineChartCard @JvmOverloads constructor(
     }
 
     private fun calNiceLabel(data: List<Double>) {
-        var min = data.min()
-        var max = data.max()
+        var min = data.minOrNull()
+        var max = data.maxOrNull()
         var yAxisMax = (max!! / 1f)
         var yAxisMin = (min!! * 1f)
         if (min == max) {

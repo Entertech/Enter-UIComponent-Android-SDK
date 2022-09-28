@@ -39,13 +39,13 @@ class SessionCommonChartFullScreenActivity : AppCompatActivity() {
         var lineColor = intent.getIntExtra("lineColor", Color.RED)
         var secondLineColor = intent.getIntExtra("secondLineColor", Color.GREEN)
         var bgLineColor = intent.getIntExtra("bgLineColor", Color.GREEN)
-        var titleDescription = intent.getStringExtra("titleDescription")
-        var titleUnit = intent.getStringExtra("titleUnit")
+        var titleDescription = intent.getStringExtra("titleDescription")?:""
+        var titleUnit = intent.getStringExtra("titleUnit")?:""
         var isShowLevel = intent.getBooleanExtra("isShowLevel", false)
         var levelBgColor = intent.getIntExtra("levelBgColor", Color.GREEN)
         var levelTextColor = intent.getIntExtra("levelTextColor", Color.GREEN)
         var dataTotalTimeMs = intent.getIntExtra("dataTotalTime",0)
-        var startTime = intent.getStringExtra("startTime")
+        var startTime = intent.getStringExtra("startTime")?:""
         var lineDataAverage = intent.getIntExtra("lineDataAverage",0)
         var lineFlagTotalTime = intent.getIntExtra("lineFlagTotalTime",0)
         session_common_chart.setLineWidth(lineWidth)

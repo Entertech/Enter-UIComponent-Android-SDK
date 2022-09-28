@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../../../layout/custom_preview.xml" value="0.16296296296296298" />
+        <entry key="app/src/main/res/drawable/vector_drawable_arrow_down.xml" value="0.246" />
         <entry key="app/src/main/res/drawable/vector_drawable_ic_emotion.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/vector_last_7_average_equal.xml" value="0.12" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.32395833333333335" />
@@ -11,10 +12,12 @@
         <entry key="app/src/main/res/layout/fragment_custom_widget.xml" value="0.1802536231884058" />
         <entry key="app/src/main/res/layout/fragment_default.xml" value="0.16945288753799392" />
         <entry key="app/src/main/res/layout/fragment_report_default.xml" value="0.18" />
+        <entry key="uicomponentsdk/src/main/res/drawable-v21/touch_ripple.xml" value="0.246" />
         <entry key="uicomponentsdk/src/main/res/drawable/shape_brainwave_legend_right.xml" value="0.238" />
         <entry key="uicomponentsdk/src/main/res/drawable/shape_common_chart_level_bg.xml" value="0.1205" />
         <entry key="uicomponentsdk/src/main/res/drawable/shape_common_report_curve_bg.xml" value="0.227" />
         <entry key="uicomponentsdk/src/main/res/drawable/shape_emotion_level_bg.xml" value="0.1205" />
+        <entry key="uicomponentsdk/src/main/res/drawable/shape_last_7_time_item_select.xml" value="0.246" />
         <entry key="uicomponentsdk/src/main/res/drawable/shape_legend_arousal.xml" value="0.238" />
         <entry key="uicomponentsdk/src/main/res/drawable/shape_legend_attention.xml" value="0.238" />
         <entry key="uicomponentsdk/src/main/res/drawable/shape_legend_pleasure.xml" value="0.238" />
@@ -22,6 +25,7 @@
         <entry key="uicomponentsdk/src/main/res/drawable/shape_legend_relaxation.xml" value="0.238" />
         <entry key="uicomponentsdk/src/main/res/drawable/shape_pressure_legend.xml" value="0.238" />
         <entry key="uicomponentsdk/src/main/res/drawable/shape_tip_bg.xml" value="0.1" />
+        <entry key="uicomponentsdk/src/main/res/drawable/touch_ripple.xml" value="0.246" />
         <entry key="uicomponentsdk/src/main/res/drawable/vector_drawable_arrow_right_blue.xml" value="0.1" />
         <entry key="uicomponentsdk/src/main/res/drawable/vector_drawable_attention.xml" value="0.1" />
         <entry key="uicomponentsdk/src/main/res/drawable/vector_drawable_brain.xml" value="0.1" />
@@ -51,11 +55,12 @@
         <entry key="uicomponentsdk/src/main/res/layout/activity_session_common_chart_full_screen.xml" value="0.1578125" />
         <entry key="uicomponentsdk/src/main/res/layout/activity_session_pressure_chart_full_screen.xml" value="0.20260416666666667" />
         <entry key="uicomponentsdk/src/main/res/layout/card_content_view_flow_curve.xml" value="0.33125" />
-        <entry key="uicomponentsdk/src/main/res/layout/layout_average_bar_card.xml" value="0.1661600810536981" />
+        <entry key="uicomponentsdk/src/main/res/layout/layout_average_bar_card.xml" value="0.5" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_card_attention.xml" value="0.1361111111111111" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_card_bar_chart.xml" value="0.3484375" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_card_brain_spectrum.xml" value="0.16945288753799392" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_card_brain_spectrum_optional.xml" value="0.1" />
+        <entry key="uicomponentsdk/src/main/res/layout/layout_card_brain_spectrum_pie.xml" value="0.334375" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_card_brainwave_trend_chart.xml" value="0.37004950495049505" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_card_candlestick.xml" value="0.31614583333333335" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_card_candlestick_chart.xml" value="0.1" />
@@ -88,7 +93,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

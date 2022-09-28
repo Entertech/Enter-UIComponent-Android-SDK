@@ -205,8 +205,8 @@ class AverageBarChart @JvmOverloads constructor(
 
     private fun transferValues(values: List<Float>) {
         mTransferValues.clear()
-        var max = values.max()
-        var min = values.min()
+        var max = values.maxOrNull()
+        var min = values.minOrNull()
         if (max == min) {
             mTransferValues.addAll(values.map { 64 })
         } else {

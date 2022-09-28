@@ -3,14 +3,14 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply from: './nexus-push.gradle'
 android {
-    compileSdkVersion 29
+    compileSdkVersion 32
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 32
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
     }
 
@@ -28,10 +28,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:29.0.0'
-    implementation "com.android.support:recyclerview-v7:29.0.0"
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.cardview:cardview:1.0.0'
     testImplementation 'junit:junit:4.12'
@@ -45,24 +43,6 @@ dependencies {
     implementation 'com.airbnb.android:lottie:3.4.0'
 
     implementation "androidx.webkit:webkit:1.2.0-alpha01"
-}
 
-//添加
-apply plugin: 'com.github.panpf.bintray-publish'
-publish {
-    bintrayUser = "hzentertech"
-    bintrayKey = "a5c7edd58f68d746817dce405483be33f6b0c219"
-    //bintray.com用户名
-    userOrg = 'hzentertech'
-    //jcenter上的路径
-    groupId = 'cn.entertech'
-    //项目名称
-    artifactId = 'uicomponentsdk'
-    //版本号
-    publishVersion = '1.2.6-alpha09'
-    //描述，不重要
-    desc = 'uicomponentsdk'
-    //网站，不重要
-    website = 'https://github.com/Entertech/Enter-UIComponent-Android-SDK'
-    dryRun = false
+    implementation 'com.google.android.material:material:1.8.0-alpha01'
 }

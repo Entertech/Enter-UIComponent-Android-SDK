@@ -34,9 +34,9 @@ class BrainwaveTrendChartFullScreenActivity : AppCompatActivity() {
         var average = intent.getStringExtra("average")
         var averageBgColor = intent.getIntExtra("averageBgColor",0)
         var mainColor = intent.getIntExtra("mainColor",Color.RED)
-        var cycle = intent.getStringExtra("cycle")
+        var cycle = intent.getStringExtra("cycle")?:""
         var xAxisLineColor = intent.getIntExtra("xAxisLineColor",Color.RED)
-        var fillColors = intent.getStringExtra("fillColors")
+        var fillColors = intent.getStringExtra("fillColors")?:""
 
         chart_brainwave_trend.setLineWidth(lineWidth)
         chart_brainwave_trend.isFullScreen = true

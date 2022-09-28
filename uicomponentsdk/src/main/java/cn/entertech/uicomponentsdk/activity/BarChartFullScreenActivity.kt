@@ -34,8 +34,8 @@ class BarChartFullScreenActivity : AppCompatActivity() {
         var average = intent.getStringExtra("average")
         var averageBgColor = intent.getIntExtra("averageBgColor",0)
         var mainColor = intent.getIntExtra("mainColor",Color.RED)
-        var cycle = intent.getStringExtra("cycle")
-        var unit = intent.getStringExtra("unit")
+        var cycle = intent.getStringExtra("cycle")?:""
+        var unit = intent.getStringExtra("unit")?:""
         var showLevel = intent.getBooleanExtra("showLevel",false)
         var levelBgColor = intent.getIntExtra("levelBgColor",Color.RED)
         var levelTextColor = intent.getIntExtra("levelTextColor",Color.RED)

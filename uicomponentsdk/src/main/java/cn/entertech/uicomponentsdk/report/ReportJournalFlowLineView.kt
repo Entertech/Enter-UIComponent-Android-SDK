@@ -211,8 +211,8 @@ class ReportJournalFlowLineView @JvmOverloads constructor(
         if (mData.isNullOrEmpty() || mData!!.size < 2) {
             return
         }
-        var dataMax = mData!!.max()
-        var dataMin = mData!!.min()
+        var dataMax = mData!!.maxOrNull()
+        var dataMin = mData!!.minOrNull()
         if (dataMax == dataMin) {
             dataMax = LINE_VALUE_MAX
             dataMin = LINE_VALUE_MIN

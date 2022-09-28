@@ -518,8 +518,8 @@ class TrendPressureChart @JvmOverloads constructor(
     }
 
     private fun calNiceLabel(data: List<LineSourceData>) {
-        var min = data.map { it.value }.min()!!
-        var max = data.map { it.value }.max()!!
+        var min = data.map { it.value }.minOrNull()!!
+        var max = data.map { it.value }.maxOrNull()!!
         var yAxisMax = (max / 1f)
         var yAxisMin = (min * 1f)
         if (min == max) {

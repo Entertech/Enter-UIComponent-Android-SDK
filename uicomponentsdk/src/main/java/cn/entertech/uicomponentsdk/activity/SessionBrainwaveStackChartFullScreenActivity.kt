@@ -38,7 +38,7 @@ class SessionBrainwaveStackChartFullScreenActivity : AppCompatActivity() {
         var thetaData = intent.getDoubleArrayExtra("thetaData")?.toList() as ArrayList
         var deltaData = intent.getDoubleArrayExtra("deltaData")?.toList() as ArrayList
         var xAxisLineColor = intent.getIntExtra("xAxisLineColor",Color.RED)
-        var fillColors = intent.getStringExtra("fillColors")
+        var fillColors = intent.getStringExtra("fillColors")?:""
 
         chart_brainwave_session_stack.setLineWidth(lineWidth)
         chart_brainwave_session_stack.isFullScreen = true

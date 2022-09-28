@@ -36,7 +36,7 @@ class CandleChartFullScreenActivity : AppCompatActivity() {
         var averageBgColor = intent.getIntExtra("averageBgColor",0)
         var xAxisLineColor = intent.getIntExtra("xAxisLineColor",0)
         var lineColor = intent.getIntExtra("lineColor",Color.RED)
-        var cycle = intent.getStringExtra("cycle")
+        var cycle = intent.getStringExtra("cycle")?:""
         chart_candle_stick.setLineWidth(lineWidth)
         chart_candle_stick.isFullScreen = true
         chart_candle_stick.mHighlightLineColor = highlightLineColor

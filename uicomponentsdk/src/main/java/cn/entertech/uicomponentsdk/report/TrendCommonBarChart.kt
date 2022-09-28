@@ -237,8 +237,8 @@ class TrendCommonBarChart @JvmOverloads constructor(
             tv_unit.visibility = View.GONE
             tv_level.visibility = View.VISIBLE
             when (mDataAverage) {
-                in 0..29 -> tv_level.text = context.getString(R.string.sdk_report_low)
-                in 30..69 -> tv_level.text = context.getString(R.string.sdk_report_nor)
+                in 0.0..29.0 -> tv_level.text = context.getString(R.string.sdk_report_low)
+                in 30.0..69.0 -> tv_level.text = context.getString(R.string.sdk_report_nor)
                 else -> tv_level.text = context.getString(R.string.sdk_report_high)
             }
             tv_level.setTextColor(mLevelTextColor)
@@ -446,8 +446,8 @@ class TrendCommonBarChart @JvmOverloads constructor(
         this.mChartVisibleXRangeMaximum = initChartVisibleXRangeMaximum(cycle)
         this.mValues = initChartValues(mData!!)
         when (mDataAverage) {
-            in 0..29 -> tv_level.text = context.getString(R.string.sdk_report_low)
-            in 30..69 -> tv_level.text = context.getString(R.string.sdk_report_nor)
+            in 0.0..29.0 -> tv_level.text = context.getString(R.string.sdk_report_low)
+            in 30.0..69.0 -> tv_level.text = context.getString(R.string.sdk_report_nor)
             else -> tv_level.text = context.getString(R.string.sdk_report_high)
         }
         initChartXLabel(mData!!)
@@ -503,8 +503,8 @@ class TrendCommonBarChart @JvmOverloads constructor(
     }
 
     private fun calNiceLabel(data: List<BarSourceData>) {
-        var min = data.map { it.value }.min()!!
-        var max = data.map { it.value }.max()!!
+        var min = data.map { it.value }.minOrNull()!!
+        var max = data.map { it.value }.maxOrNull()!!
         var yAxisMax = (max / 1f)
         var yAxisMin = (min * 1f)
         if (min == max) {
