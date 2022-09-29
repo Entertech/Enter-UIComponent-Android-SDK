@@ -545,15 +545,16 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
         var currentMin = 0
         while (currentMin < totalMin) {
             var limitX = currentMin * 60f * 1000 / mTimeOfTwoPoint
-            val llXAxis = LimitLine(limitX, "$currentMin")
+            val llXAxis = LimitLine(limitX, "${currentMin}m")
             llXAxis.lineWidth = 1f
             llXAxis.labelPosition = LimitLine.LimitLabelPosition.LEFT_BOTTOM
+            llXAxis.enableDashedLine(10f, 10f, 0f)
             llXAxis.textSize = 12f
             llXAxis.yOffset = -15f
-            llXAxis.lineColor = Color.parseColor("#00000000")
+            llXAxis.lineColor = mGridLineColor
             llXAxis.textColor = mLabelColor
             if (currentMin == 0) {
-                llXAxis.xOffset = -3f
+                llXAxis.xOffset = -10f
             } else if (currentMin < totalMin && currentMin > totalMin * 7f / 8) {
                 llXAxis.xOffset = 5f
             } else {
@@ -806,7 +807,7 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
                 value: Float, base: AxisBase
             ): String? {
 //                Log.d("####", "x entry is " + Arrays.toString(xAxis.mEntries))
-                return "${String.format("%.1f", value * 0.8f / 60)}"
+                return "${String.format("%.1f", value * 0.8f / 60)}m"
             }
         }
         chart.axisRight.isEnabled = false
