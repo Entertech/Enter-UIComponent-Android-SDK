@@ -217,6 +217,18 @@ class ReportDefaultFragment : Fragment() {
             coherenceData.add(Random().nextDouble() * 100)
         }
         report_coherence.setData(coherenceData, flags)
+
+        var alpha = listOf<Float>(70f,70f,70f,70f,70f,70f,70f)
+        var beta = listOf<Float>(70f,70f,70f,70f,70f,70f,70f)
+        report_last_7_time.setValueLists(listOf(alpha,beta),
+            listOf("alpha","beta"))
+        var levels  = ArrayList<ReportAverageChartCard.Level>()
+        levels.add(ReportAverageChartCard.Level(0.3f,"低"))
+        levels.add(ReportAverageChartCard.Level(0.3f,"中"))
+        levels.add(ReportAverageChartCard.Level(0.4f,"高"))
+        report_last_7_time.setLevels(levels)
+        report_last_7_time.showLevelOnly(false)
+//        report_last_7_time.setValues(alpha)
     }
 
     fun getDateList(): ArrayList<String> {

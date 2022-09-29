@@ -43,6 +43,14 @@
                     android:id="@+id/report_coherence"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"/>
+            <cn.entertech.uicomponentsdk.report.ReportAverageChartCard
+                    android:id="@+id/report_last_7_time"
+                    app:racc_selectorBgColor="@color/black"
+                    app:racc_selectorTextColor="@color/white"
+                    app:racc_selectorIconColor="@color/white"
+                    android:layout_width="match_parent"
+                    app:racc_unit="ms"
+                    android:layout_height="wrap_content"/>
             <cn.entertech.uicomponentsdk.report.CommonReportCurveCard
                     android:id="@+id/card_flow"
                     android:layout_width="match_parent"

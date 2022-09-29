@@ -2,7 +2,9 @@ package cn.entertech.uicomponentsdk.report
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
@@ -10,12 +12,18 @@ import android.net.Uri
 import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import android.widget.LinearLayout
+import android.widget.*
+import androidx.annotation.MenuRes
+import androidx.appcompat.widget.ListPopupWindow
+import androidx.appcompat.widget.PopupMenu
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.utils.toWebView
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import kotlinx.android.synthetic.main.layout_average_bar_card.view.*
 import kotlinx.android.synthetic.main.layout_common_card_title.view.*
 
@@ -24,6 +32,13 @@ class ReportAverageChartCard @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var mLevels: List<Level>? = null
+    private var mShowLevelOnly: Boolean = false
+    private var mSelectorTextColor: Int = Color.parseColor("#080A0E")
+    private var mSelectorIconColor: Int = Color.parseColor("#080A0E")
+    private var mSelectorBgColor: Int = Color.parseColor("#F2F2F7")
+    lateinit var items: List<String>
+    private var valueList: List<List<Float>>? = null
     private var mValueEqualIcon: Drawable? = null
     private var mValueSmallerIcon: Drawable? = null
     private var mValueBiggerIcon: Drawable? = null
@@ -94,11 +109,90 @@ class ReportAverageChartCard @JvmOverloads constructor(
         mInfoUrl = typeArray.getString(R.styleable.ReportAverageChartCard_racc_infoUrl)
         mIsMenuIconInfo =
             typeArray.getBoolean(R.styleable.ReportAverageChartCard_racc_isMenuIconInfo, false)
-        mValueBiggerIcon = typeArray.getDrawable(R.styleable.ReportAverageChartCard_racc_valueBiggerIcon)
-        mValueSmallerIcon = typeArray.getDrawable(R.styleable.ReportAverageChartCard_racc_valueSmallerIcon)
-        mValueEqualIcon = typeArray.getDrawable(R.styleable.ReportAverageChartCard_racc_valueEqualIcon)
+        mValueBiggerIcon =
+            typeArray.getDrawable(R.styleable.ReportAverageChartCard_racc_valueBiggerIcon)
+        mValueSmallerIcon =
+            typeArray.getDrawable(R.styleable.ReportAverageChartCard_racc_valueSmallerIcon)
+        mValueEqualIcon =
+            typeArray.getDrawable(R.styleable.ReportAverageChartCard_racc_valueEqualIcon)
+        mSelectorBgColor = typeArray.getColor(
+            R.styleable.ReportAverageChartCard_racc_selectorBgColor,
+            mSelectorBgColor
+        )
+        mSelectorTextColor = typeArray.getColor(
+            R.styleable.ReportAverageChartCard_racc_selectorTextColor,
+            mSelectorTextColor
+        )
+        mSelectorIconColor = typeArray.getColor(
+            R.styleable.ReportAverageChartCard_racc_selectorIconColor,
+            mSelectorIconColor
+        )
+        mShowLevelOnly =
+            typeArray.getBoolean(R.styleable.ReportAverageChartCard_racc_showLevelOnly, false)
         initView()
 
+    }
+
+    private fun showMenu(v: View, menuRes: Int) {
+        val popup = PopupMenu(context!!, v)
+        popup.menuInflater.inflate(menuRes, popup.menu)
+
+        popup.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
+            override fun onMenuItemClick(item: MenuItem?): Boolean {
+                return true
+            }
+
+        })
+        popup.setOnDismissListener {
+            // Respond to popup being dismissed.
+        }
+        // Show the popup menu.
+        popup.show()
+    }
+
+    var isWindowShow = false
+
+    fun initPopupWindow() {
+        val listPopupWindowButton = mSelfView.findViewById<MaterialButton>(R.id.btn_selector)
+        listPopupWindowButton.setBackgroundColor(mSelectorBgColor)
+        listPopupWindowButton.setTextColor(mSelectorTextColor)
+        listPopupWindowButton.iconTintMode = PorterDuff.Mode.SRC_IN
+        listPopupWindowButton.iconTint = ColorStateList.valueOf(mSelectorIconColor)
+//        listPopupWindowButton.setIconTintResource(Color.parseColor("#ffffff"))
+        listPopupWindowButton.visibility = View.VISIBLE
+        listPopupWindowButton.text = items[0]
+//        listPopupWindowButton.setOnClickListener {
+//            showMenu(it,R.menu.brainwave_menu)
+//        }
+        val listPopupWindow = ListPopupWindow(context!!, null)
+
+// Set button as the list popup's anchor
+        listPopupWindow.anchorView = listPopupWindowButton
+
+// Set list popup's content
+        val adapter = ArrayAdapter(context, R.layout.item_brainwave_select, items)
+        listPopupWindow.setAdapter(adapter)
+
+// Set list popup's item click listener
+        listPopupWindow.setOnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->
+            // Respond to list popup window item click.
+            listPopupWindowButton.text = items[position]
+            setValues(valueList!![position])
+            // Dismiss popup.
+            listPopupWindow.dismiss()
+            isWindowShow = false
+        }
+
+// Show list popup window on button click.
+        listPopupWindowButton.setOnClickListener { v: View? ->
+            isWindowShow = if (!isWindowShow) {
+                listPopupWindow.show()
+                true
+            } else {
+                listPopupWindow.dismiss()
+                false
+            }
+        }
     }
 
     fun initView() {
@@ -116,9 +210,9 @@ class ReportAverageChartCard @JvmOverloads constructor(
         } else {
             iv_menu.visibility = View.GONE
         }
-        if (mIsMenuIconInfo&&mInfoUrl != null ) {
+        if (mIsMenuIconInfo && mInfoUrl != null) {
             iv_menu.setOnClickListener {
-                toWebView(context,mInfoUrl!!,context.getString(R.string.last_7_time))
+                toWebView(context, mInfoUrl!!, context.getString(R.string.last_7_time))
             }
         }
         initChart()
@@ -132,8 +226,10 @@ class ReportAverageChartCard @JvmOverloads constructor(
         average_bar_chart.setSecondTextColor(mTextColor)
         average_bar_chart.setBarHighLightColor(mBarHighLightColor)
         average_bar_chart.setBarValueBgColor(mBarValueBgColor)
+        average_bar_chart.setLevels(mLevels)
+        average_bar_chart.setShowLevelOnly(mShowLevelOnly)
 
-        if (mBg != null && mBg is ColorDrawable){
+        if (mBg != null && mBg is ColorDrawable) {
             average_bar_chart.setBgColor((mBg as ColorDrawable).color)
             ll_bg.setBackgroundColor((mBg as ColorDrawable).color)
         }
@@ -142,6 +238,18 @@ class ReportAverageChartCard @JvmOverloads constructor(
     fun setIsValueFloat(isValueFloat: Boolean) {
         average_bar_chart.setIsValueFloat(isValueFloat)
     }
+
+    fun setValueLists(valueList: List<List<Float>>, items: List<String>) {
+        this.valueList = valueList
+        this.items = items
+        if (valueList.isEmpty() || items.isEmpty()) {
+            return
+        } else {
+            setValues(valueList[0])
+            initPopupWindow()
+        }
+    }
+
     fun setValues(values: List<Float>) {
         if (values.isEmpty()) {
             return
@@ -150,33 +258,54 @@ class ReportAverageChartCard @JvmOverloads constructor(
         var average = values.average()
         var lastValue = values[values.size - 1]
         if (lastValue > average) {
-            tv_tip.text = "${context.getString(R.string.sdk_report_last_7_time_tip_head)} $mTag ${context.getString(R.string.sdk_report_last_7_time_tip_foot_1)}"
+            tv_tip.text = "${context.getString(R.string.sdk_report_last_7_time_tip_head)} $mTag ${
+                context.getString(R.string.sdk_report_last_7_time_tip_foot_1)
+            }"
             iv_arrow.setImageDrawable(mValueBiggerIcon)
         } else if (lastValue < average) {
-            tv_tip.text = "${context.getString(R.string.sdk_report_last_7_time_tip_head)} $mTag ${context.getString(R.string.sdk_report_last_7_time_tip_foot_2)}"
+            tv_tip.text = "${context.getString(R.string.sdk_report_last_7_time_tip_head)} $mTag ${
+                context.getString(R.string.sdk_report_last_7_time_tip_foot_2)
+            }"
             iv_arrow.setImageDrawable(mValueSmallerIcon)
         } else {
-            tv_tip.text = "${context.getString(R.string.sdk_report_last_7_time_tip_head)} $mTag ${context.getString(R.string.sdk_report_last_7_time_tip_foot_3)}"
+            tv_tip.text = "${context.getString(R.string.sdk_report_last_7_time_tip_head)} $mTag ${
+                context.getString(R.string.sdk_report_last_7_time_tip_foot_3)
+            }"
             iv_arrow.setImageDrawable(mValueEqualIcon)
         }
 
     }
 
-    fun setTipBg(color:Int){
+    fun setTipBg(color: Int) {
         (ll_tip_bg.background as GradientDrawable).setColor(color)
     }
 
-    fun setTipTextColor(color:Int){
+    fun setTipTextColor(color: Int) {
         tv_tip.setTextColor(color)
     }
 
-    fun setAverageInt(flag:Boolean){
+    fun setAverageInt(flag: Boolean) {
         this.mIsAverageInt = flag
         initView()
     }
 
-    fun setUrl(url:String){
+    fun setUrl(url: String) {
         this.mInfoUrl = url
         initView()
     }
+
+    fun setLevels(levels: List<Level>) {
+        this.mLevels = levels
+        initView()
+    }
+
+    fun showLevelOnly(showLevelOnly:Boolean){
+        this.mShowLevelOnly = showLevelOnly
+        initView()
+    }
+
+    data class Level(
+        val percentage: Float = 0f,
+        val levelText: String = ""
+    )
 }

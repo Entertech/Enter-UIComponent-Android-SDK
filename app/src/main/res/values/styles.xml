@@ -1,11 +1,16 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="listPopupWindowStyle">@style/MyPopup</item>
+        <item name="android:textColor">@color/black</item>
     </style>
-
+    <!-- Popup Menu -->
+    <style name="MyPopup" parent="@style/Widget.Material3.PopupMenu.ListPopupWindow">
+        <item name="android:popupBackground">@drawable/shape_menu_bg</item>
+    </style>
 </resources>

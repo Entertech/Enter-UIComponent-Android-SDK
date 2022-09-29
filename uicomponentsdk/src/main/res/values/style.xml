@@ -730,6 +730,10 @@
         <attr name="racc_valueBiggerIcon" format="reference" />
         <attr name="racc_valueSmallerIcon" format="reference" />
         <attr name="racc_valueEqualIcon" format="reference" />
+        <attr name="racc_selectorBgColor" format="color" />
+        <attr name="racc_selectorTextColor" format="reference" />
+        <attr name="racc_selectorIconColor" format="reference" />
+        <attr name="racc_showLevelOnly" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="ReportHRCard">
@@ -827,4 +831,7 @@
          <attr name="crcc_titleMenuIconColor" format="color"/>
          <attr name="crcc_backgroundColor" format="color"/>
     </declare-styleable>
+<!--    <style name="MyPopupMenu" parent="Widget.Material3.PopupMenu.ListPopupWindow">-->
+<!--        <item name="android:popupBackground">#ff0000</item>-->
+<!--    </style>-->
 </resources>

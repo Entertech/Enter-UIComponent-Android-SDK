@@ -4,6 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../../../layout/custom_preview.xml" value="0.16296296296296298" />
+        <entry key="../../../../Library/Android/sdk/platforms/android-32/data/res/layout/simple_list_item_1.xml" value="0.2682291666666667" />
+        <entry key="app/src/main/res/drawable/shape_attention_bg.xml" value="0.186" />
+        <entry key="app/src/main/res/drawable/shape_brainwave_bg.xml" value="0.246" />
+        <entry key="app/src/main/res/drawable/shape_menu_bg.xml" value="0.246" />
         <entry key="app/src/main/res/drawable/vector_drawable_arrow_down.xml" value="0.246" />
         <entry key="app/src/main/res/drawable/vector_drawable_ic_emotion.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/vector_last_7_average_equal.xml" value="0.12" />
@@ -13,7 +17,9 @@
         <entry key="app/src/main/res/layout/fragment_default.xml" value="0.16945288753799392" />
         <entry key="app/src/main/res/layout/fragment_report_default.xml" value="0.18" />
         <entry key="uicomponentsdk/src/main/res/drawable-v21/touch_ripple.xml" value="0.246" />
+        <entry key="uicomponentsdk/src/main/res/drawable/shape_attention_level_bg.xml" value="0.246" />
         <entry key="uicomponentsdk/src/main/res/drawable/shape_brainwave_legend_right.xml" value="0.238" />
+        <entry key="uicomponentsdk/src/main/res/drawable/shape_button.xml" value="0.246" />
         <entry key="uicomponentsdk/src/main/res/drawable/shape_common_chart_level_bg.xml" value="0.1205" />
         <entry key="uicomponentsdk/src/main/res/drawable/shape_common_report_curve_bg.xml" value="0.227" />
         <entry key="uicomponentsdk/src/main/res/drawable/shape_emotion_level_bg.xml" value="0.1205" />
@@ -55,7 +61,8 @@
         <entry key="uicomponentsdk/src/main/res/layout/activity_session_common_chart_full_screen.xml" value="0.1578125" />
         <entry key="uicomponentsdk/src/main/res/layout/activity_session_pressure_chart_full_screen.xml" value="0.20260416666666667" />
         <entry key="uicomponentsdk/src/main/res/layout/card_content_view_flow_curve.xml" value="0.33125" />
-        <entry key="uicomponentsdk/src/main/res/layout/layout_average_bar_card.xml" value="0.5" />
+        <entry key="uicomponentsdk/src/main/res/layout/item_brainwave_select.xml" value="0.2682291666666667" />
+        <entry key="uicomponentsdk/src/main/res/layout/layout_average_bar_card.xml" value="0.33" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_card_attention.xml" value="0.1361111111111111" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_card_bar_chart.xml" value="0.3484375" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_card_brain_spectrum.xml" value="0.16945288753799392" />
@@ -90,6 +97,7 @@
         <entry key="uicomponentsdk/src/main/res/layout/view_meditation_emotion.xml" value="0.2477355072463768" />
         <entry key="uicomponentsdk/src/main/res/layout/view_realtime_line_chart.xml" value="0.2477355072463768" />
         <entry key="uicomponentsdk/src/main/res/layout/view_realtime_line_chart_pad.xml" value="0.335" />
+        <entry key="uicomponentsdk/src/main/res/menu/brainwave_menu.xml" value="0.34739583333333335" />
       </map>
     </option>
   </component>

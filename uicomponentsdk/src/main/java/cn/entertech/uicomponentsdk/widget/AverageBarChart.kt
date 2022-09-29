@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import cn.entertech.uicomponentsdk.R
+import cn.entertech.uicomponentsdk.report.ReportAverageChartCard
 import cn.entertech.uicomponentsdk.utils.ScreenUtil
 import cn.entertech.uicomponentsdk.utils.TimeUtils
 import cn.entertech.uicomponentsdk.utils.getOpacityColor
@@ -17,6 +18,8 @@ class AverageBarChart @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     def: Int = 0
 ) : View(context, attributeSet, def) {
+    private var mLevels: List<ReportAverageChartCard.Level>? = null
+    private var mShowLevelOnly: Boolean = false
     private var mIsAverageInt: Boolean = false
     private var isValueFloat: Boolean = false
     private lateinit var mAverageValueTextPaint: Paint
@@ -76,7 +79,7 @@ class AverageBarChart @JvmOverloads constructor(
 
         mAverageTextPaint = Paint(Paint.ANTI_ALIAS_FLAG)
         mAverageValueTextPaint = Paint(Paint.ANTI_ALIAS_FLAG)
-        mAverageValueTextPaint.textSize = ScreenUtil.dip2px(context, 20f).toFloat()
+        mAverageValueTextPaint.textSize = ScreenUtil.dip2px(context, 24f).toFloat()
         mAverageValueTextPaint.color = mPrimaryTextColor
         mBarPaint = Paint(Paint.ANTI_ALIAS_FLAG)
         mBarPaint.color = mBarColor
@@ -154,14 +157,14 @@ class AverageBarChart @JvmOverloads constructor(
         mBarPaint.color = mBarValueBgColor
         canvas?.drawRect(valueRect, mBarPaint)
         mBarPaint.color = mPrimaryTextColor
-        var lastValue: Number=
-        if (isValueFloat) {
-            var decimalFormat = DecimalFormat(".0")
-            var average = decimalFormat.format(mValues[i])
-            java.lang.Float.parseFloat(average)
-        }else{
-            mValues[i].toInt()
-        }
+        var lastValue: Number =
+            if (isValueFloat) {
+                var decimalFormat = DecimalFormat(".0")
+                var average = decimalFormat.format(mValues[i])
+                java.lang.Float.parseFloat(average)
+            } else {
+                mValues[i].toInt()
+            }
         var lastValueTextBound = Rect()
         mBarPaint.getTextBounds(
             "$lastValue",
@@ -241,11 +244,11 @@ class AverageBarChart @JvmOverloads constructor(
         )
 
         mAverageTextPaint.color = mSecondTextColor
-        mAverageTextPaint.textSize = ScreenUtil.dip2px(context, 12f).toFloat()
+        mAverageTextPaint.textSize = ScreenUtil.dip2px(context, 16f).toFloat()
         canvas?.drawText(
             "${context.getString(R.string.sdk_report_average_2)}",
             0f,
-            -transferAverage * scaleHeight - ScreenUtil.dip2px(context, 10f),
+            -transferAverage * scaleHeight - ScreenUtil.dip2px(context, 12f),
             mAverageTextPaint
         )
 
@@ -265,27 +268,72 @@ class AverageBarChart @JvmOverloads constructor(
         )
         var averageValueTextHeight = averageRect.height()
         var averageValueTextWidth = averageRect.width()
-        canvas?.drawText(
-            averageFormatString,
-            0f,
-            -transferAverage * scaleHeight + averageValueTextHeight + ScreenUtil.dip2px(
-                context,
-                10f
-            ),
-            mAverageValueTextPaint
-        )
-
-        if (mUnit != null && mUnit != "" && mUnit != "second") {
+        if (mShowLevelOnly) {
+            val levelText = calLevel(average)
+            //drawBigLevel
             canvas?.drawText(
-                mUnit!!,
-                averageValueTextWidth + 8f,
+                levelText,
+                0f,
                 -transferAverage * scaleHeight + averageValueTextHeight + ScreenUtil.dip2px(
                     context,
                     10f
                 ),
-                mAverageTextPaint
+                mAverageValueTextPaint
             )
+        } else {
+            canvas?.drawText(
+                averageFormatString,
+                0f,
+                -transferAverage * scaleHeight + averageValueTextHeight + ScreenUtil.dip2px(
+                    context,
+                    10f
+                ),
+                mAverageValueTextPaint
+            )
+            if (mUnit != null && mUnit != "" && mUnit != "second") {
+                canvas?.drawText(
+                    mUnit!!,
+                    averageValueTextWidth + 8f,
+                    -transferAverage * scaleHeight + averageValueTextHeight + ScreenUtil.dip2px(
+                        context,
+                        10f
+                    ),
+                    mAverageTextPaint
+                )
+            } else {
+                val levelText = calLevel(average)
+                canvas?.drawText(
+                    "(${levelText})",
+                    averageValueTextWidth + 8f,
+                    -transferAverage * scaleHeight + averageValueTextHeight + ScreenUtil.dip2px(
+                        context,
+                        10f
+                    ),
+                    mAverageTextPaint
+                )
+            }
         }
+    }
+
+    fun calLevel(average: Double): String {
+        var levelText = ""
+        var rate = average / 100f
+        if (mLevels.isNullOrEmpty()) {
+            levelText = ""
+        } else {
+            var sum = 0f
+            for (i in mLevels!!.indices) {
+                sum += mLevels!![i].percentage
+                if (i == 0 && rate < sum) {
+                    levelText = mLevels!![i].levelText
+                } else {
+                    if (rate < sum && rate >= (sum - mLevels!![i].percentage)) {
+                        levelText = mLevels!![i].levelText
+                    }
+                }
+            }
+        }
+        return levelText
     }
 
 
@@ -328,6 +376,16 @@ class AverageBarChart @JvmOverloads constructor(
 
     fun setAverageInt(flag: Boolean) {
         this.mIsAverageInt = flag
+        invalidate()
+    }
+
+    fun setShowLevelOnly(showLevelOnly: Boolean) {
+        this.mShowLevelOnly = showLevelOnly
+        invalidate()
+    }
+
+    fun setLevels(levels: List<ReportAverageChartCard.Level>?) {
+        this.mLevels = levels
         invalidate()
     }
 }
