@@ -288,6 +288,8 @@
         <attr name="robs_lineWidth" format="dimension"/>
         <attr name="robs_legendBgColor" format="color"/>
         <attr name="robs_legendUnselectTextColor" format="color"/>
+        <attr name="robs_menuItemIconColor" format="color"/>
+        <attr name="robs_menuIconColor" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="SessionBrainwaveChart">

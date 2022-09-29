@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
@@ -35,7 +36,7 @@ class ReportAverageChartCard @JvmOverloads constructor(
     private var mLevels: List<Level>? = null
     private var mShowLevelOnly: Boolean = false
     private var mSelectorTextColor: Int = Color.parseColor("#080A0E")
-    private var mSelectorIconColor: Int = Color.parseColor("#080A0E")
+    private var mSelectorIconColor: Int = Color.parseColor("#FFFFFF")
     private var mSelectorBgColor: Int = Color.parseColor("#F2F2F7")
     lateinit var items: List<String>
     private var valueList: List<List<Float>>? = null
@@ -156,8 +157,10 @@ class ReportAverageChartCard @JvmOverloads constructor(
         val listPopupWindowButton = mSelfView.findViewById<MaterialButton>(R.id.btn_selector)
         listPopupWindowButton.setBackgroundColor(mSelectorBgColor)
         listPopupWindowButton.setTextColor(mSelectorTextColor)
-        listPopupWindowButton.iconTintMode = PorterDuff.Mode.SRC_IN
-        listPopupWindowButton.iconTint = ColorStateList.valueOf(mSelectorIconColor)
+//        listPopupWindowButton.iconTintMode = PorterDuff.Mode.SRC_ATOP
+//        listPopupWindowButton.iconTint = ColorStateList.valueOf(mSelectorIconColor)
+        listPopupWindowButton.icon.mutate()
+        listPopupWindowButton.icon.colorFilter = PorterDuffColorFilter(mSelectorIconColor,PorterDuff.Mode.SRC_ATOP)
 //        listPopupWindowButton.setIconTintResource(Color.parseColor("#ffffff"))
         listPopupWindowButton.visibility = View.VISIBLE
         listPopupWindowButton.text = items[0]

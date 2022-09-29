@@ -91,6 +91,11 @@ class ReportDefaultFragment : Fragment() {
         chart_brainwave.setData(
             spectrumList
         )
+        chart_brainwave.setMenuActionEnable(true,fun(){
+
+        },fun(){
+            chart_brainwave.expandChart()
+        })
         chart_session_brainwave.setData(
             spectrumList
         )

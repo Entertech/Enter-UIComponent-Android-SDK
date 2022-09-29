@@ -1,10 +1,11 @@
 package cn.entertech.uicomponentsdk.report
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.DashPathEffect
+import android.content.res.ColorStateList
+import android.graphics.*
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
@@ -13,10 +14,13 @@ import android.os.Build
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout
+import androidx.appcompat.view.menu.MenuBuilder
+import androidx.appcompat.widget.PopupMenu
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.activity.BrainwaveOptionalLineChartActivity
 import cn.entertech.uicomponentsdk.utils.dp
@@ -40,25 +44,20 @@ import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.MPPointF
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.*
-import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.chart
-import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.legend_alpha
-import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.legend_beta
-import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.legend_delta
-import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.legend_gamma
-import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.legend_theta
-import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.ll_title
-import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.rl_bg
-import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.rl_no_data_cover
-import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.tv_unit
 import kotlinx.android.synthetic.main.layout_common_card_title.view.*
 import java.util.*
-import kotlin.collections.ArrayList
+
 
 class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var onMenuShareClickListener: (() -> Unit)? = null
+    private var onMenuExpandClickListener: (() -> Unit)? = null
+    private var isMenuActionEnable: Boolean = true
+    private var mMenuItemIconColor: Int = Color.parseColor("#080A0E")
+    private var mMenuIconColor: Int = Color.parseColor("#A6A7AF")
     private var mLegendBgColor: Int = Color.parseColor("#F6F7FA")
     private var mLegendUnselectTextColor: Int = Color.parseColor("#878894")
     private var mIsChartEnable: Boolean = true
@@ -246,6 +245,10 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
             R.styleable.ReportOptionalBrainwaveSpectrumView_robs_legendUnselectTextColor,
             mLegendUnselectTextColor
         )
+        mMenuIconColor = typeArray.getColor(
+            R.styleable.ReportOptionalBrainwaveSpectrumView_robs_menuIconColor,
+            mMenuIconColor
+        )
         initView()
     }
 
@@ -266,6 +269,7 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
         if (mIsShowTitleMenuIcon) {
             iv_menu.visibility = View.VISIBLE
             iv_menu.setImageDrawable(mTitleMenuIcon)
+            iv_menu.imageTintList = ColorStateList.valueOf(mMenuIconColor)
         } else {
             iv_menu.visibility = View.GONE
         }
@@ -284,32 +288,40 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
                 if (isFullScreen) {
                     (context as Activity).finish()
                 } else {
-                    var intent = Intent(context, BrainwaveOptionalLineChartActivity::class.java)
-                    intent.putExtra("pointCount", mPointCount)
-                    intent.putExtra("timeUnit", mTimeUnit)
-                    intent.putExtra("highlightLineColor", mHighlightLineColor)
-                    intent.putExtra("highlightLineWidth", mHighlightLineWidth)
-                    intent.putExtra("lineWidth", mLineWidth)
-                    intent.putExtra("markViewBgColor", mMarkViewBgColor)
-                    intent.putExtra("markViewTitleColor", mMarkViewTitleColor)
-                    intent.putExtra("markViewValueColor", mMarkViewValueColor)
-                    intent.putExtra("spectrumColors", mSpectrumColors?.toIntArray())
-                    intent.putExtra("gridLineColor", mGridLineColor)
-                    intent.putExtra("xAxisUnit", mXAxisUnit)
-                    intent.putExtra("textColor", mTextColor)
-                    intent.putExtra("bgColor", bgColor)
-                    intent.putExtra("labelColor", mLabelColor)
-                    intent.putExtra("gammaData", mBrainwaveSpectrums!![0].toDoubleArray())
-                    intent.putExtra("betaData", mBrainwaveSpectrums!![1].toDoubleArray())
-                    intent.putExtra("alphaData", mBrainwaveSpectrums!![2].toDoubleArray())
-                    intent.putExtra("thetaData", mBrainwaveSpectrums!![3].toDoubleArray())
-                    intent.putExtra("deltaData", mBrainwaveSpectrums!![4].toDoubleArray())
-                    intent.putExtra("isLegendShowList", legendIsCheckList.toBooleanArray())
-                    context.startActivity(intent)
+                    if (isMenuActionEnable) {
+                        showMenu(it, R.menu.report_card_menu)
+                    } else {
+                        expandChart()
+                    }
                 }
             }
         }
 
+    }
+
+    fun expandChart() {
+        var intent = Intent(context, BrainwaveOptionalLineChartActivity::class.java)
+        intent.putExtra("pointCount", mPointCount)
+        intent.putExtra("timeUnit", mTimeUnit)
+        intent.putExtra("highlightLineColor", mHighlightLineColor)
+        intent.putExtra("highlightLineWidth", mHighlightLineWidth)
+        intent.putExtra("lineWidth", mLineWidth)
+        intent.putExtra("markViewBgColor", mMarkViewBgColor)
+        intent.putExtra("markViewTitleColor", mMarkViewTitleColor)
+        intent.putExtra("markViewValueColor", mMarkViewValueColor)
+        intent.putExtra("spectrumColors", mSpectrumColors?.toIntArray())
+        intent.putExtra("gridLineColor", mGridLineColor)
+        intent.putExtra("xAxisUnit", mXAxisUnit)
+        intent.putExtra("textColor", mTextColor)
+        intent.putExtra("bgColor", bgColor)
+        intent.putExtra("labelColor", mLabelColor)
+        intent.putExtra("gammaData", mBrainwaveSpectrums!![0].toDoubleArray())
+        intent.putExtra("betaData", mBrainwaveSpectrums!![1].toDoubleArray())
+        intent.putExtra("alphaData", mBrainwaveSpectrums!![2].toDoubleArray())
+        intent.putExtra("thetaData", mBrainwaveSpectrums!![3].toDoubleArray())
+        intent.putExtra("deltaData", mBrainwaveSpectrums!![4].toDoubleArray())
+        intent.putExtra("isLegendShowList", legendIsCheckList.toBooleanArray())
+        context.startActivity(intent)
     }
 
     fun initBg() {
@@ -390,6 +402,45 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
         }
     }
 
+    @SuppressLint("RestrictedApi")
+    private fun showMenu(v: View, menuRes: Int) {
+        val popup = PopupMenu(context!!, v)
+        val menu = popup.menu
+        popup.menuInflater.inflate(menuRes, menu)
+        if (popup.menu is MenuBuilder) {
+            val m = popup.menu as MenuBuilder
+            m.setOptionalIconsVisible(true)
+        }
+        for (i in 0 until popup.menu.size()) {
+            val drawable: Drawable = menu.getItem(i).getIcon()
+            if (drawable != null) {
+                drawable.mutate()
+                drawable.colorFilter =
+                    PorterDuffColorFilter(mMenuItemIconColor, PorterDuff.Mode.SRC_ATOP)
+            }
+        }
+
+        popup.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
+            override fun onMenuItemClick(item: MenuItem): Boolean {
+                when (item.itemId) {
+                    R.id.menu_expand -> {
+                        onMenuExpandClickListener?.invoke()
+                    }
+                    R.id.menu_share -> {
+                        onMenuShareClickListener?.invoke()
+                    }
+                }
+                return true
+            }
+
+        })
+        popup.setOnDismissListener {
+            // Respond to popup being dismissed.
+        }
+        // Show the popup menu.
+        popup.show()
+    }
+
     fun isLegendClickable(): Boolean {
         var isCheckCount = 0
         for (isChecked in legendIsCheckList) {
@@ -409,6 +460,16 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
             legend_delta.mIsChecked
         )
         chartInvalidate()
+    }
+
+    fun setMenuActionEnable(
+        enable: Boolean,
+        onMenuShareClickListener: () -> Unit,
+        onMenuExpandClickListener: () -> Unit
+    ) {
+        this.isMenuActionEnable = enable
+        this.onMenuShareClickListener = onMenuShareClickListener
+        this.onMenuExpandClickListener = onMenuExpandClickListener
     }
 
     fun initView() {
@@ -744,7 +805,7 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
             override fun getAxisLabel(
                 value: Float, base: AxisBase
             ): String? {
-                Log.d("####", "x entry is " + Arrays.toString(xAxis.mEntries))
+//                Log.d("####", "x entry is " + Arrays.toString(xAxis.mEntries))
                 return "${String.format("%.1f", value * 0.8f / 60)}"
             }
         }

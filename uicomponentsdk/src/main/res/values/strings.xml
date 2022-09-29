@@ -60,4 +60,6 @@
     <string name="pressure_level_simple_normal">nor.</string>
     <string name="pressure_level_simple_elevated">elev.</string>
     <string name="pressure_level_simple_high">high.</string>
+    <string name="report_chart_share">Share</string>
+    <string name="report_chart_expand">Expand</string>
 </resources>
