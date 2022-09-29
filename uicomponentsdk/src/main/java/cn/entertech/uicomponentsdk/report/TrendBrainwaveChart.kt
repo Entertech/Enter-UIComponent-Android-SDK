@@ -56,6 +56,8 @@ class TrendBrainwaveChart @JvmOverloads constructor(
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
+    private var mLegendBgColor: Int = Color.parseColor("#F6F7FA")
+    private var mLegendUnselectTextColor: Int = Color.parseColor("#878894")
     private lateinit var checkIndexList: java.util.ArrayList<Int>
     private var mFillColorArray: List<String>? = null
     private var mFillColors: String? = ""
@@ -205,6 +207,8 @@ class TrendBrainwaveChart @JvmOverloads constructor(
             )
         mFillColors = typeArray.getString(R.styleable.TrendBrainwaveChart_tbc_fillColors)
         mFillColorArray = mFillColors?.split(",")
+        mLegendBgColor = typeArray.getColor(R.styleable.TrendBrainwaveChart_tbc_legendBgColor,mLegendBgColor)
+        mLegendUnselectTextColor = typeArray.getColor(R.styleable.TrendBrainwaveChart_tbc_legendUnselectTextColor,mLegendUnselectTextColor)
         typeArray.recycle()
         initView()
     }
@@ -220,11 +224,21 @@ class TrendBrainwaveChart @JvmOverloads constructor(
 
     fun initLegend() {
         if (mFillColorArray != null) {
-            legend_gamma.setLegendIconColor(Color.parseColor(mFillColorArray!![0]))
-            legend_beta.setLegendIconColor(Color.parseColor(mFillColorArray!![1]))
-            legend_alpha.setLegendIconColor(Color.parseColor(mFillColorArray!![2]))
-            legend_theta.setLegendIconColor(Color.parseColor(mFillColorArray!![3]))
-            legend_delta.setLegendIconColor(Color.parseColor(mFillColorArray!![4]))
+            legend_gamma.setSelectTextColor(Color.parseColor(mFillColorArray!![0]))
+            legend_beta.setSelectTextColor(Color.parseColor(mFillColorArray!![1]))
+            legend_alpha.setSelectTextColor(Color.parseColor(mFillColorArray!![2]))
+            legend_theta.setSelectTextColor(Color.parseColor(mFillColorArray!![3]))
+            legend_delta.setSelectTextColor(Color.parseColor(mFillColorArray!![4]))
+            legend_gamma.setBgColor(mLegendBgColor)
+            legend_beta.setBgColor(mLegendBgColor)
+            legend_alpha.setBgColor(mLegendBgColor)
+            legend_theta.setBgColor(mLegendBgColor)
+            legend_delta.setBgColor(mLegendBgColor)
+            legend_gamma.setUnselectTextColor(mLegendUnselectTextColor)
+            legend_beta.setUnselectTextColor(mLegendUnselectTextColor)
+            legend_alpha.setUnselectTextColor(mLegendUnselectTextColor)
+            legend_theta.setUnselectTextColor(mLegendUnselectTextColor)
+            legend_delta.setUnselectTextColor(mLegendUnselectTextColor)
         }
         for (i in legendIsCheckList.indices) {
             (ll_legend_parent.getChildAt(i) as OptionalBrainChartLegendView).setCheck(

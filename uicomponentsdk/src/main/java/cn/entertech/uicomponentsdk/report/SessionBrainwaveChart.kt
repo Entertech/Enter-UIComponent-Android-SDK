@@ -63,6 +63,8 @@ class SessionBrainwaveChart @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var mLegendBgColor: Int = Color.parseColor("#F6F7FA")
+    private var mLegendUnselectTextColor: Int = Color.parseColor("#878894")
     private var dataTotalTimeMs: Int = 0
     private var mStartTime: String = ""
     private var mShowXAxisUnit: Boolean = false
@@ -250,6 +252,8 @@ class SessionBrainwaveChart @JvmOverloads constructor(
         )
         mShowXAxisUnit =
             typeArray.getBoolean(R.styleable.SessionBrainwaveChart_sbc_showXAxisUnit, false)
+        mLegendBgColor = typeArray.getColor(R.styleable.SessionBrainwaveChart_sbc_legendBgColor,mLegendBgColor)
+        mLegendUnselectTextColor = typeArray.getColor(R.styleable.SessionBrainwaveChart_sbc_legendUnselectTextColor,mLegendUnselectTextColor)
         initView()
     }
 
@@ -331,11 +335,21 @@ class SessionBrainwaveChart @JvmOverloads constructor(
 
     fun initLegend() {
         if (mSpectrumColors != null) {
-            legend_gamma.setLegendIconColor(mSpectrumColors!![0])
-            legend_beta.setLegendIconColor(mSpectrumColors!![1])
-            legend_alpha.setLegendIconColor(mSpectrumColors!![2])
-            legend_theta.setLegendIconColor(mSpectrumColors!![3])
-            legend_delta.setLegendIconColor(mSpectrumColors!![4])
+            legend_gamma.setSelectTextColor(mSpectrumColors!![0])
+            legend_beta.setSelectTextColor(mSpectrumColors!![1])
+            legend_alpha.setSelectTextColor(mSpectrumColors!![2])
+            legend_theta.setSelectTextColor(mSpectrumColors!![3])
+            legend_delta.setSelectTextColor(mSpectrumColors!![4])
+            legend_gamma.setBgColor(mLegendBgColor)
+            legend_beta.setBgColor(mLegendBgColor)
+            legend_alpha.setBgColor(mLegendBgColor)
+            legend_theta.setBgColor(mLegendBgColor)
+            legend_delta.setBgColor(mLegendBgColor)
+            legend_gamma.setUnselectTextColor(mLegendUnselectTextColor)
+            legend_beta.setUnselectTextColor(mLegendUnselectTextColor)
+            legend_alpha.setUnselectTextColor(mLegendUnselectTextColor)
+            legend_theta.setUnselectTextColor(mLegendUnselectTextColor)
+            legend_delta.setUnselectTextColor(mLegendUnselectTextColor)
         }
         for (i in legendIsCheckList.indices) {
             (ll_legend_parent.getChildAt(i) as OptionalBrainChartLegendView).setCheck(

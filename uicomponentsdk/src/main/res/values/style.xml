@@ -286,6 +286,8 @@
         <attr name="robs_markViewValueColor" format="color"/>
         <attr name="robs_markViewDivideLineColor" format="color"/>
         <attr name="robs_lineWidth" format="dimension"/>
+        <attr name="robs_legendBgColor" format="color"/>
+        <attr name="robs_legendUnselectTextColor" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="SessionBrainwaveChart">
@@ -316,6 +318,8 @@
         <attr name="sbc_markViewDivideLineColor" format="color"/>
         <attr name="sbc_lineWidth" format="dimension"/>
         <attr name="sbc_xAxisLineColor" format="color"/>
+        <attr name="sbc_legendBgColor" format="color"/>
+        <attr name="sbc_legendUnselectTextColor" format="color"/>
     </declare-styleable>
 
 
@@ -450,6 +454,8 @@
         <attr name="tbc_markViewValueColor" format="color"/>
         <attr name="tbc_xAxisLineColor" format="color"/>
         <attr name="tbc_fillColors" format="string" />
+        <attr name="tbc_legendBgColor" format="color" />
+        <attr name="tbc_legendUnselectTextColor" format="color" />
     </declare-styleable>
 
     <declare-styleable name="SessionBrainwaveStackChart">
@@ -468,6 +474,8 @@
         <attr name="sbsc_markViewValueColor" format="color"/>
         <attr name="sbsc_xAxisLineColor" format="color"/>
         <attr name="sbsc_fillColors" format="string" />
+        <attr name="sbsc_legendBgColor" format="color" />
+        <attr name="sbsc_legendUnselectTextColor" format="color" />
     </declare-styleable>
     <declare-styleable name="TrendCommonCandleChart">
         <attr name="tccc_mainColor" format="color" />
@@ -668,6 +676,9 @@
     <declare-styleable name="ChartLegendView">
         <attr name="clv_legend" format="string" />
         <attr name="clv_color" format="color" />
+        <attr name="clv_unselectTextColor" format="color" />
+        <attr name="clv_selectTextColor" format="color" />
+        <attr name="clv_bgColor" format="color" />
     </declare-styleable>
 
     <declare-styleable name="HalfCircleProgressBar">

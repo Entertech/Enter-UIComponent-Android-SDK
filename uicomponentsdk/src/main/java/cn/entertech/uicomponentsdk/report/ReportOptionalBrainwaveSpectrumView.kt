@@ -59,6 +59,8 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var mLegendBgColor: Int = Color.parseColor("#F6F7FA")
+    private var mLegendUnselectTextColor: Int = Color.parseColor("#878894")
     private var mIsChartEnable: Boolean = true
     private var mLineWidth: Float = 1f.dp()
     private var sampleData: java.util.ArrayList<java.util.ArrayList<Double>>? = null
@@ -236,7 +238,14 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
             R.styleable.ReportOptionalBrainwaveSpectrumView_robs_lineWidth,
             mLineWidth
         )
-
+        mLegendBgColor = typeArray.getColor(
+            R.styleable.ReportOptionalBrainwaveSpectrumView_robs_legendBgColor,
+            mLegendBgColor
+        )
+        mLegendUnselectTextColor = typeArray.getColor(
+            R.styleable.ReportOptionalBrainwaveSpectrumView_robs_legendUnselectTextColor,
+            mLegendUnselectTextColor
+        )
         initView()
     }
 
@@ -328,11 +337,21 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
 
     fun initLegend() {
         if (mSpectrumColors != null) {
-            legend_gamma.setLegendIconColor(mSpectrumColors!![0])
-            legend_beta.setLegendIconColor(mSpectrumColors!![1])
-            legend_alpha.setLegendIconColor(mSpectrumColors!![2])
-            legend_theta.setLegendIconColor(mSpectrumColors!![3])
-            legend_delta.setLegendIconColor(mSpectrumColors!![4])
+            legend_gamma.setSelectTextColor(mSpectrumColors!![0])
+            legend_beta.setSelectTextColor(mSpectrumColors!![1])
+            legend_alpha.setSelectTextColor(mSpectrumColors!![2])
+            legend_theta.setSelectTextColor(mSpectrumColors!![3])
+            legend_delta.setSelectTextColor(mSpectrumColors!![4])
+            legend_gamma.setBgColor(mLegendBgColor)
+            legend_beta.setBgColor(mLegendBgColor)
+            legend_alpha.setBgColor(mLegendBgColor)
+            legend_theta.setBgColor(mLegendBgColor)
+            legend_delta.setBgColor(mLegendBgColor)
+            legend_gamma.setUnselectTextColor(mLegendUnselectTextColor)
+            legend_beta.setUnselectTextColor(mLegendUnselectTextColor)
+            legend_alpha.setUnselectTextColor(mLegendUnselectTextColor)
+            legend_theta.setUnselectTextColor(mLegendUnselectTextColor)
+            legend_delta.setUnselectTextColor(mLegendUnselectTextColor)
         }
         for (i in legendIsCheckList.indices) {
             (ll_legend_parent.getChildAt(i) as OptionalBrainChartLegendView).setCheck(
@@ -474,9 +493,9 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
             llXAxis.textColor = mLabelColor
             if (currentMin == 0) {
                 llXAxis.xOffset = -3f
-            }else if (currentMin < totalMin && currentMin > totalMin * 7f / 8) {
+            } else if (currentMin < totalMin && currentMin > totalMin * 7f / 8) {
                 llXAxis.xOffset = 5f
-            }else {
+            } else {
                 llXAxis.xOffset = -1f
             }
             chart.xAxis.addLimitLine(llXAxis)
@@ -539,9 +558,9 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
             dataSets.add(set1) // add the data sets
         }
         // create a data object with the data sets
-        maxValue = maxValue!! +(maxValue -minValue!!)/8f
-        minValue = minValue - (maxValue - minValue)/8f
-        if (minValue<0){
+        maxValue = maxValue!! + (maxValue - minValue!!) / 8f
+        minValue = minValue - (maxValue - minValue) / 8f
+        if (minValue < 0) {
             minValue = 0f
         }
         drawYLimit(maxValue, minValue)
@@ -632,7 +651,7 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
             }
 
             override fun onChartLongPressed(me: MotionEvent) {
-                if (isDrag){
+                if (isDrag) {
                     return
                 }
                 chart.isDragEnabled = false

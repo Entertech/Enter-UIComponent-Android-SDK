@@ -18,6 +18,7 @@
         <entry key="app/src/main/res/layout/fragment_report_default.xml" value="0.18" />
         <entry key="uicomponentsdk/src/main/res/drawable-v21/touch_ripple.xml" value="0.246" />
         <entry key="uicomponentsdk/src/main/res/drawable/shape_attention_level_bg.xml" value="0.246" />
+        <entry key="uicomponentsdk/src/main/res/drawable/shape_brain_legend_select.xml" value="0.249" />
         <entry key="uicomponentsdk/src/main/res/drawable/shape_brainwave_legend_right.xml" value="0.238" />
         <entry key="uicomponentsdk/src/main/res/drawable/shape_button.xml" value="0.246" />
         <entry key="uicomponentsdk/src/main/res/drawable/shape_common_chart_level_bg.xml" value="0.1205" />
@@ -66,7 +67,7 @@
         <entry key="uicomponentsdk/src/main/res/layout/layout_card_attention.xml" value="0.1361111111111111" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_card_bar_chart.xml" value="0.3484375" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_card_brain_spectrum.xml" value="0.16945288753799392" />
-        <entry key="uicomponentsdk/src/main/res/layout/layout_card_brain_spectrum_optional.xml" value="0.1" />
+        <entry key="uicomponentsdk/src/main/res/layout/layout_card_brain_spectrum_optional.xml" value="0.15" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_card_brain_spectrum_pie.xml" value="0.334375" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_card_brainwave_trend_chart.xml" value="0.37004950495049505" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_card_candlestick.xml" value="0.31614583333333335" />
@@ -80,6 +81,7 @@
         <entry key="uicomponentsdk/src/main/res/layout/layout_markview_brainwave_spectrum.xml" value="0.33" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_markview_candle.xml" value="0.3484375" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_markview_session_brainwave.xml" value="0.32864583333333336" />
+        <entry key="uicomponentsdk/src/main/res/layout/layout_optional_brain_chart_legend.xml" value="0.67" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_report_attention_card.xml" value="0.16945288753799392" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_report_corherence_card.xml" value="0.165" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_report_hr_card.xml" value="0.33" />

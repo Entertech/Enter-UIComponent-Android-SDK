@@ -14,8 +14,10 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import cn.entertech.uicomponentsdk.R
+import cn.entertech.uicomponentsdk.utils.dp
 import cn.entertech.uicomponentsdk.utils.getOpacityColor
 import kotlinx.android.synthetic.main.layout_optional_brain_chart_legend.view.*
+import org.w3c.dom.Text
 
 
 class OptionalBrainChartLegendView @JvmOverloads constructor(
@@ -25,6 +27,9 @@ class OptionalBrainChartLegendView @JvmOverloads constructor(
 ) :
     LinearLayout(context, attributeSet, def) {
 
+    private var mUnSelectTextColor: Int = Color.parseColor("#878894")
+    private var mSelectTextColor: Int = Color.parseColor("#4B5DCC")
+    private var mBgColor: Int = Color.parseColor("#F6F7FA")
     private var mOnCheckListener: ((Boolean) -> Unit)? = null
     var mIsChecked = true
     var mColor = Color.parseColor("#5167f8")
@@ -34,12 +39,14 @@ class OptionalBrainChartLegendView @JvmOverloads constructor(
 
     init {
         var typeArray = context.obtainStyledAttributes(attributeSet, R.styleable.ChartLegendView)
-        mColor = typeArray.getColor(R.styleable.ChartLegendView_clv_color, mColor)
+        mBgColor = typeArray.getColor(R.styleable.ChartLegendView_clv_bgColor, mBgColor)
+        mUnSelectTextColor = typeArray.getColor(R.styleable.ChartLegendView_clv_unselectTextColor, mUnSelectTextColor)
+        mSelectTextColor = typeArray.getColor(R.styleable.ChartLegendView_clv_selectTextColor, mSelectTextColor)
         mLegend = typeArray.getString(R.styleable.ChartLegendView_clv_legend)
         var layoutParams =
-            LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
+            LayoutParams(
+                49f.dp().toInt(),
+                23f.dp().toInt()
             )
         self.layoutParams = layoutParams
         initView()
@@ -47,34 +54,28 @@ class OptionalBrainChartLegendView @JvmOverloads constructor(
     }
 
     fun initView() {
-        self.findViewById<TextView>(R.id.tv_text).text = mLegend
-        val gradientDrawable =
-            self.findViewById<LinearLayout>(R.id.ll_bg).background as GradientDrawable
-        gradientDrawable.setColor(getOpacityColor(mColor, 0.2f))
-        self.findViewById<LinearLayout>(R.id.ll_bg).background = gradientDrawable
-        self.findViewById<TextView>(R.id.tv_text).setTextColor(mColor)
-        self.findViewById<ImageView>(R.id.iv_icon).imageTintList =
-            ColorStateList.valueOf(mColor)
+        val bg = self.findViewById<TextView>(R.id.tv_legend).background as GradientDrawable
+        bg.setColor(mBgColor)
+        self.findViewById<TextView>(R.id.tv_legend).text = mLegend
         if (mIsChecked) {
-            self.findViewById<TextView>(R.id.tv_legend_bg).visibility = View.VISIBLE
-            self.findViewById<ImageView>(R.id.iv_icon).setImageDrawable(ContextCompat.getDrawable(context,R.drawable.vector_drawable_brain_legend_select))
+            self.findViewById<TextView>(R.id.tv_legend).setTextColor(mSelectTextColor)
         } else {
-            self.findViewById<ImageView>(R.id.iv_icon).setImageDrawable(ContextCompat.getDrawable(context,R.drawable.vector_drawable_brain_legend_unselect))
-            self.findViewById<TextView>(R.id.tv_legend_bg).visibility = View.GONE
+            self.findViewById<TextView>(R.id.tv_legend).setTextColor(mUnSelectTextColor)
         }
-//        self.findViewById<LinearLayout>(R.id.ll_bg).setOnClickListener {
-//            mIsChecked = !mIsChecked
-//            setCheck(mIsChecked)
-//            mOnCheckListener?.invoke(mIsChecked)
-//        }
     }
 
-    fun setTextColor(color: Int) {
-        tv_text.setTextColor(color)
+    fun setUnselectTextColor(color: Int) {
+        this.mUnSelectTextColor = color
+        initView()
     }
 
-    fun setLegendIconColor(color: Int) {
-        mColor = color
+    fun setSelectTextColor(color:Int){
+        this.mSelectTextColor = color
+        initView()
+    }
+
+    fun setBgColor(color: Int){
+        this.mBgColor = color
         initView()
     }
 

@@ -51,6 +51,8 @@ class SessionBrainwaveStackChart @JvmOverloads constructor(
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
+    private var mLegendBgColor: Int = Color.parseColor("#F6F7FA")
+    private var mLegendUnselectTextColor: Int = Color.parseColor("#878894")
     private var mStartTime: String = ""
     private lateinit var marker: SessionBrainwaveChartMarkView
     private var sampleData: ArrayList<ArrayList<Double>>? = null
@@ -164,7 +166,10 @@ class SessionBrainwaveStackChart @JvmOverloads constructor(
                 mGridLineColor
             )
         mLineWidth =
-            typeArray.getDimension(R.styleable.SessionBrainwaveStackChart_sbsc_lineWidth, mLineWidth)
+            typeArray.getDimension(
+                R.styleable.SessionBrainwaveStackChart_sbsc_lineWidth,
+                mLineWidth
+            )
 
         mHighlightLineColor = typeArray.getColor(
             R.styleable.SessionBrainwaveStackChart_sbsc_highlightLineColor,
@@ -195,6 +200,12 @@ class SessionBrainwaveStackChart @JvmOverloads constructor(
             )
         mFillColors = typeArray.getString(R.styleable.SessionBrainwaveStackChart_sbsc_fillColors)
         mFillColorArray = mFillColors?.split(",")
+        mLegendBgColor =
+            typeArray.getColor(R.styleable.SessionBrainwaveStackChart_sbsc_legendBgColor, mLegendBgColor)
+        mLegendUnselectTextColor = typeArray.getColor(
+            R.styleable.SessionBrainwaveStackChart_sbsc_legendUnselectTextColor,
+            mLegendUnselectTextColor
+        )
         typeArray.recycle()
         initView()
     }
@@ -210,11 +221,23 @@ class SessionBrainwaveStackChart @JvmOverloads constructor(
 
     fun initLegend() {
         if (mFillColorArray != null) {
-            legend_gamma.setLegendIconColor(Color.parseColor(mFillColorArray!![0]))
-            legend_beta.setLegendIconColor(Color.parseColor(mFillColorArray!![1]))
-            legend_alpha.setLegendIconColor(Color.parseColor(mFillColorArray!![2]))
-            legend_theta.setLegendIconColor(Color.parseColor(mFillColorArray!![3]))
-            legend_delta.setLegendIconColor(Color.parseColor(mFillColorArray!![4]))
+            legend_gamma.setSelectTextColor(Color.parseColor(mFillColorArray!![0]))
+            legend_beta.setSelectTextColor(Color.parseColor(mFillColorArray!![1]))
+            legend_alpha.setSelectTextColor(Color.parseColor(mFillColorArray!![2]))
+            legend_theta.setSelectTextColor(Color.parseColor(mFillColorArray!![3]))
+            legend_delta.setSelectTextColor(Color.parseColor(mFillColorArray!![4]))
+
+            legend_gamma.setBgColor(mLegendBgColor)
+            legend_beta.setBgColor(mLegendBgColor)
+            legend_alpha.setBgColor(mLegendBgColor)
+            legend_theta.setBgColor(mLegendBgColor)
+            legend_delta.setBgColor(mLegendBgColor)
+
+            legend_gamma.setUnselectTextColor(mLegendUnselectTextColor)
+            legend_beta.setUnselectTextColor(mLegendUnselectTextColor)
+            legend_alpha.setUnselectTextColor(mLegendUnselectTextColor)
+            legend_theta.setUnselectTextColor(mLegendUnselectTextColor)
+            legend_delta.setUnselectTextColor(mLegendUnselectTextColor)
         }
         for (i in legendIsCheckList.indices) {
             (ll_legend_parent.getChildAt(i) as OptionalBrainChartLegendView).setCheck(
@@ -302,7 +325,8 @@ class SessionBrainwaveStackChart @JvmOverloads constructor(
             if (isFullScreen) {
                 (context as Activity).finish()
             } else {
-                var intent = Intent(context, SessionBrainwaveStackChartFullScreenActivity::class.java)
+                var intent =
+                    Intent(context, SessionBrainwaveStackChartFullScreenActivity::class.java)
                 intent.putExtra("lineWidth", mLineWidth)
                 intent.putExtra("highlightLineColor", mHighlightLineColor)
                 intent.putExtra("highlightLineWidth", mHighlightLineWidth)
@@ -437,7 +461,8 @@ class SessionBrainwaveStackChart @JvmOverloads constructor(
         tv_value_beta.text = "$betaValueAverage"
         tv_value_alpha.text = "$alphaValueAverage"
         tv_value_theta.text = "$thetaValueAverage"
-        tv_value_delta.text = "${100-gammaValueAverage-betaValueAverage-alphaValueAverage-thetaValueAverage}"
+        tv_value_delta.text =
+            "${100 - gammaValueAverage - betaValueAverage - alphaValueAverage - thetaValueAverage}"
         fixData()
         var sample = brainwaveSpectrums[0].size / mPointCount
         if (isShowAllData || sample <= 1) {
@@ -617,8 +642,8 @@ class SessionBrainwaveStackChart @JvmOverloads constructor(
         chart.isDragEnabled = true
         chart.isScaleXEnabled = false
         chart.isScaleYEnabled = false
-        val colors =  mFillColorArray?.map { Color.parseColor(it) }?.toIntArray()
-        if (colors != null){
+        val colors = mFillColorArray?.map { Color.parseColor(it) }?.toIntArray()
+        if (colors != null) {
             marker = SessionBrainwaveChartMarkView(
                 context,
                 colors,
@@ -628,7 +653,7 @@ class SessionBrainwaveStackChart @JvmOverloads constructor(
             marker.chartView = chart
             marker.setTextColor(mTextColor)
             marker.setMarkViewBgColor(mMarkViewBgColor)
-            if (chart.data != null){
+            if (chart.data != null) {
                 marker.setDataSets(chart.data.dataSets)
             }
             chart.marker = marker
@@ -755,7 +780,8 @@ class SessionBrainwaveStackChart @JvmOverloads constructor(
                 chart.highlightValue(null, false)
                 ll_title.visibility = View.GONE
                 for (i in iconList.indices) {
-                    iconList[i].color = mFillColorArray!!.map { Color.parseColor(it) }.toIntArray()[i]
+                    iconList[i].color =
+                        mFillColorArray!!.map { Color.parseColor(it) }.toIntArray()[i]
                 }
                 var iconDrawables = iconList.map { it.toDrawable(context) }
                 for (i in chart.data.dataSets.indices) {
@@ -790,6 +816,7 @@ class SessionBrainwaveStackChart @JvmOverloads constructor(
         }
         initView()
     }
+
     fun setLineWidth(lineWidth: Float) {
         this.mLineWidth = lineWidth
         initView()
@@ -875,6 +902,7 @@ class SessionBrainwaveStackChart @JvmOverloads constructor(
         this.legendIsCheckList = lists
         initView()
     }
+
     class BrainwaveLineSourceData : Serializable {
         var gamma: Float = 0f
         var beta: Float = 0f

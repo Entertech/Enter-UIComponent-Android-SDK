@@ -1,48 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingLeft="5dp"
-        android:paddingRight="8dp"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/tv_legend"
+        android:layout_width="49dp"
+        android:layout_height="23dp"
         android:background="@drawable/shape_brain_legend_select"
-        android:id="@+id/ll_bg"
+        android:gravity="center"
+        style="@style/num_16_bold"
+        android:text="b"
         >
 
-    <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        <TextView
-                android:id="@+id/tv_legend_bg"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:background="@drawable/shape_brain_legend_bg"/>
-        <ImageView
-                android:id="@+id/iv_icon"
-                android:tint="@color/black"
-                android:layout_gravity="center_vertical"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:src="@drawable/vector_drawable_brain_legend_select"
-                />
-    </RelativeLayout>
-
-    <TextView
-            android:id="@+id/tv_text"
-            android:layout_marginLeft="@dimen/activity_margin_half"
-            android:gravity="center_vertical"
-            android:layout_gravity="center_vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:fontFamily="sans-serif"
-            android:textStyle="normal"
-            android:textColor="#ffffff"
-            android:text="γ"
-            />
-
-</LinearLayout>
+</TextView>
