@@ -10,6 +10,7 @@
         <entry key="app/src/main/res/drawable/shape_menu_bg.xml" value="0.246" />
         <entry key="app/src/main/res/drawable/vector_drawable_arrow_down.xml" value="0.246" />
         <entry key="app/src/main/res/drawable/vector_drawable_ic_emotion.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/vector_drawable_share.xml" value="0.233" />
         <entry key="app/src/main/res/drawable/vector_last_7_average_equal.xml" value="0.12" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.32395833333333335" />
         <entry key="app/src/main/res/layout/card_content_view_flow_curve.xml" value="0.1802536231884058" />
@@ -45,6 +46,7 @@
         <entry key="uicomponentsdk/src/main/res/drawable/vector_drawable_ic_emotion.xml" value="0.1" />
         <entry key="uicomponentsdk/src/main/res/drawable/vector_drawable_report_average_arrow_down.xml" value="0.1" />
         <entry key="uicomponentsdk/src/main/res/drawable/vector_drawable_report_average_arrow_up.xml" value="0.1" />
+        <entry key="uicomponentsdk/src/main/res/drawable/vector_drawable_share.xml" value="0.233" />
         <entry key="uicomponentsdk/src/main/res/drawable/vector_drawable_stress.xml" value="0.1" />
         <entry key="uicomponentsdk/src/main/res/drawable/vector_drawable_title_icon_hr.xml" value="0.1" />
         <entry key="uicomponentsdk/src/main/res/drawable/vector_drawable_title_icon_hrv.xml" value="0.1" />
@@ -67,7 +69,7 @@
         <entry key="uicomponentsdk/src/main/res/layout/layout_card_attention.xml" value="0.1361111111111111" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_card_bar_chart.xml" value="0.3484375" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_card_brain_spectrum.xml" value="0.16945288753799392" />
-        <entry key="uicomponentsdk/src/main/res/layout/layout_card_brain_spectrum_optional.xml" value="0.15" />
+        <entry key="uicomponentsdk/src/main/res/layout/layout_card_brain_spectrum_optional.xml" value="0.22" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_card_brain_spectrum_pie.xml" value="0.334375" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_card_brainwave_trend_chart.xml" value="0.37004950495049505" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_card_candlestick.xml" value="0.31614583333333335" />

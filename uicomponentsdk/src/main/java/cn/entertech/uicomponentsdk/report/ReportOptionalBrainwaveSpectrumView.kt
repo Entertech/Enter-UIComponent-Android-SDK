@@ -340,11 +340,11 @@ class ReportOptionalBrainwaveSpectrumView @JvmOverloads constructor(
     fun initUnit() {
         tv_unit.setTextColor(getOpacityColor(mTextColor, 0.7f))
         tv_unit.text = mXAxisUnit
-        if (mIsAbsoluteTime) {
-            tv_unit.visibility = View.GONE
-        } else {
-            tv_unit.visibility = View.VISIBLE
-        }
+//        if (mIsAbsoluteTime) {
+//            tv_unit.visibility = View.GONE
+//        } else {
+//            tv_unit.visibility = View.VISIBLE
+//        }
     }
 
     fun initLegend() {
