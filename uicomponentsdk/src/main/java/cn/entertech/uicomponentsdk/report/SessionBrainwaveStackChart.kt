@@ -497,7 +497,7 @@ class SessionBrainwaveStackChart @JvmOverloads constructor(
         var currentMin = 0
         while (currentMin < totalMin) {
             var limitX = currentMin * 60f * 1000 / mTimeOfTwoPoint
-            val llXAxis = LimitLine(limitX, "$currentMin")
+            val llXAxis = LimitLine(limitX, "${currentMin}m")
             llXAxis.lineWidth = 0.5f
             llXAxis.labelPosition = LimitLine.LimitLabelPosition.LEFT_BOTTOM
             llXAxis.textSize = 12f
@@ -506,7 +506,7 @@ class SessionBrainwaveStackChart @JvmOverloads constructor(
             llXAxis.lineColor = mGridLineColor
             llXAxis.textColor = mTextColor
             if (currentMin == 0) {
-                llXAxis.xOffset = -3f
+                llXAxis.xOffset = -12f
             } else if (currentMin < totalMin && currentMin > totalMin * 7f / 8) {
                 llXAxis.xOffset = 5f
             } else {
