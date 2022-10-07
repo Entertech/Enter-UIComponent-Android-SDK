@@ -5,8 +5,11 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import androidx.core.content.ContextCompat
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.utils.dp
+import kotlin.math.ceil
+
 
 class ReportJournalCoherenceLineView @JvmOverloads constructor(
     context: Context,
@@ -100,12 +103,51 @@ class ReportJournalCoherenceLineView @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas) {
-        onDrawGridLine(canvas)
+//        onDrawGridLine(canvas)
+        onDrawGripBitmap(canvas)
         onDrawScaleLine(canvas)
         if (!mData.isNullOrEmpty() && mData!!.size > 2) {
             onDrawBgLine(canvas)
             onDrawFlagLine(canvas)
         }
+    }
+
+    fun onDrawGripBitmap(canvas: Canvas) {
+        val bitmap = BitmapFactory.decodeResource(context.resources, R.mipmap.pic_chart_grid_bg)
+        val widthRate = width * 1f / bitmap.width
+        val heightRate = height *1f /bitmap.height
+        var horizontalRepeatCount = if (widthRate <= 1f){
+            1
+        }else{
+            ceil(widthRate).toInt()
+        }
+        var verticalRepeatCount = if (heightRate <= 1f){
+            1
+        }else{
+            ceil(heightRate).toInt()
+        }
+        canvas.save()
+        for (i in 0 until verticalRepeatCount){
+            drawBitmapHorizontalRepeat(canvas,bitmap,horizontalRepeatCount)
+            canvas.translate(0f, height.toFloat())
+        }
+        canvas.restore()
+    }
+
+    fun drawBitmapHorizontalRepeat(canvas: Canvas,bitmap:Bitmap,repeatCount:Int){
+        canvas.save()
+        for (i in 0 until repeatCount){
+            val rectBitmap = Rect(0, 0, bitmap.width, bitmap.height)
+            val rectF = RectF(0f, 0f, width.toFloat(), height.toFloat())
+            val filter: ColorFilter = PorterDuffColorFilter(
+                gridColor,
+                PorterDuff.Mode.SRC_IN
+            )
+            gridLinePaint.colorFilter = filter
+            canvas.drawBitmap(bitmap, rectBitmap, rectF, gridLinePaint)
+            canvas.translate(width.toFloat(), 0f)
+        }
+        canvas.restore()
     }
 
     private fun onDrawGridLine(canvas: Canvas) {
@@ -187,7 +229,7 @@ class ReportJournalCoherenceLineView @JvmOverloads constructor(
         for (i in indexs.indices) {
             val curX = dataOffset * indexs[i] + LEFT_BAR_WIDTH
             val curY = (mData!![indexs[i]] - dataMin) * dataScale + gridLineYPadding
-            Log.d("#####","cur y is $curY")
+            Log.d("#####", "cur y is $curY")
             if (i == 0) {
                 linePath.moveTo(curX, -curY.toFloat())
             } else {
