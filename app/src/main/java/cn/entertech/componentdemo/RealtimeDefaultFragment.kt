@@ -61,19 +61,19 @@ class RealtimeDefaultFragment : Fragment() {
                             Random().nextDouble() * 10 + 45.0
                         )
 //                    realtime_hrv.showSampleData()
-                        if (i % 10 == 0){
+//                        if (i % 10 == 0){
                             realtime_hrv.appendData(0, listOf(0.0,0.0,0.0))
                             realtime_hrv.appendData(1, listOf(0.0,0.0,0.0))
                             realtime_hrv.appendData(2, listOf(0.0,0.0,0.0))
                             realtime_hrv.appendData(3, listOf(0.0,0.0,0.0))
                             realtime_hrv.appendData(4, listOf(0.0,0.0,0.0))
-                        }else{
-                            realtime_hrv.appendData(0, hrvList)
-                            realtime_hrv.appendData(1, hrvList2)
-                            realtime_hrv.appendData(2, hrvList3)
-                            realtime_hrv.appendData(3, hrvList4)
-                            realtime_hrv.appendData(4, hrvList5)
-                        }
+//                        }else{
+//                            realtime_hrv.appendData(0, hrvList)
+//                            realtime_hrv.appendData(1, hrvList2)
+//                            realtime_hrv.appendData(2, hrvList3)
+//                            realtime_hrv.appendData(3, hrvList4)
+//                            realtime_hrv.appendData(4, hrvList5)
+//                        }
                         brainwave_view.setRightBrainwave(rightBrainwave)
                         brainwave_view.setLeftBrainwave(leftBrainwave)
                     }

@@ -88,6 +88,7 @@ public class RealtimeAnimLineChartView extends View {
     private int mTextRectBg = Color.parseColor("#ffffff");
     private OnDrawLastValueListener mOnDrawLastValueListener;
     private int mVerticalPadding = 1;
+    private int linePointRadius = 0;
 
     public RealtimeAnimLineChartView(Context context) {
         this(context, null);
@@ -120,6 +121,7 @@ public class RealtimeAnimLineChartView extends View {
     public void init() {
         initList();
         rightOffset = ScreenUtil.dip2px(mContext, 7f);
+        linePointRadius = ScreenUtil.dip2px(mContext, 7f);
     }
 
     private void initList() {
@@ -350,12 +352,12 @@ public class RealtimeAnimLineChartView extends View {
     }
 
     public void onDrawLeftRectCover(Canvas canvas) {
-        RectF rectF = new RectF(0, 0, mLeftPadding + mYAxisMargin, getHeight());
+        RectF rectF = new RectF(0, 0, mLeftPadding + mYAxisMargin, getHeight()-linePointRadius);
         onDrawRectCover(canvas, rectF);
     }
 
     public void onDrawRightRectCover(Canvas canvas) {
-        RectF rectF = new RectF(getWidth() - rightOffset, 0, getWidth(), getHeight());
+        RectF rectF = new RectF(getWidth() - rightOffset, 0, getWidth(), getHeight()-linePointRadius);
         onDrawRectCover(canvas, rectF);
     }
 
@@ -388,7 +390,7 @@ public class RealtimeAnimLineChartView extends View {
         }
 
         float pointOffset = (getWidth() - rightOffset) * 1f / mScreenPointCount;
-        canvas.translate(mLeftPadding + mYAxisMargin - axisOffset, getHeight());
+        canvas.translate(mLeftPadding + mYAxisMargin - axisOffset, getHeight()-linePointRadius);
         for (int i = 0; i < mScreenDataList.size(); i++) {
             if (mOnDrawLastValueListener != null && mScreenDataList.get(i).size() < mScreenPointCount) {
                 mOnDrawLastValueListener.onLastValueDraw(i, (mRealDataList.get(i).get(mRealDataList.get(i).size() - 1)).intValue());
@@ -410,7 +412,7 @@ public class RealtimeAnimLineChartView extends View {
 
     public void onDrawLastPoint(Canvas canvas) {
         canvas.save();
-        canvas.translate(0, getHeight());
+        canvas.translate(0, getHeight()-linePointRadius);
         for (int i = 0; i < mScreenDataList.size(); i++) {
             if (showLineIndexs != null && !showLineIndexs.contains(i)) {
                 continue;
@@ -420,7 +422,7 @@ public class RealtimeAnimLineChartView extends View {
                 return;
             }
             float lastPointY = realtimeLastPointYMap.get(i);
-            canvas.drawCircle(lastPointX, lastPointY, ScreenUtil.dip2px(mContext, 7f), mValueLabelBgPaint);
+            canvas.drawCircle(lastPointX, lastPointY,linePointRadius, mValueLabelBgPaint);
             mLinePaintList.get(i).setStyle(Paint.Style.FILL);
             canvas.drawCircle(lastPointX, lastPointY, ScreenUtil.dip2px(mContext, 3f), mLinePaintList.get(i));
             mLinePaintList.get(i).setStyle(Paint.Style.STROKE);
@@ -501,7 +503,7 @@ public class RealtimeAnimLineChartView extends View {
         if (realData.isEmpty()) {
             return screenData;
         }
-        float times = (getHeight()) / (realDataMaxValue - realDataMinValue) * 1.0f;
+        float times = (getHeight()-linePointRadius) / (realDataMaxValue - realDataMinValue) * 1.0f;
         if (times != 0) {
             for (int i = 0; i < realData.size(); i++) {
                 if (realData.get(i) != 0) {
