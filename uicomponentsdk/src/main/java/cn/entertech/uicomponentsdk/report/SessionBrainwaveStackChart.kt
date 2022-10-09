@@ -44,6 +44,7 @@ import kotlinx.android.synthetic.main.layout_card_brainwave_trend_chart.view.iv_
 import kotlinx.android.synthetic.main.layout_card_brainwave_trend_chart.view.tv_date
 import kotlinx.android.synthetic.main.layout_card_brainwave_trend_chart.view.tv_title
 import java.io.Serializable
+import kotlin.math.roundToInt
 
 class SessionBrainwaveStackChart @JvmOverloads constructor(
     context: Context,
@@ -453,10 +454,10 @@ class SessionBrainwaveStackChart @JvmOverloads constructor(
         }
         this.dataTotalTimeMs = brainwaveSpectrums[0].size * mTimeUnit
         this.mData = brainwaveSpectrums
-        val gammaValueAverage = brainwaveSpectrums[0].average().toInt()
-        val betaValueAverage = brainwaveSpectrums[1].average().toInt()
-        val alphaValueAverage = brainwaveSpectrums[2].average().toInt()
-        val thetaValueAverage = brainwaveSpectrums[3].average().toInt()
+        val gammaValueAverage = brainwaveSpectrums[0].average().roundToInt()
+        val betaValueAverage = brainwaveSpectrums[1].average().roundToInt()
+        val alphaValueAverage = brainwaveSpectrums[2].average().roundToInt()
+        val thetaValueAverage = brainwaveSpectrums[3].average().roundToInt()
         tv_value_gamma.text = "$gammaValueAverage"
         tv_value_beta.text = "$betaValueAverage"
         tv_value_alpha.text = "$alphaValueAverage"
