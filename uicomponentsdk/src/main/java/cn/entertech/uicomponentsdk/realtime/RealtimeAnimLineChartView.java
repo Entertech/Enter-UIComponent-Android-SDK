@@ -316,29 +316,13 @@ public class RealtimeAnimLineChartView extends View {
 
     public void onDrawBg(Canvas canvas) {
         mYAxisMargin = ScreenUtil.dip2px(mContext, 0);
-        canvas.drawRect(0, 0, getWidth() - rightOffset, getHeight(), mBgPaint);
+        canvas.drawRect(0, 0, getWidth() - rightOffset, getHeight() - linePointRadius, mBgPaint);
         float currentX = ScreenUtil.dip2px(mContext, 2f);
         float currentY = ScreenUtil.dip2px(mContext, 2f);
-        while (currentY < getHeight()) {
+        while (currentY < getHeight() - linePointRadius) {
             canvas.drawLine(currentX, currentY, getWidth(), currentY, mPointBgPaint);
             currentY = currentY + ScreenUtil.dip2px(mContext, 4f);
         }
-//        canvas.drawColor(mBgColor,PorterDuff.Mode.CLEAR);
-//        float lineOffset = (getWidth() - (mLeftPadding + mRightPadding) - mYAxisMargin) / 4;
-//        if (mIsDrawXAxis) {
-//            canvas.drawLine(mLeftPadding + mYAxisMargin, getHeight() - 0.5f, getWidth() - mRightPadding, getHeight() - 0.5f, mAxisPaint);
-//        }
-//        for (int i = 0; i < (mGridLineCount + 1); i++) {
-//            if (i == 0) {
-//                canvas.drawLine(mLeftPadding + mYAxisMargin, 0, mLeftPadding + mYAxisMargin, getHeight(), mAxisPaint);
-//            } else {
-//                //绘制长度为4的实线后再绘制长度为4的空白区域，0位间隔
-//                mGridLinePaint.setPathEffect(new DashPathEffect(new float[]{8, 8}, 0));
-//                canvas.drawLine(lineOffset * i, 0, lineOffset * i, getHeight(), mGridLinePaint);
-//            }
-//        }
-//        canvas.drawText("0", mYAxisMargin, getHeight() - 10, mYAxisLabelPaint);
-//        canvas.drawText("50", mYAxisMargin, 30, mYAxisLabelPaint);
     }
 
     public void onDrawBgBitmap(Canvas canvas) {
@@ -352,12 +336,12 @@ public class RealtimeAnimLineChartView extends View {
     }
 
     public void onDrawLeftRectCover(Canvas canvas) {
-        RectF rectF = new RectF(0, 0, mLeftPadding + mYAxisMargin, getHeight()-linePointRadius);
+        RectF rectF = new RectF(0, 0, mLeftPadding + mYAxisMargin, getHeight());
         onDrawRectCover(canvas, rectF);
     }
 
     public void onDrawRightRectCover(Canvas canvas) {
-        RectF rectF = new RectF(getWidth() - rightOffset, 0, getWidth(), getHeight()-linePointRadius);
+        RectF rectF = new RectF(getWidth() - rightOffset, 0, getWidth(), getHeight());
         onDrawRectCover(canvas, rectF);
     }
 
@@ -390,7 +374,7 @@ public class RealtimeAnimLineChartView extends View {
         }
 
         float pointOffset = (getWidth() - rightOffset) * 1f / mScreenPointCount;
-        canvas.translate(mLeftPadding + mYAxisMargin - axisOffset, getHeight()-linePointRadius);
+        canvas.translate(mLeftPadding + mYAxisMargin - axisOffset, getHeight() - linePointRadius);
         for (int i = 0; i < mScreenDataList.size(); i++) {
             if (mOnDrawLastValueListener != null && mScreenDataList.get(i).size() < mScreenPointCount) {
                 mOnDrawLastValueListener.onLastValueDraw(i, (mRealDataList.get(i).get(mRealDataList.get(i).size() - 1)).intValue());
@@ -412,7 +396,7 @@ public class RealtimeAnimLineChartView extends View {
 
     public void onDrawLastPoint(Canvas canvas) {
         canvas.save();
-        canvas.translate(0, getHeight()-linePointRadius);
+        canvas.translate(0, getHeight() - linePointRadius);
         for (int i = 0; i < mScreenDataList.size(); i++) {
             if (showLineIndexs != null && !showLineIndexs.contains(i)) {
                 continue;
@@ -422,7 +406,7 @@ public class RealtimeAnimLineChartView extends View {
                 return;
             }
             float lastPointY = realtimeLastPointYMap.get(i);
-            canvas.drawCircle(lastPointX, lastPointY,linePointRadius, mValueLabelBgPaint);
+            canvas.drawCircle(lastPointX, lastPointY, linePointRadius, mValueLabelBgPaint);
             mLinePaintList.get(i).setStyle(Paint.Style.FILL);
             canvas.drawCircle(lastPointX, lastPointY, ScreenUtil.dip2px(mContext, 3f), mLinePaintList.get(i));
             mLinePaintList.get(i).setStyle(Paint.Style.STROKE);
@@ -503,7 +487,7 @@ public class RealtimeAnimLineChartView extends View {
         if (realData.isEmpty()) {
             return screenData;
         }
-        float times = (getHeight()-linePointRadius) / (realDataMaxValue - realDataMinValue) * 1.0f;
+        float times = (getHeight() - linePointRadius) / (realDataMaxValue - realDataMinValue) * 1.0f;
         if (times != 0) {
             for (int i = 0; i < realData.size(); i++) {
                 if (realData.get(i) != 0) {
