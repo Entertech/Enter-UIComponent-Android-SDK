@@ -351,6 +351,7 @@ class SessionBrainwaveStackChart @JvmOverloads constructor(
                 intent.putExtra("alphaData", mData!![2].toDoubleArray())
                 intent.putExtra("thetaData", mData!![3].toDoubleArray())
                 intent.putExtra("deltaData", mData!![4].toDoubleArray())
+                intent.putExtra("startTime", mStartTime)
                 context.startActivity(intent)
             }
         }

@@ -39,6 +39,7 @@ class SessionBrainwaveStackChartFullScreenActivity : AppCompatActivity() {
         var deltaData = intent.getDoubleArrayExtra("deltaData")?.toList() as ArrayList
         var xAxisLineColor = intent.getIntExtra("xAxisLineColor",Color.RED)
         var fillColors = intent.getStringExtra("fillColors")?:""
+        var startTime = intent.getStringExtra("startTime")?:""
 
         chart_brainwave_session_stack.setLineWidth(lineWidth)
         chart_brainwave_session_stack.isFullScreen = true
@@ -56,6 +57,7 @@ class SessionBrainwaveStackChartFullScreenActivity : AppCompatActivity() {
         chart_brainwave_session_stack.setAverageLineColor(averageLineColor)
         chart_brainwave_session_stack.setLabelColor(labelColor)
         chart_brainwave_session_stack.setAverage(average?:"")
+        chart_brainwave_session_stack.setStartTime(startTime)
         chart_brainwave_session_stack.setMainColor(mainColor)
         chart_brainwave_session_stack.setXAxisLineColor(xAxisLineColor)
         chart_brainwave_session_stack.setFillColors(fillColors)
