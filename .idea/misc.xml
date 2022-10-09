@@ -91,7 +91,7 @@
         <entry key="uicomponentsdk/src/main/res/layout/layout_report_hrv_card.xml" value="0.16540020263424518" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_report_pressure_card.xml" value="0.18" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_session_brainwave_chart.xml" value="0.178125" />
-        <entry key="uicomponentsdk/src/main/res/layout/layout_session_common_chart.xml" value="0.25" />
+        <entry key="uicomponentsdk/src/main/res/layout/layout_session_common_chart.xml" value="0.33" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_session_common_markview.xml" value="0.5" />
         <entry key="uicomponentsdk/src/main/res/layout/layout_session_pressure_chart.xml" value="0.15896739130434784" />
         <entry key="uicomponentsdk/src/main/res/layout/view_common_cardview.xml" value="0.33" />

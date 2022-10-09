@@ -1,5 +1,6 @@
 package cn.entertech.uicomponentsdk.report
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -312,16 +313,12 @@ class SessionCommonChart @JvmOverloads constructor(
         }
         tv_value.setTextColor(mMainColor)
         tv_description.setTextColor(mTextColor)
+        tv_unit.setTextColor(mTextColor)
         if (mIsShowLevel) {
-            tv_unit.visibility = View.GONE
-            tv_level.visibility = View.VISIBLE
             tv_level.setTextColor(mLevelTextColor)
             var bg = tv_level.background as GradientDrawable
             bg.setColor(mLevelBgColor)
         } else {
-            tv_unit.visibility = View.VISIBLE
-            tv_level.visibility = View.GONE
-            tv_unit.setTextColor(mTextColor)
             tv_unit.text = mTitleUnit
         }
         tv_date.setTextColor(mTextColor)
@@ -416,6 +413,7 @@ class SessionCommonChart @JvmOverloads constructor(
         return newSecondLineData
     }
 
+    @SuppressLint("SetTextI18n")
     fun setData(
         data: List<Double>?,dataAverage:Double?= null,
         lineFlagData: List<Double>? = null,
@@ -453,12 +451,14 @@ class SessionCommonChart @JvmOverloads constructor(
         } else {
             mLineColor = mMainColor
             tv_value.text = "$mDataAverage"
-            when (mDataAverage) {
-                in 0..29 -> tv_level.text = context.getString(R.string.sdk_report_low)
-                in 30..69 -> tv_level.text = context.getString(R.string.sdk_report_nor)
-                else -> tv_level.text = context.getString(R.string.sdk_report_high)
-            }
             tv_description.text = "AVERAGE"
+        }
+        if (mIsShowLevel){
+            when (mDataAverage) {
+                in 0..29 -> tv_unit.text = "(${context.getString(R.string.sdk_report_low)})"
+                in 30..69 -> tv_unit.text = "(${context.getString(R.string.sdk_report_nor)})"
+                else -> tv_unit.text = "(${context.getString(R.string.sdk_report_high)})"
+            }
         }
         mTimeOfTwoPoint = mTimeUnit * sample
         var totalMin = mFirstData!!.size * mTimeUnit / 1000F / 60F

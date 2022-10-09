@@ -234,12 +234,13 @@ class TrendCommonBarChart @JvmOverloads constructor(
 
     fun initTitle() {
         if (mShowLevel) {
-            tv_unit.visibility = View.GONE
-            tv_level.visibility = View.VISIBLE
+            tv_unit.setTextColor(mTextColor)
+            tv_unit.visibility = View.VISIBLE
+            tv_level.visibility = View.GONE
             when (mDataAverage) {
-                in 0.0..29.0 -> tv_level.text = context.getString(R.string.sdk_report_low)
-                in 30.0..69.0 -> tv_level.text = context.getString(R.string.sdk_report_nor)
-                else -> tv_level.text = context.getString(R.string.sdk_report_high)
+                in 0.0..29.0 -> tv_unit.text = "(${context.getString(R.string.sdk_report_low)})"
+                in 30.0..69.0 -> tv_unit.text = "(${context.getString(R.string.sdk_report_nor)})"
+                else -> tv_unit.text = "(${context.getString(R.string.sdk_report_high)})"
             }
             tv_level.setTextColor(mLevelTextColor)
             var bg = tv_level.background as GradientDrawable
@@ -247,7 +248,6 @@ class TrendCommonBarChart @JvmOverloads constructor(
         } else {
             tv_unit.visibility = View.VISIBLE
             tv_level.visibility = View.GONE
-            tv_unit.setTextColor(mTextColor)
             tv_unit.text = mUnit
         }
         tv_value.setTextColor(mMainColor)
