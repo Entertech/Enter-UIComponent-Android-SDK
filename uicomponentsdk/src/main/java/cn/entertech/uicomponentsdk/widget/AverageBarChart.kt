@@ -42,6 +42,7 @@ class AverageBarChart @JvmOverloads constructor(
     private var mSecondTextColor: Int = Color.parseColor("#666666")
     private var mAverageLineColor: Int = Color.parseColor("#FB9C98")
     private var mBackground: Int? = Color.WHITE
+    private val BAR_TOTAL_COUNT = 7
 
     init {
         var typeArray = context.obtainStyledAttributes(attributeSet, R.styleable.AverageBarChart)
@@ -130,9 +131,9 @@ class AverageBarChart @JvmOverloads constructor(
             }
             var barHeight = mTransferValues[i] * scaleHeight
             var barRect = Rect(
-                (legendTextWidth + barWidth * (2 * i + 1.5)).toInt(),
+                (legendTextWidth + barWidth * (2 * (i + (BAR_TOTAL_COUNT - mTransferValues.size)) + 1.5)).toInt(),
                 -barHeight.toInt(),
-                (legendTextWidth + (2 * i + 2.5) * barWidth).toInt(),
+                (legendTextWidth + (2 * (i + (BAR_TOTAL_COUNT - mTransferValues.size)) + 2.5) * barWidth).toInt(),
                 0
             )
             canvas?.drawRect(barRect, mBarPaint)
@@ -149,9 +150,9 @@ class AverageBarChart @JvmOverloads constructor(
     private fun onDrawValue(canvas: Canvas?, i: Int) {
         var barHeight = mTransferValues[i] * scaleHeight
         var valueRect = Rect(
-            (legendTextWidth + barWidth * (2 * i + 1.5)).toInt(),
+            (legendTextWidth + barWidth * (2 * (i + (BAR_TOTAL_COUNT - mTransferValues.size)) + 1.5)).toInt(),
             -barHeight.toInt() - ScreenUtil.dip2px(context, 4f),
-            (legendTextWidth + (2 * i + 2.5) * barWidth).toInt(),
+            (legendTextWidth + (2 * (i + (BAR_TOTAL_COUNT - mTransferValues.size)) + 2.5) * barWidth).toInt(),
             (-barHeight.toInt() - ScreenUtil.dip2px(context, 4f) - barWidth).toInt()
         )
         mBarPaint.color = mBarValueBgColor
@@ -186,7 +187,7 @@ class AverageBarChart @JvmOverloads constructor(
         ) - barWidth * 0.5 + offset).toFloat()
         canvas?.drawText(
             "$lastValue",
-            (legendTextWidth + barWidth * (2 * i + 2f)),
+            (legendTextWidth + barWidth * (2 * (i + (BAR_TOTAL_COUNT - mTransferValues.size)) + 2f)),
             offsetDescent,
             mBarPaint
         )
