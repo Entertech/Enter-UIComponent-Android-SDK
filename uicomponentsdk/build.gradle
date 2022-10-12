@@ -23,6 +23,9 @@ android {
     lintOptions {
         abortOnError false
     }
+    lint {
+        baseline = file("lint-baseline.xml")
+    }
 
 }
 

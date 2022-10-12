@@ -476,7 +476,7 @@ class TrendCommonBarChart @JvmOverloads constructor(
         chart.setVisibleXRangeMaximum(mChartVisibleXRangeMaximum)
         chart.viewTreeObserver.addOnGlobalLayoutListener {
             if (firstIn) {
-                initLowestAndHighestVisibleData()
+//                initLowestAndHighestVisibleData()
                 translateChartX(chart, -Float.MAX_VALUE)
             }
         }
@@ -641,8 +641,8 @@ class TrendCommonBarChart @JvmOverloads constructor(
     }
 
     fun initLowestAndHighestVisibleData() {
-        lowestVisibleData = set.getEntryForXValue(chart.lowestVisibleX, 0f).data as BarSourceData
-        highestVisibleData = set.getEntryForXValue(chart.highestVisibleX, 0f).data as BarSourceData
+        lowestVisibleData = set.getEntryForXValue(chart.lowestVisibleX, 0f)?.data as BarSourceData
+        highestVisibleData = set.getEntryForXValue(chart.highestVisibleX, 0f)?.data as BarSourceData
     }
 
     var downX = 0f

@@ -491,7 +491,7 @@ class TrendPressureChart @JvmOverloads constructor(
         chart.setVisibleXRangeMaximum(mChartVisibleXRangeMaximum)
         chart.viewTreeObserver.addOnGlobalLayoutListener {
             if (firstIn) {
-                initLowestAndHighestVisibleData()
+//                initLowestAndHighestVisibleData()
                 translateChartX(chart, -Float.MAX_VALUE)
             }
         }
@@ -675,8 +675,8 @@ class TrendPressureChart @JvmOverloads constructor(
     }
 
     fun initLowestAndHighestVisibleData() {
-        lowestVisibleData = set.getEntryForXValue(chart.lowestVisibleX, 0f).data as LineSourceData
-        highestVisibleData = set.getEntryForXValue(chart.highestVisibleX, 0f).data as LineSourceData
+        lowestVisibleData = set.getEntryForXValue(chart.lowestVisibleX, 0f)?.data as LineSourceData
+        highestVisibleData = set.getEntryForXValue(chart.highestVisibleX, 0f)?.data as LineSourceData
     }
 
     var downX = 0f
