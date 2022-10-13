@@ -3,7 +3,7 @@ package cn.entertech.uicomponentsdk.utils
 import java.util.ArrayList
 
 
-fun formatData(datas: List<Double>): MutableList<Double>{
+fun formatData(datas: List<Double>): MutableList<Double> {
     var newData = ArrayList<Double>()
     var firstNotZeroValue = 0.0
     for (data in datas) {
@@ -26,5 +26,22 @@ fun formatData(datas: List<Double>): MutableList<Double>{
             lastValue = datas[i]
         }
     }
-    return newData
+    return smoothData(newData)
+}
+
+fun smoothData(datas: MutableList<Double>): MutableList<Double> {
+    var newData = ArrayList<Double>()
+    if (datas.isEmpty()) {
+        return newData
+    } else {
+        for (i in datas.indices) {
+            if (i == 0 || i == datas.size - 1) {
+                newData.add(datas[i])
+            } else {
+                val average = (datas[i - 1] + datas[i] + datas[i+1]) / 3
+                newData.add(average)
+            }
+        }
+        return newData
+    }
 }
