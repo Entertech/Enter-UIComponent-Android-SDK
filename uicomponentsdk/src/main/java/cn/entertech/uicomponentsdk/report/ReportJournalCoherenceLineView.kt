@@ -3,9 +3,7 @@ package cn.entertech.uicomponentsdk.report
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
-import androidx.core.content.ContextCompat
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.utils.dp
 import cn.entertech.uicomponentsdk.utils.formatData
@@ -112,7 +110,15 @@ class ReportJournalCoherenceLineView @JvmOverloads constructor(
             onDrawFlagLine(canvas)
         }
     }
-
+//    private fun scale(bitmap:Bitmap,rate:Float):Bitmap {
+//        val matrix = Matrix();
+//        matrix.postScale(rate,rate)
+//        val bmpRet = Bitmap.createBitmap(bitmap.width * rate.toInt(), bitmap.height * rate.toInt(), Bitmap.Config.ARGB_8888)
+//        val canvas = Canvas(bmpRet)
+//        val paint = Paint()
+//        canvas.drawBitmap(bitmap, matrix, paint)
+//        return bmpRet
+//    }
     fun onDrawGripBitmap(canvas: Canvas) {
         val bitmap = BitmapFactory.decodeResource(context.resources, R.mipmap.pic_chart_grid_bg)
         val widthRate = width * 1f / bitmap.width
@@ -145,6 +151,7 @@ class ReportJournalCoherenceLineView @JvmOverloads constructor(
                 PorterDuff.Mode.SRC_IN
             )
             gridLinePaint.colorFilter = filter
+            canvas.scale(2f,2f)
             canvas.drawBitmap(bitmap, rectBitmap, rectF, gridLinePaint)
             canvas.translate(width.toFloat(), 0f)
         }
