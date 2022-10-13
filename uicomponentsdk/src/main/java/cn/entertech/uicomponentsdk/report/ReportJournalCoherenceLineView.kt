@@ -8,6 +8,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.utils.dp
+import cn.entertech.uicomponentsdk.utils.formatData
 import kotlin.math.ceil
 
 
@@ -217,19 +218,23 @@ class ReportJournalCoherenceLineView @JvmOverloads constructor(
         if (indexs.isNullOrEmpty() || indexs.size < 2) {
             return
         }
-        var dataMax = mData!!.maxOrNull()
-        var dataMin = mData!!.minOrNull()
+        var dataMax = mData!!.maxOrNull()?:100.0
+        var dataMin = mData!!.minOrNull()?:0.0
         if (dataMax == dataMin) {
             dataMax = LINE_VALUE_MAX
             dataMin = LINE_VALUE_MIN
         }
-        val dataScale = (height - 2 * gridLineYPadding) / (dataMax!! - dataMin!!)
+        dataMax += (dataMax - dataMin) / 8.0
+        dataMin -= (dataMax - dataMin) / 8.0
+        if (dataMin < 0){
+            dataMax == 0.0
+        }
+        val dataScale = (height - 2 * gridLineYPadding) / (dataMax - dataMin)
         val dataOffset = (width - LEFT_BAR_WIDTH) / (mData!!.size - 1)
         val linePath = Path()
         for (i in indexs.indices) {
             val curX = dataOffset * indexs[i] + LEFT_BAR_WIDTH
             val curY = (mData!![indexs[i]] - dataMin) * dataScale + gridLineYPadding
-            Log.d("#####", "cur y is $curY")
             if (i == 0) {
                 linePath.moveTo(curX, -curY.toFloat())
             } else {
@@ -246,7 +251,7 @@ class ReportJournalCoherenceLineView @JvmOverloads constructor(
 
     fun setData(data: MutableList<Double>, flags: MutableList<Int>) {
         this.flags = flags
-        this.mData = data
+        this.mData = formatData(data)
         invalidate()
     }
 }

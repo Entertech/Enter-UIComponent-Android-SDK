@@ -3,7 +3,7 @@ package cn.entertech.uicomponentsdk.utils
 import java.util.ArrayList
 
 
-fun formatData(datas: List<Double>): List<Double>{
+fun formatData(datas: List<Double>): MutableList<Double>{
     var newData = ArrayList<Double>()
     var firstNotZeroValue = 0.0
     for (data in datas) {
