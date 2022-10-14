@@ -40,6 +40,7 @@ import kotlinx.android.synthetic.main.layout_card_attention.view.rl_bg
 import kotlinx.android.synthetic.main.layout_card_attention.view.tv_time_unit_des
 import kotlinx.android.synthetic.main.layout_session_common_chart.view.*
 import java.lang.Exception
+import java.text.DecimalFormat
 import kotlin.collections.ArrayList
 import kotlin.math.ceil
 import kotlin.math.floor
@@ -50,6 +51,7 @@ class SessionCommonChart @JvmOverloads constructor(
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
+    private var mIsDataAverageInt: Boolean = true
     private var lineFlagTotalTime: Int? = 0
     private var mDataType: Int = 0
     private var mSourceDataList: List<Double>? = null
@@ -58,7 +60,7 @@ class SessionCommonChart @JvmOverloads constructor(
     private var mLevelTextColor: Int = Color.parseColor("#2B2E40")
     private var mIsShowLevel: Boolean = false
     private var dataTotalTimeMs: Int = 0
-    private var mDataAverage: Int = 0
+    private var mDataAverage: Double = 0.0
     private var mXAxisLineColor: Int = Color.parseColor("#9AA1A9")
     private var mIsShowXAxisUnit: Boolean = false
     private var mTitleUnit: String? = ""
@@ -207,11 +209,13 @@ class SessionCommonChart @JvmOverloads constructor(
             )
         mTimeUnit =
             typeArray.getInteger(R.styleable.SessionCommonChart_scc_timeUnit, mTimeUnit)
-        mLineWidth = ScreenUtil.px2dip(context,
+        mLineWidth = ScreenUtil.px2dip(
+            context,
             typeArray.getDimension(
                 R.styleable.SessionCommonChart_scc_lineWidth,
                 mLineWidth
-            )).toFloat()
+            )
+        ).toFloat()
         mXAxisUnit = typeArray.getString(R.styleable.SessionCommonChart_scc_xAxisUnit)
         mIsDrawFill =
             typeArray.getBoolean(R.styleable.SessionCommonChart_scc_isDrawFill, false)
@@ -256,7 +260,9 @@ class SessionCommonChart @JvmOverloads constructor(
             R.styleable.SessionCommonChart_scc_valueLevelTextColor,
             mLevelTextColor
         )
-        mDataType = typeArray.getInt(R.styleable.SessionCommonChart_scc_dataType,0)
+        mIsDataAverageInt =
+            typeArray.getBoolean(R.styleable.SessionCommonChart_scc_isDataAverageInt, true)
+        mDataType = typeArray.getInt(R.styleable.SessionCommonChart_scc_dataType, 0)
         typeArray.recycle()
         initView()
     }
@@ -359,8 +365,9 @@ class SessionCommonChart @JvmOverloads constructor(
                     intent.putExtra("levelBgColor", mLevelBgColor)
                     intent.putExtra("levelTextColor", mLevelTextColor)
                     intent.putExtra("startTime", mStartTime)
-                    intent.putExtra("dataTotalTime",dataTotalTimeMs)
-                    intent.putExtra("lineFlagTotalTime",lineFlagTotalTime)
+                    intent.putExtra("dataTotalTime", dataTotalTimeMs)
+                    intent.putExtra("lineFlagTotalTime", lineFlagTotalTime)
+                    intent.putExtra("isDataAverageInt", mIsDataAverageInt)
                     context.startActivity(intent)
                 }
 
@@ -415,7 +422,7 @@ class SessionCommonChart @JvmOverloads constructor(
 
     @SuppressLint("SetTextI18n")
     fun setData(
-        data: List<Double>?,dataAverage:Double?= null,
+        data: List<Double>?, dataAverage: Double? = null,
         lineFlagData: List<Double>? = null,
         lineFlagTotalTime: Int? = null,
         isShowAllData: Boolean = false
@@ -426,10 +433,10 @@ class SessionCommonChart @JvmOverloads constructor(
         this.mSourceDataList = data
         this.dataTotalTimeMs = data.size * mTimeUnit
         this.lineFlagTotalTime = lineFlagTotalTime
-        if (dataAverage == null){
-            this.mDataAverage = data.average().toInt()
-        }else{
-            this.mDataAverage = dataAverage.toInt()
+        if (dataAverage == null) {
+            this.mDataAverage = data.average()
+        } else {
+            this.mDataAverage = dataAverage
         }
         this.mFirstData = formatData(data)
         this.mLineFlagData = lineFlagData
@@ -449,14 +456,20 @@ class SessionCommonChart @JvmOverloads constructor(
                 tv_description.text = context.getString(R.string.chart_title_total)
             }
         } else {
+            var average = if (mIsDataAverageInt) {
+                "${mDataAverage.toInt()}"
+            } else {
+                var decimalFormat = DecimalFormat("0.0")
+                decimalFormat.format(mDataAverage)
+            }
+            tv_value.text = average
             mLineColor = mMainColor
-            tv_value.text = "$mDataAverage"
             tv_description.text = context.getString(R.string.chart_title_average)
         }
-        if (mIsShowLevel){
+        if (mIsShowLevel) {
             when (mDataAverage) {
-                in 0..29 -> tv_unit.text = "(${context.getString(R.string.sdk_report_low)})"
-                in 30..69 -> tv_unit.text = "(${context.getString(R.string.sdk_report_nor)})"
+                in 0.0..29.0 -> tv_unit.text = "(${context.getString(R.string.sdk_report_low)})"
+                in 30.0..69.0 -> tv_unit.text = "(${context.getString(R.string.sdk_report_nor)})"
                 else -> tv_unit.text = "(${context.getString(R.string.sdk_report_high)})"
             }
         }
@@ -512,9 +525,9 @@ class SessionCommonChart @JvmOverloads constructor(
         var tempLineValues: ArrayList<Entry>? = null
         var isFindFirstPointInSecondLine = false
         for (i in mSampleData!!.indices) {
-            if (mSampleSecondData != null){
-                values.add(Entry(i.toFloat(), mSampleData!![i].toFloat(),mSampleSecondData!![i]))
-            }else{
+            if (mSampleSecondData != null) {
+                values.add(Entry(i.toFloat(), mSampleData!![i].toFloat(), mSampleSecondData!![i]))
+            } else {
                 values.add(Entry(i.toFloat(), mSampleData!![i].toFloat()))
             }
         }
@@ -716,11 +729,16 @@ class SessionCommonChart @JvmOverloads constructor(
         chart.isDragEnabled = mIsChartEnable
         chart.isScaleXEnabled = mIsChartEnable
         chart.isScaleYEnabled = false
-        val marker = SessionCommonChartMarkView(context, mMarkViewTitle,mStartTime,mSampleSecondData!=null)
+        val marker = SessionCommonChartMarkView(
+            context,
+            mMarkViewTitle,
+            mStartTime,
+            mSampleSecondData != null
+        )
         marker.chartView = chart
         marker.setMainColor(mMainColor)
         marker.setTextColor(mTextColor)
-        marker.setShowLevel(mIsShowLevel,mLevelTextColor,mLevelBgColor)
+        marker.setShowLevel(mIsShowLevel, mLevelTextColor, mLevelBgColor)
         marker.setUnit(mTitleUnit)
         marker.setYOffset(10f.dp())
         marker.setMarkViewBgColor(mMarkViewBgColor)
@@ -966,22 +984,27 @@ class SessionCommonChart @JvmOverloads constructor(
         initView()
     }
 
-    fun setDataTotalTimeMs(time:Int){
+    fun setDataTotalTimeMs(time: Int) {
         this.dataTotalTimeMs = time
         initView()
     }
 
-    fun setMainColor(mainColor:Int){
+    fun setMainColor(mainColor: Int) {
         this.mMainColor = mainColor
         initView()
     }
 
-    fun setDataType(dataType:Int){
+    fun setDataType(dataType: Int) {
         this.mDataType = dataType
         initView()
     }
 
-    fun setLineFlagTotalTime(lineFlagTotalTime:Int){
+    fun setDataAverageInt(flag:Boolean){
+        this.mIsDataAverageInt = flag
+        initView()
+    }
+
+    fun setLineFlagTotalTime(lineFlagTotalTime: Int) {
         this.lineFlagTotalTime = lineFlagTotalTime
         initView()
     }

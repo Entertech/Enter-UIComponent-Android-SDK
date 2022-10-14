@@ -267,6 +267,7 @@
                     app:scc_showXAxisUnit="false"
                     app:scc_textColor="#7A7C8A"
                     app:scc_timeUnit="400"
+                    app:scc_isDataAverageInt="true"
                     app:scc_titleMenuIcon="@drawable/vector_drawable_full_screen"
                     app:scc_title_description="TOTAL"
                     app:scc_title_unit="min"
