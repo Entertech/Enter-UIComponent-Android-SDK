@@ -33,6 +33,7 @@ class ReportAverageChartCard @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var mAverageLineColor: Int = Color.parseColor("#FB9C98")
     private var mLevels: List<Level>? = null
     private var mShowLevelOnly: Boolean = false
     private var mSelectorTextColor: Int = Color.parseColor("#080A0E")
@@ -101,6 +102,7 @@ class ReportAverageChartCard @JvmOverloads constructor(
             typeArray.getString(R.styleable.ReportAverageChartCard_racc_tag)
         mUnit = typeArray.getString(R.styleable.ReportAverageChartCard_racc_unit)
         mBarColor = typeArray.getColor(R.styleable.ReportAverageChartCard_racc_barColor, mBarColor)
+        mAverageLineColor = typeArray.getColor(R.styleable.ReportAverageChartCard_racc_averageLineColor, mAverageLineColor)
         mBarHighLightColor = typeArray.getColor(
             R.styleable.ReportAverageChartCard_racc_barHighLightColor,
             mBarHighLightColor
@@ -224,6 +226,7 @@ class ReportAverageChartCard @JvmOverloads constructor(
     fun initChart() {
         average_bar_chart.setAverageInt(mIsAverageInt)
         average_bar_chart.setUnit(mUnit)
+        average_bar_chart.setAverageLineColor(mAverageLineColor)
         average_bar_chart.setBarColor(mBarColor)
         average_bar_chart.setPrimaryTextColor(mMainColor)
         average_bar_chart.setSecondTextColor(mTextColor)
@@ -304,6 +307,11 @@ class ReportAverageChartCard @JvmOverloads constructor(
 
     fun showLevelOnly(showLevelOnly:Boolean){
         this.mShowLevelOnly = showLevelOnly
+        initView()
+    }
+
+    fun setAverageLineColor(color:Int){
+        this.mAverageLineColor = color
         initView()
     }
 

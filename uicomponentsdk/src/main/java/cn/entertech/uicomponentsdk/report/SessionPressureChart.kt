@@ -306,7 +306,7 @@ class SessionPressureChart @JvmOverloads constructor(
         } else {
             26f.dp()
         }
-        tv_description.text = "AVERAGE"
+        tv_description.text = context.getString(R.string.chart_title_average)
         tv_description.setTextColor(mTextColor)
 
 

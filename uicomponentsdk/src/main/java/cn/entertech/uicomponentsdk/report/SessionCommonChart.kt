@@ -446,12 +446,12 @@ class SessionCommonChart @JvmOverloads constructor(
             mSecondLineColor = mMainColor
             if (lineFlagTotalTime != null) {
                 tv_value.text = "$lineFlagTotalTime"
-                tv_description.text = "TOTAL"
+                tv_description.text = context.getString(R.string.chart_title_total)
             }
         } else {
             mLineColor = mMainColor
             tv_value.text = "$mDataAverage"
-            tv_description.text = "AVERAGE"
+            tv_description.text = context.getString(R.string.chart_title_average)
         }
         if (mIsShowLevel){
             when (mDataAverage) {

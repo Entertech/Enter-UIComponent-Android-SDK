@@ -56,6 +56,11 @@ class TrendCommonBarChart @JvmOverloads constructor(
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
+    var mIsDataTime: Boolean = false
+    set(value) {
+        field = value
+        initView()
+    }
     private var mDataAverage: Double = 0.0
     private var mLevelTextColor: Int = Color.GRAY
     private var mLevelBgColor: Int = Color.GRAY
@@ -195,6 +200,7 @@ class TrendCommonBarChart @JvmOverloads constructor(
             R.styleable.TrendCommonBarChart_tcbc_valueLevelTextColor,
             mLevelTextColor
         )
+        mIsDataTime = typeArray.getBoolean(R.styleable.TrendCommonBarChart_tcbc_isDataTime,mIsDataTime)
         typeArray.recycle()
         initView()
     }
@@ -283,6 +289,7 @@ class TrendCommonBarChart @JvmOverloads constructor(
                 intent.putExtra("levelBgColor", mLevelBgColor)
                 intent.putExtra("levelTextColor", mLevelTextColor)
                 intent.putExtra("xAxisLineColor", mXAxisLineColor)
+                intent.putExtra("isDataTime", mIsDataTime)
                 context.startActivity(intent)
             }
         }
@@ -430,10 +437,10 @@ class TrendCommonBarChart @JvmOverloads constructor(
     fun setData(data: ArrayList<BarSourceData>?, cycle: String) {
         when (cycle) {
             "month" -> {
-                tv_title.text = "DAILY AVERAGE"
+                tv_title.text = context.getString(R.string.chart_daily_average)
             }
             "year" -> {
-                tv_title.text = "MONTHLY AVERAGE"
+                tv_title.text = context.getString(R.string.chart_monthly_average)
             }
         }
         if (data == null) {
@@ -559,9 +566,17 @@ class TrendCommonBarChart @JvmOverloads constructor(
         chart.isScaleXEnabled = false
         chart.isScaleYEnabled = false
         val markViewTitle = if (mCycle == "month") {
-            "DAILY AVERAGE"
+            if (mIsDataTime){
+                context.getString(R.string.chart_daily_total)
+            }else{
+                context.getString(R.string.chart_daily_average)
+            }
         } else {
-            "MONTHLY AVERAGE"
+            if (mIsDataTime){
+                context.getString(R.string.chart_monthly_total)
+            }else{
+                context.getString(R.string.chart_monthly_average)
+            }
         }
         val marker = BarChartMarkView(context, markViewTitle, mCycle)
         marker.chartView = chart

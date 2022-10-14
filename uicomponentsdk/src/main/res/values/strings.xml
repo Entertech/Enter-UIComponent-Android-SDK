@@ -62,4 +62,15 @@
     <string name="pressure_level_simple_high">high.</string>
     <string name="report_chart_share">Share</string>
     <string name="report_chart_expand">Expand</string>
+    <string name="chart_title_total">TOTAL</string>
+    <string name="chart_title_average">AVERAGE</string>
+    <string name="chart_coherent">Coherent</string>
+    <string name="chart_incoherent">Incoherent</string>
+    <string name="chart_state">STATE</string>
+    <string name="chart_daily_average_percentage">DAILY AVERAGE PERCENTAGE</string>
+    <string name="chart_month_average_percentage">MONTHLY AVERAGE PERCENTAGE</string>
+    <string name="chart_daily_average">DAILY AVERAGE</string>
+    <string name="chart_monthly_average">MONTHLY AVERAGE</string>
+    <string name="chart_daily_total">DAILY TOTAL</string>
+    <string name="chart_monthly_total">MONTHLY TOTAL</string>
 </resources>

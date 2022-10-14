@@ -434,9 +434,9 @@ class TrendPressureChart @JvmOverloads constructor(
     var yLimitLineValues = listOf(25f, 50f, 75f)
     fun setData(data: ArrayList<LineSourceData>?, cycle: String) {
         val title = if (cycle == "month") {
-            "DAILY AVERAGE"
+            context.getString(R.string.chart_daily_average)
         } else {
-            "MONTHLY AVERAGE"
+            context.getString(R.string.chart_monthly_average)
         }
         tv_title.text = title
         if (data == null) {
@@ -575,9 +575,9 @@ class TrendPressureChart @JvmOverloads constructor(
         chart.isScaleXEnabled = false
         chart.isScaleYEnabled = false
         var markViewTitle = if (mCycle == "month") {
-            "DAILY AVERAGE"
+            context.getString(R.string.chart_daily_average)
         } else {
-            "MONTHLY AVERAGE"
+            context.getString(R.string.chart_monthly_average)
         }
         var marker = PressureTrendChartMarkView(context, markViewTitle,mCycle)
         marker.chartView = chart

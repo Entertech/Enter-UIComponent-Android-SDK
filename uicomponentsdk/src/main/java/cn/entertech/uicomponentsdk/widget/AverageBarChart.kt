@@ -389,4 +389,9 @@ class AverageBarChart @JvmOverloads constructor(
         this.mLevels = levels
         invalidate()
     }
+
+    fun setAverageLineColor(color:Int){
+        this.mAverageLineColor = color
+        invalidate()
+    }
 }

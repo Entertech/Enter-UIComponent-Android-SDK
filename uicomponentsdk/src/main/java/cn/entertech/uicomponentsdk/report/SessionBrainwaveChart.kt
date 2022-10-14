@@ -755,7 +755,7 @@ class SessionBrainwaveChart @JvmOverloads constructor(
             override fun getAxisLabel(
                 value: Float, base: AxisBase
             ): String? {
-                Log.d("####", "x entry is " + Arrays.toString(xAxis.mEntries))
+//                Log.d("####", "x entry is " + Arrays.toString(xAxis.mEntries))
                 return "${String.format("%.1f", value * 0.8f / 60)}"
             }
         }

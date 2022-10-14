@@ -415,6 +415,7 @@
         <attr name="tcbc_isShowLevel" format="boolean"/>
         <attr name="tcbc_valueLevelBgColor" format="color" />
         <attr name="tcbc_valueLevelTextColor" format="color" />
+        <attr name="tcbc_isDataTime" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="TrendPressureChart">
@@ -734,6 +735,7 @@
         <attr name="racc_textColor" format="color" />
         <attr name="racc_background" format="color|reference" />
         <attr name="racc_barColor" format="color" />
+        <attr name="racc_averageLineColor" format="color" />
         <attr name="racc_barHighLightColor" format="color" />
         <attr name="racc_barValueBgColor" format="color" />
         <attr name="racc_tag" format="string" />

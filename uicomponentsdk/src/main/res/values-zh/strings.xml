@@ -62,4 +62,15 @@
     <string name="pressure_level_simple_high">高</string>
     <string name="report_chart_share">分享</string>
     <string name="report_chart_expand">全屏</string>
+    <string name="chart_title_total">总计</string>
+    <string name="chart_title_average">平均</string>
+    <string name="chart_coherent">和谐</string>
+    <string name="chart_incoherent">不和谐</string>
+    <string name="chart_state">状态</string>
+    <string name="chart_daily_average_percentage">日均百分比</string>
+    <string name="chart_month_average_percentage">月均百分比</string>
+    <string name="chart_daily_average">日均</string>
+    <string name="chart_monthly_average">月均</string>
+    <string name="chart_daily_total">总计</string>
+    <string name="chart_monthly_total">每月总计</string>
 </resources>

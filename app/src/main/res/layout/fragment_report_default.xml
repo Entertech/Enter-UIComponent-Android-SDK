@@ -50,6 +50,7 @@
                     app:racc_selectorIconColor="@color/white"
                     android:layout_width="match_parent"
                     app:racc_unit="ms"
+                    app:racc_averageLineColor="#ff0000"
                     android:layout_height="wrap_content"/>
             <cn.entertech.uicomponentsdk.report.CommonReportCurveCard
                     android:id="@+id/card_flow"

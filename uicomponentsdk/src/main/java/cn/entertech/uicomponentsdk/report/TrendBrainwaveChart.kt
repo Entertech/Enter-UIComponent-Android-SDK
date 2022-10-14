@@ -48,7 +48,6 @@ import kotlinx.android.synthetic.main.layout_card_brainwave_trend_chart.view.iv_
 import kotlinx.android.synthetic.main.layout_card_brainwave_trend_chart.view.tv_date
 import kotlinx.android.synthetic.main.layout_card_brainwave_trend_chart.view.tv_title
 import java.io.Serializable
-import kotlin.math.abs
 
 class TrendBrainwaveChart @JvmOverloads constructor(
     context: Context,
@@ -604,10 +603,10 @@ class TrendBrainwaveChart @JvmOverloads constructor(
         this.mChartVisibleXRangeMaximum = initChartVisibleXRangeMaximum(cycle)
         when (mCycle) {
             "month" -> {
-                tv_title.text = "DAILY AVERAGE PERCENTAGE"
+                tv_title.text = context.getString(R.string.chart_daily_average_percentage)
             }
             "year" -> {
-                tv_title.text = "MONTHLY AVERAGE PERCENTAGE"
+                tv_title.text = context.getString(R.string.chart_month_average_percentage)
             }
         }
         refreshChart()
@@ -740,9 +739,9 @@ class TrendBrainwaveChart @JvmOverloads constructor(
         chart.isScaleXEnabled = false
         chart.isScaleYEnabled = false
         var markViewTitle = if (mCycle == "month") {
-            "DAILY AVERAGE PERCENTAGE"
+            context.getString(R.string.chart_daily_average_percentage)
         } else {
-            "MONTH AVERAGE PERCENTAGE"
+            context.getString(R.string.chart_month_average_percentage)
         }
         val marker = BrainwaveTrendChartMarkView(
             context,

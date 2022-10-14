@@ -458,10 +458,10 @@ class TrendCommonCandleChart @JvmOverloads constructor(
     fun setData(data: ArrayList<CandleSourceData>?, cycle: String) {
         when (cycle) {
             "month" -> {
-                tv_title.text = "DAILY AVERAGE"
+                tv_title.text = context.getString(R.string.chart_daily_average)
             }
             "year" -> {
-                tv_title.text = "MONTHLY AVERAGE"
+                tv_title.text = context.getString(R.string.chart_monthly_average)
             }
         }
         if (data == null || data.isEmpty()) {
@@ -603,9 +603,9 @@ class TrendCommonCandleChart @JvmOverloads constructor(
         chart.isScaleXEnabled = false
         chart.isScaleYEnabled = false
         val markViewTitle = if (mCycle == "month") {
-            "DAILY AVERAGE"
+            context.getString(R.string.chart_daily_average)
         } else {
-            "MONTHLY AVERAGE"
+            context.getString(R.string.chart_monthly_average)
         }
         val marker = CandleChartMarkView(context, markViewTitle, mCycle)
         marker.chartView = chart

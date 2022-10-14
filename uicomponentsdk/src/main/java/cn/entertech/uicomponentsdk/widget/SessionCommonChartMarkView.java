@@ -75,16 +75,16 @@ public class SessionCommonChartMarkView extends MarkerView {
             if (e.getData() != null ) {
                 double coherenceFlag = (double)e.getData();
                 if (coherenceFlag >0.0){
-                    tvValue.setText("Coherent");
+                    tvValue.setText(R.string.chart_coherent);
                 }else{
-                    tvValue.setText("Incoherent");
+                    tvValue.setText(R.string.chart_incoherent);
                 }
             } else {
-                tvValue.setText("Incoherent");
+                tvValue.setText(R.string.chart_incoherent);
             }
             tvLevel.setVisibility(View.GONE);
             tvUnit.setVisibility(View.GONE);
-            tvMarkTitle.setText("COHERENCE STATE");
+            tvMarkTitle.setText(R.string.chart_state);
         } else {
             tvValue.setText(value);
             tvMarkTitle.setText(mMarkText);

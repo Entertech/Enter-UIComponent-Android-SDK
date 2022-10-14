@@ -40,6 +40,7 @@ class BarChartFullScreenActivity : AppCompatActivity() {
         var levelBgColor = intent.getIntExtra("levelBgColor",Color.RED)
         var levelTextColor = intent.getIntExtra("levelTextColor",Color.RED)
         var xAxisLineColor = intent.getIntExtra("xAxisLineColor",Color.RED)
+        var isDataTime = intent.getBooleanExtra("isDataTime",false)
 
         chart_bar.setLineWidth(lineWidth)
         chart_bar.isFullScreen = true
@@ -63,6 +64,7 @@ class BarChartFullScreenActivity : AppCompatActivity() {
         chart_bar.setLevelBgColor(levelBgColor)
         chart_bar.setLevelTextColor(levelTextColor)
         chart_bar.setXAxisLineColor(xAxisLineColor)
+        chart_bar.mIsDataTime = isDataTime
         chart_bar.setData(lineData,cycle)
     }
 }
