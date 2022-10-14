@@ -10,7 +10,7 @@ afterEvaluate {
 
                 groupId = 'cn.entertech.android'//公司域名
                 artifactId = 'uicomponentsdk'//该aar包的名称
-                version = '1.4.2-alpha28'//版本号
+                version = '1.4.2-alpha31'//版本号
 
                 // 必须有这个 否则不会上传AAR包
                 afterEvaluate { artifact(tasks.getByName("bundleReleaseAar")) }

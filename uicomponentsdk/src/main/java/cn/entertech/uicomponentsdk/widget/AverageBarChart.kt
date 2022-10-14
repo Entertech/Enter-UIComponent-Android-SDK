@@ -236,6 +236,7 @@ class AverageBarChart @JvmOverloads constructor(
         if (transferAverage >= 128) {
             transferAverage = 114f
         }
+        mAverageLinePaint.color = mAverageLineColor
         canvas?.drawLine(
             0f,
             -transferAverage * scaleHeight,

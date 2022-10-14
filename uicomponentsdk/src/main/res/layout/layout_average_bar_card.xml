@@ -11,9 +11,8 @@
 
     <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_selector"
-            style="@style/text_body_regular"
             android:layout_width="match_parent"
-            android:layout_height="28dp"
+            android:layout_height="32dp"
             android:layout_marginHorizontal="@dimen/activity_margin"
             android:layout_marginBottom="@dimen/activity_margin"
             android:autoSizeTextType="uniform"
@@ -23,6 +22,7 @@
             android:insetBottom="0dp"
             android:paddingHorizontal="@dimen/activity_margin"
             android:text="test"
+            android:textSize="18sp"
             android:textColor="#080A0E"
             android:visibility="gone"
             app:icon="@drawable/vector_drawable_arrow_down"
