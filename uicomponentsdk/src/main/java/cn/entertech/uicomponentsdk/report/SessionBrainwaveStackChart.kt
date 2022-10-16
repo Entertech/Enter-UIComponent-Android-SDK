@@ -121,7 +121,7 @@ class SessionBrainwaveStackChart @JvmOverloads constructor(
     var mSelfView: View? = null
 
     /*数据时间间隔：单位毫秒*/
-    var mTimeUnit: Int = 700
+    var mTimeUnit: Int = 600
     var mPointCount: Int = 100
     var mTimeOfTwoPoint: Int = 0
     var isFullScreen = false

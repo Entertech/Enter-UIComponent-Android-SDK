@@ -263,7 +263,6 @@
                     app:scc_markViewBgColor="#F1F5F6"
                     app:scc_markViewTitle="@string/sdk_hrv"
                     app:scc_menuIconBg="@mipmap/pic_report_top_bg_hr"
-                    app:scc_pointCount="200"
                     app:scc_showXAxisUnit="false"
                     app:scc_textColor="#7A7C8A"
                     app:scc_timeUnit="400"
