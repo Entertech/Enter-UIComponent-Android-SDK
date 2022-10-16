@@ -32,6 +32,7 @@ class RealtimeLineChartView @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var mOnInfoClickListener: (() -> Unit)? = null
     private var mIsForPad: Boolean = false
     private var mVerticalPadding: Int = 1
     private var mOnDrawLastValueListener: OnDrawLastValueListener? = null
@@ -138,9 +139,7 @@ class RealtimeLineChartView @JvmOverloads constructor(
         }
 
         iv_brain_real_time_info.setOnClickListener {
-            if (mInfoUrl != null) {
-                toWebView(context, mInfoUrl!!, mWebTitle!!)
-            }
+            mOnInfoClickListener?.invoke()
         }
 
         tv_title.setTextColor(mMainColor)
@@ -326,5 +325,9 @@ class RealtimeLineChartView @JvmOverloads constructor(
     fun setVerticalPadding(padding: Int) {
         this.mVerticalPadding = padding
         initView()
+    }
+
+    fun setOnInfoClickListener(listener:()->Unit){
+        this.mOnInfoClickListener = listener
     }
 }

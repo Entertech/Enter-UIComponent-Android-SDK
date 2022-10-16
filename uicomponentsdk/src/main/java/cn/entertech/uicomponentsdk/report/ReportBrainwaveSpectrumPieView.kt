@@ -33,6 +33,7 @@ class ReportBrainwaveSpectrumPieView @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var mOnInfoClickListener: (() -> Unit)? = null
     private var mTopBg: Drawable?
     private var mIsShowTitleIcon: Boolean = true
     private var mIsShowTitleMenuIcon: Boolean = true
@@ -113,7 +114,10 @@ class ReportBrainwaveSpectrumPieView @JvmOverloads constructor(
             iv_menu.visibility = View.VISIBLE
             iv_menu.setImageDrawable(mTitleMenuIcon)
             iv_menu_icon.setImageDrawable(mTitleMenuIcon)
-            iv_menu_icon.visibility = View.VISIBLE
+            iv_menu_icon.visibility = View.GONE
+            iv_menu.setOnClickListener {
+                mOnInfoClickListener?.invoke()
+            }
         } else {
             iv_menu.visibility = View.GONE
             iv_menu_icon.visibility = View.GONE
@@ -229,5 +233,9 @@ class ReportBrainwaveSpectrumPieView @JvmOverloads constructor(
     fun setSpectrumColors(colors: List<Int>) {
         this.mSpectrumColors = colors
         initView()
+    }
+
+    fun setOnInfoClickListener(listener:()->Unit){
+        this.mOnInfoClickListener = listener
     }
 }

@@ -468,8 +468,8 @@ class SessionCommonChart @JvmOverloads constructor(
         }
         if (mIsShowLevel) {
             when (mDataAverage) {
-                in 0.0..29.0 -> tv_unit.text = "(${context.getString(R.string.sdk_report_low)})"
-                in 30.0..69.0 -> tv_unit.text = "(${context.getString(R.string.sdk_report_nor)})"
+                in 0.0..29.99 -> tv_unit.text = "(${context.getString(R.string.sdk_report_low)})"
+                in 30.0..69.99 -> tv_unit.text = "(${context.getString(R.string.sdk_report_nor)})"
                 else -> tv_unit.text = "(${context.getString(R.string.sdk_report_high)})"
             }
         }

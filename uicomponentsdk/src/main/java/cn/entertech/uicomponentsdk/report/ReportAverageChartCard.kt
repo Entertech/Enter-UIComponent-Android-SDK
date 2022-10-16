@@ -33,6 +33,7 @@ class ReportAverageChartCard @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
+    private var onInfoClickListener: (() -> Unit)? = null
     private var mAverageLineColor: Int = Color.parseColor("#FB9C98")
     private var mLevels: List<Level>? = null
     private var mShowLevelOnly: Boolean = false
@@ -217,7 +218,7 @@ class ReportAverageChartCard @JvmOverloads constructor(
         }
         if (mIsMenuIconInfo && mInfoUrl != null) {
             iv_menu.setOnClickListener {
-                toWebView(context, mInfoUrl!!, context.getString(R.string.last_7_time))
+                onInfoClickListener?.invoke()
             }
         }
         initChart()
@@ -313,6 +314,10 @@ class ReportAverageChartCard @JvmOverloads constructor(
     fun setAverageLineColor(color:Int){
         this.mAverageLineColor = color
         initView()
+    }
+
+    fun setOnInfoClickListener(listener:()->Unit){
+        this.onInfoClickListener = listener
     }
 
     data class Level(
