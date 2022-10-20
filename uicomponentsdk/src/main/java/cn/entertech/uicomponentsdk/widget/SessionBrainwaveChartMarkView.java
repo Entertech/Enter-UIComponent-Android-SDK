@@ -142,13 +142,23 @@ public class SessionBrainwaveChartMarkView extends MarkerView {
                     List<Entry> nextEntries = ((LineDataSet) dataSets.get(i + 1)).getValues();
                     for (int j = 0; j < curEntries.size(); j++) {
                         if (e.getX() == curEntries.get(j).getX()) {
-                            tvValues.get(labelInt).setText(Math.round(curEntries.get(j).getY()-Math.round(nextEntries.get(j).getY())) + "");
+                            int value = Math.round(curEntries.get(j).getY()-Math.round(nextEntries.get(j).getY()));
+                            if (value == 0){
+                                tvValues.get(labelInt).setText("--");
+                            }else{
+                                tvValues.get(labelInt).setText(value + "");
+                            }
                         }
                     }
                 }else{
                     for (int j = 0; j < curEntries.size(); j++) {
                         if (e.getX() == curEntries.get(j).getX()) {
-                            tvValues.get(labelInt).setText(Math.round(curEntries.get(j).getY()) + "");
+                            int value = Math.round(curEntries.get(j).getY());
+                            if (value == 0){
+                                tvValues.get(labelInt).setText("--");
+                            }else{
+                                tvValues.get(labelInt).setText(value);
+                            }
                         }
                     }
                 }

@@ -128,7 +128,11 @@ public class BrainwaveTrendChartMarkView extends MarkerView {
         valueList.add(brainwaveLineSourceData.getBeta());
         valueList.add(brainwaveLineSourceData.getAlpha());
         valueList.add(brainwaveLineSourceData.getTheta());
-        valueList.add(100f - brainwaveLineSourceData.getGamma() - brainwaveLineSourceData.getBeta() - brainwaveLineSourceData.getAlpha() - brainwaveLineSourceData.getTheta());
+        if ((brainwaveLineSourceData.getGamma() == 0f || brainwaveLineSourceData.getBeta() == 0f) || ((brainwaveLineSourceData.getGamma() == 20f || brainwaveLineSourceData.getBeta() == 20f))){
+            valueList.add(0f);
+        }else{
+            valueList.add(100f - brainwaveLineSourceData.getGamma() - brainwaveLineSourceData.getBeta() - brainwaveLineSourceData.getAlpha() - brainwaveLineSourceData.getTheta());
+        }
         if (dataSets == null) {
             return;
         }
@@ -148,7 +152,11 @@ public class BrainwaveTrendChartMarkView extends MarkerView {
             List<Entry> entry = dataSet.getValues();
             for (int j = 0; j < entry.size(); j++) {
                 if (e.getX() == entry.get(j).getX()) {
-                    tvValues.get(labelInt).setText((valueList.get(labelInt).intValue()) + "");
+                    if (valueList.get(labelInt).intValue() == 0){
+                        tvValues.get(labelInt).setText("--");
+                    }else{
+                        tvValues.get(labelInt).setText((valueList.get(labelInt).intValue()) + "");
+                    }
                 }
             }
         }

@@ -252,8 +252,12 @@ class SessionBrainwaveChart @JvmOverloads constructor(
         )
         mShowXAxisUnit =
             typeArray.getBoolean(R.styleable.SessionBrainwaveChart_sbc_showXAxisUnit, false)
-        mLegendBgColor = typeArray.getColor(R.styleable.SessionBrainwaveChart_sbc_legendBgColor,mLegendBgColor)
-        mLegendUnselectTextColor = typeArray.getColor(R.styleable.SessionBrainwaveChart_sbc_legendUnselectTextColor,mLegendUnselectTextColor)
+        mLegendBgColor =
+            typeArray.getColor(R.styleable.SessionBrainwaveChart_sbc_legendBgColor, mLegendBgColor)
+        mLegendUnselectTextColor = typeArray.getColor(
+            R.styleable.SessionBrainwaveChart_sbc_legendUnselectTextColor,
+            mLegendUnselectTextColor
+        )
         initView()
     }
 
@@ -278,7 +282,8 @@ class SessionBrainwaveChart @JvmOverloads constructor(
                 if (isFullScreen) {
                     (context as Activity).finish()
                 } else {
-                    var intent = Intent(context, SessionBrainwaveChartFullScreenActivity::class.java)
+                    var intent =
+                        Intent(context, SessionBrainwaveChartFullScreenActivity::class.java)
                     intent.putExtra("pointCount", mPointCount)
                     intent.putExtra("timeUnit", mTimeUnit)
                     intent.putExtra("highlightLineColor", mHighlightLineColor)
@@ -443,6 +448,23 @@ class SessionBrainwaveChart @JvmOverloads constructor(
         }
     }
 
+    fun setBrainwaveText(gamma: Int, beta: Int, alpha: Int, theta: Int) {
+        if ((gamma == 0 || beta == 0) || (gamma == 20 || beta == 20)) {
+            tv_gamma.text = "--"
+            tv_beta.text = "--"
+            tv_alpha.text = "--"
+            tv_theta.text = "--"
+            tv_delta.text = "--"
+        } else {
+            tv_gamma.text = "$gamma"
+            tv_beta.text = "$beta"
+            tv_alpha.text = "$alpha"
+            tv_theta.text = "$theta"
+            var delta = 100 - gamma - beta - alpha - theta
+            tv_delta.text = "$delta"
+        }
+    }
+
     fun setData(brainwaveSpectrums: List<ArrayList<Double>>?, isShowAllData: Boolean = false) {
         if (brainwaveSpectrums == null) {
             return
@@ -453,11 +475,7 @@ class SessionBrainwaveChart @JvmOverloads constructor(
         val betaValueAverage = brainwaveSpectrums[1].average().toInt()
         val alphaValueAverage = brainwaveSpectrums[2].average().toInt()
         val thetaValueAverage = brainwaveSpectrums[3].average().toInt()
-        tv_gamma.text = "$gammaValueAverage"
-        tv_beta.text = "$betaValueAverage"
-        tv_alpha.text = "$alphaValueAverage"
-        tv_theta.text = "$thetaValueAverage"
-        tv_delta.text = "${100-gammaValueAverage-betaValueAverage-alphaValueAverage-thetaValueAverage}"
+        setBrainwaveText(gammaValueAverage,betaValueAverage,alphaValueAverage,thetaValueAverage)
         fixData()
         var sample = brainwaveSpectrums[0].size / mPointCount
         if (isShowAllData || sample <= 1) {
@@ -473,11 +491,19 @@ class SessionBrainwaveChart @JvmOverloads constructor(
         for (i in brainwaveSpectrums[0].indices) {
 
             if (i % sample == 0) {
-                gammaAverage.add(brainwaveSpectrums[0][i])
-                betaAverage.add(brainwaveSpectrums[1][i])
-                alphaAverage.add(brainwaveSpectrums[2][i])
-                thetaAverage.add(brainwaveSpectrums[3][i])
-                deltaAverage.add(brainwaveSpectrums[4][i])
+                if (brainwaveSpectrums[0][i] == 0.0 || brainwaveSpectrums[1][i] == 0.0){
+                    gammaAverage.add(0.0)
+                    betaAverage.add(0.0)
+                    alphaAverage.add(0.0)
+                    thetaAverage.add(0.0)
+                    deltaAverage.add(0.0)
+                }else{
+                    gammaAverage.add(brainwaveSpectrums[0][i])
+                    betaAverage.add(brainwaveSpectrums[1][i])
+                    alphaAverage.add(brainwaveSpectrums[2][i])
+                    thetaAverage.add(brainwaveSpectrums[3][i])
+                    deltaAverage.add(brainwaveSpectrums[4][i])
+                }
             }
         }
         sampleData?.add(gammaAverage)
@@ -717,11 +743,11 @@ class SessionBrainwaveChart @JvmOverloads constructor(
 
         marker = SessionBrainwaveChartMarkView(
             context,
-            mSpectrumColors?.toIntArray(), mGridLineColor,mStartTime
+            mSpectrumColors?.toIntArray(), mGridLineColor, mStartTime
         )
         marker.setTextColor(mTextColor)
         marker.setMarkViewBgColor(mMarkViewBgColor)
-        if (chart.data != null){
+        if (chart.data != null) {
             marker.setDataSets(chart.data.dataSets)
         }
         marker.chartView = chart

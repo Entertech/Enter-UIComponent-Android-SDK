@@ -15,7 +15,6 @@ import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout
 import cn.entertech.uicomponentsdk.R
-import cn.entertech.uicomponentsdk.activity.BrainwaveTrendChartFullScreenActivity
 import cn.entertech.uicomponentsdk.activity.SessionBrainwaveStackChartFullScreenActivity
 import cn.entertech.uicomponentsdk.utils.*
 import cn.entertech.uicomponentsdk.widget.*
@@ -448,6 +447,23 @@ class SessionBrainwaveStackChart @JvmOverloads constructor(
         return valuesList
     }
 
+    fun setBrainwaveText(gamma: Int, beta: Int, alpha: Int, theta: Int) {
+        if ((gamma == 0 || beta == 0) || (gamma == 20 || beta == 20)) {
+            tv_value_gamma.text = "--"
+            tv_value_beta.text = "--"
+            tv_value_alpha.text = "--"
+            tv_value_theta.text = "--"
+            tv_value_delta.text = "--"
+        } else {
+            tv_value_gamma.text = "$gamma"
+            tv_value_beta.text = "$beta"
+            tv_value_alpha.text = "$alpha"
+            tv_value_theta.text = "$theta"
+            var delta = 100 - gamma - beta - alpha - theta
+            tv_value_delta.text = "$delta"
+        }
+    }
+
     var yLimitLineValues = listOf(25f, 50f, 75f)
     fun setData(brainwaveSpectrums: List<ArrayList<Double>>?, isShowAllData: Boolean = false) {
         if (brainwaveSpectrums == null) {
@@ -459,12 +475,7 @@ class SessionBrainwaveStackChart @JvmOverloads constructor(
         val betaValueAverage = brainwaveSpectrums[1].average().roundToInt()
         val alphaValueAverage = brainwaveSpectrums[2].average().roundToInt()
         val thetaValueAverage = brainwaveSpectrums[3].average().roundToInt()
-        tv_value_gamma.text = "$gammaValueAverage"
-        tv_value_beta.text = "$betaValueAverage"
-        tv_value_alpha.text = "$alphaValueAverage"
-        tv_value_theta.text = "$thetaValueAverage"
-        tv_value_delta.text =
-            "${100 - gammaValueAverage - betaValueAverage - alphaValueAverage - thetaValueAverage}"
+        setBrainwaveText(gammaValueAverage,betaValueAverage,alphaValueAverage,thetaValueAverage)
         fixData()
         var sample = brainwaveSpectrums[0].size / mPointCount
         if (isShowAllData || sample <= 1) {

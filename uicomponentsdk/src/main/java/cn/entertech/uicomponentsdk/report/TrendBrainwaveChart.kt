@@ -206,8 +206,12 @@ class TrendBrainwaveChart @JvmOverloads constructor(
             )
         mFillColors = typeArray.getString(R.styleable.TrendBrainwaveChart_tbc_fillColors)
         mFillColorArray = mFillColors?.split(",")
-        mLegendBgColor = typeArray.getColor(R.styleable.TrendBrainwaveChart_tbc_legendBgColor,mLegendBgColor)
-        mLegendUnselectTextColor = typeArray.getColor(R.styleable.TrendBrainwaveChart_tbc_legendUnselectTextColor,mLegendUnselectTextColor)
+        mLegendBgColor =
+            typeArray.getColor(R.styleable.TrendBrainwaveChart_tbc_legendBgColor, mLegendBgColor)
+        mLegendUnselectTextColor = typeArray.getColor(
+            R.styleable.TrendBrainwaveChart_tbc_legendUnselectTextColor,
+            mLegendUnselectTextColor
+        )
         typeArray.recycle()
         initView()
     }
@@ -354,28 +358,28 @@ class TrendBrainwaveChart @JvmOverloads constructor(
     fun fillPreDataWhenZero(
         sourceData: ArrayList<BrainwaveLineSourceData>
     ): ArrayList<BrainwaveLineSourceData> {
-        if (sourceData.isEmpty()){
+        if (sourceData.isEmpty()) {
             return sourceData
         }
         var firstValidValue: BrainwaveLineSourceData? = null
         var preValidValue: BrainwaveLineSourceData? = null
         var validValueList = sourceData.filter { it.alpha != 0f }
-        if (validValueList.isNullOrEmpty()){
+        if (validValueList.isNullOrEmpty()) {
             return sourceData
         }
-        if (validValueList.isNotEmpty()){
+        if (validValueList.isNotEmpty()) {
             firstValidValue = validValueList[0]
         }
-        for (i in sourceData.indices){
-            if (sourceData[i].alpha == 0f){
-                if (i == 0){
+        for (i in sourceData.indices) {
+            if (sourceData[i].alpha == 0f) {
+                if (i == 0) {
                     sourceData[i].gamma = firstValidValue!!.gamma
                     sourceData[i].alpha = firstValidValue.alpha
                     sourceData[i].beta = firstValidValue.beta
                     sourceData[i].delta = firstValidValue.delta
                     sourceData[i].theta = firstValidValue.theta
                     preValidValue = firstValidValue
-                }else{
+                } else {
                     sourceData[i].gamma = preValidValue!!.gamma
                     sourceData[i].alpha = preValidValue.alpha
                     sourceData[i].beta = preValidValue.beta
@@ -383,7 +387,7 @@ class TrendBrainwaveChart @JvmOverloads constructor(
                     sourceData[i].theta = preValidValue.theta
                     preValidValue = sourceData[i]
                 }
-            }else{
+            } else {
                 preValidValue = sourceData[i]
             }
         }
@@ -521,7 +525,7 @@ class TrendBrainwaveChart @JvmOverloads constructor(
         for (i in data.indices) {
             val brainwaveData = brainwaveDataList[checkIndexList[0]]
             //去掉无脑波数据点
-            if (brainwaveData[i] == 0f){
+            if (brainwaveData[i] == 0f) {
                 continue
             }
             var sum = 0f
@@ -581,6 +585,23 @@ class TrendBrainwaveChart @JvmOverloads constructor(
         }
     }
 
+    fun setBrainwaveText(gamma: Int, beta: Int, alpha: Int, theta: Int) {
+        if ((gamma == 0 || beta == 0) || (gamma == 20 || beta == 20)) {
+            tv_value_gamma.text = "--"
+            tv_value_beta.text = "--"
+            tv_value_alpha.text = "--"
+            tv_value_theta.text = "--"
+            tv_value_delta.text = "--"
+        } else {
+            tv_value_gamma.text = "$gamma"
+            tv_value_beta.text = "$beta"
+            tv_value_alpha.text = "$alpha"
+            tv_value_theta.text = "$theta"
+            var delta = 100 - gamma - beta - alpha - theta
+            tv_value_delta.text = "$delta"
+        }
+    }
+
     var yLimitLineValues = listOf(25f, 50f, 75f)
     fun setData(data: ArrayList<BrainwaveLineSourceData>?, cycle: String) {
         if (data == null) {
@@ -592,12 +613,7 @@ class TrendBrainwaveChart @JvmOverloads constructor(
         this.mAlphaAverage = mData!!.map { it.alpha }.filter { it != 0f }.average().toInt()
         this.mThetaAverage = mData!!.map { it.theta }.filter { it != 0f }.average().toInt()
         this.mDeltaAverage = mData!!.map { it.delta }.filter { it != 0f }.average().toInt()
-        tv_value_gamma.text = "$mGammaAverage"
-        tv_value_beta.text = "$mBetaAverage"
-        tv_value_alpha.text = "$mAlphaAverage"
-        tv_value_theta.text = "$mThetaAverage"
-        tv_value_delta.text =
-            "${100 - mGammaAverage - mBetaAverage - mAlphaAverage - mThetaAverage}"
+        setBrainwaveText(mGammaAverage, mBetaAverage, mAlphaAverage, mThetaAverage)
         this.mCycle = cycle
         this.mPages = initPages(mData!!, cycle)
         this.mChartVisibleXRangeMaximum = initChartVisibleXRangeMaximum(cycle)
@@ -915,12 +931,7 @@ class TrendBrainwaveChart @JvmOverloads constructor(
         val curThetaAverage =
             mData!!.subList(finalStartIndex, finalStartIndex + mChartVisibleXRangeMaximum)
                 .map { it.theta }.filter { it != 0f }.average().toInt()
-        tv_value_gamma.text = "$curGammaAverage"
-        tv_value_beta.text = "$curBetaAverage"
-        tv_value_alpha.text = "$curAlphaAverage"
-        tv_value_theta.text = "$curThetaAverage"
-        tv_value_delta.text =
-            "${100 - curGammaAverage - curBetaAverage - curAlphaAverage - curThetaAverage}"
+        setBrainwaveText(curGammaAverage, curBetaAverage, curAlphaAverage, curThetaAverage)
     }
 
     fun moveToNextPage() {
