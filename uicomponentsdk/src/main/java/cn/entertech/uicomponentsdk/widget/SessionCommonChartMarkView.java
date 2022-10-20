@@ -96,7 +96,7 @@ public class SessionCommonChartMarkView extends MarkerView {
         } else {
             tvLevel.setText(getContext().getString(R.string.sdk_report_high));
         }
-        tvDate.setText(TimeUtils.getFormatTime(curPointTimeMs, "MMM dd, yyyy HH:mm a"));
+        tvDate.setText(TimeUtils.getFormatTime(curPointTimeMs, "MMM dd, yyyy hh:mm a"));
         super.refreshContent(e, highlight);
     }
 

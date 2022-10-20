@@ -721,8 +721,8 @@ class SessionPressureChart @JvmOverloads constructor(
         var endTimestamp = startTimestamp + dataTotalTimeMs
         var startTimeDay = TimeUtils.getFormatTime(startTimestamp, "MMM dd, yyyy")
         var endTimeDay = TimeUtils.getFormatTime(endTimestamp, "MMM dd, yyyy")
-        var startTimeHourMin = TimeUtils.getFormatTime(startTimestamp, "HH:mm a")
-        var endTimeHourMin = TimeUtils.getFormatTime(endTimestamp, "HH:mm a")
+        var startTimeHourMin = TimeUtils.getFormatTime(startTimestamp, "hh:mm a")
+        var endTimeHourMin = TimeUtils.getFormatTime(endTimestamp, "hh:mm a")
         if (startTimeDay == endTimeDay) {
             tv_date.text = "$startTimeDay ${startTimeHourMin}-${endTimeHourMin}"
         } else {

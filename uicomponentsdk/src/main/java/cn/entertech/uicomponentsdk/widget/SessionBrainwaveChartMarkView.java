@@ -160,7 +160,7 @@ public class SessionBrainwaveChartMarkView extends MarkerView {
         }
         long startTimeMs = TimeUtils.getStringToDate(startTime, "yyyy-MM-dd HH:mm:ss");
         long curPointTimeMs = startTimeMs + (long) (e.getX() * 600);
-        String curDate = TimeUtils.getFormatTime(curPointTimeMs, "MMM dd, yyyy HH:mm a");
+        String curDate = TimeUtils.getFormatTime(curPointTimeMs, "MMM dd, yyyy hh:mm a");
         tvDate.setText(curDate);
         super.refreshContent(e, highlight);
     }
