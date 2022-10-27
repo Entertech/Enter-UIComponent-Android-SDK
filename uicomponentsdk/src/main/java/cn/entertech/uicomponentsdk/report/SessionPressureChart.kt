@@ -385,7 +385,8 @@ class SessionPressureChart @JvmOverloads constructor(
             sample = 1
         }
         when (mDataAverage) {
-            in 0..24 -> tv_level.text = context.getString(R.string.pressure_level_low)
+            0 -> tv_level.text = "--"
+            in 1..24 -> tv_level.text = context.getString(R.string.pressure_level_low)
             in 25..50 -> tv_level.text = context.getString(R.string.pressure_level_normal)
             in 50..75 -> tv_level.text = context.getString(R.string.pressure_level_elevated)
             else -> tv_level.text = context.getString(R.string.pressure_level_high)

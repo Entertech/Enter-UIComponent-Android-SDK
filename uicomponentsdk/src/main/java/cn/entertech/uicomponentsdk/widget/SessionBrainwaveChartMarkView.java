@@ -157,7 +157,7 @@ public class SessionBrainwaveChartMarkView extends MarkerView {
                             if (value == 0){
                                 tvValues.get(labelInt).setText("--");
                             }else{
-                                tvValues.get(labelInt).setText(value);
+                                tvValues.get(labelInt).setText(value+"");
                             }
                         }
                     }

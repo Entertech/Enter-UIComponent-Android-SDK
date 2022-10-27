@@ -186,7 +186,7 @@ class ReportDefaultFragment : Fragment() {
         chart_session_common.setDataType(2)
         chart_session_common.setData(
             reportData.reportHRDataEntity?.hrRec,
-            0.5,
+            1.5,
            null,
             null,
             true

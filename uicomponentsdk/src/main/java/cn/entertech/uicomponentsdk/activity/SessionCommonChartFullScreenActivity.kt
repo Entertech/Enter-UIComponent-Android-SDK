@@ -46,7 +46,7 @@ class SessionCommonChartFullScreenActivity : AppCompatActivity() {
         var levelTextColor = intent.getIntExtra("levelTextColor", Color.GREEN)
         var dataTotalTimeMs = intent.getIntExtra("dataTotalTime",0)
         var startTime = intent.getStringExtra("startTime")?:""
-        var lineDataAverage = intent.getIntExtra("lineDataAverage",0)
+        var lineDataAverage = intent.getDoubleExtra("lineDataAverage",0.0)
         var lineFlagTotalTime = intent.getIntExtra("lineFlagTotalTime",0)
         var isDataAverageInt = intent.getBooleanExtra("isDataAverageInt",true)
         session_common_chart.setLineWidth(lineWidth)
@@ -79,7 +79,7 @@ class SessionCommonChartFullScreenActivity : AppCompatActivity() {
         session_common_chart.setLevelBgColor(levelBgColor)
         session_common_chart.setLevelTextColor(levelTextColor)
         session_common_chart.setMainColor(mainColor)
-        session_common_chart.setData(lineData?.toList(),lineDataAverage.toDouble(),secondLineData?.toList(),lineFlagTotalTime,true)
+        session_common_chart.setData(lineData?.toList(),lineDataAverage,secondLineData?.toList(),lineFlagTotalTime,true)
         session_common_chart.setStartTime(startTime)
     }
 }

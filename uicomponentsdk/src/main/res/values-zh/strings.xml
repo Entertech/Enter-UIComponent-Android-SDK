@@ -6,7 +6,7 @@
     <string name="sdk_coherence">和谐度</string>
     <string name="sdk_high">高</string>
     <string name="sdk_low">低</string>
-    <string name="sdk_attention">专注度</string>
+    <string name="sdk_attention">注意力</string>
     <string name="sdk_normal">中等</string>
     <string name="sdk_brainwave_spectrum">脑波频谱</string>
     <string name="sdk_gamma_wave">γ 波</string>
@@ -21,7 +21,7 @@
     <string name="sdk_pressure">压力水平</string>
     <string name="sdk_relaxation">放松度</string>
     <string name="sdk_pleasure">愉悦度</string>
-    <string name="sdk_relaxation_and_attention">专注度&#038;放松度</string>
+    <string name="sdk_relaxation_and_attention">注意力&#038;放松度</string>
     <string name="sdk_brainwave_spectrum_chart_title">Each band power ratio(%)</string>
     <string name="sdk_hrv">心率变异性</string>
     <string name="sdk_hrv_simple">心率变异性</string>
