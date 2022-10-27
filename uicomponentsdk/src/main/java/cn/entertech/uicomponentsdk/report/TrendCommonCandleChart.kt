@@ -401,7 +401,7 @@ class TrendCommonCandleChart @JvmOverloads constructor(
             if (data[i].average == 0f) {
                 continue
             }
-            lineValues.add(Entry(i.toFloat(), (data[i].max + data[i].min) / 2f, data[i]))
+            lineValues.add(Entry(i.toFloat(), data[i].average, data[i]))
         }
         return lineValues
     }
