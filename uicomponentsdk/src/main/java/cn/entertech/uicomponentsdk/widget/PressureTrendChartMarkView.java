@@ -61,7 +61,9 @@ public class PressureTrendChartMarkView extends MarkerView {
     public void refreshContent(Entry e, Highlight highlight) {
         TrendPressureChart.LineSourceData lineSourceData = (TrendPressureChart.LineSourceData) e.getData();
         float floatValue = lineSourceData.getValue();
-        if (floatValue >= 0 && floatValue < 25) {
+        if (floatValue == 0){
+            tvValue.setText(getContext().getString(R.string.level_default));
+        }else if (floatValue > 0 && floatValue < 25) {
             tvValue.setText(getContext().getString(R.string.pressure_level_low));
         } else if (floatValue >= 25 && floatValue < 50) {
             tvValue.setText(getContext().getString(R.string.pressure_level_normal));

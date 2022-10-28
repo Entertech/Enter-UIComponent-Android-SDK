@@ -14,6 +14,7 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.AttributeSet
+import android.util.Log
 import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -296,7 +297,8 @@ class TrendPressureChart @JvmOverloads constructor(
         when (cycle) {
             TrendCommonCandleChart.CYCLE_MONTH -> {
                 var date = firstData.date
-                var day = date.split("-")[2]
+                var days = date.split("-")
+                var day = days[2]
                 if (day != "01") {
                     var preData = ArrayList<LineSourceData>()
                     var dayIntValue = Integer.parseInt(day)
@@ -304,7 +306,7 @@ class TrendPressureChart @JvmOverloads constructor(
                         var curDayString = String.format("%02d", j)
                         var barSourceData = LineSourceData()
                         barSourceData.value = 0f
-                        barSourceData.date = "${day[0]}-${day[1]}-${curDayString}"
+                        barSourceData.date = "${days[0]}-${days[1]}-${curDayString}"
                         barSourceData.xLabel = curDayString
                         preData.add(barSourceData)
                     }
@@ -313,7 +315,8 @@ class TrendPressureChart @JvmOverloads constructor(
             }
             TrendCommonCandleChart.CYCLE_YEAR -> {
                 var date = firstData.date
-                var month = date.split("-")[1]
+                var months = date.split("-")
+                var month = months[1]
                 if (month != "01") {
                     var preData = ArrayList<LineSourceData>()
                     var monthIntValue = Integer.parseInt(month)
@@ -321,7 +324,7 @@ class TrendPressureChart @JvmOverloads constructor(
                         var curMonthString = String.format("%02d", j)
                         var barSourceData = LineSourceData()
                         barSourceData.value = 0f
-                        barSourceData.date = "${month[0]}-${curMonthString}"
+                        barSourceData.date = "${months[0]}-${curMonthString}"
                         barSourceData.xLabel = curMonthString
                         preData.add(barSourceData)
                     }
@@ -398,6 +401,19 @@ class TrendPressureChart @JvmOverloads constructor(
         return values
     }
 
+    fun initBgDataChartValues(data: ArrayList<LineSourceData>): ArrayList<Entry> {
+        val values = ArrayList<Entry>()
+        for (i in data.indices) {
+            values.add(
+                Entry(
+                    i.toFloat(),
+                    data[i].value, data[i]
+                )
+            )
+        }
+        return values
+    }
+
     fun initChartXLabel(data: ArrayList<LineSourceData>) {
         var xLabelOffset = 0
         if (mCycle == CYCLE_MONTH) {
@@ -443,12 +459,12 @@ class TrendPressureChart @JvmOverloads constructor(
             return
         }
         this.mData = completeSourceData(data, cycle)
-        this.mDataAverage = mData!!.map { it.value }.average()
+        this.mDataAverage = mData.map { it.value }.average()
         this.mCycle = cycle
-        this.mPages = initPages(mData!!, cycle)
+        this.mPages = initPages(mData, cycle)
         this.mChartVisibleXRangeMaximum = initChartVisibleXRangeMaximum(cycle)
-        this.mValues = initChartValues(mData!!)
-        initChartXLabel(mData!!)
+        this.mValues = initChartValues(mData)
+        initChartXLabel(mData)
         for (i in yLimitLineValues.indices) {
             val ll = LimitLine(yLimitLineValues[i], "")
             ll.lineWidth = 0.5f
@@ -461,7 +477,27 @@ class TrendPressureChart @JvmOverloads constructor(
             ll.lineColor = mGridLineColor
             chart.axisLeft.addLimitLine(ll)
         }
-        set = LineDataSet(mValues, "")
+        val bgDataValues = initBgDataChartValues(mData)
+        val bgDataSet = getTransBgDataSet(bgDataValues)
+        set = getDataSet(mValues)
+        var lineData = LineData()
+        lineData.addDataSet(set)
+        lineData.addDataSet(bgDataSet)
+//         // set data
+        chart.data = lineData
+        initChart()
+        chart.notifyDataSetChanged()
+        chart.setVisibleXRangeMaximum(mChartVisibleXRangeMaximum)
+        chart.viewTreeObserver.addOnGlobalLayoutListener {
+            if (firstIn) {
+//                initLowestAndHighestVisibleData()
+                translateChartX(chart, -Float.MAX_VALUE)
+            }
+        }
+        initDateRange()
+    }
+    fun getDataSet(values:ArrayList<Entry>):LineDataSet{
+        val set = LineDataSet(values, "")
         set.setDrawIcons(true)
         // draw dashed line
 //            set1.enableDashedLine(10f, 5f, 0f)
@@ -482,21 +518,34 @@ class TrendPressureChart @JvmOverloads constructor(
         set.highlightLineWidth = 2f
         set.setDrawHighlightIndicators(false)
         set.setDrawVerticalHighlightIndicator(true)
-        var lineData = LineData()
-        lineData.addDataSet(set)
-//         // set data
-        chart.data = lineData
-        initChart()
-        chart.notifyDataSetChanged()
-        chart.setVisibleXRangeMaximum(mChartVisibleXRangeMaximum)
-        chart.viewTreeObserver.addOnGlobalLayoutListener {
-            if (firstIn) {
-//                initLowestAndHighestVisibleData()
-                translateChartX(chart, -Float.MAX_VALUE)
-            }
-        }
-        initDateRange()
+        return set
     }
+
+    fun getTransBgDataSet(values:ArrayList<Entry>):LineDataSet{
+        val set = LineDataSet(values, "")
+        set.setDrawIcons(true)
+        // draw dashed line
+//            set1.enableDashedLine(10f, 5f, 0f)
+        // black lines and points
+        set.color = Color.TRANSPARENT
+        set.lineWidth = 2f
+        // customize legend entry
+        set.formLineWidth = 0.5f
+        set.formLineDashEffect = DashPathEffect(floatArrayOf(10f, 10f), 0f)
+        set.formSize = 15f
+        set.isHighlightEnabled = true
+        // text size of values
+        set.valueTextSize = 9f
+        set.circleColors = listOf(Color.TRANSPARENT)
+        set.circleHoleColor = Color.TRANSPARENT
+        set.setDrawValues(false)
+        set.highLightColor = mGridLineColor
+        set.highlightLineWidth = 2f
+        set.setDrawHighlightIndicators(false)
+        set.setDrawVerticalHighlightIndicator(true)
+        return set
+    }
+
 
     fun initDateRange() {
         if (mData.size >= mChartVisibleXRangeMaximum) {

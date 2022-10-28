@@ -52,6 +52,7 @@
     <string name="sdk_breath_coherence">呼吸和谐</string>
     <string name="sdk_coherence_time">和谐时间</string>
     <string name="sdk_x_axis_label">时间(分钟)</string>
+    <string name="level_default">--</string>
     <string name="pressure_level_low">低</string>
     <string name="pressure_level_normal">中等</string>
     <string name="pressure_level_elevated">偏高</string>
