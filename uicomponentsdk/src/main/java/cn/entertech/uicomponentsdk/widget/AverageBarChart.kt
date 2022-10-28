@@ -164,7 +164,7 @@ class AverageBarChart @JvmOverloads constructor(
                 var average = decimalFormat.format(mValues[i])
                 java.lang.Float.parseFloat(average)
             } else {
-                mValues[i].toInt()
+                ceil(mValues[i]).toInt()
             }
         var lastValueTextBound = Rect()
         mBarPaint.getTextBounds(
