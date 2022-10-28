@@ -297,7 +297,8 @@ class TrendCommonCandleChart @JvmOverloads constructor(
         when (cycle) {
             CYCLE_MONTH -> {
                 var date = firstData.date
-                var day = date.split("-")[2]
+                var days = date.split("-")
+                var day = days[2]
                 if (day != "01") {
                     var preData = ArrayList<CandleSourceData>()
                     var dayIntValue = Integer.parseInt(day)
@@ -307,7 +308,7 @@ class TrendCommonCandleChart @JvmOverloads constructor(
                         candleSourceData.average = 0f
                         candleSourceData.max = 0f
                         candleSourceData.min = 0f
-                        candleSourceData.date = "${day[0]}-${day[1]}-${curDayString}"
+                        candleSourceData.date = "${days[0]}-${days[1]}-${curDayString}"
                         candleSourceData.xLabel = curDayString
                         preData.add(candleSourceData)
                     }
@@ -316,17 +317,18 @@ class TrendCommonCandleChart @JvmOverloads constructor(
             }
             CYCLE_YEAR -> {
                 var date = firstData.date
-                var month = date.split("-")[1]
+                var months = date.split("-")
+                var month = months[1]
                 if (month != "01") {
                     var preData = ArrayList<CandleSourceData>()
                     var monthIntValue = Integer.parseInt(month)
                     for (j in 1 until monthIntValue) {
                         var curMonthString = String.format("%02d", j)
                         var candleSourceData = CandleSourceData()
-                        candleSourceData.average = -200f
-                        candleSourceData.max = -200f
-                        candleSourceData.min = -200f
-                        candleSourceData.date = "${month[0]}-${curMonthString}"
+                        candleSourceData.average = 0f
+                        candleSourceData.max = 0f
+                        candleSourceData.min = 0f
+                        candleSourceData.date = "${months[0]}-${curMonthString}"
                         candleSourceData.xLabel = curMonthString
                         preData.add(candleSourceData)
                     }
