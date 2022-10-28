@@ -27,6 +27,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import kotlinx.android.synthetic.main.layout_average_bar_card.view.*
 import kotlinx.android.synthetic.main.layout_common_card_title.view.*
+import java.lang.Math.ceil
 
 class ReportAverageChartCard @JvmOverloads constructor(
     context: Context,
@@ -262,7 +263,7 @@ class ReportAverageChartCard @JvmOverloads constructor(
             return
         }
         average_bar_chart.setValues(values)
-        var average = values.average()
+        var average = ceil(values.average())
         var lastValue = values[values.size - 1]
         if (lastValue > average) {
             tv_tip.text = "${context.getString(R.string.sdk_report_last_7_time_tip_head)} $mTag ${

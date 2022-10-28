@@ -228,7 +228,7 @@ class AverageBarChart @JvmOverloads constructor(
     }
 
     private fun onDrawAverageLine(canvas: Canvas?) {
-        var transferAverage = mTransferValues.average().toFloat()
+        var transferAverage = ceil(mTransferValues.average()).toFloat()
         var average = mValues.average()
         if (transferAverage < 46) {
             transferAverage = 46f
