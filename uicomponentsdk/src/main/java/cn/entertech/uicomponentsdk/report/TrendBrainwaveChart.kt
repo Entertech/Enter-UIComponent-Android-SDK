@@ -495,19 +495,19 @@ class TrendBrainwaveChart @JvmOverloads constructor(
     }
 
     fun initChartValues(data: ArrayList<BrainwaveLineSourceData>): ArrayList<ArrayList<Entry>> {
-        val gammaDataList = ArrayList<Float>()
-        val betaDataList = ArrayList<Float>()
-        val alphaDataList = ArrayList<Float>()
-        val thetaDataList = ArrayList<Float>()
-        val deltaDataList = ArrayList<Float>()
-        val brainwaveDataList = ArrayList<ArrayList<Float>>()
+        val gammaDataList = ArrayList<Double>()
+        val betaDataList = ArrayList<Double>()
+        val alphaDataList = ArrayList<Double>()
+        val thetaDataList = ArrayList<Double>()
+        val deltaDataList = ArrayList<Double>()
+        val brainwaveDataList = ArrayList<ArrayList<Double>>()
         val valuesList = ArrayList<ArrayList<Entry>>()
         for (i in data.indices) {
-            gammaDataList.add(data[i].gamma)
-            betaDataList.add(data[i].beta)
-            alphaDataList.add(data[i].alpha)
-            thetaDataList.add(data[i].theta)
-            deltaDataList.add(data[i].delta)
+            gammaDataList.add(data[i].gamma.toDouble())
+            betaDataList.add(data[i].beta.toDouble())
+            alphaDataList.add(data[i].alpha.toDouble())
+            thetaDataList.add(data[i].theta.toDouble())
+            deltaDataList.add(data[i].delta.toDouble())
         }
         brainwaveDataList.add(gammaDataList)
         brainwaveDataList.add(betaDataList)
@@ -523,14 +523,9 @@ class TrendBrainwaveChart @JvmOverloads constructor(
         }
 
         for (i in data.indices) {
-            val brainwaveData = brainwaveDataList[checkIndexList[0]]
-            //去掉无脑波数据点
-            if (brainwaveData[i] == 0f) {
-                continue
-            }
-            var sum = 0f
+            var sum = 0.0
             for (j in checkIndexList.indices) {
-                val brainwaveData = brainwaveDataList[checkIndexList[j]]
+                val brainwaveData = formatData(brainwaveDataList[checkIndexList[j]])
                 sum += brainwaveData[i]
             }
 
@@ -538,13 +533,13 @@ class TrendBrainwaveChart @JvmOverloads constructor(
                 var temSum = sum
                 if (j != 0) {
                     for (z in 0 until j) {
-                        temSum -= brainwaveDataList[checkIndexList[z]][i]
+                        temSum -= formatData(brainwaveDataList[checkIndexList[z]])[i]
                     }
                 }
                 valuesList[j].add(
                     Entry(
                         i.toFloat(),
-                        temSum, data[i]
+                        temSum.toFloat(), data[i]
                     )
                 )
             }
