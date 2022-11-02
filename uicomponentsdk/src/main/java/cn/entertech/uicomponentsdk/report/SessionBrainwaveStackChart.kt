@@ -3,6 +3,7 @@ package cn.entertech.uicomponentsdk.report
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.DashPathEffect
 import android.graphics.drawable.ColorDrawable
@@ -13,7 +14,9 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.widget.AdapterView
 import android.widget.LinearLayout
+import androidx.appcompat.widget.ListPopupWindow
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.activity.SessionBrainwaveStackChartFullScreenActivity
 import cn.entertech.uicomponentsdk.utils.*
@@ -40,6 +43,7 @@ import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.l
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.rl_bg
 import kotlinx.android.synthetic.main.layout_card_brainwave_trend_chart.view.*
 import kotlinx.android.synthetic.main.layout_card_brainwave_trend_chart.view.iv_menu
+import kotlinx.android.synthetic.main.layout_card_brainwave_trend_chart.view.iv_more
 import kotlinx.android.synthetic.main.layout_card_brainwave_trend_chart.view.tv_date
 import kotlinx.android.synthetic.main.layout_card_brainwave_trend_chart.view.tv_title
 import java.io.Serializable
@@ -51,6 +55,8 @@ class SessionBrainwaveStackChart @JvmOverloads constructor(
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
+    private var mIconColor: Int = Color.parseColor("#0064ff")
+    private var mDateBgColor: Int = Color.parseColor("#F2F2F7")
     private var mLegendBgColor: Int = Color.parseColor("#F6F7FA")
     private var mLegendUnselectTextColor: Int = Color.parseColor("#878894")
     private var mStartTime: String = ""
@@ -201,11 +207,20 @@ class SessionBrainwaveStackChart @JvmOverloads constructor(
         mFillColors = typeArray.getString(R.styleable.SessionBrainwaveStackChart_sbsc_fillColors)
         mFillColorArray = mFillColors?.split(",")
         mLegendBgColor =
-            typeArray.getColor(R.styleable.SessionBrainwaveStackChart_sbsc_legendBgColor, mLegendBgColor)
+            typeArray.getColor(
+                R.styleable.SessionBrainwaveStackChart_sbsc_legendBgColor,
+                mLegendBgColor
+            )
         mLegendUnselectTextColor = typeArray.getColor(
             R.styleable.SessionBrainwaveStackChart_sbsc_legendUnselectTextColor,
             mLegendUnselectTextColor
         )
+        mDateBgColor = typeArray.getColor(
+            R.styleable.SessionBrainwaveStackChart_sbsc_dateBgColor,
+            mDateBgColor
+        )
+        mIconColor =
+            typeArray.getColor(R.styleable.SessionBrainwaveStackChart_sbsc_iconColor, mIconColor)
         typeArray.recycle()
         initView()
     }
@@ -217,6 +232,61 @@ class SessionBrainwaveStackChart @JvmOverloads constructor(
         initChart()
         initChartIcon()
         initLegend()
+        initDateSelector()
+    }
+
+    private var onDateSelectListener: ((String) -> Unit)? = null
+    fun setOnDateSelectListener(listener: (String) -> Unit) {
+        this.onDateSelectListener = listener
+    }
+
+    fun initDateSelector() {
+        if (isFullScreen) {
+            rl_date_container.visibility = View.GONE
+            tv_date_fullscreen.visibility = View.VISIBLE
+        } else {
+            rl_date_container.visibility = View.VISIBLE
+            tv_date_fullscreen.visibility = View.GONE
+        }
+        initPopupWindow()
+        iv_more.imageTintList = ColorStateList.valueOf(mIconColor)
+        tv_date.backgroundTintList = ColorStateList.valueOf(mDateBgColor)
+        tv_date.setTextColor(mTextColor)
+        tv_date.iconTint = ColorStateList.valueOf(mTextColor)
+        tv_date.setOnClickListener {
+            onDateSelectListener?.invoke(mStartTime)
+        }
+    }
+
+    fun getMenuListData(): ArrayList<ChartMoreListAdapter.MenuItem> {
+        val lists = ArrayList<ChartMoreListAdapter.MenuItem>()
+        val menuItem = ChartMoreListAdapter.MenuItem()
+        menuItem.text = "Expand"
+        menuItem.iconRes = R.drawable.vector_drawable_full_screen
+        lists.add(menuItem)
+        return lists
+    }
+
+    fun initPopupWindow() {
+        val listPopupWindowButton = iv_more
+        listPopupWindowButton?.visibility = View.VISIBLE
+        val listPopupWindow = ListPopupWindow(context!!, null)
+
+        listPopupWindow.anchorView = listPopupWindowButton
+        val adapter = ChartMoreListAdapter(context, getMenuListData())
+        listPopupWindow.setAdapter(adapter)
+        listPopupWindow.setContentWidth(150f.dp().toInt())
+
+        listPopupWindow.setOnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->
+            if (position == 0) {
+                listPopupWindow.dismiss()
+                fullScreen()
+            }
+        }
+
+        listPopupWindowButton?.setOnClickListener { v: View? ->
+            listPopupWindow.show()
+        }
     }
 
     fun initLegend() {
@@ -319,41 +389,46 @@ class SessionBrainwaveStackChart @JvmOverloads constructor(
     fun initTitle() {
 //        tv_value.setTextColor(mMainColor)
         tv_date.setTextColor(mTextColor)
+        tv_date_fullscreen.setTextColor(mTextColor)
         tv_title.setTextColor(mTextColor)
         iv_menu.setImageDrawable(mTitleMenuIcon)
         iv_menu.setOnClickListener {
             if (isFullScreen) {
                 (context as Activity).finish()
             } else {
-                var intent =
-                    Intent(context, SessionBrainwaveStackChartFullScreenActivity::class.java)
-                intent.putExtra("lineWidth", mLineWidth)
-                intent.putExtra("highlightLineColor", mHighlightLineColor)
-                intent.putExtra("highlightLineWidth", mHighlightLineWidth)
-                intent.putExtra("markViewBgColor", mMarkViewBgColor)
-                intent.putExtra("markViewTitle", mMarkViewTitle)
-                intent.putExtra("markViewTitleColor", mMarkViewTitleColor)
-                intent.putExtra("markViewValueColor", mMarkViewValueColor)
-                intent.putExtra("gridLineColor", mGridLineColor)
-                intent.putExtra("xAxisUnit", mXAxisUnit)
-                intent.putExtra("textColor", mTextColor)
-                intent.putExtra("bgColor", bgColor)
-                intent.putExtra("averageLineColor", mAverageLineColor)
-                intent.putExtra("labelColor", mLabelColor)
-                intent.putExtra("average", mAverageValue)
-                intent.putExtra("averageBgColor", mAverageLabelBgColor)
-                intent.putExtra("mainColor", mMainColor)
-                intent.putExtra("xAxisLineColor", mXAxisLineColor)
-                intent.putExtra("fillColors", mFillColors)
-                intent.putExtra("gammaData", mData!![0].toDoubleArray())
-                intent.putExtra("betaData", mData!![1].toDoubleArray())
-                intent.putExtra("alphaData", mData!![2].toDoubleArray())
-                intent.putExtra("thetaData", mData!![3].toDoubleArray())
-                intent.putExtra("deltaData", mData!![4].toDoubleArray())
-                intent.putExtra("startTime", mStartTime)
-                context.startActivity(intent)
+                fullScreen()
             }
         }
+    }
+
+    fun fullScreen() {
+        val intent =
+            Intent(context, SessionBrainwaveStackChartFullScreenActivity::class.java)
+        intent.putExtra("lineWidth", mLineWidth)
+        intent.putExtra("highlightLineColor", mHighlightLineColor)
+        intent.putExtra("highlightLineWidth", mHighlightLineWidth)
+        intent.putExtra("markViewBgColor", mMarkViewBgColor)
+        intent.putExtra("markViewTitle", mMarkViewTitle)
+        intent.putExtra("markViewTitleColor", mMarkViewTitleColor)
+        intent.putExtra("markViewValueColor", mMarkViewValueColor)
+        intent.putExtra("gridLineColor", mGridLineColor)
+        intent.putExtra("xAxisUnit", mXAxisUnit)
+        intent.putExtra("textColor", mTextColor)
+        intent.putExtra("bgColor", bgColor)
+        intent.putExtra("averageLineColor", mAverageLineColor)
+        intent.putExtra("labelColor", mLabelColor)
+        intent.putExtra("average", mAverageValue)
+        intent.putExtra("averageBgColor", mAverageLabelBgColor)
+        intent.putExtra("mainColor", mMainColor)
+        intent.putExtra("xAxisLineColor", mXAxisLineColor)
+        intent.putExtra("fillColors", mFillColors)
+        intent.putExtra("gammaData", mData!![0].toDoubleArray())
+        intent.putExtra("betaData", mData!![1].toDoubleArray())
+        intent.putExtra("alphaData", mData!![2].toDoubleArray())
+        intent.putExtra("thetaData", mData!![3].toDoubleArray())
+        intent.putExtra("deltaData", mData!![4].toDoubleArray())
+        intent.putExtra("startTime", mStartTime)
+        context.startActivity(intent)
     }
 
     fun completeSourceData(
@@ -475,7 +550,7 @@ class SessionBrainwaveStackChart @JvmOverloads constructor(
         val betaValueAverage = brainwaveSpectrums[1].average().roundToInt()
         val alphaValueAverage = brainwaveSpectrums[2].average().roundToInt()
         val thetaValueAverage = brainwaveSpectrums[3].average().roundToInt()
-        setBrainwaveText(gammaValueAverage,betaValueAverage,alphaValueAverage,thetaValueAverage)
+        setBrainwaveText(gammaValueAverage, betaValueAverage, alphaValueAverage, thetaValueAverage)
         fixData()
         var sample = brainwaveSpectrums[0].size / mPointCount
         if (isShowAllData || sample <= 1) {
@@ -503,7 +578,7 @@ class SessionBrainwaveStackChart @JvmOverloads constructor(
         sampleData?.add(alphaAverage)
         sampleData?.add(thetaAverage)
         sampleData?.add(deltaAverage)
-
+        chart.xAxis.removeAllLimitLines()
         mTimeOfTwoPoint = mTimeUnit * sample
         var totalMin = brainwaveSpectrums[0].size * mTimeUnit / 1000F / 60F
         var minOffset = (totalMin / 8).toInt() + 1
@@ -824,8 +899,10 @@ class SessionBrainwaveStackChart @JvmOverloads constructor(
         var endTimeHourMin = TimeUtils.getFormatTime(endTimestamp, "hh:mm a")
         if (startTimeDay == endTimeDay) {
             tv_date.text = "$startTimeDay ${startTimeHourMin}-${endTimeHourMin}"
+            tv_date_fullscreen.text = "$startTimeDay ${startTimeHourMin}-${endTimeHourMin}"
         } else {
             tv_date.text = "$startTimeDay ${startTimeHourMin}-$endTimeDay ${endTimeHourMin} "
+            tv_date_fullscreen.text = "$startTimeDay ${startTimeHourMin}-$endTimeDay ${endTimeHourMin} "
         }
         initView()
     }

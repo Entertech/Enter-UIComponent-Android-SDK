@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/rl_bg"
-        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         >
 
     <LinearLayout
@@ -12,12 +12,14 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             >
+
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginTop="@dimen/activity_margin"
                 android:layout_marginRight="@dimen/activity_margin"
-                android:layout_marginTop="@dimen/activity_margin">
+                >
 
             <LinearLayout
                     android:id="@+id/ll_title"
@@ -46,39 +48,40 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="--"
-                            android:textStyle="bold"
                             android:textColor="#ff0000"
                             android:textSize="24sp"
+                            android:textStyle="bold"
                             />
 
                     <TextView
-                            android:layout_marginLeft="2dp"
                             android:id="@+id/tv_unit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
                             android:text="--"
                             android:textSize="16sp"
                             />
 
                     <TextView
-                            android:visibility="gone"
-                            android:layout_marginLeft="4dp"
                             android:id="@+id/tv_level"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:background="@drawable/shape_common_chart_level_bg"
+                            android:paddingLeft="@dimen/activity_margin_half"
+                            android:paddingTop="3dp"
+                            android:paddingRight="@dimen/activity_margin_half"
+                            android:paddingBottom="3dp"
                             android:text="--"
                             android:textFontWeight="600"
-                            android:paddingTop="3dp"
-                            android:paddingBottom="3dp"
-                            android:paddingLeft="@dimen/activity_margin_half"
-                            android:paddingRight="@dimen/activity_margin_half"
-                            android:background="@drawable/shape_common_chart_level_bg"
                             android:textSize="12sp"
+                            android:visibility="gone"
                             />
                 </LinearLayout>
 
                 <TextView
-                        android:id="@+id/tv_date"
+                        android:id="@+id/tv_date_fullscreen"
+                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="--"
@@ -91,31 +94,72 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_alignParentRight="true"
-                    android:src="@drawable/vector_drawable_full_screen"/>
+                    android:src="@drawable/vector_drawable_full_screen"
+                    />
         </RelativeLayout>
-
 
 
     </LinearLayout>
 
 
     <LinearLayout
-            android:paddingBottom="@dimen/activity_margin"
-            android:visibility="visible"
-            android:layout_marginTop="26dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="26dp"
             android:orientation="vertical"
+            android:paddingBottom="@dimen/activity_margin"
+            android:visibility="visible"
             >
 
         <cn.entertech.uicomponentsdk.widget.CustomLineChart
                 android:id="@+id/chart"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:layout_weight="1"
+                />
+
+        <RelativeLayout
+                android:id="@+id/rl_date_container"
+                android:layout_marginTop="@dimen/activity_margin"
                 android:layout_marginLeft="@dimen/activity_margin"
                 android:layout_marginRight="@dimen/activity_margin"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                />
+                android:layout_height="wrap_content"
+                >
+
+            <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:backgroundTint="#F2F2F7"
+                    android:text="Jul 12, 2021 2:00 PM-2:33 PM"
+                    app:icon="@drawable/vector_drawable_arrow_down"
+                    app:iconSize="24dp"
+                    android:paddingHorizontal="@dimen/activity_margin_half"
+                    android:paddingVertical="@dimen/dp_4"
+                    android:insetBottom="0dp"
+                    android:insetLeft="0dp"
+                    android:insetRight="0dp"
+                    android:insetTop="0dp"
+                    android:textSize="12sp"
+                    app:iconTint="#80080A0E"
+                    android:textColor="#80080A0E"
+                    app:iconGravity="textEnd"
+                    android:id="@+id/tv_date"/>
+
+
+            <ImageView
+                    android:id="@+id/iv_more"
+                    android:clickable="true"
+                    android:background="?android:selectableItemBackgroundBorderless"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/vector_drawable_more"
+                    />
+        </RelativeLayout>
 
         <TextView
                 android:id="@+id/tv_time_unit_des"
@@ -128,6 +172,7 @@
                 />
 
     </LinearLayout>
+
     <RelativeLayout
             android:id="@+id/rl_no_data_cover"
             android:layout_width="match_parent"

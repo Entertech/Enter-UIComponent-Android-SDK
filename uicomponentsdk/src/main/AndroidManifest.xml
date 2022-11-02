@@ -5,58 +5,45 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application>
         <activity
-                android:name=".activity.HRVLineChartFullScreenActivity"
-                android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+                android:name=".activity.HRVLineChartFullScreenActivity">
 
         </activity>
         <activity
-                android:name=".activity.SessionBrainwaveStackChartFullScreenActivity"
-                android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+                android:name=".activity.SessionBrainwaveStackChartFullScreenActivity">
 
         </activity>
         <activity
-                android:name=".activity.SessionBrainwaveChartFullScreenActivity"
-                android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+                android:name=".activity.SessionBrainwaveChartFullScreenActivity">
 
         </activity>
         <activity
-                android:name=".activity.BrainwaveTrendChartFullScreenActivity"
-                android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+                android:name=".activity.BrainwaveTrendChartFullScreenActivity">
 
         </activity>
         <activity
-                android:name=".activity.PressureTrendChartFullScreenActivity"
-                android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+                android:name=".activity.PressureTrendChartFullScreenActivity">
 
         </activity>
         <activity
-                android:name=".activity.SessionCommonChartFullScreenActivity"
-                android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+                android:name=".activity.SessionCommonChartFullScreenActivity">
 
         </activity>
         <activity
-                android:name=".activity.SessionPressureChartFullScreenActivity"
-                android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+                android:name=".activity.SessionPressureChartFullScreenActivity">
 
         </activity>
         <activity
-                android:name=".activity.BrainwaveOptionalLineChartActivity"
-                android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+                android:name=".activity.BrainwaveOptionalLineChartActivity" />
         <activity
-                android:name=".activity.BrainwaveSpectrumLineChartActivity"
-                android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+                android:name=".activity.BrainwaveSpectrumLineChartActivity"/>
         <activity
-                android:name=".activity.AffectiveLineChartFullScreenActivity"
-                android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+                android:name=".activity.AffectiveLineChartFullScreenActivity" />
         <activity
-                android:name=".activity.LineChartFullScreenActivity"
-                android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+                android:name=".activity.LineChartFullScreenActivity" />
         <activity
-                android:name=".activity.CandleChartFullScreenActivity"
-                android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+                android:name=".activity.CandleChartFullScreenActivity" />
         <activity
-                android:name=".activity.BarChartFullScreenActivity"
-                android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+                android:name=".activity.BarChartFullScreenActivity" />
         <activity
                 android:name=".activity.WebActivity"
                 android:theme="@style/ProgressBarStyle" />

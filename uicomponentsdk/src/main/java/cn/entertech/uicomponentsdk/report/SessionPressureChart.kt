@@ -3,6 +3,7 @@ package cn.entertech.uicomponentsdk.report
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.DashPathEffect
 import android.graphics.drawable.ColorDrawable
@@ -15,14 +16,16 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.widget.AdapterView
 import android.widget.LinearLayout
+import androidx.appcompat.widget.ListPopupWindow
 import androidx.core.view.ViewCompat
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.activity.SessionPressureChartFullScreenActivity
 import cn.entertech.uicomponentsdk.utils.*
 import cn.entertech.uicomponentsdk.utils.ScreenUtil.isPad
 import cn.entertech.uicomponentsdk.widget.ChartIconView
-import cn.entertech.uicomponentsdk.widget.LineChartMarkView
+import cn.entertech.uicomponentsdk.widget.ChartMoreListAdapter
 import cn.entertech.uicomponentsdk.widget.SessionPressureChartMarkView
 import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.XAxis
@@ -38,11 +41,12 @@ import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.MPPointF
 import com.github.mikephil.charting.utils.Utils
-import kotlinx.android.synthetic.main.layout_card_attention.view.*
 import kotlinx.android.synthetic.main.layout_session_pressure_chart.view.*
 import kotlinx.android.synthetic.main.layout_session_pressure_chart.view.chart
+import kotlinx.android.synthetic.main.layout_session_pressure_chart.view.iv_more
 import kotlinx.android.synthetic.main.layout_session_pressure_chart.view.ll_title
 import kotlinx.android.synthetic.main.layout_session_pressure_chart.view.rl_bg
+import kotlinx.android.synthetic.main.layout_session_pressure_chart.view.tv_date
 import kotlinx.android.synthetic.main.layout_session_pressure_chart.view.tv_time_unit_des
 
 class SessionPressureChart @JvmOverloads constructor(
@@ -51,6 +55,8 @@ class SessionPressureChart @JvmOverloads constructor(
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
+    private var mIconColor: Int = Color.parseColor("#0064ff")
+    private var mDateBgColor: Int = Color.parseColor("#F2F2F7")
     private var mFillGradientStartColor: Int = Color.parseColor("#80FB9C98")
     private var mFillGradientEndColor: Int = Color.parseColor("#805F76FF")
     private var mSourceDataList: List<Double>? = null
@@ -252,6 +258,8 @@ class SessionPressureChart @JvmOverloads constructor(
             R.styleable.SessionPressureChart_spc_fillGradientEndColor,
             mFillGradientEndColor
         )
+        mIconColor = typeArray.getColor(R.styleable.SessionPressureChart_spc_iconColor,mIconColor)
+        mDateBgColor = typeArray.getColor(R.styleable.SessionPressureChart_spc_dateBgColor,mDateBgColor)
         typeArray.recycle()
         initView()
     }
@@ -263,6 +271,61 @@ class SessionPressureChart @JvmOverloads constructor(
         initTimeUnit()
         initChart()
         initChartIcon()
+        initDateSelector()
+    }
+
+    private var onDateSelectListener: ((String) -> Unit)? = null
+    fun setOnDateSelectListener(listener: (String) -> Unit) {
+        this.onDateSelectListener = listener
+    }
+
+    fun initDateSelector() {
+        if (isFullScreen) {
+            rl_date_container.visibility = View.GONE
+            tv_date_fullscreen.visibility = View.VISIBLE
+        } else {
+            rl_date_container.visibility = View.VISIBLE
+            tv_date_fullscreen.visibility = View.GONE
+        }
+        initPopupWindow()
+        iv_more.imageTintList = ColorStateList.valueOf(mIconColor)
+        tv_date.backgroundTintList = ColorStateList.valueOf(mDateBgColor)
+        tv_date.setTextColor(mTextColor)
+        tv_date.iconTint = ColorStateList.valueOf(mTextColor)
+        tv_date.setOnClickListener {
+            onDateSelectListener?.invoke(mStartTime)
+        }
+    }
+
+    fun getMenuListData(): ArrayList<ChartMoreListAdapter.MenuItem> {
+        val lists = ArrayList<ChartMoreListAdapter.MenuItem>()
+        val menuItem = ChartMoreListAdapter.MenuItem()
+        menuItem.text = "Expand"
+        menuItem.iconRes = R.drawable.vector_drawable_full_screen
+        lists.add(menuItem)
+        return lists
+    }
+
+    fun initPopupWindow() {
+        val listPopupWindowButton = iv_more
+        listPopupWindowButton?.visibility = View.VISIBLE
+        val listPopupWindow = ListPopupWindow(context!!, null)
+
+        listPopupWindow.anchorView = listPopupWindowButton
+        val adapter = ChartMoreListAdapter(context, getMenuListData())
+        listPopupWindow.setAdapter(adapter)
+        listPopupWindow.setContentWidth(150f.dp().toInt())
+
+        listPopupWindow.setOnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->
+            if (position == 0) {
+                listPopupWindow.dismiss()
+                fullScreen()
+            }
+        }
+
+        listPopupWindowButton?.setOnClickListener { v: View? ->
+            listPopupWindow.show()
+        }
     }
 
     fun initTimeUnit() {
@@ -317,34 +380,7 @@ class SessionPressureChart @JvmOverloads constructor(
                 if (isFullScreen) {
                     (context as Activity).finish()
                 } else {
-                    var intent = Intent(context, SessionPressureChartFullScreenActivity::class.java)
-                    intent.putExtra("lineWidth", mLineWidth)
-                    intent.putExtra("pointCount", mPointCount)
-                    intent.putExtra("timeUnit", mTimeUnit)
-                    intent.putExtra("highlightLineColor", mHighlightLineColor)
-                    intent.putExtra("highlightLineWidth", mHighlightLineWidth)
-                    intent.putExtra("markViewBgColor", mMarkViewBgColor)
-                    intent.putExtra("markViewTitle", mMarkViewTitle)
-                    intent.putExtra("markViewTitleColor", mMarkViewTitleColor)
-                    intent.putExtra("markViewValueColor", mMarkViewValueColor)
-                    intent.putExtra("gridLineColor", mGridLineColor)
-                    intent.putExtra("xAxisUnit", mXAxisUnit)
-                    intent.putExtra("textColor", mTextColor)
-                    intent.putExtra("mainColor", mMainColor)
-                    intent.putExtra("bgColor", bgColor)
-                    intent.putExtra("averageLineColor", mAverageLineColor)
-                    intent.putExtra("labelColor", mLabelColor)
-                    intent.putExtra("average", mAverageValue)
-                    intent.putExtra("averageBgColor", mAverageLabelBgColor)
-                    intent.putExtra("lineColor", mLineColor)
-                    intent.putExtra("lineData", mSourceDataList?.toDoubleArray())
-                    intent.putExtra("bgLineColor", mBgLineColor)
-//                    intent.putExtra("titleDescription", mTitleDescription)
-                    intent.putExtra("fillStartGradientColor", mFillGradientStartColor)
-                    intent.putExtra("fillEndGradientColor", mFillGradientEndColor)
-                    intent.putExtra("startTime", mStartTime)
-                    intent.putExtra("dataAverage", mDataAverage)
-                    context.startActivity(intent)
+                    fullScreen()
                 }
 
             }
@@ -352,6 +388,36 @@ class SessionPressureChart @JvmOverloads constructor(
 
     }
 
+    fun fullScreen(){
+        var intent = Intent(context, SessionPressureChartFullScreenActivity::class.java)
+        intent.putExtra("lineWidth", mLineWidth)
+        intent.putExtra("pointCount", mPointCount)
+        intent.putExtra("timeUnit", mTimeUnit)
+        intent.putExtra("highlightLineColor", mHighlightLineColor)
+        intent.putExtra("highlightLineWidth", mHighlightLineWidth)
+        intent.putExtra("markViewBgColor", mMarkViewBgColor)
+        intent.putExtra("markViewTitle", mMarkViewTitle)
+        intent.putExtra("markViewTitleColor", mMarkViewTitleColor)
+        intent.putExtra("markViewValueColor", mMarkViewValueColor)
+        intent.putExtra("gridLineColor", mGridLineColor)
+        intent.putExtra("xAxisUnit", mXAxisUnit)
+        intent.putExtra("textColor", mTextColor)
+        intent.putExtra("mainColor", mMainColor)
+        intent.putExtra("bgColor", bgColor)
+        intent.putExtra("averageLineColor", mAverageLineColor)
+        intent.putExtra("labelColor", mLabelColor)
+        intent.putExtra("average", mAverageValue)
+        intent.putExtra("averageBgColor", mAverageLabelBgColor)
+        intent.putExtra("lineColor", mLineColor)
+        intent.putExtra("lineData", mSourceDataList?.toDoubleArray())
+        intent.putExtra("bgLineColor", mBgLineColor)
+//                    intent.putExtra("titleDescription", mTitleDescription)
+        intent.putExtra("fillStartGradientColor", mFillGradientStartColor)
+        intent.putExtra("fillEndGradientColor", mFillGradientEndColor)
+        intent.putExtra("startTime", mStartTime)
+        intent.putExtra("dataAverage", mDataAverage)
+        context.startActivity(intent)
+    }
     fun sampleData(data: List<Double>?, sample: Int): ArrayList<Double> {
         var sampleData = ArrayList<Double>()
         for (i in data!!.indices) {
@@ -393,6 +459,7 @@ class SessionPressureChart @JvmOverloads constructor(
         }
         mSampleData = sampleData(mFirstData, sample)
         mLineColor = mMainColor
+        chart.xAxis.removeAllLimitLines()
         mTimeOfTwoPoint = mTimeUnit * sample
         var totalMin = mFirstData!!.size * mTimeUnit / 1000F / 60F
         var minOffset = (totalMin / 8).toInt() + 1
@@ -726,8 +793,10 @@ class SessionPressureChart @JvmOverloads constructor(
         var endTimeHourMin = TimeUtils.getFormatTime(endTimestamp, "hh:mm a")
         if (startTimeDay == endTimeDay) {
             tv_date.text = "$startTimeDay ${startTimeHourMin}-${endTimeHourMin}"
+            tv_date_fullscreen.text = "$startTimeDay ${startTimeHourMin}-${endTimeHourMin}"
         } else {
             tv_date.text = "$startTimeDay ${startTimeHourMin}-$endTimeDay ${endTimeHourMin} "
+            tv_date_fullscreen.text = "$startTimeDay ${startTimeHourMin}-$endTimeDay ${endTimeHourMin} "
         }
         initView()
     }

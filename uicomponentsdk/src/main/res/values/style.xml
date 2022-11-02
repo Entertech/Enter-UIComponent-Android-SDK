@@ -479,6 +479,8 @@
         <attr name="sbsc_fillColors" format="string" />
         <attr name="sbsc_legendBgColor" format="color" />
         <attr name="sbsc_legendUnselectTextColor" format="color" />
+        <attr name="sbsc_dateBgColor" format="color" />
+        <attr name="sbsc_iconColor" format="color" />
     </declare-styleable>
     <declare-styleable name="TrendCommonCandleChart">
         <attr name="tccc_mainColor" format="color" />
@@ -590,6 +592,8 @@
         <attr name="scc_valueLevelBgColor" format="color" />
         <attr name="scc_valueLevelTextColor" format="color" />
         <attr name="scc_isDataAverageInt" format="boolean" />
+        <attr name="scc_iconColor" format="color" />
+        <attr name="scc_dateBgColor" format="color" />
         <attr name="scc_dataType" format="enum" >
             <enum name="hr" value="0"/>
             <enum name="hrv" value="1"/>
@@ -629,6 +633,8 @@
         <attr name="spc_title_description" format="string" />
         <attr name="spc_fillGradientStartColor" format="color" />
         <attr name="spc_fillGradientEndColor" format="color" />
+        <attr name="spc_iconColor" format="color" />
+        <attr name="spc_dateBgColor" format="color" />
     </declare-styleable>
     <declare-styleable name="ReportAffectiveLineChartCard">
         <attr name="ralcc_isTitleIconShow" format="boolean" />

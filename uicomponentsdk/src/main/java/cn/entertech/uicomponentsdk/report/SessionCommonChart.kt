@@ -4,8 +4,11 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.DashPathEffect
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
@@ -14,13 +17,19 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.appcompat.widget.ListPopupWindow
 import androidx.core.view.ViewCompat
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.activity.SessionCommonChartFullScreenActivity
 import cn.entertech.uicomponentsdk.utils.*
 import cn.entertech.uicomponentsdk.utils.ScreenUtil.isPad
 import cn.entertech.uicomponentsdk.widget.ChartIconView
+import cn.entertech.uicomponentsdk.widget.ChartMoreListAdapter
 import cn.entertech.uicomponentsdk.widget.LineChartMarkView
 import cn.entertech.uicomponentsdk.widget.SessionCommonChartMarkView
 import com.github.mikephil.charting.components.LimitLine
@@ -36,6 +45,7 @@ import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.MPPointF
 import com.github.mikephil.charting.utils.Utils
+import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.layout_card_attention.view.chart
 import kotlinx.android.synthetic.main.layout_card_attention.view.rl_bg
 import kotlinx.android.synthetic.main.layout_card_attention.view.tv_time_unit_des
@@ -52,6 +62,7 @@ class SessionCommonChart @JvmOverloads constructor(
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
+    private var onDateSelectListener: ((String) -> Unit)? = null
     private var mIsDataAverageInt: Boolean = true
     private var lineFlagTotalTime: Int? = 0
     private var mDataType: Int = 0
@@ -133,6 +144,8 @@ class SessionCommonChart @JvmOverloads constructor(
 
     private var mMainColor: Int = Color.parseColor("#0064ff")
     private var mTextColor: Int = Color.parseColor("#333333")
+    private var mIconColor: Int = Color.parseColor("#ff0000")
+    private var mDateBgColor: Int = Color.parseColor("#F2F2F7")
     var mSelfView: View? = null
 
     companion object {
@@ -264,6 +277,8 @@ class SessionCommonChart @JvmOverloads constructor(
         mIsDataAverageInt =
             typeArray.getBoolean(R.styleable.SessionCommonChart_scc_isDataAverageInt, true)
         mDataType = typeArray.getInt(R.styleable.SessionCommonChart_scc_dataType, 0)
+        mIconColor = typeArray.getColor(R.styleable.SessionCommonChart_scc_iconColor,mIconColor)
+        mDateBgColor = typeArray.getColor(R.styleable.SessionCommonChart_scc_dateBgColor,mDateBgColor)
         typeArray.recycle()
         initView()
     }
@@ -275,6 +290,60 @@ class SessionCommonChart @JvmOverloads constructor(
         initTimeUnit()
         initChart()
         initChartIcon()
+        initDateSelector()
+    }
+
+    fun setOnDateSelectListener(listener: (String) -> Unit) {
+        this.onDateSelectListener = listener
+    }
+
+    fun initDateSelector() {
+        if (isFullScreen){
+            rl_date_container.visibility = View.GONE
+            tv_date_fullscreen.visibility = View.VISIBLE
+        }else{
+            rl_date_container.visibility = View.VISIBLE
+            tv_date_fullscreen.visibility = View.GONE
+        }
+        initPopupWindow()
+        iv_more.imageTintList = ColorStateList.valueOf(mIconColor)
+        tv_date.backgroundTintList = ColorStateList.valueOf(mDateBgColor)
+        tv_date.setTextColor(mTextColor)
+        tv_date.iconTint = ColorStateList.valueOf(mTextColor)
+        tv_date.setOnClickListener {
+            onDateSelectListener?.invoke(mStartTime)
+        }
+    }
+
+    fun getMenuListData(): ArrayList<ChartMoreListAdapter.MenuItem> {
+        val lists = ArrayList<ChartMoreListAdapter.MenuItem>()
+        val menuItem = ChartMoreListAdapter.MenuItem()
+        menuItem.text = "Expand"
+        menuItem.iconRes = R.drawable.vector_drawable_full_screen
+        lists.add(menuItem)
+        return lists
+    }
+
+    fun initPopupWindow() {
+        val listPopupWindowButton = iv_more
+        listPopupWindowButton?.visibility = View.VISIBLE
+        val listPopupWindow = ListPopupWindow(context!!, null)
+
+        listPopupWindow.anchorView = listPopupWindowButton
+        val adapter = ChartMoreListAdapter(context, getMenuListData())
+        listPopupWindow.setAdapter(adapter)
+        listPopupWindow.setContentWidth(150f.dp().toInt())
+
+        listPopupWindow.setOnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->
+            if (position == 0){
+                listPopupWindow.dismiss()
+                fullScreen()
+            }
+        }
+
+        listPopupWindowButton?.setOnClickListener { v: View? ->
+            listPopupWindow.show()
+        }
     }
 
     fun initTimeUnit() {
@@ -335,46 +404,50 @@ class SessionCommonChart @JvmOverloads constructor(
                 if (isFullScreen) {
                     (context as Activity).finish()
                 } else {
-                    var intent = Intent(context, SessionCommonChartFullScreenActivity::class.java)
-                    intent.putExtra("lineWidth", mLineWidth)
-                    intent.putExtra("pointCount", mPointCount)
-                    intent.putExtra("timeUnit", mTimeUnit)
-                    intent.putExtra("highlightLineColor", mHighlightLineColor)
-                    intent.putExtra("highlightLineWidth", mHighlightLineWidth)
-                    intent.putExtra("markViewBgColor", mMarkViewBgColor)
-                    intent.putExtra("markViewTitle", mMarkViewTitle)
-                    intent.putExtra("markViewTitleColor", mMarkViewTitleColor)
-                    intent.putExtra("markViewValueColor", mMarkViewValueColor)
-                    intent.putExtra("gridLineColor", mGridLineColor)
-                    intent.putExtra("xAxisUnit", mXAxisUnit)
-                    intent.putExtra("textColor", mTextColor)
-                    intent.putExtra("mainColor", mMainColor)
-                    intent.putExtra("bgColor", bgColor)
-                    intent.putExtra("averageLineColor", mAverageLineColor)
-                    intent.putExtra("labelColor", mLabelColor)
-                    intent.putExtra("average", mAverageValue)
-                    intent.putExtra("averageBgColor", mAverageLabelBgColor)
-                    intent.putExtra("lineColor", mLineColor)
-                    intent.putExtra("secondLineColor", mSecondLineColor)
-                    intent.putExtra("lineData", mSourceDataList?.toDoubleArray())
-                    intent.putExtra("lineDataAverage", mDataAverage)
-                    intent.putExtra("secondLineData", mLineFlagData?.toDoubleArray())
-                    intent.putExtra("bgLineColor", mBgLineColor)
-                    intent.putExtra("titleDescription", mTitleDescription)
-                    intent.putExtra("titleUnit", mTitleUnit)
-                    intent.putExtra("isShowLevel", mIsShowLevel)
-                    intent.putExtra("levelBgColor", mLevelBgColor)
-                    intent.putExtra("levelTextColor", mLevelTextColor)
-                    intent.putExtra("startTime", mStartTime)
-                    intent.putExtra("dataTotalTime", dataTotalTimeMs)
-                    intent.putExtra("lineFlagTotalTime", lineFlagTotalTime)
-                    intent.putExtra("isDataAverageInt", mIsDataAverageInt)
-                    context.startActivity(intent)
+                    fullScreen()
                 }
 
             }
         }
 
+    }
+
+    fun fullScreen(){
+        var intent = Intent(context, SessionCommonChartFullScreenActivity::class.java)
+        intent.putExtra("lineWidth", mLineWidth)
+        intent.putExtra("pointCount", mPointCount)
+        intent.putExtra("timeUnit", mTimeUnit)
+        intent.putExtra("highlightLineColor", mHighlightLineColor)
+        intent.putExtra("highlightLineWidth", mHighlightLineWidth)
+        intent.putExtra("markViewBgColor", mMarkViewBgColor)
+        intent.putExtra("markViewTitle", mMarkViewTitle)
+        intent.putExtra("markViewTitleColor", mMarkViewTitleColor)
+        intent.putExtra("markViewValueColor", mMarkViewValueColor)
+        intent.putExtra("gridLineColor", mGridLineColor)
+        intent.putExtra("xAxisUnit", mXAxisUnit)
+        intent.putExtra("textColor", mTextColor)
+        intent.putExtra("mainColor", mMainColor)
+        intent.putExtra("bgColor", bgColor)
+        intent.putExtra("averageLineColor", mAverageLineColor)
+        intent.putExtra("labelColor", mLabelColor)
+        intent.putExtra("average", mAverageValue)
+        intent.putExtra("averageBgColor", mAverageLabelBgColor)
+        intent.putExtra("lineColor", mLineColor)
+        intent.putExtra("secondLineColor", mSecondLineColor)
+        intent.putExtra("lineData", mSourceDataList?.toDoubleArray())
+        intent.putExtra("lineDataAverage", mDataAverage)
+        intent.putExtra("secondLineData", mLineFlagData?.toDoubleArray())
+        intent.putExtra("bgLineColor", mBgLineColor)
+        intent.putExtra("titleDescription", mTitleDescription)
+        intent.putExtra("titleUnit", mTitleUnit)
+        intent.putExtra("isShowLevel", mIsShowLevel)
+        intent.putExtra("levelBgColor", mLevelBgColor)
+        intent.putExtra("levelTextColor", mLevelTextColor)
+        intent.putExtra("startTime", mStartTime)
+        intent.putExtra("dataTotalTime", dataTotalTimeMs)
+        intent.putExtra("lineFlagTotalTime", lineFlagTotalTime)
+        intent.putExtra("isDataAverageInt", mIsDataAverageInt)
+        context.startActivity(intent)
     }
 
     fun sampleData(data: List<Double>?, sample: Int): ArrayList<Double> {
@@ -475,6 +548,7 @@ class SessionCommonChart @JvmOverloads constructor(
             }
         }
         mTimeOfTwoPoint = mTimeUnit * sample
+        chart.xAxis.removeAllLimitLines()
         var totalMin = mFirstData!!.size * mTimeUnit / 1000F / 60F
         var minOffset = (totalMin / 8).toInt() + 1
         var currentMin = 0
@@ -867,8 +941,10 @@ class SessionCommonChart @JvmOverloads constructor(
         var endTimeHourMin = TimeUtils.getFormatTime(endTimestamp, "hh:mm a")
         if (startTimeDay == endTimeDay) {
             tv_date.text = "$startTimeDay ${startTimeHourMin}-${endTimeHourMin}"
+            tv_date_fullscreen.text = "$startTimeDay ${startTimeHourMin}-${endTimeHourMin}"
         } else {
             tv_date.text = "$startTimeDay ${startTimeHourMin}-$endTimeDay ${endTimeHourMin} "
+            tv_date_fullscreen.text = "$startTimeDay ${startTimeHourMin}-$endTimeDay ${endTimeHourMin} "
         }
         initView()
     }
@@ -1000,7 +1076,7 @@ class SessionCommonChart @JvmOverloads constructor(
         initView()
     }
 
-    fun setDataAverageInt(flag:Boolean){
+    fun setDataAverageInt(flag: Boolean) {
         this.mIsDataAverageInt = flag
         initView()
     }
