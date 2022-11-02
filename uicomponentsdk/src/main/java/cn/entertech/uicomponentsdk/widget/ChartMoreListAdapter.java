@@ -4,6 +4,8 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,8 @@ import cn.entertech.uicomponentsdk.utils.ScreenUtil;
 public class ChartMoreListAdapter extends BaseAdapter {
     private final Context mContext;
     private final List<MenuItem> mData;
+    private int mTextColor = -1;
+
     public ChartMoreListAdapter(Context context, List<MenuItem> data){
         super();
         this.mContext = context;
@@ -54,7 +58,15 @@ public class ChartMoreListAdapter extends BaseAdapter {
         holder = (ViewHolder) convertView.getTag();
         holder.text.setText(mData.get(position).text);
         holder.icon.setImageResource(mData.get(position).iconRes);
+        if (mTextColor != -1){
+            holder.text.setTextColor(mTextColor);
+            holder.icon.setImageTintList(ColorStateList.valueOf(mTextColor));
+        }
         return convertView;
+    }
+
+    public void setTextColor(int color){
+        this.mTextColor = color;
     }
 
     public static class ViewHolder{

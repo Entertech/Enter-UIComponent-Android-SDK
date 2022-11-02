@@ -18,6 +18,7 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.AdapterView
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import androidx.appcompat.widget.ListPopupWindow
 import androidx.core.view.ViewCompat
 import cn.entertech.uicomponentsdk.R
@@ -313,6 +314,7 @@ class SessionPressureChart @JvmOverloads constructor(
 
         listPopupWindow.anchorView = listPopupWindowButton
         val adapter = ChartMoreListAdapter(context, getMenuListData())
+        adapter.setTextColor(mTextColor)
         listPopupWindow.setAdapter(adapter)
         listPopupWindow.setContentWidth(150f.dp().toInt())
 
@@ -358,12 +360,16 @@ class SessionPressureChart @JvmOverloads constructor(
     }
 
     fun initTitle() {
-        if (mIsTitleMenuIconShow) {
+        val lp = ll_chart.layoutParams as RelativeLayout.LayoutParams
+        if (mIsTitleMenuIconShow && isFullScreen) {
+            lp.topMargin = 26f.dp().toInt()
             iv_menu_icon.visibility = View.VISIBLE
             iv_menu_icon.setImageDrawable(mTitleMenuIcon)
         } else {
+            lp.topMargin = 0f.dp().toInt()
             iv_menu_icon.visibility = View.GONE
         }
+        ll_chart.layoutParams = lp
         mChartExtraTopOffset = if (isPad(context)) {
             36f.dp()
         } else {

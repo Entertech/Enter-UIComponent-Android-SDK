@@ -20,8 +20,8 @@
             android:id="@+id/iv_icon"
             android:layout_marginRight="@dimen/activity_margin"
             android:layout_marginLeft="36dp"
-            android:tint="#080A0E"
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:alpha="0.5"
             android:src="@drawable/vector_drawable_full_screen"/>
 </RelativeLayout>

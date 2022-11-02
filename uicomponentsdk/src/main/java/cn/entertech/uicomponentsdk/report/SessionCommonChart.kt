@@ -18,10 +18,7 @@ import android.util.Log
 import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.ImageView
-import android.widget.LinearLayout
+import android.widget.*
 import androidx.appcompat.widget.ListPopupWindow
 import androidx.core.view.ViewCompat
 import cn.entertech.uicomponentsdk.R
@@ -298,13 +295,17 @@ class SessionCommonChart @JvmOverloads constructor(
     }
 
     fun initDateSelector() {
+        val lp =  ll_chart.layoutParams as RelativeLayout.LayoutParams
         if (isFullScreen){
+            lp.topMargin = 26f.dp().toInt()
             rl_date_container.visibility = View.GONE
             tv_date_fullscreen.visibility = View.VISIBLE
         }else{
+            lp.topMargin = 0f.dp().toInt()
             rl_date_container.visibility = View.VISIBLE
             tv_date_fullscreen.visibility = View.GONE
         }
+        ll_chart.layoutParams = lp
         initPopupWindow()
         iv_more.imageTintList = ColorStateList.valueOf(mIconColor)
         tv_date.backgroundTintList = ColorStateList.valueOf(mDateBgColor)
@@ -331,6 +332,7 @@ class SessionCommonChart @JvmOverloads constructor(
 
         listPopupWindow.anchorView = listPopupWindowButton
         val adapter = ChartMoreListAdapter(context, getMenuListData())
+        adapter.setTextColor(mTextColor)
         listPopupWindow.setAdapter(adapter)
         listPopupWindow.setContentWidth(150f.dp().toInt())
 
@@ -376,7 +378,7 @@ class SessionCommonChart @JvmOverloads constructor(
     }
 
     fun initTitle() {
-        if (mIsTitleMenuIconShow) {
+        if (mIsTitleMenuIconShow && isFullScreen) {
             iv_menu_icon.visibility = View.VISIBLE
             iv_menu_icon.setImageDrawable(mTitleMenuIcon)
         } else {

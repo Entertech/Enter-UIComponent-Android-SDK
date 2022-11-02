@@ -16,6 +16,7 @@ import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.AdapterView
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import androidx.appcompat.widget.ListPopupWindow
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.activity.SessionBrainwaveStackChartFullScreenActivity
@@ -274,6 +275,7 @@ class SessionBrainwaveStackChart @JvmOverloads constructor(
 
         listPopupWindow.anchorView = listPopupWindowButton
         val adapter = ChartMoreListAdapter(context, getMenuListData())
+        adapter.setTextColor(mTextColor)
         listPopupWindow.setAdapter(adapter)
         listPopupWindow.setContentWidth(150f.dp().toInt())
 
@@ -391,6 +393,15 @@ class SessionBrainwaveStackChart @JvmOverloads constructor(
         tv_date.setTextColor(mTextColor)
         tv_date_fullscreen.setTextColor(mTextColor)
         tv_title.setTextColor(mTextColor)
+        val lp = rl_chart.layoutParams as RelativeLayout.LayoutParams
+        if (isFullScreen){
+            lp.topMargin = 64f.dp().toInt()
+            iv_menu.visibility = View.VISIBLE
+        }else{
+            lp.topMargin = 32f.dp().toInt()
+            iv_menu.visibility = View.GONE
+        }
+        rl_chart.layoutParams = lp
         iv_menu.setImageDrawable(mTitleMenuIcon)
         iv_menu.setOnClickListener {
             if (isFullScreen) {
