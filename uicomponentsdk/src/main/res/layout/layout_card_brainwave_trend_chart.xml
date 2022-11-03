@@ -96,7 +96,7 @@
                         android:id="@+id/tv_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="AVERAGE"
+                        android:text="@string/chart_title_average"
                         android:textColor="#7A7C8A"
                         android:textSize="12sp"
                         app:layout_constraintLeft_toLeftOf="parent"

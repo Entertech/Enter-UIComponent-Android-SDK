@@ -309,7 +309,7 @@ class SessionPressureChart @JvmOverloads constructor(
     fun getMenuListData(): ArrayList<ChartMoreListAdapter.MenuItem> {
         val lists = ArrayList<ChartMoreListAdapter.MenuItem>()
         val menuItem = ChartMoreListAdapter.MenuItem()
-        menuItem.text = "Expand"
+        menuItem.text = context.getString(R.string.expand)
         menuItem.iconRes = R.drawable.vector_drawable_full_screen
         lists.add(menuItem)
         return lists
