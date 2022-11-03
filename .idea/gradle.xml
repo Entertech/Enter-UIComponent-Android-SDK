@@ -12,6 +12,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/localRepo" />
+            <option value="$PROJECT_DIR$/localRepo/pickerview" />
+            <option value="$PROJECT_DIR$/localRepo/wheelview" />
             <option value="$PROJECT_DIR$/uicomponentsdk" />
           </set>
         </option>

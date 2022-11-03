@@ -41,8 +41,11 @@ class BarChartFullScreenActivity : AppCompatActivity() {
         var levelTextColor = intent.getIntExtra("levelTextColor",Color.RED)
         var xAxisLineColor = intent.getIntExtra("xAxisLineColor",Color.RED)
         var isDataTime = intent.getBooleanExtra("isDataTime",false)
-
+        var curYear = intent.getStringExtra("curYear")
+        var curMonth = intent.getStringExtra("curMonth")
         chart_bar.setLineWidth(lineWidth)
+        chart_bar.curYear = curYear
+        chart_bar.curMonth = curMonth
         chart_bar.isFullScreen = true
         chart_bar.mHighlightLineColor = highlightLineColor
         chart_bar.mHighlightLineWidth = highlightLineWidth

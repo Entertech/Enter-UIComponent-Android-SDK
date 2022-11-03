@@ -253,6 +253,7 @@ class SessionBrainwaveStackChart @JvmOverloads constructor(
         iv_more.imageTintList = ColorStateList.valueOf(mIconColor)
         tv_date.backgroundTintList = ColorStateList.valueOf(mDateBgColor)
         tv_date.setTextColor(mTextColor)
+        tv_date_fullscreen.setTextColor(mTextColor)
         tv_date.iconTint = ColorStateList.valueOf(mTextColor)
         tv_date.setOnClickListener {
             onDateSelectListener?.invoke(mStartTime)

@@ -416,6 +416,9 @@
         <attr name="tcbc_valueLevelBgColor" format="color" />
         <attr name="tcbc_valueLevelTextColor" format="color" />
         <attr name="tcbc_isDataTime" format="boolean" />
+        <attr name="tcbc_bottomSheetBgColor" format="color" />
+        <attr name="tcbc_dateBgColor" format="color" />
+        <attr name="tcbc_iconColor" format="color" />
     </declare-styleable>
 
     <declare-styleable name="TrendPressureChart">
@@ -439,6 +442,9 @@
         <attr name="tpc_valueLevelTextColor" format="color" />
         <attr name="tpc_fillGradientStartColor" format="color" />
         <attr name="tpc_fillGradientEndColor" format="color" />
+        <attr name="tpc_bottomSheetBgColor" format="color" />
+        <attr name="tpc_dateBgColor" format="color" />
+        <attr name="tpc_iconColor" format="color" />
     </declare-styleable>
 
     <declare-styleable name="TrendBrainwaveChart">
@@ -459,6 +465,9 @@
         <attr name="tbc_fillColors" format="string" />
         <attr name="tbc_legendBgColor" format="color" />
         <attr name="tbc_legendUnselectTextColor" format="color" />
+        <attr name="tbc_bottomSheetBgColor" format="color" />
+        <attr name="tbc_dateBgColor" format="color" />
+        <attr name="tbc_iconColor" format="color" />
     </declare-styleable>
 
     <declare-styleable name="SessionBrainwaveStackChart">
@@ -501,6 +510,9 @@
         <attr name="tccc_isShowLevel" format="boolean" />
         <attr name="tccc_valueLevelBgColor" format="color" />
         <attr name="tccc_valueLevelTextColor" format="color" />
+        <attr name="tccc_bottomSheetBgColor" format="color" />
+        <attr name="tccc_iconColor" format="color" />
+        <attr name="tccc_dateBgColor" format="color" />
     </declare-styleable>
 <!--    <declare-styleable name="ReportBarChartCard">-->
 <!--        <attr name="rbcc_isTitleIconShow" format="boolean" />-->

@@ -362,6 +362,7 @@
                     android:text="Jul 12, 2021 2:00 PM-2:33 PM"
                     app:icon="@drawable/vector_drawable_arrow_down"
                     app:iconSize="24dp"
+                    app:strokeWidth="0dp"
                     android:paddingHorizontal="@dimen/activity_margin_half"
                     android:paddingVertical="@dimen/dp_4"
                     android:insetBottom="0dp"

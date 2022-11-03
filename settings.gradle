@@ -1,1 +1,1 @@
-include ':app', ':uicomponentsdk'
+include ':app', ':uicomponentsdk',':localRepo:pickerview',':localRepo:wheelview'

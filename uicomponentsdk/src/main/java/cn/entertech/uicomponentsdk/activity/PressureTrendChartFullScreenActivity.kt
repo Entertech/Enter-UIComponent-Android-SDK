@@ -42,8 +42,11 @@ class PressureTrendChartFullScreenActivity : AppCompatActivity() {
         var xAxisLineColor = intent.getIntExtra("xAxisLineColor",Color.RED)
         var fillGradientStartColor = intent.getIntExtra("fillGradientStartColor",Color.RED)
         var fillGradientEndColor = intent.getIntExtra("fillGradientEndColor",Color.RED)
-
+        var curYear = intent.getStringExtra("curYear")
+        var curMonth = intent.getStringExtra("curMonth")
         chart_pressure_trend.setLineWidth(lineWidth)
+        chart_pressure_trend.curYear = curYear
+        chart_pressure_trend.curMonth = curMonth
         chart_pressure_trend.isFullScreen = true
         chart_pressure_trend.mHighlightLineColor = highlightLineColor
         chart_pressure_trend.mHighlightLineWidth = highlightLineWidth

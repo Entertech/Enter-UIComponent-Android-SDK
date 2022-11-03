@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/rl_date_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_margin"
+        android:layout_marginTop="@dimen/activity_margin"
+        android:layout_marginRight="@dimen/activity_margin"
+        >
+
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/tv_date"
+            app:icon="@drawable/vector_drawable_arrow_down"
+            app:iconGravity="textEnd"
+            app:iconSize="24dp"
+            app:iconTint="#80080A0E"
+            app:strokeWidth="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:backgroundTint="#000000"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:paddingHorizontal="@dimen/activity_margin_half"
+            android:paddingVertical="@dimen/dp_4"
+            android:text="Jul 12, 2021 2:00 PM-2:33 PM"
+            android:textColor="#80080A0E"
+            android:textSize="12sp"
+            />
+
+
+    <ImageView
+            android:id="@+id/iv_more"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="?android:selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:src="@drawable/vector_drawable_more"
+            />
+</RelativeLayout>

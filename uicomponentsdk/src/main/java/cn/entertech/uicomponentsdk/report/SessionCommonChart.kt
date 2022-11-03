@@ -46,7 +46,14 @@ import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.layout_card_attention.view.chart
 import kotlinx.android.synthetic.main.layout_card_attention.view.rl_bg
 import kotlinx.android.synthetic.main.layout_card_attention.view.tv_time_unit_des
+import kotlinx.android.synthetic.main.layout_card_bar_chart.view.*
 import kotlinx.android.synthetic.main.layout_session_common_chart.view.*
+import kotlinx.android.synthetic.main.layout_session_common_chart.view.ll_chart
+import kotlinx.android.synthetic.main.layout_session_common_chart.view.ll_title
+import kotlinx.android.synthetic.main.layout_session_common_chart.view.tv_date_fullscreen
+import kotlinx.android.synthetic.main.layout_session_common_chart.view.tv_level
+import kotlinx.android.synthetic.main.layout_session_common_chart.view.tv_unit
+import kotlinx.android.synthetic.main.layout_session_common_chart.view.tv_value
 import java.lang.Exception
 import java.text.DecimalFormat
 import kotlin.collections.ArrayList
@@ -310,6 +317,7 @@ class SessionCommonChart @JvmOverloads constructor(
         iv_more.imageTintList = ColorStateList.valueOf(mIconColor)
         tv_date.backgroundTintList = ColorStateList.valueOf(mDateBgColor)
         tv_date.setTextColor(mTextColor)
+        tv_date_fullscreen.setTextColor(mTextColor)
         tv_date.iconTint = ColorStateList.valueOf(mTextColor)
         tv_date.setOnClickListener {
             onDateSelectListener?.invoke(mStartTime)
@@ -319,7 +327,7 @@ class SessionCommonChart @JvmOverloads constructor(
     fun getMenuListData(): ArrayList<ChartMoreListAdapter.MenuItem> {
         val lists = ArrayList<ChartMoreListAdapter.MenuItem>()
         val menuItem = ChartMoreListAdapter.MenuItem()
-        menuItem.text = "Expand"
+        menuItem.text = context.getString(R.string.expand)
         menuItem.iconRes = R.drawable.vector_drawable_full_screen
         lists.add(menuItem)
         return lists
@@ -400,6 +408,7 @@ class SessionCommonChart @JvmOverloads constructor(
             tv_unit.text = mTitleUnit
         }
         tv_date.setTextColor(mTextColor)
+        tv_date_fullscreen.setTextColor(mTextColor)
 
         if (!mIsTitleMenuIconBgShow) {
             iv_menu_icon.setOnClickListener {

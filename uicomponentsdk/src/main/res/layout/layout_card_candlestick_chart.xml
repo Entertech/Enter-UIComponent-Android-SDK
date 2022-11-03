@@ -72,7 +72,7 @@
                             />
                 </LinearLayout>
                 <TextView
-                        android:id="@+id/tv_date"
+                        android:id="@+id/tv_date_fullscreen"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/activity_margin_half"
@@ -112,18 +112,19 @@
     </RelativeLayout>
 
     <LinearLayout
+            android:id="@+id/ll_chart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/activity_margin"
             android:orientation="vertical"
             android:visibility="visible"
+            android:paddingBottom="@dimen/activity_margin"
             >
 
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginBottom="@dimen/activity_margin"
                 android:layout_marginLeft="@dimen/activity_margin_half"
                 android:layout_marginRight="@dimen/activity_margin_half"
                 android:layout_weight="1"
@@ -137,6 +138,8 @@
                     android:layout_height="match_parent"
                     />
         </LinearLayout>
+
+        <include layout="@layout/layout_chart_date_select"/>
 
         <LinearLayout
                 android:layout_width="match_parent"

@@ -5,6 +5,7 @@ import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.DashPathEffect
 import android.graphics.drawable.ColorDrawable
@@ -17,9 +18,14 @@ import android.util.AttributeSet
 import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.AdapterView
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import androidx.appcompat.widget.ListPopupWindow
+import androidx.fragment.app.FragmentActivity
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.activity.BrainwaveTrendChartFullScreenActivity
+import cn.entertech.uicomponentsdk.fragment.TrendChartDateSelectFragment
 import cn.entertech.uicomponentsdk.report.TrendCommonCandleChart.Companion.CYCLE_MONTH
 import cn.entertech.uicomponentsdk.utils.*
 import cn.entertech.uicomponentsdk.widget.*
@@ -45,7 +51,10 @@ import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.l
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.rl_bg
 import kotlinx.android.synthetic.main.layout_card_brainwave_trend_chart.view.*
 import kotlinx.android.synthetic.main.layout_card_brainwave_trend_chart.view.iv_menu
+import kotlinx.android.synthetic.main.layout_card_brainwave_trend_chart.view.iv_more
+import kotlinx.android.synthetic.main.layout_card_brainwave_trend_chart.view.rl_date_container
 import kotlinx.android.synthetic.main.layout_card_brainwave_trend_chart.view.tv_date
+import kotlinx.android.synthetic.main.layout_card_brainwave_trend_chart.view.tv_date_fullscreen
 import kotlinx.android.synthetic.main.layout_card_brainwave_trend_chart.view.tv_title
 import java.io.Serializable
 
@@ -55,6 +64,10 @@ class TrendBrainwaveChart @JvmOverloads constructor(
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
+    private var mBottomSheetBg: Int = Color.parseColor("#ffffff")
+    private var mIconColor: Int = Color.parseColor("#cccccc")
+    private var mDateBgColor: Int = Color.parseColor("#cccccc")
+    private var bottomSheetDialog: TrendChartDateSelectFragment? = null
     private var mLegendBgColor: Int = Color.parseColor("#F6F7FA")
     private var mLegendUnselectTextColor: Int = Color.parseColor("#878894")
     private lateinit var checkIndexList: java.util.ArrayList<Int>
@@ -119,7 +132,7 @@ class TrendBrainwaveChart @JvmOverloads constructor(
     private var mGridLineColor: Int = Color.parseColor("#E9EBF1")
     private var mLabelColor: Int = Color.parseColor("#9AA1A9")
     private var mIsTitleMenuIconShow: Boolean = true
-    private var mData: ArrayList<BrainwaveLineSourceData>? = null
+    private var mData = ArrayList<BrainwaveLineSourceData>()
     private var mBg: Drawable? = null
 
     private var mTitleMenuIcon: Drawable?
@@ -140,6 +153,12 @@ class TrendBrainwaveChart @JvmOverloads constructor(
 
     var bgColor = Color.WHITE
 
+    companion object {
+        const val CHART_X_MAX_COUNT_YEAR = 12
+        const val CHART_X_MAX_COUNT_MONTH = 31
+        const val CYCLE_MONTH = "month"
+        const val CYCLE_YEAR = "year"
+    }
     init {
         if (layoutId == null) {
             mSelfView =
@@ -212,6 +231,14 @@ class TrendBrainwaveChart @JvmOverloads constructor(
             R.styleable.TrendBrainwaveChart_tbc_legendUnselectTextColor,
             mLegendUnselectTextColor
         )
+        mBottomSheetBg = typeArray.getColor(
+            R.styleable.TrendBrainwaveChart_tbc_bottomSheetBgColor,
+            mBottomSheetBg
+        )
+        mIconColor = typeArray.getColor(R.styleable.TrendBrainwaveChart_tbc_iconColor, mIconColor)
+        mDateBgColor =
+            typeArray.getColor(R.styleable.TrendBrainwaveChart_tbc_dateBgColor, mDateBgColor)
+
         typeArray.recycle()
         initView()
     }
@@ -298,7 +325,7 @@ class TrendBrainwaveChart @JvmOverloads constructor(
             legend_theta.mIsChecked,
             legend_delta.mIsChecked
         )
-        refreshChart()
+        refreshData()
     }
 
     fun initBg() {
@@ -323,36 +350,48 @@ class TrendBrainwaveChart @JvmOverloads constructor(
     fun initTitle() {
 //        tv_value.setTextColor(mMainColor)
         tv_date.setTextColor(mTextColor)
+        tv_date_fullscreen.setTextColor(mTextColor)
         tv_title.setTextColor(mTextColor)
+        if (isFullScreen){
+            iv_menu.visibility = View.VISIBLE
+        }else{
+            iv_menu.visibility = View.GONE
+        }
         iv_menu.setImageDrawable(mTitleMenuIcon)
         iv_menu.setOnClickListener {
             if (isFullScreen) {
                 (context as Activity).finish()
             } else {
-                var intent = Intent(context, BrainwaveTrendChartFullScreenActivity::class.java)
-                intent.putExtra("lineWidth", mLineWidth)
-                intent.putExtra("highlightLineColor", mHighlightLineColor)
-                intent.putExtra("highlightLineWidth", mHighlightLineWidth)
-                intent.putExtra("markViewBgColor", mMarkViewBgColor)
-                intent.putExtra("markViewTitle", mMarkViewTitle)
-                intent.putExtra("markViewTitleColor", mMarkViewTitleColor)
-                intent.putExtra("markViewValueColor", mMarkViewValueColor)
-                intent.putExtra("gridLineColor", mGridLineColor)
-                intent.putExtra("xAxisUnit", mXAxisUnit)
-                intent.putExtra("textColor", mTextColor)
-                intent.putExtra("bgColor", bgColor)
-                intent.putExtra("averageLineColor", mAverageLineColor)
-                intent.putExtra("labelColor", mLabelColor)
-                intent.putExtra("average", mAverageValue)
-                intent.putExtra("averageBgColor", mAverageLabelBgColor)
-                intent.putExtra("mainColor", mMainColor)
-                intent.putExtra("lineData", mData!! as Serializable)
-                intent.putExtra("cycle", mCycle)
-                intent.putExtra("xAxisLineColor", mXAxisLineColor)
-                intent.putExtra("fillColors", mFillColors)
-                context.startActivity(intent)
+                fullScreen()
             }
         }
+    }
+
+    fun fullScreen(){
+        var intent = Intent(context, BrainwaveTrendChartFullScreenActivity::class.java)
+        intent.putExtra("lineWidth", mLineWidth)
+        intent.putExtra("highlightLineColor", mHighlightLineColor)
+        intent.putExtra("highlightLineWidth", mHighlightLineWidth)
+        intent.putExtra("markViewBgColor", mMarkViewBgColor)
+        intent.putExtra("markViewTitle", mMarkViewTitle)
+        intent.putExtra("markViewTitleColor", mMarkViewTitleColor)
+        intent.putExtra("markViewValueColor", mMarkViewValueColor)
+        intent.putExtra("gridLineColor", mGridLineColor)
+        intent.putExtra("xAxisUnit", mXAxisUnit)
+        intent.putExtra("textColor", mTextColor)
+        intent.putExtra("bgColor", bgColor)
+        intent.putExtra("averageLineColor", mAverageLineColor)
+        intent.putExtra("labelColor", mLabelColor)
+        intent.putExtra("average", mAverageValue)
+        intent.putExtra("averageBgColor", mAverageLabelBgColor)
+        intent.putExtra("mainColor", mMainColor)
+        intent.putExtra("lineData", mData!! as Serializable)
+        intent.putExtra("cycle", mCycle)
+        intent.putExtra("xAxisLineColor", mXAxisLineColor)
+        intent.putExtra("fillColors", mFillColors)
+        intent.putExtra("curMonth", curMonth)
+        intent.putExtra("curYear", curYear)
+        context.startActivity(intent)
     }
 
     fun fillPreDataWhenZero(
@@ -402,7 +441,8 @@ class TrendBrainwaveChart @JvmOverloads constructor(
         when (cycle) {
             TrendCommonCandleChart.CYCLE_MONTH -> {
                 var date = firstData.date
-                var day = date.split("-")[2]
+                val days = date.split("-")
+                var day = days[2]
                 if (day != "01") {
                     var preData = ArrayList<BrainwaveLineSourceData>()
                     var dayIntValue = Integer.parseInt(day)
@@ -414,7 +454,7 @@ class TrendBrainwaveChart @JvmOverloads constructor(
                         barSourceData.alpha = 0f
                         barSourceData.theta = 0f
                         barSourceData.delta = 0f
-                        barSourceData.date = "${day[0]}-${day[1]}-${curDayString}"
+                        barSourceData.date = "${days[0]}-${days[1]}-${curDayString}"
                         barSourceData.xLabel = curDayString
                         preData.add(barSourceData)
                     }
@@ -423,7 +463,8 @@ class TrendBrainwaveChart @JvmOverloads constructor(
             }
             TrendCommonCandleChart.CYCLE_YEAR -> {
                 var date = firstData.date
-                var month = date.split("-")[1]
+                var dates = date.split("-")
+                var month = dates[1]
                 if (month != "01") {
                     var preData = ArrayList<BrainwaveLineSourceData>()
                     var monthIntValue = Integer.parseInt(month)
@@ -435,7 +476,7 @@ class TrendBrainwaveChart @JvmOverloads constructor(
                         barSourceData.alpha = 0f
                         barSourceData.theta = 0f
                         barSourceData.delta = 0f
-                        barSourceData.date = "${month[0]}-${curMonthString}"
+                        barSourceData.date = "${dates[0]}-${curMonthString}"
                         barSourceData.xLabel = curMonthString
                         preData.add(barSourceData)
                     }
@@ -554,9 +595,10 @@ class TrendBrainwaveChart @JvmOverloads constructor(
         } else {
             xLabelOffset = 1
         }
+        chart.xAxis.removeAllLimitLines()
         for (i in data.indices) {
             if (((i + 1) % xLabelOffset == 0 && i + 1 < data.size)) {
-                val llXAxis = LimitLine(i.toFloat() + 0.5f, "${data[i + 1].xLabel}")
+                val llXAxis = LimitLine(i.toFloat() + 0.5f, "${data[i].xLabel}")
                 llXAxis.lineWidth = 0.5f
                 llXAxis.labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
                 llXAxis.textSize = 12f
@@ -567,7 +609,7 @@ class TrendBrainwaveChart @JvmOverloads constructor(
                 chart.xAxis.addLimitLine(llXAxis)
             }
             if (i == 0 && mCycle == TrendCommonCandleChart.CYCLE_YEAR) {
-                val llXAxis = LimitLine(i.toFloat() - 0.5f, "${data[0].xLabel}")
+                val llXAxis = LimitLine(i.toFloat() - 0.5f, "${data[i].xLabel}")
                 llXAxis.lineWidth = 0.5f
                 llXAxis.labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
                 llXAxis.textSize = 12f
@@ -578,6 +620,184 @@ class TrendBrainwaveChart @JvmOverloads constructor(
                 chart.xAxis.addLimitLine(llXAxis)
             }
         }
+    }
+
+    fun initDateSelectBottomSheetDialog() {
+        bottomSheetDialog = TrendChartDateSelectFragment()
+        bottomSheetDialog?.setBgColor(mBottomSheetBg)
+        bottomSheetDialog?.setTextColor(mTextColor)
+        bottomSheetDialog?.setDividerColor(mGridLineColor)
+        val items = getDateSelectList()
+        bottomSheetDialog?.setItems(items, fun(selectDate) {
+            val dates = selectDate.split("-")
+            when (mCycle) {
+                TrendCommonBarChart.CYCLE_MONTH -> {
+                    if (dates.size > 1) {
+                        setCurMonthData(dates[0], dates[1])
+                    }
+                }
+                TrendCommonBarChart.CYCLE_YEAR -> {
+                    if (dates.isNotEmpty()) {
+                        setCurYearData(dates[0])
+                    }
+                }
+            }
+        })
+    }
+
+    fun initChartDateSelectView() {
+        initDateSelectBottomSheetDialog()
+        tv_date.setOnClickListener {
+            bottomSheetDialog?.show(
+                (context as FragmentActivity).supportFragmentManager,
+                TrendChartDateSelectFragment.TAG
+            )
+        }
+        val lp = rl_chart.layoutParams as RelativeLayout.LayoutParams
+        if (isFullScreen) {
+            lp.topMargin = 64f.dp().toInt()
+            rl_date_container.visibility = View.GONE
+            tv_date_fullscreen.visibility = View.VISIBLE
+        } else {
+            lp.topMargin = 32f.dp().toInt()
+            rl_date_container.visibility = View.VISIBLE
+            tv_date_fullscreen.visibility = View.GONE
+        }
+        rl_chart.layoutParams = lp
+        initPopupWindow()
+        iv_more.imageTintList = ColorStateList.valueOf(mIconColor)
+        tv_date.backgroundTintList = ColorStateList.valueOf(mDateBgColor)
+        tv_date.setTextColor(mTextColor)
+        tv_date.iconTint = ColorStateList.valueOf(mTextColor)
+        tv_date_fullscreen.setTextColor(mTextColor)
+    }
+
+    fun initPopupWindow() {
+        val listPopupWindowButton = iv_more
+        listPopupWindowButton?.visibility = View.VISIBLE
+        val listPopupWindow = ListPopupWindow(context!!, null)
+
+        listPopupWindow.anchorView = listPopupWindowButton
+        val adapter = ChartMoreListAdapter(context, getMenuListData())
+        adapter.setTextColor(mTextColor)
+        listPopupWindow.setAdapter(adapter)
+        listPopupWindow.setContentWidth(150f.dp().toInt())
+
+        listPopupWindow.setOnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->
+            if (position == 0) {
+                listPopupWindow.dismiss()
+                fullScreen()
+            }
+        }
+
+        listPopupWindowButton?.setOnClickListener { v: View? ->
+            listPopupWindow.show()
+        }
+    }
+
+
+    fun getMenuListData(): ArrayList<ChartMoreListAdapter.MenuItem> {
+        val lists = ArrayList<ChartMoreListAdapter.MenuItem>()
+        val menuItem = ChartMoreListAdapter.MenuItem()
+        menuItem.text = context.getString(R.string.expand)
+        menuItem.iconRes = R.drawable.vector_drawable_full_screen
+        lists.add(menuItem)
+        return lists
+    }
+
+    fun getDateSelectList(): List<String> {
+        val dateSelectList = ArrayList<String>()
+        var lastDate: String? = null
+        for (i in mData.indices) {
+            val curDate = if (mCycle == CYCLE_MONTH) {
+                val dates = mData[i].date.split("-")
+                "${dates[0]}-${dates[1]}"
+            } else {
+                val dates = mData[i].date.split("-")
+                "${dates[0]}"
+            }
+            if (curDate != lastDate) {
+                dateSelectList.add(curDate)
+            }
+            lastDate = curDate
+        }
+        return dateSelectList
+    }
+    var curYear:String? = null
+    var curMonth:String? = null
+    fun setCurMonthData(year: String, month: String) {
+        curYear = year
+        curMonth = month
+        val curMonthData =
+            mData.filter {
+                it.date.split("-")[1] == month &&
+                        it.date.split(
+                            "-"
+                        )[0] == year
+            } as ArrayList
+        val yearInt = Integer.parseInt(year)
+        val monthInt = Integer.parseInt(month)
+        val curMonthTotalDays = TimeUtils.getMonthLastDay(yearInt, monthInt)
+        val deltaDays = curMonthTotalDays - curMonthData.size
+        if (deltaDays != 0) {
+            val lastDate = curMonthData[curMonthData.size - 1].date
+            val dates = lastDate.split("-")
+            if (dates.size > 2) {
+                var lastDay = Integer.parseInt(dates[2])
+                for (i in 0 until deltaDays) {
+                    var curDayString = String.format("%02d", ++lastDay)
+                    var barSourceData = BrainwaveLineSourceData()
+                    barSourceData.gamma = 0f
+                    barSourceData.beta = 0f
+                    barSourceData.alpha = 0f
+                    barSourceData.theta = 0f
+                    barSourceData.delta = 0f
+                    barSourceData.date = "${dates[0]}-${dates[1]}-${curDayString}"
+                    barSourceData.xLabel = curDayString
+
+                    curMonthData.add(barSourceData)
+                }
+            }
+        }
+        setCurData(curMonthData)
+    }
+
+
+    fun setCurYearData(year: String) {
+        curYear = year
+        val curYearData =
+            mData.filter { it.date.split("-")[0] == year } as ArrayList
+        val deltaMonths = TrendCommonBarChart.CHART_X_MAX_COUNT_YEAR - curYearData.size
+        if (deltaMonths != 0) {
+            val lastDate = curYearData[curYearData.size - 1].date
+            val dates = lastDate.split("-")
+            if (dates.size > 1) {
+                var lastDay = Integer.parseInt(dates[1])
+                for (i in 0 until deltaMonths) {
+                    var curMonthString = String.format("%02d", ++lastDay)
+                    var barSourceData = BrainwaveLineSourceData()
+                    barSourceData.gamma = 0f
+                    barSourceData.beta = 0f
+                    barSourceData.alpha = 0f
+                    barSourceData.theta = 0f
+                    barSourceData.delta = 0f
+                    barSourceData.date = "${dates[0]}-${curMonthString}"
+                    barSourceData.xLabel = curMonthString
+                    curYearData.add(barSourceData)
+                }
+            }
+        }
+        setCurData(curYearData)
+    }
+
+    fun setCurData(data: ArrayList<BrainwaveLineSourceData>) {
+        this.mGammaAverage = data.map { it.gamma }.filter { it != 0f }.average().toInt()
+        this.mBetaAverage = data.map { it.beta }.filter { it != 0f }.average().toInt()
+        this.mAlphaAverage = data.map { it.alpha }.filter { it != 0f }.average().toInt()
+        this.mThetaAverage = data.map { it.theta }.filter { it != 0f }.average().toInt()
+        this.mDeltaAverage = data.map { it.delta }.filter { it != 0f }.average().toInt()
+        setBrainwaveText(mGammaAverage, mBetaAverage, mAlphaAverage, mThetaAverage)
+        refreshChart(data)
     }
 
     fun setBrainwaveText(gamma: Int, beta: Int, alpha: Int, theta: Int) {
@@ -603,12 +823,6 @@ class TrendBrainwaveChart @JvmOverloads constructor(
             return
         }
         this.mData = completeSourceData(data, cycle)
-        this.mGammaAverage = mData!!.map { it.gamma }.filter { it != 0f }.average().toInt()
-        this.mBetaAverage = mData!!.map { it.beta }.filter { it != 0f }.average().toInt()
-        this.mAlphaAverage = mData!!.map { it.alpha }.filter { it != 0f }.average().toInt()
-        this.mThetaAverage = mData!!.map { it.theta }.filter { it != 0f }.average().toInt()
-        this.mDeltaAverage = mData!!.map { it.delta }.filter { it != 0f }.average().toInt()
-        setBrainwaveText(mGammaAverage, mBetaAverage, mAlphaAverage, mThetaAverage)
         this.mCycle = cycle
         this.mPages = initPages(mData!!, cycle)
         this.mChartVisibleXRangeMaximum = initChartVisibleXRangeMaximum(cycle)
@@ -620,12 +834,55 @@ class TrendBrainwaveChart @JvmOverloads constructor(
                 tv_title.text = context.getString(R.string.chart_month_average_percentage)
             }
         }
-        refreshChart()
+        initChartDateSelectView()
+        setInitData()
+    }
+    fun setInitData(){
+        if (isFullScreen){
+            refreshData()
+        }else{
+            setCurData(getLastCycleData())
+        }
     }
 
-    fun refreshChart() {
-        this.mValues = initChartValues(mData!!)
-        initChartXLabel(mData!!)
+    fun refreshData(){
+        if (curYear == null){
+            setCurData(getLastCycleData())
+        }else{
+            if (curMonth != null){
+                setCurMonthData(curYear!!,curMonth!!)
+            }else{
+                setCurYearData(curYear!!)
+            }
+        }
+    }
+
+    fun getLastCycleData(): ArrayList<BrainwaveLineSourceData> {
+        var newListSize = mData.size
+        val newList = ArrayList<BrainwaveLineSourceData>()
+        when (mCycle) {
+            CYCLE_MONTH -> {
+                if (mData.size > CHART_X_MAX_COUNT_MONTH) {
+                    newListSize = CHART_X_MAX_COUNT_MONTH
+                }
+            }
+            CYCLE_YEAR -> {
+                if (mData.size > CHART_X_MAX_COUNT_YEAR) {
+                    newListSize = CHART_X_MAX_COUNT_YEAR
+                }
+            }
+        }
+        for (i in mData.indices) {
+            if (i >= mData.size - newListSize) {
+                newList.add(mData[i])
+            }
+        }
+        return newList
+    }
+
+    fun refreshChart(data: ArrayList<BrainwaveLineSourceData>) {
+        this.mValues = initChartValues(data)
+        initChartXLabel(data)
         for (i in yLimitLineValues.indices) {
             val ll = LimitLine(yLimitLineValues[i], "")
             ll.lineWidth = 0.5f
@@ -716,17 +973,17 @@ class TrendBrainwaveChart @JvmOverloads constructor(
                 translateChartX(chart, -Float.MAX_VALUE)
             }
         }
-        initDateRange()
+        updateDateRange(data)
     }
 
-    fun initDateRange() {
-        if (mData?.size ?: 0 >= mChartVisibleXRangeMaximum) {
-            updateDateRange((mData?.size ?: 0) - mChartVisibleXRangeMaximum)
-            tv_date.visibility = View.VISIBLE
-        } else {
-            tv_date.visibility = View.INVISIBLE
-        }
-    }
+//    fun initDateRange() {
+//        if (mData?.size ?: 0 >= mChartVisibleXRangeMaximum) {
+//            updateDateRange((mData?.size ?: 0) - mChartVisibleXRangeMaximum)
+//            tv_date.visibility = View.VISIBLE
+//        } else {
+//            tv_date.visibility = View.INVISIBLE
+//        }
+//    }
 
 
     private fun initChartVisibleXRangeMaximum(cycle: String): Int {
@@ -790,17 +1047,6 @@ class TrendBrainwaveChart @JvmOverloads constructor(
         yAxis.axisMaximum = 100f
         yAxis.mEntries = floatArrayOf(0f, 25f, 50f, 75f, 100f)
         yAxis.mEntryCount = 5
-//        yAxis.valueFormatter = object : ValueFormatter() {
-//            override fun getFormattedValue(value: Float): String {
-//                val index = yAxis.mEntries.indexOf(value)
-//                if (index == -1) {
-//                    return ""
-//                } else {
-//                    val label = currentYLabels[checkIndexList[index]]
-//                    return label
-//                }
-//            }
-//        }
         yAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
         yAxis.setDrawGridLines(false)
         chart.setNoDataText("")
@@ -867,30 +1113,22 @@ class TrendBrainwaveChart @JvmOverloads constructor(
     val mainHandler = Handler(Looper.getMainLooper())
 
 
-    fun moveToPrePage() {
-        if (curPage == 0) {
-            return
-        }
-        curPage--
-        var prePageIndex = mPages[curPage].firstDataIndex
-        updateDateRange(prePageIndex)
-        chart.moveViewToAnimated(prePageIndex - 0.5f, 0f, YAxis.AxisDependency.LEFT, 500)
-    }
-
-    fun updateDateRange(startIndex: Int) {
-        if (mData == null) {
-            return
-        }
-        var finalStartIndex = startIndex
-        if (startIndex + mChartVisibleXRangeMaximum - 1 >= mData!!.size) {
-            finalStartIndex = mData!!.size - mChartVisibleXRangeMaximum
-        }
-        lowestVisibleData =
-            mData!![finalStartIndex]
-        highestVisibleData =
-            mData!![finalStartIndex + mChartVisibleXRangeMaximum - 1]
-        if (mCycle == "month") {
+    fun updateDateRange(data: ArrayList<BrainwaveLineSourceData>) {
+        lowestVisibleData = data[0]
+        highestVisibleData = data[data.size - 1]
+        if (mCycle == CYCLE_MONTH) {
             tv_date.text = "${
+                lowestVisibleData.date.formatTime(
+                    "yyyy-MM-dd",
+                    "MMM dd, yyyy"
+                )
+            }-${
+                highestVisibleData.date.formatTime(
+                    "yyyy-MM-dd",
+                    "MMM dd, yyyy"
+                )
+            }"
+            tv_date_fullscreen.text = "${
                 lowestVisibleData.date.formatTime(
                     "yyyy-MM-dd",
                     "MMM dd, yyyy"
@@ -913,31 +1151,29 @@ class TrendBrainwaveChart @JvmOverloads constructor(
                     "MMM yyyy"
                 )
             }"
+            tv_date_fullscreen.text = "${
+                lowestVisibleData.date.formatTime(
+                    "yyyy-MM",
+                    "MMM yyyy"
+                )
+            }-${
+                highestVisibleData.date.formatTime(
+                    "yyyy-MM",
+                    "MMM yyyy"
+                )
+            }"
         }
         val curGammaAverage =
-            mData!!.subList(finalStartIndex, finalStartIndex + mChartVisibleXRangeMaximum)
-                .map { it.gamma }.filter { it != 0f }.average().toInt()
+            data.map { it.gamma }.filter { it != 0f }.average().toInt()
         val curBetaAverage =
-            mData!!.subList(finalStartIndex, finalStartIndex + mChartVisibleXRangeMaximum)
-                .map { it.beta }.filter { it != 0f }.average().toInt()
+            data.map { it.beta }.filter { it != 0f }.average().toInt()
         val curAlphaAverage =
-            mData!!.subList(finalStartIndex, finalStartIndex + mChartVisibleXRangeMaximum)
-                .map { it.alpha }.filter { it != 0f }.average().toInt()
+            data.map { it.alpha }.filter { it != 0f }.average().toInt()
         val curThetaAverage =
-            mData!!.subList(finalStartIndex, finalStartIndex + mChartVisibleXRangeMaximum)
-                .map { it.theta }.filter { it != 0f }.average().toInt()
+            data.map { it.theta }.filter { it != 0f }.average().toInt()
         setBrainwaveText(curGammaAverage, curBetaAverage, curAlphaAverage, curThetaAverage)
     }
 
-    fun moveToNextPage() {
-        if (curPage == mPages.size - 1) {
-            return
-        }
-        curPage++
-        var nextPageIndex = mPages[curPage].firstDataIndex
-        updateDateRange(nextPageIndex)
-        chart.moveViewToAnimated(nextPageIndex - 0.5f, 0f, YAxis.AxisDependency.LEFT, 500)
-    }
 
     fun setChartListener() {
         chart.onChartGestureListener = object : OnChartGestureListener {

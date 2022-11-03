@@ -37,9 +37,13 @@ class BrainwaveTrendChartFullScreenActivity : AppCompatActivity() {
         var cycle = intent.getStringExtra("cycle")?:""
         var xAxisLineColor = intent.getIntExtra("xAxisLineColor",Color.RED)
         var fillColors = intent.getStringExtra("fillColors")?:""
+        var curYear = intent.getStringExtra("curYear")
+        var curMonth = intent.getStringExtra("curMonth")
 
         chart_brainwave_trend.setLineWidth(lineWidth)
         chart_brainwave_trend.isFullScreen = true
+        chart_brainwave_trend.curYear = curYear
+        chart_brainwave_trend.curMonth = curMonth
         chart_brainwave_trend.mHighlightLineColor = highlightLineColor
         chart_brainwave_trend.mHighlightLineWidth = highlightLineWidth
         chart_brainwave_trend.mMarkViewBgColor = markViewBgColor

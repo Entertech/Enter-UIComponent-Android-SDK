@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#ffffff"
+        android:id="@+id/ll_bg"
+        >
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            >
+        <TextView
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:id="@+id/tv_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pickerview_cancel"/>
+
+
+        <TextView
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:id="@+id/tv_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pickerview_submit"/>
+
+    </RelativeLayout>
+
+    <cn.entertech.wheelview.view.WheelView
+            android:id="@+id/wheel_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+</LinearLayout>

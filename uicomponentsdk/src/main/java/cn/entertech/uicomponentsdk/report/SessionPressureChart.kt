@@ -42,12 +42,19 @@ import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.MPPointF
 import com.github.mikephil.charting.utils.Utils
+import kotlinx.android.synthetic.main.layout_session_common_chart.view.*
 import kotlinx.android.synthetic.main.layout_session_pressure_chart.view.*
 import kotlinx.android.synthetic.main.layout_session_pressure_chart.view.chart
+import kotlinx.android.synthetic.main.layout_session_pressure_chart.view.iv_menu_icon
 import kotlinx.android.synthetic.main.layout_session_pressure_chart.view.iv_more
+import kotlinx.android.synthetic.main.layout_session_pressure_chart.view.ll_chart
 import kotlinx.android.synthetic.main.layout_session_pressure_chart.view.ll_title
 import kotlinx.android.synthetic.main.layout_session_pressure_chart.view.rl_bg
+import kotlinx.android.synthetic.main.layout_session_pressure_chart.view.rl_date_container
 import kotlinx.android.synthetic.main.layout_session_pressure_chart.view.tv_date
+import kotlinx.android.synthetic.main.layout_session_pressure_chart.view.tv_date_fullscreen
+import kotlinx.android.synthetic.main.layout_session_pressure_chart.view.tv_description
+import kotlinx.android.synthetic.main.layout_session_pressure_chart.view.tv_level
 import kotlinx.android.synthetic.main.layout_session_pressure_chart.view.tv_time_unit_des
 
 class SessionPressureChart @JvmOverloads constructor(
@@ -292,6 +299,7 @@ class SessionPressureChart @JvmOverloads constructor(
         iv_more.imageTintList = ColorStateList.valueOf(mIconColor)
         tv_date.backgroundTintList = ColorStateList.valueOf(mDateBgColor)
         tv_date.setTextColor(mTextColor)
+        tv_date_fullscreen.setTextColor(mTextColor)
         tv_date.iconTint = ColorStateList.valueOf(mTextColor)
         tv_date.setOnClickListener {
             onDateSelectListener?.invoke(mStartTime)
@@ -380,6 +388,7 @@ class SessionPressureChart @JvmOverloads constructor(
 
 
         tv_date.setTextColor(mTextColor)
+        tv_date_fullscreen.setTextColor(mTextColor)
 
         if (!mIsTitleMenuIconBgShow) {
             iv_menu_icon.setOnClickListener {

@@ -5,6 +5,7 @@ import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.DashPathEffect
 import android.graphics.Paint
@@ -19,12 +20,18 @@ import android.util.Log
 import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.AdapterView
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import androidx.appcompat.widget.ListPopupWindow
+import androidx.fragment.app.FragmentActivity
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.activity.CandleChartFullScreenActivity
+import cn.entertech.uicomponentsdk.fragment.TrendChartDateSelectFragment
 import cn.entertech.uicomponentsdk.utils.*
 import cn.entertech.uicomponentsdk.widget.CandleChartMarkView
 import cn.entertech.uicomponentsdk.widget.ChartIconView
+import cn.entertech.uicomponentsdk.widget.ChartMoreListAdapter
 import cn.entertech.uicomponentsdk.widget.CustomCombinedChart
 import com.github.mikephil.charting.charts.CombinedChart.DrawOrder
 import com.github.mikephil.charting.components.LimitLine
@@ -38,15 +45,18 @@ import com.github.mikephil.charting.listener.ChartTouchListener
 import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.MPPointF
+import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.*
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.chart
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.iv_menu
+import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.ll_chart
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.ll_title
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.rl_bg
-import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.tv_date
+import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.tv_date_fullscreen
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.tv_level
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.tv_title
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.tv_unit
 import kotlinx.android.synthetic.main.layout_card_candlestick_chart.view.tv_value
+import kotlinx.android.synthetic.main.layout_chart_date_select.view.*
 import java.io.Serializable
 import kotlin.math.abs
 import kotlin.math.ceil
@@ -58,6 +68,10 @@ class TrendCommonCandleChart @JvmOverloads constructor(
     defStyleAttr: Int = 0, layoutId: Int? = null
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
+    private var bottomSheetDialog: TrendChartDateSelectFragment? = null
+    private var mBottomSheetBg: Int = Color.parseColor("#ffffff")
+    private var mIconColor: Int = Color.parseColor("#cccccc")
+    private var mDateBgColor: Int = Color.parseColor("#cccccc")
     private var mXAxisLineColor: Int = Color.GRAY
     private var mDataAverage: Double = 0.0
     private var mUnit: String? = ""
@@ -134,6 +148,8 @@ class TrendCommonCandleChart @JvmOverloads constructor(
     companion object {
         const val CYCLE_MONTH = "month"
         const val CYCLE_YEAR = "year"
+        const val CHART_X_MAX_COUNT_YEAR = 12
+        const val CHART_X_MAX_COUNT_MONTH = 31
     }
 
     init {
@@ -210,6 +226,13 @@ class TrendCommonCandleChart @JvmOverloads constructor(
             R.styleable.TrendCommonCandleChart_tccc_xAxisLineColor,
             mXAxisLineColor
         )
+        mBottomSheetBg = typeArray.getColor(
+            R.styleable.TrendCommonCandleChart_tccc_bottomSheetBgColor,
+            mBottomSheetBg
+        )
+        mIconColor = typeArray.getColor(R.styleable.TrendCommonCandleChart_tccc_iconColor, mIconColor)
+        mDateBgColor =
+            typeArray.getColor(R.styleable.TrendCommonCandleChart_tccc_dateBgColor, mDateBgColor)
         typeArray.recycle()
         initView()
     }
@@ -256,37 +279,49 @@ class TrendCommonCandleChart @JvmOverloads constructor(
         }
         tv_value.setTextColor(mMainColor)
         tv_date.setTextColor(mTextColor)
+        tv_date_fullscreen.setTextColor(mTextColor)
         tv_title.setTextColor(mTextColor)
         tv_unit.setTextColor(mTextColor)
         iv_menu.setImageDrawable(mTitleMenuIcon)
+        if (isFullScreen){
+            iv_menu.visibility = View.VISIBLE
+        }else{
+            iv_menu.visibility = View.GONE
+        }
         iv_menu.setOnClickListener {
             if (isFullScreen) {
                 (context as Activity).finish()
             } else {
-                var intent = Intent(context, CandleChartFullScreenActivity::class.java)
-                intent.putExtra("lineWidth", mLineWidth)
-                intent.putExtra("highlightLineColor", mHighlightLineColor)
-                intent.putExtra("highlightLineWidth", mHighlightLineWidth)
-                intent.putExtra("markViewBgColor", mMarkViewBgColor)
-                intent.putExtra("markViewTitle", mMarkViewTitle)
-                intent.putExtra("markViewTitleColor", mMarkViewTitleColor)
-                intent.putExtra("markViewValueColor", mMarkViewValueColor)
-                intent.putExtra("gridLineColor", mGridLineColor)
-                intent.putExtra("xAxisLineColor", mXAxisLineColor)
-                intent.putExtra("xAxisUnit", mXAxisUnit)
-                intent.putExtra("textColor", mTextColor)
-                intent.putExtra("mainColor", mMainColor)
-                intent.putExtra("bgColor", bgColor)
-                intent.putExtra("averageLineColor", mAverageLineColor)
-                intent.putExtra("labelColor", mLabelColor)
-                intent.putExtra("average", mAverageValue)
-                intent.putExtra("averageBgColor", mAverageLabelBgColor)
-                intent.putExtra("lineColor", mLineColor)
-                intent.putExtra("lineData", mData as Serializable)
-                intent.putExtra("cycle", mCycle)
-                context.startActivity(intent)
+                fullScreen()
             }
         }
+    }
+
+    fun fullScreen(){
+        var intent = Intent(context, CandleChartFullScreenActivity::class.java)
+        intent.putExtra("lineWidth", mLineWidth)
+        intent.putExtra("highlightLineColor", mHighlightLineColor)
+        intent.putExtra("highlightLineWidth", mHighlightLineWidth)
+        intent.putExtra("markViewBgColor", mMarkViewBgColor)
+        intent.putExtra("markViewTitle", mMarkViewTitle)
+        intent.putExtra("markViewTitleColor", mMarkViewTitleColor)
+        intent.putExtra("markViewValueColor", mMarkViewValueColor)
+        intent.putExtra("gridLineColor", mGridLineColor)
+        intent.putExtra("xAxisLineColor", mXAxisLineColor)
+        intent.putExtra("xAxisUnit", mXAxisUnit)
+        intent.putExtra("textColor", mTextColor)
+        intent.putExtra("mainColor", mMainColor)
+        intent.putExtra("bgColor", bgColor)
+        intent.putExtra("averageLineColor", mAverageLineColor)
+        intent.putExtra("labelColor", mLabelColor)
+        intent.putExtra("average", mAverageValue)
+        intent.putExtra("averageBgColor", mAverageLabelBgColor)
+        intent.putExtra("lineColor", mLineColor)
+        intent.putExtra("lineData", mData as Serializable)
+        intent.putExtra("cycle", mCycle)
+        intent.putExtra("curYear", curYear)
+        intent.putExtra("curMonth", curMonth)
+        context.startActivity(intent)
     }
 
     fun completeSourceData(
@@ -346,6 +381,7 @@ class TrendCommonCandleChart @JvmOverloads constructor(
         } else {
             xLabelOffset = 1
         }
+        chart.xAxis.removeAllLimitLines()
         for (i in data.indices) {
             if (((i + 1) % xLabelOffset == 0 && i + 1 < data.size)) {
                 val llXAxis = LimitLine(i.toFloat() + 0.5f, "${data[i + 1].xLabel}")
@@ -374,9 +410,9 @@ class TrendCommonCandleChart @JvmOverloads constructor(
 
     private fun initChartVisibleXRangeMaximum(cycle: String): Float {
         return if (cycle == CYCLE_MONTH) {
-            31f
+            CHART_X_MAX_COUNT_MONTH.toFloat()
         } else {
-            12f
+            CHART_X_MAX_COUNT_YEAR.toFloat()
         }
 
     }
@@ -387,10 +423,10 @@ class TrendCommonCandleChart @JvmOverloads constructor(
             values.add(
                 CandleEntry(
                     i.toFloat(),
-                    mData[i].max,
-                    mData[i].min,
-                    mData[i].max,
-                    mData[i].min, mData[i]
+                    data[i].max,
+                    data[i].min,
+                    data[i].max,
+                    data[i].min, data[i]
                 )
             )
         }
@@ -448,36 +484,175 @@ class TrendCommonCandleChart @JvmOverloads constructor(
         }
         return pages
     }
+    fun initDateSelectBottomSheetDialog() {
+        bottomSheetDialog = TrendChartDateSelectFragment()
+        bottomSheetDialog?.setBgColor(mBottomSheetBg)
+        bottomSheetDialog?.setTextColor(mTextColor)
+        bottomSheetDialog?.setDividerColor(mGridLineColor)
+        val items = getDateSelectList()
+        bottomSheetDialog?.setItems(items, fun(selectDate) {
+            val dates = selectDate.split("-")
+            when (mCycle) {
+                TrendCommonBarChart.CYCLE_MONTH -> {
+                    if (dates.size > 1) {
+                        setCurMonthData(dates[0], dates[1])
+                    }
+                }
+                TrendCommonBarChart.CYCLE_YEAR -> {
+                    if (dates.isNotEmpty()) {
+                        setCurYearData(dates[0])
+                    }
+                }
+            }
+        })
+    }
 
-    var firstIn = true
-    lateinit var set1: CandleDataSet
-    lateinit var set2: LineDataSet
-    var mPages = ArrayList<ChartPage>()
-    var curPage = -1
-    var mCandleValues = ArrayList<CandleEntry>()
-    var mLineValues = ArrayList<Entry>()
-    private var mChartVisibleXRangeMaximum: Float = 0f
-    fun setData(data: ArrayList<CandleSourceData>?, cycle: String) {
-        when (cycle) {
-            "month" -> {
-                tv_title.text = context.getString(R.string.chart_daily_average)
-            }
-            "year" -> {
-                tv_title.text = context.getString(R.string.chart_monthly_average)
+    fun initChartDateSelectView() {
+        initDateSelectBottomSheetDialog()
+        tv_date.setOnClickListener {
+            bottomSheetDialog?.show(
+                (context as FragmentActivity).supportFragmentManager,
+                TrendChartDateSelectFragment.TAG
+            )
+        }
+        val lp = ll_chart.layoutParams as RelativeLayout.LayoutParams
+        if (isFullScreen) {
+            lp.topMargin = 16f.dp().toInt()
+            rl_date_container.visibility = View.GONE
+            tv_date_fullscreen.visibility = View.VISIBLE
+        } else {
+            lp.topMargin = 0f.dp().toInt()
+            rl_date_container.visibility = View.VISIBLE
+            tv_date_fullscreen.visibility = View.GONE
+        }
+        ll_chart.layoutParams = lp
+        initPopupWindow()
+        iv_more.imageTintList = ColorStateList.valueOf(mIconColor)
+        tv_date.backgroundTintList = ColorStateList.valueOf(mDateBgColor)
+        tv_date.setTextColor(mTextColor)
+        tv_date.iconTint = ColorStateList.valueOf(mTextColor)
+        tv_date_fullscreen.setTextColor(mTextColor)
+    }
+
+    fun initPopupWindow() {
+        val listPopupWindowButton = iv_more
+        listPopupWindowButton?.visibility = View.VISIBLE
+        val listPopupWindow = ListPopupWindow(context!!, null)
+
+        listPopupWindow.anchorView = listPopupWindowButton
+        val adapter = ChartMoreListAdapter(context, getMenuListData())
+        adapter.setTextColor(mTextColor)
+        listPopupWindow.setAdapter(adapter)
+        listPopupWindow.setContentWidth(150f.dp().toInt())
+
+        listPopupWindow.setOnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->
+            if (position == 0) {
+                listPopupWindow.dismiss()
+                fullScreen()
             }
         }
-        if (data == null || data.isEmpty()) {
-            return
+
+        listPopupWindowButton?.setOnClickListener { v: View? ->
+            listPopupWindow.show()
         }
-        this.mDataAverage = data.map { it.average }.filter { it != -200f && it != 0f }.average()
-        this.mCycle = cycle
-        this.mData = completeSourceData(data, cycle)
-        this.mChartVisibleXRangeMaximum = initChartVisibleXRangeMaximum(cycle)
-        this.mCandleValues = initChartCandleValues(mData!!)
-        this.mLineValues = initChartLineValues(mData!!)
-        this.mPages = initPages(data, cycle)
+    }
+
+
+    fun getMenuListData(): ArrayList<ChartMoreListAdapter.MenuItem> {
+        val lists = ArrayList<ChartMoreListAdapter.MenuItem>()
+        val menuItem = ChartMoreListAdapter.MenuItem()
+        menuItem.text = context.getString(R.string.expand)
+        menuItem.iconRes = R.drawable.vector_drawable_full_screen
+        lists.add(menuItem)
+        return lists
+    }
+
+    fun getDateSelectList(): List<String> {
+        val dateSelectList = ArrayList<String>()
+        var lastDate: String? = null
+        for (i in mData.indices) {
+            val curDate = if (mCycle == TrendCommonBarChart.CYCLE_MONTH) {
+                val dates = mData[i].date.split("-")
+                "${dates[0]}-${dates[1]}"
+            } else {
+                val dates = mData[i].date.split("-")
+                "${dates[0]}"
+            }
+            if (curDate != lastDate) {
+                dateSelectList.add(curDate)
+            }
+            lastDate = curDate
+        }
+        return dateSelectList
+    }
+    var curYear:String? = null
+    var curMonth:String? = null
+    fun setCurMonthData(year: String, month: String) {
+        curYear = year
+        curMonth = month
+        val curMonthData =
+            mData.filter {
+                it.date.split("-")[1] == month &&
+                        it.date.split(
+                            "-"
+                        )[0] == year
+            } as ArrayList
+        val yearInt = Integer.parseInt(year)
+        val monthInt = Integer.parseInt(month)
+        val curMonthTotalDays = TimeUtils.getMonthLastDay(yearInt, monthInt)
+        val deltaDays = curMonthTotalDays - curMonthData.size
+        if (deltaDays != 0) {
+            val lastDate = curMonthData[curMonthData.size - 1].date
+            val dates = lastDate.split("-")
+            if (dates.size > 2) {
+                var lastDay = Integer.parseInt(dates[2])
+                for (i in 0 until deltaDays) {
+                    val candleSourceData = CandleSourceData()
+                    var curDayString = String.format("%02d", ++lastDay)
+                    candleSourceData.average = 0f
+                    candleSourceData.max = 0f
+                    candleSourceData.min = 0f
+                    candleSourceData.date = "${dates[0]}-${dates[1]}-${curDayString}"
+                    candleSourceData.xLabel = curDayString
+                    curMonthData.add(candleSourceData)
+                }
+            }
+        }
+        setCurData(curMonthData)
+    }
+
+
+    fun setCurYearData(year: String) {
+        curYear = year
+        val curYearData =
+            mData.filter { it.date.split("-")[0] == year } as ArrayList
+        val deltaMonths = TrendCommonBarChart.CHART_X_MAX_COUNT_YEAR - curYearData.size
+        if (deltaMonths != 0) {
+            val lastDate = curYearData[curYearData.size - 1].date
+            val dates = lastDate.split("-")
+            if (dates.size > 1) {
+                var lastDay = Integer.parseInt(dates[1])
+                for (i in 0 until deltaMonths) {
+                    val candleSourceData = CandleSourceData()
+                    var curMonthString = String.format("%02d", ++lastDay)
+                    candleSourceData.average = 0f
+                    candleSourceData.max = 0f
+                    candleSourceData.min = 0f
+                    candleSourceData.date = "${dates[0]}-${curMonthString}"
+                    candleSourceData.xLabel = curMonthString
+                    curYearData.add(candleSourceData)
+                }
+            }
+        }
+        setCurData(curYearData)
+    }
+
+    fun setCurData(data: ArrayList<CandleSourceData>) {
+        this.mChartVisibleXRangeMaximum = initChartVisibleXRangeMaximum(mCycle)
+        this.mCandleValues = initChartCandleValues(data)
+        this.mLineValues = initChartLineValues(data)
         initChartXLabel(data)
-
+        this.mDataAverage = data.map { it.average }.filter { it != -200f && it != 0f }.average()
         when (mDataAverage) {
             in 0.0..29.0 -> tv_level.text = context.getString(R.string.sdk_report_low)
             in 30.0..69.0 -> tv_level.text = context.getString(R.string.sdk_report_nor)
@@ -534,7 +709,7 @@ class TrendCommonCandleChart @JvmOverloads constructor(
         initChart()
         chart.data = combinedData
         chart.isHighlightPerDragEnabled = false
-        calNiceLabel(mData!!)
+        calNiceLabel(data!!)
         chart.setVisibleXRangeMaximum(mChartVisibleXRangeMaximum)
         chart.xAxis.axisMinimum = -0.5f
         chart.xAxis.axisMaximum = chart.data.xMax + 0.5f
@@ -543,8 +718,71 @@ class TrendCommonCandleChart @JvmOverloads constructor(
                 translateChartX(chart, -Float.MAX_VALUE)
             }
         }
-        initDateRange()
+//        initDateRange()
         chart.notifyDataSetChanged()
+        updateDateRange(data)
+//        initDateRange()
+    }
+    var firstIn = true
+    lateinit var set1: CandleDataSet
+    lateinit var set2: LineDataSet
+    var mPages = ArrayList<ChartPage>()
+    var curPage = -1
+    var mCandleValues = ArrayList<CandleEntry>()
+    var mLineValues = ArrayList<Entry>()
+    private var mChartVisibleXRangeMaximum: Float = 0f
+    fun setData(data: ArrayList<CandleSourceData>?, cycle: String) {
+        when (cycle) {
+            "month" -> {
+                tv_title.text = context.getString(R.string.chart_daily_average)
+            }
+            "year" -> {
+                tv_title.text = context.getString(R.string.chart_monthly_average)
+            }
+        }
+        if (data == null || data.isEmpty()) {
+            return
+        }
+        this.mCycle = cycle
+        this.mData = completeSourceData(data, cycle)
+        this.mPages = initPages(data, cycle)
+        initChartDateSelectView()
+        if (isFullScreen){
+            if (curYear == null){
+                setCurData(getLastCycleData())
+            }else{
+                if (curMonth != null){
+                    setCurMonthData(curYear!!,curMonth!!)
+                }else{
+                    setCurYearData(curYear!!)
+                }
+            }
+        }else{
+            setCurData(getLastCycleData())
+        }
+    }
+
+    fun getLastCycleData(): ArrayList<CandleSourceData> {
+        var newListSize = mData.size
+        val newList = ArrayList<CandleSourceData>()
+        when (mCycle) {
+            CYCLE_MONTH -> {
+                if (mData.size >CHART_X_MAX_COUNT_MONTH) {
+                    newListSize = CHART_X_MAX_COUNT_MONTH
+                }
+            }
+            CYCLE_YEAR -> {
+                if (mData.size > CHART_X_MAX_COUNT_YEAR) {
+                    newListSize = CHART_X_MAX_COUNT_YEAR
+                }
+            }
+        }
+        for (i in mData.indices) {
+            if (i >= mData.size - newListSize) {
+                newList.add(mData[i])
+            }
+        }
+        return newList
     }
 
     private fun calNiceLabel(data: List<CandleSourceData>) {
@@ -696,36 +934,42 @@ class TrendCommonCandleChart @JvmOverloads constructor(
     val mainHandler = Handler(Looper.getMainLooper())
 
 
-    fun moveToPrePage() {
-        if (curPage == 0) {
-            return
-        }
-        curPage--
-        var prePageIndex = mPages[curPage].firstDataIndex
-        updateDateRange(prePageIndex)
-        chart.moveViewToAnimated(prePageIndex - 0.5f, 0f, YAxis.AxisDependency.LEFT, 500)
-    }
+//    fun moveToPrePage() {
+//        if (curPage == 0) {
+//            return
+//        }
+//        curPage--
+//        var prePageIndex = mPages[curPage].firstDataIndex
+//        updateDateRange(prePageIndex)
+//        chart.moveViewToAnimated(prePageIndex - 0.5f, 0f, YAxis.AxisDependency.LEFT, 500)
+//    }
 
-    fun moveToNextPage() {
-        if (curPage == mPages.size - 1) {
-            return
-        }
-        curPage++
-        var nextPageIndex = mPages[curPage].firstDataIndex
-        updateDateRange(nextPageIndex)
-        chart.moveViewToAnimated(nextPageIndex - 0.5f, 0f, YAxis.AxisDependency.LEFT, 500)
-    }
+//    fun moveToNextPage() {
+//        if (curPage == mPages.size - 1) {
+//            return
+//        }
+//        curPage++
+//        var nextPageIndex = mPages[curPage].firstDataIndex
+//        updateDateRange(nextPageIndex)
+//        chart.moveViewToAnimated(nextPageIndex - 0.5f, 0f, YAxis.AxisDependency.LEFT, 500)
+//    }
 
-    fun updateDateRange(startIndex: Int) {
-        var finalStartIndex = startIndex
-        if (startIndex + mChartVisibleXRangeMaximum.toInt() - 1 >= mData.size) {
-            finalStartIndex = mData.size - mChartVisibleXRangeMaximum.toInt()
-        }
-        lowestVisibleData = mData[finalStartIndex]
-        highestVisibleData =
-            mData[finalStartIndex + mChartVisibleXRangeMaximum.toInt() - 1]
-        if (mCycle == "month") {
+    fun updateDateRange(data: ArrayList<CandleSourceData>) {
+        lowestVisibleData = data[0]
+        highestVisibleData = data[data.size - 1]
+        if (mCycle == CYCLE_MONTH) {
             tv_date.text = "${
+                lowestVisibleData.date.formatTime(
+                    "yyyy-MM-dd",
+                    "MMM dd, yyyy"
+                )
+            }-${
+                highestVisibleData.date.formatTime(
+                    "yyyy-MM-dd",
+                    "MMM dd, yyyy"
+                )
+            }"
+            tv_date_fullscreen.text = "${
                 lowestVisibleData.date.formatTime(
                     "yyyy-MM-dd",
                     "MMM dd, yyyy"
@@ -738,6 +982,17 @@ class TrendCommonCandleChart @JvmOverloads constructor(
             }"
         } else {
             tv_date.text = "${
+                lowestVisibleData.date.formatTime(
+                    "yyyy-MM",
+                    "MMM yyyy"
+                )
+            }-${
+                highestVisibleData.date.formatTime(
+                    "yyyy-MM",
+                    "MMM yyyy"
+                )
+            }"
+            tv_date_fullscreen.text = "${
                 lowestVisibleData.date.formatTime(
                     "yyyy-MM",
                     "MMM yyyy"
@@ -750,19 +1005,18 @@ class TrendCommonCandleChart @JvmOverloads constructor(
             }"
         }
         var showDataAverage =
-            mData?.subList(finalStartIndex, finalStartIndex + mChartVisibleXRangeMaximum.toInt())
-                ?.filter { it.average != 0f && it.average != -200f }?.map { it.average }?.average() ?: 0.0
+            data?.filter { it.average != 0f && it.average != -200f }?.map { it.average }?.average() ?: 0.0
         tv_value.text = "${ceil(showDataAverage).toInt()}"
     }
 
-    fun initDateRange() {
-        if (mData.size >= mChartVisibleXRangeMaximum) {
-            updateDateRange(mData.size - mChartVisibleXRangeMaximum.toInt())
-            tv_date.visibility = View.VISIBLE
-        } else {
-            tv_date.visibility = View.INVISIBLE
-        }
-    }
+//    fun initDateRange() {
+//        if (mData.size >= mChartVisibleXRangeMaximum) {
+//            updateDateRange(mData.size - mChartVisibleXRangeMaximum.toInt())
+//            tv_date.visibility = View.VISIBLE
+//        } else {
+//            tv_date.visibility = View.INVISIBLE
+//        }
+//    }
 
     fun setChartListener() {
         chart.onChartGestureListener = object : OnChartGestureListener {

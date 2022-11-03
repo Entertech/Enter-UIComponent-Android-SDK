@@ -267,6 +267,15 @@ class ReportDefaultFragment : Fragment() {
         for (i in 1..12) {
             dates.add("2022-${String.format("%02d", i)}")
         }
+        dates.add("2023-01")
+        dates.add("2023-02")
+        dates.add("2023-03")
+        dates.add("2023-04")
+        dates.add("2023-05")
+        dates.add("2023-06")
+        dates.add("2023-07")
+        dates.add("2023-08")
+        dates.add("2023-09")
 //        }
         return dates
     }
