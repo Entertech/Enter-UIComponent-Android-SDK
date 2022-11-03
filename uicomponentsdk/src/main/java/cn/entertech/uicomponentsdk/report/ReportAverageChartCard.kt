@@ -184,7 +184,7 @@ class ReportAverageChartCard @JvmOverloads constructor(
         listPopupWindow.setOnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->
             // Respond to list popup window item click.
             listPopupWindowButton.text = items[position]
-            setValues(valueList!![position])
+            setValues(valueList!![position],items[position])
             // Dismiss popup.
             listPopupWindow.dismiss()
             isWindowShow = false
@@ -253,30 +253,31 @@ class ReportAverageChartCard @JvmOverloads constructor(
         if (valueList.isEmpty() || items.isEmpty()) {
             return
         } else {
-            setValues(valueList[0])
+            setValues(valueList[0],items[0])
             initPopupWindow()
         }
     }
 
-    fun setValues(values: List<Float>) {
+    fun setValues(values: List<Float>,itemText:String? = null) {
         if (values.isEmpty()) {
             return
         }
+        val tag = itemText ?: mTag
         average_bar_chart.setValues(values)
         var average = ceil(values.average())
         var lastValue = values[values.size - 1]
         if (lastValue > average) {
-            tv_tip.text = "${context.getString(R.string.sdk_report_last_7_time_tip_head)} $mTag ${
+            tv_tip.text = "${context.getString(R.string.sdk_report_last_7_time_tip_head)} $tag ${
                 context.getString(R.string.sdk_report_last_7_time_tip_foot_1)
             }"
             iv_arrow.setImageDrawable(mValueBiggerIcon)
         } else if (lastValue < average) {
-            tv_tip.text = "${context.getString(R.string.sdk_report_last_7_time_tip_head)} $mTag ${
+            tv_tip.text = "${context.getString(R.string.sdk_report_last_7_time_tip_head)} $tag ${
                 context.getString(R.string.sdk_report_last_7_time_tip_foot_2)
             }"
             iv_arrow.setImageDrawable(mValueSmallerIcon)
         } else {
-            tv_tip.text = "${context.getString(R.string.sdk_report_last_7_time_tip_head)} $mTag ${
+            tv_tip.text = "${context.getString(R.string.sdk_report_last_7_time_tip_head)} $tag ${
                 context.getString(R.string.sdk_report_last_7_time_tip_foot_3)
             }"
             iv_arrow.setImageDrawable(mValueEqualIcon)
