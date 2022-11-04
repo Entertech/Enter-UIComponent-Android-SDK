@@ -542,7 +542,7 @@ class SessionCommonChart @JvmOverloads constructor(
             }
         } else {
             var average = if (mIsDataAverageInt) {
-                "${mDataAverage.toInt()}"
+                "${ceil(mDataAverage).toInt()}"
             } else {
                 var decimalFormat = DecimalFormat("0.0")
                 decimalFormat.format(mDataAverage)

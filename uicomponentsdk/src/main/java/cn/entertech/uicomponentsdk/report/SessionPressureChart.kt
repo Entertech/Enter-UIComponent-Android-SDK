@@ -56,6 +56,7 @@ import kotlinx.android.synthetic.main.layout_session_pressure_chart.view.tv_date
 import kotlinx.android.synthetic.main.layout_session_pressure_chart.view.tv_description
 import kotlinx.android.synthetic.main.layout_session_pressure_chart.view.tv_level
 import kotlinx.android.synthetic.main.layout_session_pressure_chart.view.tv_time_unit_des
+import kotlin.math.ceil
 
 class SessionPressureChart @JvmOverloads constructor(
     context: Context,
@@ -455,9 +456,9 @@ class SessionPressureChart @JvmOverloads constructor(
         this.mSourceDataList = data
         this.dataTotalTimeMs = data.size * mTimeUnit
         if (dataAverage == null){
-            this.mDataAverage = data.average().toInt()
+            this.mDataAverage = ceil(data.average()).toInt()
         }else{
-            this.mDataAverage = dataAverage.toInt()
+            this.mDataAverage = ceil(dataAverage).toInt()
         }
 
         this.mFirstData = formatData(data)

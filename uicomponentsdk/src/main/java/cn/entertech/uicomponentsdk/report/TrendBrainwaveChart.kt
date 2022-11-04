@@ -57,6 +57,7 @@ import kotlinx.android.synthetic.main.layout_card_brainwave_trend_chart.view.tv_
 import kotlinx.android.synthetic.main.layout_card_brainwave_trend_chart.view.tv_date_fullscreen
 import kotlinx.android.synthetic.main.layout_card_brainwave_trend_chart.view.tv_title
 import java.io.Serializable
+import kotlin.math.ceil
 
 class TrendBrainwaveChart @JvmOverloads constructor(
     context: Context,
@@ -791,11 +792,11 @@ class TrendBrainwaveChart @JvmOverloads constructor(
     }
 
     fun setCurData(data: ArrayList<BrainwaveLineSourceData>) {
-        this.mGammaAverage = data.map { it.gamma }.filter { it != 0f }.average().toInt()
-        this.mBetaAverage = data.map { it.beta }.filter { it != 0f }.average().toInt()
-        this.mAlphaAverage = data.map { it.alpha }.filter { it != 0f }.average().toInt()
-        this.mThetaAverage = data.map { it.theta }.filter { it != 0f }.average().toInt()
-        this.mDeltaAverage = data.map { it.delta }.filter { it != 0f }.average().toInt()
+        this.mGammaAverage = ceil(data.map { it.gamma }.filter { it != 0f }.average()).toInt()
+        this.mBetaAverage = ceil(data.map { it.beta }.filter { it != 0f }.average()).toInt()
+        this.mAlphaAverage = ceil(data.map { it.alpha }.filter { it != 0f }.average()).toInt()
+        this.mThetaAverage = ceil(data.map { it.theta }.filter { it != 0f }.average()).toInt()
+        this.mDeltaAverage = ceil(data.map { it.delta }.filter { it != 0f }.average()).toInt()
         setBrainwaveText(mGammaAverage, mBetaAverage, mAlphaAverage, mThetaAverage)
         refreshChart(data)
     }
@@ -1164,13 +1165,13 @@ class TrendBrainwaveChart @JvmOverloads constructor(
             }"
         }
         val curGammaAverage =
-            data.map { it.gamma }.filter { it != 0f }.average().toInt()
+            ceil(data.map { it.gamma }.filter { it != 0f }.average()).toInt()
         val curBetaAverage =
-            data.map { it.beta }.filter { it != 0f }.average().toInt()
+            ceil(data.map { it.beta }.filter { it != 0f }.average()).toInt()
         val curAlphaAverage =
-            data.map { it.alpha }.filter { it != 0f }.average().toInt()
+            ceil(data.map { it.alpha }.filter { it != 0f }.average()).toInt()
         val curThetaAverage =
-            data.map { it.theta }.filter { it != 0f }.average().toInt()
+            ceil(data.map { it.theta }.filter { it != 0f }.average()).toInt()
         setBrainwaveText(curGammaAverage, curBetaAverage, curAlphaAverage, curThetaAverage)
     }
 

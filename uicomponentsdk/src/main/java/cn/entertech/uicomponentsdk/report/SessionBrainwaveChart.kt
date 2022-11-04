@@ -57,6 +57,7 @@ import kotlinx.android.synthetic.main.layout_card_brain_spectrum_optional.view.t
 import kotlinx.android.synthetic.main.layout_session_brainwave_chart.view.*
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.ceil
 
 class SessionBrainwaveChart @JvmOverloads constructor(
     context: Context,
@@ -471,10 +472,10 @@ class SessionBrainwaveChart @JvmOverloads constructor(
         }
         this.dataTotalTimeMs = brainwaveSpectrums[0].size * mTimeUnit
         this.mBrainwaveSpectrums = brainwaveSpectrums
-        val gammaValueAverage = brainwaveSpectrums[0].average().toInt()
-        val betaValueAverage = brainwaveSpectrums[1].average().toInt()
-        val alphaValueAverage = brainwaveSpectrums[2].average().toInt()
-        val thetaValueAverage = brainwaveSpectrums[3].average().toInt()
+        val gammaValueAverage = ceil(brainwaveSpectrums[0].average()).toInt()
+        val betaValueAverage = ceil(brainwaveSpectrums[1].average()).toInt()
+        val alphaValueAverage = ceil(brainwaveSpectrums[2].average()).toInt()
+        val thetaValueAverage = ceil(brainwaveSpectrums[3].average()).toInt()
         setBrainwaveText(gammaValueAverage,betaValueAverage,alphaValueAverage,thetaValueAverage)
         fixData()
         var sample = brainwaveSpectrums[0].size / mPointCount

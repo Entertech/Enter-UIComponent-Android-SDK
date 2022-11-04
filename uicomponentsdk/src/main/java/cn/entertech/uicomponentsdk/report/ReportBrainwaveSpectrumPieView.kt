@@ -26,6 +26,7 @@ import kotlinx.android.synthetic.main.layout_card_brain_spectrum_pie.view.iv_cor
 import kotlinx.android.synthetic.main.layout_card_brain_spectrum_pie.view.rl_corner_icon_bg
 import kotlinx.android.synthetic.main.layout_common_card_title.view.*
 import kotlinx.android.synthetic.main.layout_report_hr_card.view.*
+import kotlin.math.ceil
 import kotlin.math.roundToInt
 
 class ReportBrainwaveSpectrumPieView @JvmOverloads constructor(
@@ -190,10 +191,10 @@ class ReportBrainwaveSpectrumPieView @JvmOverloads constructor(
     }
 
     fun setData(percents: List<Float>) {
-        var gammaPercent = (percents[0] * 100).roundToInt()
-        var betaPercent = (percents[1] * 100).roundToInt()
-        var alphaPercent = (percents[2] * 100).roundToInt()
-        var thetaPercent = (percents[3] * 100).roundToInt()
+        var gammaPercent = ceil(percents[0] * 100).toInt()
+        var betaPercent = ceil(percents[1] * 100).toInt()
+        var alphaPercent = ceil(percents[2] * 100).toInt()
+        var thetaPercent = ceil(percents[3] * 100).toInt()
         var deltaPercent = 0
         var sum = gammaPercent + betaPercent + alphaPercent + thetaPercent
         if (sum != 0) {

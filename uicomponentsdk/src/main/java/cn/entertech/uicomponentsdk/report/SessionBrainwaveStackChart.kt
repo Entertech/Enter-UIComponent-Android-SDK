@@ -48,6 +48,7 @@ import kotlinx.android.synthetic.main.layout_card_brainwave_trend_chart.view.iv_
 import kotlinx.android.synthetic.main.layout_card_brainwave_trend_chart.view.tv_date
 import kotlinx.android.synthetic.main.layout_card_brainwave_trend_chart.view.tv_title
 import java.io.Serializable
+import kotlin.math.ceil
 import kotlin.math.roundToInt
 
 class SessionBrainwaveStackChart @JvmOverloads constructor(
@@ -558,10 +559,10 @@ class SessionBrainwaveStackChart @JvmOverloads constructor(
         }
         this.dataTotalTimeMs = brainwaveSpectrums[0].size * mTimeUnit
         this.mData = brainwaveSpectrums
-        val gammaValueAverage = brainwaveSpectrums[0].average().roundToInt()
-        val betaValueAverage = brainwaveSpectrums[1].average().roundToInt()
-        val alphaValueAverage = brainwaveSpectrums[2].average().roundToInt()
-        val thetaValueAverage = brainwaveSpectrums[3].average().roundToInt()
+        val gammaValueAverage = ceil(brainwaveSpectrums[0].average()).toInt()
+        val betaValueAverage = ceil(brainwaveSpectrums[1].average()).toInt()
+        val alphaValueAverage = ceil(brainwaveSpectrums[2].average()).toInt()
+        val thetaValueAverage = ceil(brainwaveSpectrums[3].average()).toInt()
         setBrainwaveText(gammaValueAverage, betaValueAverage, alphaValueAverage, thetaValueAverage)
         fixData()
         var sample = brainwaveSpectrums[0].size / mPointCount
