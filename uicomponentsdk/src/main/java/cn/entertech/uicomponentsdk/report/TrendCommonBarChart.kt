@@ -271,13 +271,8 @@ class TrendCommonBarChart @JvmOverloads constructor(
     fun initTitle() {
         if (mShowLevel) {
             tv_unit.setTextColor(mTextColor)
-            tv_unit.visibility = View.VISIBLE
-            tv_level.visibility = View.GONE
-            when (mDataAverage) {
-                in 0.0..29.0 -> tv_unit.text = "(${context.getString(R.string.sdk_report_low)})"
-                in 30.0..69.0 -> tv_unit.text = "(${context.getString(R.string.sdk_report_nor)})"
-                else -> tv_unit.text = "(${context.getString(R.string.sdk_report_high)})"
-            }
+            tv_unit.visibility = View.GONE
+            tv_level.visibility = View.VISIBLE
             tv_level.setTextColor(mLevelTextColor)
             var bg = tv_level.background as GradientDrawable
             bg.setColor(mLevelBgColor)
@@ -637,15 +632,18 @@ class TrendCommonBarChart @JvmOverloads constructor(
         setCurData(curYearData)
     }
 
+    fun getDataLevel(average:Double):String{
+        val level = when (average) {
+            in 0.0..29.0 -> context.getString(R.string.sdk_report_low)
+            in 30.0..69.0 -> context.getString(R.string.sdk_report_nor)
+            else -> context.getString(R.string.sdk_report_high)
+        }
+        return level
+    }
     fun setCurData(data: ArrayList<BarSourceData>) {
         this.mDataAverage = data.map { it.value }.average()
         this.mChartVisibleXRangeMaximum = initChartVisibleXRangeMaximum(mCycle)
         this.mValues = initChartValues(data!!)
-        when (mDataAverage) {
-            in 0.0..29.0 -> tv_level.text = context.getString(R.string.sdk_report_low)
-            in 30.0..69.0 -> tv_level.text = context.getString(R.string.sdk_report_nor)
-            else -> tv_level.text = context.getString(R.string.sdk_report_high)
-        }
         initChartXLabel(data)
         set = BarDataSet(mValues, "")
         set.setDrawIcons(true)
@@ -963,8 +961,9 @@ class TrendCommonBarChart @JvmOverloads constructor(
             }"
         }
         var showDataAverage =
-            data?.filter { it.value != 0f }?.map { it.value }?.average() ?: 0.0
+            data.filter { it.value != 0f }.map { it.value }.average() ?: 0.0
         tv_value.text = "${ceil(showDataAverage).toInt()}"
+        tv_level.text = getDataLevel(showDataAverage)
     }
 
 //    fun moveToNextPage() {

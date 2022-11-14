@@ -646,6 +646,14 @@ class TrendCommonCandleChart @JvmOverloads constructor(
         }
         setCurData(curYearData)
     }
+    fun getDataLevel(average:Double):String{
+        val level = when (average) {
+            in 0.0..29.0 ->  context.getString(R.string.sdk_report_low)
+            in 30.0..69.0 -> context.getString(R.string.sdk_report_nor)
+            else -> context.getString(R.string.sdk_report_high)
+        }
+        return level
+    }
 
     fun setCurData(data: ArrayList<CandleSourceData>) {
         this.mChartVisibleXRangeMaximum = initChartVisibleXRangeMaximum(mCycle)
@@ -653,11 +661,7 @@ class TrendCommonCandleChart @JvmOverloads constructor(
         this.mLineValues = initChartLineValues(data)
         initChartXLabel(data)
         this.mDataAverage = data.map { it.average }.filter { it != -200f && it != 0f }.average()
-        when (mDataAverage) {
-            in 0.0..29.0 -> tv_level.text = context.getString(R.string.sdk_report_low)
-            in 30.0..69.0 -> tv_level.text = context.getString(R.string.sdk_report_nor)
-            else -> tv_level.text = context.getString(R.string.sdk_report_high)
-        }
+
         // create a dataset and give it a type
         set1 = CandleDataSet(mCandleValues, "")
         set1.setDrawIcons(false)
@@ -1005,8 +1009,9 @@ class TrendCommonCandleChart @JvmOverloads constructor(
             }"
         }
         var showDataAverage =
-            data?.filter { it.average != 0f && it.average != -200f }?.map { it.average }?.average() ?: 0.0
+            data.filter { it.average != 0f && it.average != -200f }.map { it.average }.average() ?: 0.0
         tv_value.text = "${ceil(showDataAverage).toInt()}"
+        tv_level.text = "${getDataLevel(showDataAverage)}"
     }
 
 //    fun initDateRange() {
@@ -1206,6 +1211,11 @@ class TrendCommonCandleChart @JvmOverloads constructor(
 
     fun setXAxisLineColor(color: Int) {
         this.mXAxisLineColor = color
+        initView()
+    }
+
+    fun setUnit(unit:String){
+        this.mUnit = unit
         initView()
     }
 
