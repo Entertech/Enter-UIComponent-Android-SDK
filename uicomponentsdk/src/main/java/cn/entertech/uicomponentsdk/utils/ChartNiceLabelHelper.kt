@@ -24,9 +24,13 @@ fun calNiceInterval(min: Double, max: Double): Int {
 }
 
 fun getNiceCount(min: Double, max: Double, interval: Int): Int {
-    var first = floor(min / interval).toInt() * interval
-    var last = ceil(max / interval).toInt() * interval
-    return (last - first) / interval + 1
+    if (interval == 0){
+        return NICE_TICK_COUNT
+    }else{
+        var first = floor(min / interval).toInt() * interval
+        var last = ceil(max / interval).toInt() * interval
+        return (last - first) / interval + 1
+    }
 }
 
 fun Double.niceCeil(): Int {
