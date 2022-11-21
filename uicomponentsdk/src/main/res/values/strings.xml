@@ -75,4 +75,6 @@
     <string name="chart_daily_total">DAILY TOTAL</string>
     <string name="chart_monthly_total">MONTHLY TOTAL</string>
     <string name="expand">Expand</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
 </resources>

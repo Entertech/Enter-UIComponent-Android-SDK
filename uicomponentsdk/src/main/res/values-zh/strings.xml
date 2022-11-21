@@ -75,4 +75,6 @@
     <string name="chart_daily_total">总计</string>
     <string name="chart_monthly_total">每月总计</string>
     <string name="expand">全屏</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确定</string>
 </resources>

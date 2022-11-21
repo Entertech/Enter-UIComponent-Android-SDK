@@ -614,7 +614,7 @@ class ReportAffectiveLineChartCard @JvmOverloads constructor(
                 me: MotionEvent,
                 lastPerformedGesture: ChartTouchListener.ChartGesture?
             ) {
-                chart.disableScroll()
+//                chart.disableScroll()
                 marker.setDataSets(dataSets)
                 dataSets.map {
                     it as LineDataSet
