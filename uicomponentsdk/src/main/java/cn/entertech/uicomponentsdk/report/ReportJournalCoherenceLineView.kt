@@ -110,7 +110,8 @@ class ReportJournalCoherenceLineView @JvmOverloads constructor(
             onDrawFlagLine(canvas)
         }
     }
-//    private fun scale(bitmap:Bitmap,rate:Float):Bitmap {
+
+    //    private fun scale(bitmap:Bitmap,rate:Float):Bitmap {
 //        val matrix = Matrix();
 //        matrix.postScale(rate,rate)
 //        val bmpRet = Bitmap.createBitmap(bitmap.width * rate.toInt(), bitmap.height * rate.toInt(), Bitmap.Config.ARGB_8888)
@@ -122,28 +123,28 @@ class ReportJournalCoherenceLineView @JvmOverloads constructor(
     fun onDrawGripBitmap(canvas: Canvas) {
         val bitmap = BitmapFactory.decodeResource(context.resources, R.mipmap.pic_chart_grid_bg)
         val widthRate = width * 1f / bitmap.width
-        val heightRate = height *1f /bitmap.height
-        var horizontalRepeatCount = if (widthRate <= 1f){
+        val heightRate = height * 1f / bitmap.height
+        var horizontalRepeatCount = if (widthRate <= 1f) {
             1
-        }else{
+        } else {
             ceil(widthRate).toInt()
         }
-        var verticalRepeatCount = if (heightRate <= 1f){
+        var verticalRepeatCount = if (heightRate <= 1f) {
             1
-        }else{
+        } else {
             ceil(heightRate).toInt()
         }
         canvas.save()
-        for (i in 0 until verticalRepeatCount){
-            drawBitmapHorizontalRepeat(canvas,bitmap,horizontalRepeatCount)
+        for (i in 0 until verticalRepeatCount) {
+            drawBitmapHorizontalRepeat(canvas, bitmap, horizontalRepeatCount)
             canvas.translate(0f, height.toFloat())
         }
         canvas.restore()
     }
 
-    fun drawBitmapHorizontalRepeat(canvas: Canvas,bitmap:Bitmap,repeatCount:Int){
+    fun drawBitmapHorizontalRepeat(canvas: Canvas, bitmap: Bitmap, repeatCount: Int) {
         canvas.save()
-        for (i in 0 until repeatCount){
+        for (i in 0 until repeatCount) {
             val rectBitmap = Rect(0, 0, bitmap.width, bitmap.height)
             val rectF = RectF(0f, 0f, width.toFloat(), height.toFloat())
             val filter: ColorFilter = PorterDuffColorFilter(
@@ -151,7 +152,7 @@ class ReportJournalCoherenceLineView @JvmOverloads constructor(
                 PorterDuff.Mode.SRC_IN
             )
             gridLinePaint.colorFilter = filter
-            canvas.scale(2f,2f)
+            canvas.scale(2f, 2f)
             canvas.drawBitmap(bitmap, rectBitmap, rectF, gridLinePaint)
             canvas.translate(width.toFloat(), 0f)
         }
@@ -225,21 +226,24 @@ class ReportJournalCoherenceLineView @JvmOverloads constructor(
         if (indexs.isNullOrEmpty() || indexs.size < 2) {
             return
         }
-        var dataMax = mData!!.maxOrNull()?:100.0
-        var dataMin = mData!!.minOrNull()?:0.0
+        var dataMax = mData!!.maxOrNull() ?: 100.0
+        var dataMin = mData!!.minOrNull() ?: 0.0
         if (dataMax == dataMin) {
             dataMax = LINE_VALUE_MAX
             dataMin = LINE_VALUE_MIN
         }
         dataMax += (dataMax - dataMin) / 8.0
         dataMin -= (dataMax - dataMin) / 8.0
-        if (dataMin < 0){
-            dataMax == 0.0
+        if (dataMin < 0) {
+            dataMin = 0.0
         }
         val dataScale = (height - 2 * gridLineYPadding) / (dataMax - dataMin)
         val dataOffset = (width - LEFT_BAR_WIDTH) / (mData!!.size - 1)
         val linePath = Path()
         for (i in indexs.indices) {
+            if (indexs[i] >= mData!!.size || indexs[i] < 0) {
+                continue
+            }
             val curX = dataOffset * indexs[i] + LEFT_BAR_WIDTH
             val curY = (mData!![indexs[i]] - dataMin) * dataScale + gridLineYPadding
             if (i == 0) {
