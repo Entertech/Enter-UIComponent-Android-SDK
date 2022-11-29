@@ -189,6 +189,10 @@ class SessionCommonChart @JvmOverloads constructor(
         )
         mMainColor =
             typeArray.getColor(R.styleable.SessionCommonChart_scc_mainColor, mMainColor)
+        mSecondLineColor =
+            typeArray.getColor(R.styleable.SessionCommonChart_scc_secondLineColor, mSecondLineColor)
+        mLineColor =
+            typeArray.getColor(R.styleable.SessionCommonChart_scc_lineColor, mLineColor)
         mTextColor =
             typeArray.getColor(R.styleable.SessionCommonChart_scc_textColor, mTextColor)
         mBg = typeArray.getDrawable(R.styleable.SessionCommonChart_scc_background)
@@ -281,8 +285,9 @@ class SessionCommonChart @JvmOverloads constructor(
         mIsDataAverageInt =
             typeArray.getBoolean(R.styleable.SessionCommonChart_scc_isDataAverageInt, true)
         mDataType = typeArray.getInt(R.styleable.SessionCommonChart_scc_dataType, 0)
-        mIconColor = typeArray.getColor(R.styleable.SessionCommonChart_scc_iconColor,mIconColor)
-        mDateBgColor = typeArray.getColor(R.styleable.SessionCommonChart_scc_dateBgColor,mDateBgColor)
+        mIconColor = typeArray.getColor(R.styleable.SessionCommonChart_scc_iconColor, mIconColor)
+        mDateBgColor =
+            typeArray.getColor(R.styleable.SessionCommonChart_scc_dateBgColor, mDateBgColor)
         typeArray.recycle()
         initView()
     }
@@ -302,12 +307,12 @@ class SessionCommonChart @JvmOverloads constructor(
     }
 
     fun initDateSelector() {
-        val lp =  ll_chart.layoutParams as RelativeLayout.LayoutParams
-        if (isFullScreen){
+        val lp = ll_chart.layoutParams as RelativeLayout.LayoutParams
+        if (isFullScreen) {
             lp.topMargin = 26f.dp().toInt()
             rl_date_container.visibility = View.GONE
             tv_date_fullscreen.visibility = View.VISIBLE
-        }else{
+        } else {
             lp.topMargin = 0f.dp().toInt()
             rl_date_container.visibility = View.VISIBLE
             tv_date_fullscreen.visibility = View.GONE
@@ -345,7 +350,7 @@ class SessionCommonChart @JvmOverloads constructor(
         listPopupWindow.setContentWidth(150f.dp().toInt())
 
         listPopupWindow.setOnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->
-            if (position == 0){
+            if (position == 0) {
                 listPopupWindow.dismiss()
                 fullScreen()
             }
@@ -423,7 +428,7 @@ class SessionCommonChart @JvmOverloads constructor(
 
     }
 
-    fun fullScreen(){
+    fun fullScreen() {
         var intent = Intent(context, SessionCommonChartFullScreenActivity::class.java)
         intent.putExtra("lineWidth", mLineWidth)
         intent.putExtra("pointCount", mPointCount)
@@ -534,8 +539,6 @@ class SessionCommonChart @JvmOverloads constructor(
         if (mLineFlagData != null) {
             var secondLineData1 = processSecondLineDataByFirstLine(data, mLineFlagData)
             mSampleSecondData = sampleData(secondLineData1, sample)
-            mLineColor = mBgLineColor
-            mSecondLineColor = mMainColor
             if (lineFlagTotalTime != null) {
                 tv_value.text = "$lineFlagTotalTime"
                 tv_description.text = context.getString(R.string.chart_title_total)
@@ -548,7 +551,6 @@ class SessionCommonChart @JvmOverloads constructor(
                 decimalFormat.format(mDataAverage)
             }
             tv_value.text = average
-            mLineColor = mMainColor
             tv_description.text = context.getString(R.string.chart_title_average)
         }
         if (mIsShowLevel) {
@@ -955,7 +957,8 @@ class SessionCommonChart @JvmOverloads constructor(
             tv_date_fullscreen.text = "$startTimeDay ${startTimeHourMin}-${endTimeHourMin}"
         } else {
             tv_date.text = "$startTimeDay ${startTimeHourMin}-$endTimeDay ${endTimeHourMin} "
-            tv_date_fullscreen.text = "$startTimeDay ${startTimeHourMin}-$endTimeDay ${endTimeHourMin} "
+            tv_date_fullscreen.text =
+                "$startTimeDay ${startTimeHourMin}-$endTimeDay ${endTimeHourMin} "
         }
         initView()
     }

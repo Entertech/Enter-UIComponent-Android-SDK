@@ -613,6 +613,8 @@
             <enum name="attention" value="3"/>
             <enum name="relaxation" value="4"/>
         </attr>
+        <attr name="scc_secondLineColor" format="color"/>
+        <attr name="scc_lineColor" format="color"/>
     </declare-styleable>
 
 
