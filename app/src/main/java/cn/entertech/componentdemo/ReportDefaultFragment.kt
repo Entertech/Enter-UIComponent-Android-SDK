@@ -2,6 +2,7 @@ package cn.entertech.componentdemo
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -184,10 +185,28 @@ class ReportDefaultFragment : Fragment() {
         chart_hrv.isShowDetail = false
         chart_hrv.setData(reportData.reportHRDataEntity?.hrRec, hrvSecondLine, false)
         chart_session_common.setDataType(2)
+        val flagRec = reportData.reportHRDataEntity?.hrRec?.map { 1.0 } as ArrayList<Double>
+        for (i in flagRec!!.indices){
+            if (i in 4..19 || i in 50..500){
+                flagRec.add(i,1.0)
+            }else{
+                flagRec.add(i,0.0)
+            }
+        }
+        val hrRecSize = reportData.reportHRDataEntity?.hrRec?.size?:0
+        val qualityRec = DoubleArray(hrRecSize)
+        for (i in 0 until hrRecSize){
+            if (i in 0..50 || i in 80 until qualityRec.size-1000){
+                qualityRec[i] = 2.0
+            }else{
+                qualityRec[i] = 0.0
+            }
+        }
+        chart_session_common.setQualityRec(qualityRec.toMutableList())
         chart_session_common.setData(
             reportData.reportHRDataEntity?.hrRec,
             1.5,
-           null,
+            flagRec,
             null,
             true
         )
@@ -210,18 +229,24 @@ class ReportDefaultFragment : Fragment() {
         card_flow.setContentView(view)
 
         var flags = ArrayList<Int>()
+        var qualityFlags = ArrayList<Double>()
         var coherenceData = ArrayList<Double>()
         for (i in 0..50) {
+            if (i in 0 ..5 || i in 40 ..50){
+                qualityFlags.add(0.0)
+            }else{
+                qualityFlags.add(2.0)
+            }
             if (i in 30..45) {
                 flags.add(1)
-            } else if (i in 5..20) {
+            } else if (i in 10..20) {
                 flags.add(1)
             } else {
                 flags.add(0)
             }
             coherenceData.add(Random().nextDouble() * 100)
         }
-        report_coherence.setData(coherenceData, flags)
+        report_coherence.setData(coherenceData, flags,qualityFlags)
 
         var alpha = listOf<Float>(70f,70f,70f,70f,70f,70f,70f)
         var beta = listOf<Float>(70f,70f,70f,70f,70f,70f,70f)

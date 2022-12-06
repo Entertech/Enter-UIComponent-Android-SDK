@@ -141,6 +141,7 @@ class SessionCommonChart @JvmOverloads constructor(
     private var mIsTitleMenuIconBgShow: Boolean = false
     private var mFirstData: List<Double>? = null
     private var mLineFlagData: List<Double>? = null
+    private var mSampleFlagData: List<Double>? = null
     private var mBg: Drawable? = null
 
     private var mTitleMenuIcon: Drawable?
@@ -466,15 +467,6 @@ class SessionCommonChart @JvmOverloads constructor(
         context.startActivity(intent)
     }
 
-    fun sampleData(data: List<Double>?, sample: Int): ArrayList<Double> {
-        var sampleData = ArrayList<Double>()
-        for (i in data!!.indices) {
-            if (i % sample == 0) {
-                sampleData.add(data[i])
-            }
-        }
-        return sampleData
-    }
 
     fun processSecondLineDataByFirstLine(
         firstLineData: List<Double>?,
@@ -510,6 +502,14 @@ class SessionCommonChart @JvmOverloads constructor(
         return newSecondLineData
     }
 
+    var drawByQuyality = false
+    private var mSourceQualityData: List<Double>? = null
+    private var mSampleQualityData: ArrayList<Double>? = null
+    fun setQualityRec(qualityRec: List<Double>) {
+        this.mSourceQualityData = qualityRec
+        drawByQuyality = true
+    }
+
     @SuppressLint("SetTextI18n")
     fun setData(
         data: List<Double>?, dataAverage: Double? = null,
@@ -534,131 +534,40 @@ class SessionCommonChart @JvmOverloads constructor(
         if (isShowAllData || sample <= 1) {
             sample = 1
         }
-
+        setHeadView(data, sample)
+        if (mSourceQualityData == null){
+            mSourceQualityData = mSourceDataList!!.map { 2.0 }
+        }
+        mSampleQualityData = sampleData(mSourceQualityData!!, sample)
+        val qualityFlagRec = curveByQuality(mSampleQualityData!!)
         mSampleData = sampleData(mFirstData, sample)
-        if (mLineFlagData != null) {
-            var secondLineData1 = processSecondLineDataByFirstLine(data, mLineFlagData)
-            mSampleSecondData = sampleData(secondLineData1, sample)
-            if (lineFlagTotalTime != null) {
-                tv_value.text = "$lineFlagTotalTime"
-                tv_description.text = context.getString(R.string.chart_title_total)
-            }
-        } else {
-            var average = if (mIsDataAverageInt) {
-                "${ceil(mDataAverage).toInt()}"
-            } else {
-                var decimalFormat = DecimalFormat("0.0")
-                decimalFormat.format(mDataAverage)
-            }
-            tv_value.text = average
-            tv_description.text = context.getString(R.string.chart_title_average)
-        }
-        if (mIsShowLevel) {
-            when (mDataAverage) {
-                in 0.0..29.99 -> tv_unit.text = "(${context.getString(R.string.sdk_report_low)})"
-                in 30.0..69.99 -> tv_unit.text = "(${context.getString(R.string.sdk_report_nor)})"
-                else -> tv_unit.text = "(${context.getString(R.string.sdk_report_high)})"
-            }
-        }
-        mTimeOfTwoPoint = mTimeUnit * sample
-        chart.xAxis.removeAllLimitLines()
-        var totalMin = mFirstData!!.size * mTimeUnit / 1000F / 60F
-        var minOffset = (totalMin / 8).toInt() + 1
-        var currentMin = 0
-        while (currentMin < totalMin) {
-            var limitX = currentMin * 60f * 1000 / mTimeOfTwoPoint
-            val llXAxis = LimitLine(limitX, "${currentMin}m")
-            llXAxis.lineWidth = 0.5f
-            llXAxis.labelPosition = LimitLine.LimitLabelPosition.LEFT_BOTTOM
-            llXAxis.textSize = 12f
-            llXAxis.yOffset = -15f
-            llXAxis.enableDashedLine(10f, 10f, 0f)
-            llXAxis.lineColor = mBgLineColor
-            llXAxis.textColor = mTextColor
-            if (currentMin == 0) {
-                llXAxis.xOffset = -12f
-            } else if (currentMin < totalMin && currentMin > totalMin * 7f / 8) {
-                llXAxis.xOffset = 5f
-            } else {
-                llXAxis.xOffset = -1f
-            }
-            chart.xAxis.addLimitLine(llXAxis)
-            currentMin += minOffset
-        }
-        if (mIsShowAverage) {
-            if (mFirstData != null && mFirstData!!.isNotEmpty()) {
-                var average = 0f
-                try {
-                    average = java.lang.Float.parseFloat(mAverageValue)
-                } catch (e: Exception) {
-                }
-                val ll1 = LimitLine(
-                    average,
-                    "${context.getString(R.string.sdk_report_average)}$mAverageValue"
-                )
-                ll1.lineWidth = 0.5f
-                ll1.enableDashedLine(10f, 10f, 0f)
-                ll1.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
-                ll1.textSize = 14f
-                ll1.xOffset = 10f
-                ll1.yOffset = 8f
-                ll1.textColor = mTextColor
-                ll1.lineColor = mTextColor
-                chart.axisLeft.addLimitLine(ll1)
-            }
-        }
-
+        setXLimitLine(sample)
+        drawAverageLine()
         val dataSets = ArrayList<ILineDataSet>()
-        val values = ArrayList<Entry>()
-        var tempLineValues: ArrayList<Entry>? = null
-        var isFindFirstPointInSecondLine = false
-        for (i in mSampleData!!.indices) {
-            if (mSampleSecondData != null) {
-                values.add(Entry(i.toFloat(), mSampleData!![i].toFloat(), mSampleSecondData!![i]))
-            } else {
-                values.add(Entry(i.toFloat(), mSampleData!![i].toFloat()))
-            }
+        val bgLineValues = getBgLineValues()
+        if (drawByQuyality){
+            set1 = initDataSet(bgLineValues, mGridLineColor)
+        }else{
+            set1 = initDataSet(bgLineValues, mLineColor)
         }
-
-        set1 = initDataSet(values, mLineColor)
         if (set1 != null) {
             dataSets.add(set1!!) // add the data sets
         }
-        if (mSampleSecondData != null) {
-            for (i in mSampleData!!.indices) {
-                if (mSampleSecondData!![i] != 0.0) {
-                    if (i == 0 || (i - 1 >= 0 && mSampleSecondData!![i - 1] == 0.0)) {
-                        if (!isFindFirstPointInSecondLine) {
-                            secondLineStartIndexOfFirstLine = i
-                            isFindFirstPointInSecondLine = true
-                        }
-                        tempLineValues = ArrayList()
-                    }
-                    tempLineValues?.add(Entry(i.toFloat(), mSampleData!![i].toFloat()))
-                    if (i == mSampleData!!.size - 1) {
-                        if (tempLineValues?.size ?: 0 > 5) {
-                            var set = initDataSet(tempLineValues!!, mSecondLineColor)
-                            if (set != null) {
-                                dataSets.add(set)
-                            }
-                        }
-                    }
-                } else {
-                    if (i - 1 >= 0 && mSampleSecondData!![i - 1] != 0.0) {
-                        if (tempLineValues?.size ?: 0 > 5) {
-                            var set = initDataSet(tempLineValues!!, mSecondLineColor)
-                            if (set != null) {
-                                dataSets.add(set)
-                            }
-                        }
-                    }
-                }
+        if (drawByQuyality){
+            val qualitySets = getSetsByQuality(mSampleData!!,qualityFlagRec,mLineColor)
+            for (set in qualitySets) {
+                dataSets.add(set)
             }
         }
-
+        if (mLineFlagData != null){
+            mSampleFlagData = sampleData(mLineFlagData, sample)
+            val flagSets = getSetByQualityAndFlag(mSampleData!!,qualityFlagRec!!,mSampleFlagData!!,mSecondLineColor)
+            for (set in flagSets){
+                dataSets.add(set)
+            }
+        }
         // create a data object with the data sets
         val lineData = LineData(dataSets)
-
 //
         chart.data = lineData
         calNiceLabel(mSampleData!!)
@@ -690,6 +599,218 @@ class SessionCommonChart @JvmOverloads constructor(
         }
         initChart()
         chart.notifyDataSetChanged()
+    }
+
+    fun setHeadView(data: List<Double>, sample: Int) {
+        if (mLineFlagData != null) {
+            var secondLineData1 = processSecondLineDataByFirstLine(data, mLineFlagData)
+            mSampleSecondData = sampleData(secondLineData1, sample)
+            if (lineFlagTotalTime != null) {
+                tv_value.text = "$lineFlagTotalTime"
+                tv_description.text = context.getString(R.string.chart_title_total)
+            }
+        } else {
+            var average = if (mIsDataAverageInt) {
+                "${ceil(mDataAverage).toInt()}"
+            } else {
+                var decimalFormat = DecimalFormat("0.0")
+                decimalFormat.format(mDataAverage)
+            }
+            tv_value.text = average
+            tv_description.text = context.getString(R.string.chart_title_average)
+        }
+        if (mIsShowLevel) {
+            when (mDataAverage) {
+                in 0.0..29.99 -> tv_unit.text = "(${context.getString(R.string.sdk_report_low)})"
+                in 30.0..69.99 -> tv_unit.text = "(${context.getString(R.string.sdk_report_nor)})"
+                else -> tv_unit.text = "(${context.getString(R.string.sdk_report_high)})"
+            }
+        }
+    }
+
+    fun setXLimitLine(sample: Int) {
+        mTimeOfTwoPoint = mTimeUnit * sample
+        chart.xAxis.removeAllLimitLines()
+        var totalMin = mFirstData!!.size * mTimeUnit / 1000F / 60F
+        var minOffset = (totalMin / 8).toInt() + 1
+        var currentMin = 0
+        while (currentMin < totalMin) {
+            var limitX = currentMin * 60f * 1000 / mTimeOfTwoPoint
+            val llXAxis = LimitLine(limitX, "${currentMin}m")
+            llXAxis.lineWidth = 0.5f
+            llXAxis.labelPosition = LimitLine.LimitLabelPosition.LEFT_BOTTOM
+            llXAxis.textSize = 12f
+            llXAxis.yOffset = -15f
+            llXAxis.enableDashedLine(10f, 10f, 0f)
+            llXAxis.lineColor = mBgLineColor
+            llXAxis.textColor = mTextColor
+            if (currentMin == 0) {
+                llXAxis.xOffset = -12f
+            } else if (currentMin < totalMin && currentMin > totalMin * 7f / 8) {
+                llXAxis.xOffset = 5f
+            } else {
+                llXAxis.xOffset = -1f
+            }
+            chart.xAxis.addLimitLine(llXAxis)
+            currentMin += minOffset
+        }
+    }
+
+    fun drawAverageLine() {
+        if (mIsShowAverage) {
+            if (mFirstData != null && mFirstData!!.isNotEmpty()) {
+                var average = 0f
+                try {
+                    average = java.lang.Float.parseFloat(mAverageValue)
+                } catch (e: Exception) {
+                }
+                val ll1 = LimitLine(
+                    average,
+                    "${context.getString(R.string.sdk_report_average)}$mAverageValue"
+                )
+                ll1.lineWidth = 0.5f
+                ll1.enableDashedLine(10f, 10f, 0f)
+                ll1.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
+                ll1.textSize = 14f
+                ll1.xOffset = 10f
+                ll1.yOffset = 8f
+                ll1.textColor = mTextColor
+                ll1.lineColor = mTextColor
+                chart.axisLeft.addLimitLine(ll1)
+            }
+        }
+    }
+
+    fun getBgLineValues(): ArrayList<Entry> {
+        val values = ArrayList<Entry>()
+        for (i in mSampleData!!.indices) {
+            if (mSampleSecondData != null) {
+                values.add(Entry(i.toFloat(), mSampleData!![i].toFloat(), mSampleSecondData!![i]))
+            } else {
+                values.add(Entry(i.toFloat(), mSampleData!![i].toFloat()))
+            }
+        }
+        return values
+    }
+
+    fun getFlagSets(): ArrayList<LineDataSet> {
+        val flagSets = ArrayList<LineDataSet>()
+        var tempLineValues: ArrayList<Entry>? = null
+        var isFindFirstPointInSecondLine = false
+        if (mSampleSecondData != null) {
+            for (i in mSampleData!!.indices) {
+                if (mSampleSecondData!![i] != 0.0) {
+                    if (i == 0 || (i - 1 >= 0 && mSampleSecondData!![i - 1] == 0.0)) {
+                        if (!isFindFirstPointInSecondLine) {
+                            secondLineStartIndexOfFirstLine = i
+                            isFindFirstPointInSecondLine = true
+                        }
+                        tempLineValues = ArrayList()
+                    }
+                    tempLineValues?.add(Entry(i.toFloat(), mSampleData!![i].toFloat()))
+                    if (i == mSampleData!!.size - 1) {
+                        if (tempLineValues?.size ?: 0 > 5) {
+                            var set = initDataSet(tempLineValues!!, mSecondLineColor)
+                            if (set != null) {
+                                flagSets.add(set)
+                            }
+                        }
+                    }
+                } else {
+                    if (i - 1 >= 0 && mSampleSecondData!![i - 1] != 0.0) {
+                        if (tempLineValues?.size ?: 0 > 5) {
+                            var set = initDataSet(tempLineValues!!, mSecondLineColor)
+                            if (set != null) {
+                                flagSets.add(set)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return flagSets
+    }
+
+
+    fun getSetByQualityAndFlag(
+        data: ArrayList<Double>,
+        qualityRec: List<Double>,
+        flagRec: List<Double>,
+        color: Int
+    ): ArrayList<LineDataSet> {
+        val flagSets = ArrayList<LineDataSet>()
+        var tempLineValues: ArrayList<Entry>? = null
+        var isFindFirstPointInSecondLine = false
+        for (i in data.indices) {
+            if (qualityRec!![i] != 0.0 && flagRec[i] != 0.0) {
+                if (i == 0 || (i - 1 >= 0 && (qualityRec[i - 1] == 0.0) || flagRec[i - 1] == 0.0)) {
+                    if (!isFindFirstPointInSecondLine) {
+                        isFindFirstPointInSecondLine = true
+                    }
+                    tempLineValues = ArrayList()
+                }
+                tempLineValues?.add(Entry(i.toFloat(), data[i].toFloat()))
+                if (i == data.size - 1) {
+//                    if (tempLineValues?.size ?: 0 > 5) {
+                    var set = initDataSet(tempLineValues!!, color)
+                    if (set != null) {
+                        flagSets.add(set)
+                    }
+//                    }
+                }
+            } else {
+                if (i - 1 >= 0 && qualityRec[i - 1] != 0.0 && flagRec[i - 1] != 0.0) {
+//                    if (tempLineValues?.size ?: 0 > 5) {
+                        var set = initDataSet(tempLineValues!!, color)
+                        if (set != null) {
+                            flagSets.add(set)
+                        }
+//                    }
+                }
+            }
+        }
+        return flagSets
+    }
+
+    fun getSetsByQuality(
+        data: ArrayList<Double>,
+        qualityRec: List<Double>?,
+        color: Int
+    ): ArrayList<LineDataSet> {
+        val flagSets = ArrayList<LineDataSet>()
+        var tempLineValues: ArrayList<Entry>? = null
+        var isFindFirstPointInSecondLine = false
+        if (qualityRec != null) {
+            for (i in data!!.indices) {
+                if (qualityRec!![i] != 0.0) {
+                    if (i == 0 || (i - 1 >= 0 && qualityRec[i - 1] == 0.0)) {
+                        if (!isFindFirstPointInSecondLine) {
+                            isFindFirstPointInSecondLine = true
+                        }
+                        tempLineValues = ArrayList()
+                    }
+                    tempLineValues?.add(Entry(i.toFloat(), data[i].toFloat()))
+                    if (i == data.size - 1) {
+//                        if (tempLineValues?.size ?: 0 > 5) {
+                            var set = initDataSet(tempLineValues!!, color)
+                            if (set != null) {
+                                flagSets.add(set)
+                            }
+//                        }
+                    }
+                } else {
+                    if (i - 1 >= 0 && qualityRec!![i - 1] != 0.0) {
+//                        if (tempLineValues?.size ?: 0 > 5) {
+                            var set = initDataSet(tempLineValues!!, color)
+                            if (set != null) {
+                                flagSets.add(set)
+                            }
+//                        }
+                    }
+                }
+            }
+        }
+        return flagSets
     }
 
     fun initDataSet(values: ArrayList<Entry>, lineColor: Int): LineDataSet? {

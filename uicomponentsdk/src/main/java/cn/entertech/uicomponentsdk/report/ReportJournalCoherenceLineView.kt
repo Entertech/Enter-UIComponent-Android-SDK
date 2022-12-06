@@ -5,8 +5,10 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
 import cn.entertech.uicomponentsdk.R
+import cn.entertech.uicomponentsdk.utils.curveByQuality
 import cn.entertech.uicomponentsdk.utils.dp
 import cn.entertech.uicomponentsdk.utils.formatData
+import cn.entertech.uicomponentsdk.utils.sampleData
 import kotlin.math.ceil
 
 
@@ -17,8 +19,10 @@ class ReportJournalCoherenceLineView @JvmOverloads constructor(
 ) :
     View(context, attributeSet, defStyleAttr) {
 
-    private var flags: MutableList<Int>? = null
-    private var lineBgColor: Int = Color.parseColor("#DDE1EB")
+    private var qualityBadColor: Int = Color.parseColor("#DDE1EB")
+    private var qualityFlags: List<Double>? = null
+    private var coherenceFlags: ArrayList<Int>? = null
+    private var lineBgColor: Int = Color.parseColor("#ff0000")
     private var limitAboveColor: Int = Color.parseColor("#CC9E59")
     private var limitBottomColor: Int = Color.parseColor("#4B5DCC")
     private var lineWidth: Float = LINE_WIDTH
@@ -44,6 +48,7 @@ class ReportJournalCoherenceLineView @JvmOverloads constructor(
         val LINE_VALUE_MAX = 100.0
         val LINE_VALUE_MIN = 0.0
         val LINE_WIDTH by lazy { 1.5f.dp() }
+        val SAMPLE_MIN_DATA_SIZE = 2000
     }
 
     init {
@@ -55,6 +60,8 @@ class ReportJournalCoherenceLineView @JvmOverloads constructor(
             R.styleable.ReportJournalCoherenceLineView_rgclv_gridColor,
             gridColor
         )
+        qualityBadColor = typeArray.getColor(R.styleable.ReportJournalCoherenceLineView_rgclv_qualityBadColor,qualityBadColor)
+
         lineColor = typeArray.getColor(
             R.styleable.ReportJournalCoherenceLineView_rgclv_lineColor,
             lineColor
@@ -106,8 +113,14 @@ class ReportJournalCoherenceLineView @JvmOverloads constructor(
         onDrawGripBitmap(canvas)
         onDrawScaleLine(canvas)
         if (!mData.isNullOrEmpty() && mData!!.size > 2) {
-            onDrawBgLine(canvas)
-            onDrawFlagLine(canvas)
+            if (!drawByQuality){
+                onDrawBgLine(canvas,lineBgColor)
+                onDrawQualityAndCoherenceLine(canvas,lineColor)
+            }else{
+                onDrawBgLine(canvas,qualityBadColor)
+                onDrawQualityLine(canvas,lineBgColor)
+                onDrawQualityAndCoherenceLine(canvas,lineColor)
+            }
         }
     }
 
@@ -186,28 +199,61 @@ class ReportJournalCoherenceLineView @JvmOverloads constructor(
         canvas.drawPath(scaleLinePath, scaleLinePaint)
     }
 
-    private fun onDrawBgLine(canvas: Canvas) {
-        onDrawLine(canvas, lineBgColor, mData!!.mapIndexed { index, d -> index })
+    private fun onDrawBgLine(canvas: Canvas,color: Int) {
+        onDrawLine(canvas, color, mData!!.mapIndexed { index, d -> index })
     }
 
-    private fun onDrawFlagLine(canvas: Canvas) {
-        if (flags.isNullOrEmpty()) {
+    private fun onDrawQualityLine(canvas: Canvas,color: Int) {
+        if (qualityFlags.isNullOrEmpty()) {
             return
         }
-        val flagLines = splitFlagData(flags!!)
+        val flagLines = splitQualityData(qualityFlags!!)
         for (line in flagLines) {
-            onDrawLine(canvas, lineColor, line)
+            onDrawLine(canvas, color, line)
         }
     }
 
-    fun splitFlagData(
+    private fun onDrawQualityAndCoherenceLine(canvas: Canvas,color:Int) {
+        if (coherenceFlags.isNullOrEmpty()) {
+            return
+        }
+        val flagLines = splitQualityAndCoherenceData(qualityFlags!!,coherenceFlags!!)
+        for (line in flagLines) {
+            onDrawLine(canvas, color, line)
+        }
+    }
+
+
+    fun splitQualityData(
+        qualityRec: List<Double>
+    ): ArrayList<ArrayList<Int>> {
+        var lineDataList = ArrayList<ArrayList<Int>>()
+        var tempList = ArrayList<Int>()
+        for (i in qualityRec.indices) {
+            if (qualityRec[i] == 1.0) {
+                if (i == 0 || qualityRec[i - 1] == 0.0) {
+                    tempList = ArrayList()
+                    lineDataList.add(tempList)
+                    tempList.add(i)
+                } else {
+                    tempList.add(i)
+                }
+            } else {
+                continue
+            }
+        }
+        return lineDataList
+    }
+
+    fun splitQualityAndCoherenceData(
+        qualityRec: List<Double>,
         flags: MutableList<Int>
     ): ArrayList<ArrayList<Int>> {
         var lineDataList = ArrayList<ArrayList<Int>>()
         var tempList = ArrayList<Int>()
         for (i in flags.indices) {
-            if (flags[i] == 1) {
-                if (i == 0 || flags[i - 1] == 0) {
+            if (flags[i] == 1 && qualityRec[i] == 1.0) {
+                if (i == 0 || flags[i - 1] == 0 || qualityRec[i-1] == 0.0) {
                     tempList = ArrayList()
                     lineDataList.add(tempList)
                     tempList.add(i)
@@ -259,10 +305,25 @@ class ReportJournalCoherenceLineView @JvmOverloads constructor(
         canvas.drawPath(linePath, linePaint)
         canvas.restore()
     }
-
-    fun setData(data: MutableList<Double>, flags: MutableList<Int>) {
-        this.flags = flags
-        this.mData = formatData(data)
+    var drawByQuality = false
+    fun setData(data: ArrayList<Double>, flags: List<Int>,qualityRec: List<Double>?) {
+        val sample = if (data.size > SAMPLE_MIN_DATA_SIZE) {
+            data.size / SAMPLE_MIN_DATA_SIZE
+        } else {
+            1
+        }
+        this.coherenceFlags = sampleData(flags.map { it.toDouble() }, sample).map { it.toInt() } as ArrayList
+        this.mData = sampleData(formatData(data),sample)
+        if (mData != null){
+            this.qualityFlags = if (qualityRec == null){
+                drawByQuality = false
+                mData!!.map { 1.0 }
+            }else{
+                drawByQuality = true
+                val qualitySampleRec = sampleData(qualityRec,sample)
+                curveByQuality(qualitySampleRec)
+            }
+        }
         invalidate()
     }
 }

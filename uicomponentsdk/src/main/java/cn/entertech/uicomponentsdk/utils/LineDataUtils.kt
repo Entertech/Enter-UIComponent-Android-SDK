@@ -1,6 +1,8 @@
 package cn.entertech.uicomponentsdk.utils
 
+import java.lang.Math.ceil
 import java.util.ArrayList
+import kotlin.math.ceil
 
 
 fun formatData(datas: List<Double>): MutableList<Double> {
@@ -44,4 +46,33 @@ fun smoothData(datas: MutableList<Double>): MutableList<Double> {
         }
         return newData
     }
+}
+
+fun curveByQuality(quality:ArrayList<Double>):ArrayList<Double>{
+    val windowLen = ceil(quality.size / 40f).toInt()
+    var index = 0
+    val qualityFlags = DoubleArray(quality.size){0.0}
+    while (index < quality.size-windowLen){
+        val qualityRecSplit = quality.subList(index,index+windowLen)
+        if (qualityRecSplit.filter { it>1 }.size >= 0.7 * windowLen){
+            for (i in index until index + windowLen){
+                qualityFlags[i] = 1.0
+            }
+        }else{
+            for (i in index until index + windowLen){
+                qualityFlags[i] = 0.0
+            }
+        }
+        index += windowLen
+    }
+    return qualityFlags.toMutableList() as ArrayList<Double>
+}
+fun sampleData(data: List<Double>?, sample: Int): ArrayList<Double> {
+    var sampleData = ArrayList<Double>()
+    for (i in data!!.indices) {
+        if (i % sample == 0) {
+            sampleData.add(data[i])
+        }
+    }
+    return sampleData
 }

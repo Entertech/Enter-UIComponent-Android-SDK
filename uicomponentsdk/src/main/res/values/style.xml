@@ -854,6 +854,7 @@
         <attr name="rgclv_gridColor" format="color"/>
         <attr name="rgclv_lineBgColor" format="color"/>
         <attr name="rgclv_lineColor" format="color"/>
+        <attr name="rgclv_qualityBadColor" format="color"/>
         <attr name="rgclv_lineWidth" format="dimension"/>
     </declare-styleable>
     <declare-styleable name="CommonReportCurveCard">
