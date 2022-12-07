@@ -1,13 +1,11 @@
 package cn.entertech.uicomponentsdk.realtime
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
-import android.net.Uri
 import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -18,7 +16,6 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.utils.ScreenUtil
-import cn.entertech.uicomponentsdk.utils.toWebView
 import com.airbnb.lottie.LottieAnimationView
 import kotlinx.android.synthetic.main.view_meditation_hrv.view.*
 
@@ -51,6 +48,7 @@ class RealtimeBreathCoherenceView @JvmOverloads constructor(
 
     private var mIsShowInfoIcon: Boolean = true
 
+    private var mOnInfoClickListener: (() -> Unit)? = null
     private var mLineWidth = ScreenUtil.dip2px(context,1.5f).toFloat()
     init {
         var layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
@@ -87,9 +85,7 @@ class RealtimeBreathCoherenceView @JvmOverloads constructor(
             iv_brain_real_time_info.setImageResource(mInfoIconRes!!)
         }
         iv_brain_real_time_info.setOnClickListener {
-            if (mInfoUrl !=null){
-                toWebView(context,mInfoUrl!!,context.getString(R.string.sdk_breath_coherence))
-            }
+            mOnInfoClickListener?.invoke()
         }
 
         tv_title.setTextColor(mMainColor)
@@ -205,5 +201,9 @@ class RealtimeBreathCoherenceView @JvmOverloads constructor(
     fun setIsShowXAxis(flag: Boolean){
         this.mIsShowXAxis = flag
         initView()
+    }
+
+    fun setOnInfoClickListener(listener:()->Unit){
+        this.mOnInfoClickListener = listener
     }
 }

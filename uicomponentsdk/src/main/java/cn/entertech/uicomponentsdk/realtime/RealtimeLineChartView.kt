@@ -20,12 +20,9 @@ import cn.entertech.uicomponentsdk.R
 import cn.entertech.uicomponentsdk.realtime.RealtimeAnimLineChartView.OnDrawLastValueListener
 import cn.entertech.uicomponentsdk.utils.ScreenUtil
 import cn.entertech.uicomponentsdk.utils.dp
-import cn.entertech.uicomponentsdk.utils.toWebView
 import cn.entertech.uicomponentsdk.widget.RealtimeChartLegendView
 import com.airbnb.lottie.LottieAnimationView
 import kotlinx.android.synthetic.main.view_realtime_line_chart.view.*
-import java.util.*
-import kotlin.collections.ArrayList
 
 class RealtimeLineChartView @JvmOverloads constructor(
     context: Context,
