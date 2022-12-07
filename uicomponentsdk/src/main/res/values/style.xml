@@ -598,6 +598,7 @@
         <attr name="scc_averageLabelBgColor" format="color"/>
         <attr name="scc_showAverageLine" format="boolean"/>
         <attr name="scc_bgLineColor" format="color" />
+        <attr name="scc_badQualityLineColor" format="color" />
         <attr name="scc_title_description" format="string" />
         <attr name="scc_title_unit" format="string" />
         <attr name="scc_isShowLevel" format="boolean" />

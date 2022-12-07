@@ -17,6 +17,7 @@ class SessionCommonChartFullScreenActivity : AppCompatActivity() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         var lineData = intent.getDoubleArrayExtra("lineData")
         var secondLineData = intent.getDoubleArrayExtra("secondLineData")
+        var qualityData = intent.getDoubleArrayExtra("qualityData")
         var lineWidth = intent.getFloatExtra("lineWidth",1.5f)
         var pointCount = intent.getIntExtra("pointCount",100)
         var timeUnit = intent.getIntExtra("timeUnit",800)
@@ -37,6 +38,7 @@ class SessionCommonChartFullScreenActivity : AppCompatActivity() {
         var cohTime = intent.getStringExtra("cohTime")
         var averageBgColor = intent.getIntExtra("averageBgColor",0)
         var lineColor = intent.getIntExtra("lineColor", Color.RED)
+        var badQualityLineColor = intent.getIntExtra("badQualityLineColor", Color.RED)
         var secondLineColor = intent.getIntExtra("secondLineColor", Color.GREEN)
         var bgLineColor = intent.getIntExtra("bgLineColor", Color.GREEN)
         var titleDescription = intent.getStringExtra("titleDescription")?:""
@@ -79,6 +81,7 @@ class SessionCommonChartFullScreenActivity : AppCompatActivity() {
         session_common_chart.setLevelBgColor(levelBgColor)
         session_common_chart.setLevelTextColor(levelTextColor)
         session_common_chart.setMainColor(mainColor)
+        session_common_chart.setQualityRec(qualityData?.toList())
         session_common_chart.setData(lineData?.toList(),lineDataAverage,secondLineData?.toList(),lineFlagTotalTime,true)
         session_common_chart.setStartTime(startTime)
     }

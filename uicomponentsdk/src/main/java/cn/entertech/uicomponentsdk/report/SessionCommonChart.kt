@@ -7,17 +7,13 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.DashPathEffect
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.util.AttributeSet
-import android.util.Log
 import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.*
 import androidx.appcompat.widget.ListPopupWindow
 import androidx.core.view.ViewCompat
@@ -27,7 +23,6 @@ import cn.entertech.uicomponentsdk.utils.*
 import cn.entertech.uicomponentsdk.utils.ScreenUtil.isPad
 import cn.entertech.uicomponentsdk.widget.ChartIconView
 import cn.entertech.uicomponentsdk.widget.ChartMoreListAdapter
-import cn.entertech.uicomponentsdk.widget.LineChartMarkView
 import cn.entertech.uicomponentsdk.widget.SessionCommonChartMarkView
 import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.XAxis
@@ -42,7 +37,6 @@ import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.MPPointF
 import com.github.mikephil.charting.utils.Utils
-import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.layout_card_attention.view.chart
 import kotlinx.android.synthetic.main.layout_card_attention.view.rl_bg
 import kotlinx.android.synthetic.main.layout_card_attention.view.tv_time_unit_des
@@ -136,6 +130,7 @@ class SessionCommonChart @JvmOverloads constructor(
     private var mLineColor: Int = Color.RED
     private var mSecondLineColor: Int = Color.GREEN
     private var mGridLineColor: Int = Color.parseColor("#E9EBF1")
+    private var mBadQualityLineColor: Int = Color.parseColor("#E9EBF1")
     private var mLabelColor: Int = Color.parseColor("#9AA1A9")
     private var mIsTitleMenuIconShow: Boolean = true
     private var mIsTitleMenuIconBgShow: Boolean = false
@@ -219,6 +214,10 @@ class SessionCommonChart @JvmOverloads constructor(
         mBgLineColor = typeArray.getColor(
             R.styleable.SessionCommonChart_scc_bgLineColor,
             mBgLineColor
+        )
+        mBadQualityLineColor = typeArray.getColor(
+            R.styleable.SessionCommonChart_scc_badQualityLineColor,
+            mBadQualityLineColor
         )
         mLabelColor =
             typeArray.getColor(
@@ -454,6 +453,8 @@ class SessionCommonChart @JvmOverloads constructor(
         intent.putExtra("lineData", mSourceDataList?.toDoubleArray())
         intent.putExtra("lineDataAverage", mDataAverage)
         intent.putExtra("secondLineData", mLineFlagData?.toDoubleArray())
+        intent.putExtra("qualityData", mSourceQualityData?.toDoubleArray())
+        intent.putExtra("badQualityLineColor", mBadQualityLineColor)
         intent.putExtra("bgLineColor", mBgLineColor)
         intent.putExtra("titleDescription", mTitleDescription)
         intent.putExtra("titleUnit", mTitleUnit)
@@ -502,12 +503,11 @@ class SessionCommonChart @JvmOverloads constructor(
         return newSecondLineData
     }
 
-    var drawByQuyality = false
+    var drawByQuality = false
     private var mSourceQualityData: List<Double>? = null
     private var mSampleQualityData: ArrayList<Double>? = null
-    fun setQualityRec(qualityRec: List<Double>) {
+    fun setQualityRec(qualityRec: List<Double>?) {
         this.mSourceQualityData = qualityRec
-        drawByQuyality = true
     }
 
     @SuppressLint("SetTextI18n")
@@ -536,7 +536,10 @@ class SessionCommonChart @JvmOverloads constructor(
         }
         setHeadView(data, sample)
         if (mSourceQualityData == null){
+            drawByQuality = false
             mSourceQualityData = mSourceDataList!!.map { 2.0 }
+        }else{
+            drawByQuality = true
         }
         mSampleQualityData = sampleData(mSourceQualityData!!, sample)
         val qualityFlagRec = curveByQuality(mSampleQualityData!!)
@@ -545,15 +548,15 @@ class SessionCommonChart @JvmOverloads constructor(
         drawAverageLine()
         val dataSets = ArrayList<ILineDataSet>()
         val bgLineValues = getBgLineValues()
-        if (drawByQuyality){
-            set1 = initDataSet(bgLineValues, mGridLineColor)
+        if (drawByQuality){
+            set1 = initDataSet(bgLineValues, mBadQualityLineColor)
         }else{
             set1 = initDataSet(bgLineValues, mLineColor)
         }
         if (set1 != null) {
             dataSets.add(set1!!) // add the data sets
         }
-        if (drawByQuyality){
+        if (drawByQuality){
             val qualitySets = getSetsByQuality(mSampleData!!,qualityFlagRec,mLineColor)
             for (set in qualitySets) {
                 dataSets.add(set)
@@ -1170,7 +1173,10 @@ class SessionCommonChart @JvmOverloads constructor(
         this.mBgLineColor = color
         initView()
     }
-
+    fun setBadQualityLineColor(color: Int) {
+        this.mBadQualityLineColor = color
+        initView()
+    }
     fun setTitleDescription(title: String) {
         this.mTitleDescription = title
         initView()
