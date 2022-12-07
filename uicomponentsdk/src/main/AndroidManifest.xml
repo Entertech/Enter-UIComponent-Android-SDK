@@ -44,9 +44,6 @@
                 android:name=".activity.CandleChartFullScreenActivity" />
         <activity
                 android:name=".activity.BarChartFullScreenActivity" />
-        <activity
-                android:name=".activity.WebActivity"
-                android:theme="@style/ProgressBarStyle" />
     </application>
 
 </manifest>
