@@ -138,6 +138,7 @@ class SessionPressureChart @JvmOverloads constructor(
     private var mTitleMenuIcon: Drawable?
     private var mTitleMenuIconBg: Drawable?
 
+    private var mBadQualityLineColor: Int = Color.parseColor("#E9EBF1")
     private var mMainColor: Int = Color.parseColor("#0064ff")
     private var mTextColor: Int = Color.parseColor("#333333")
     var mSelfView: View? = null
@@ -269,6 +270,7 @@ class SessionPressureChart @JvmOverloads constructor(
         )
         mIconColor = typeArray.getColor(R.styleable.SessionPressureChart_spc_iconColor,mIconColor)
         mDateBgColor = typeArray.getColor(R.styleable.SessionPressureChart_spc_dateBgColor,mDateBgColor)
+        mBadQualityLineColor = typeArray.getColor(R.styleable.SessionPressureChart_spc_badQualityColor,mBadQualityLineColor)
         typeArray.recycle()
         initView()
     }
@@ -443,7 +445,12 @@ class SessionPressureChart @JvmOverloads constructor(
         }
         return sampleData
     }
-
+    var drawByQuality = false
+    private var mSourceQualityData: List<Double>? = null
+    private var mSampleQualityData: ArrayList<Double>? = null
+    fun setQualityRec(qualityRec: List<Double>?) {
+        this.mSourceQualityData = qualityRec
+    }
     var yLimitLineValues = listOf(25f, 50f, 75f)
 
     fun setData(
@@ -473,6 +480,14 @@ class SessionPressureChart @JvmOverloads constructor(
             in 50..75 -> tv_level.text = context.getString(R.string.pressure_level_elevated)
             else -> tv_level.text = context.getString(R.string.pressure_level_high)
         }
+        if (mSourceQualityData == null){
+            drawByQuality = false
+            mSourceQualityData = mSourceDataList!!.map { 2.0 }
+        }else{
+            drawByQuality = true
+        }
+        mSampleQualityData = sampleData(mSourceQualityData!!,sample)
+        val qualityFlagRec = curveByQuality(mSampleQualityData!!)
         mSampleData = sampleData(mFirstData, sample)
         mLineColor = mMainColor
         chart.xAxis.removeAllLimitLines()
@@ -535,14 +550,26 @@ class SessionPressureChart @JvmOverloads constructor(
             chart.axisLeft.addLimitLine(ll)
         }
         val dataSets = ArrayList<ILineDataSet>()
-        val values = ArrayList<Entry>()
-        for (i in mSampleData!!.indices) {
-            values.add(Entry(i.toFloat(), mSampleData!![i].toFloat()))
-        }
-
-        set1 = initDataSet(values, mLineColor)
-        if (set1 != null) {
-            dataSets.add(set1!!) // add the data sets
+        if (drawByQuality){
+            //背景线（信号不好）
+            val values = ArrayList<Entry>()
+            for (i in mSampleData!!.indices) {
+                values.add(Entry(i.toFloat(), mSampleData!![i].toFloat()))
+            }
+            val set1 = initDataSet(values, mBadQualityLineColor)
+            dataSets.add(set1!!)
+            //信号好
+            val qualitySets = getSetsByQuality(mSampleData!!,qualityFlagRec,mLineColor)
+            for (set in qualitySets) {
+                dataSets.add(set)
+            }
+        }else{
+            val values = ArrayList<Entry>()
+            for (i in mSampleData!!.indices) {
+                values.add(Entry(i.toFloat(), mSampleData!![i].toFloat()))
+            }
+            val set1 = initDataSet(values, mLineColor)
+            dataSets.add(set1!!)
         }
 
         // create a data object with the data sets
@@ -579,18 +606,58 @@ class SessionPressureChart @JvmOverloads constructor(
         chart.notifyDataSetChanged()
     }
 
+    fun getSetsByQuality(
+        data: ArrayList<Double>,
+        qualityRec: List<Double>?,
+        color: Int
+    ): ArrayList<LineDataSet> {
+        val flagSets = ArrayList<LineDataSet>()
+        var tempLineValues: ArrayList<Entry>? = null
+        var isFindFirstPointInSecondLine = false
+        if (qualityRec != null) {
+            for (i in data!!.indices) {
+                if (qualityRec!![i] != 0.0) {
+                    if (i == 0 || (i - 1 >= 0 && qualityRec[i - 1] == 0.0)) {
+                        if (!isFindFirstPointInSecondLine) {
+                            isFindFirstPointInSecondLine = true
+                        }
+                        tempLineValues = ArrayList()
+                    }
+                    tempLineValues?.add(Entry(i.toFloat(), data[i].toFloat()))
+                    if (i == data.size - 1) {
+//                        if (tempLineValues?.size ?: 0 > 5) {
+                        var set = initDataSet(tempLineValues!!, color)
+                        if (set != null) {
+                            flagSets.add(set)
+                        }
+//                        }
+                    }
+                } else {
+                    if (i - 1 >= 0 && qualityRec!![i - 1] != 0.0) {
+//                        if (tempLineValues?.size ?: 0 > 5) {
+                        var set = initDataSet(tempLineValues!!, color)
+                        if (set != null) {
+                            flagSets.add(set)
+                        }
+//                        }
+                    }
+                }
+            }
+        }
+        return flagSets
+    }
     fun initDataSet(values: ArrayList<Entry>, lineColor: Int): LineDataSet? {
         if (values.isEmpty()) {
             return null
         }
         var set: LineDataSet
-        if (chart.data != null && chart.data.dataSetCount > 0) {
-            set = chart.data.getDataSetByIndex(0) as LineDataSet
-            set.values = values
-            set.notifyDataSetChanged()
-            chart.data.notifyDataChanged()
-            chart.notifyDataSetChanged()
-        } else {
+//        if (chart.data != null && chart.data.dataSetCount > 0) {
+//            set = chart.data.getDataSetByIndex(0) as LineDataSet
+//            set.values = values
+//            set.notifyDataSetChanged()
+//            chart.data.notifyDataChanged()
+//            chart.notifyDataSetChanged()
+//        } else {
             // create a dataset and give it a type
             set = LineDataSet(values, "")
             set.setDrawIcons(false)
@@ -639,7 +706,7 @@ class SessionPressureChart @JvmOverloads constructor(
                 set.setDrawFilled(false)
                 set.lineWidth = mLineWidth
             }
-        }
+//        }
         return set
 
     }

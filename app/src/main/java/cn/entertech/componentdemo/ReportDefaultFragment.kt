@@ -211,6 +211,15 @@ class ReportDefaultFragment : Fragment() {
             true
         )
         chart_session_common.setStartTime("2022-06-13 22:59:13")
+        val pressureRecSize = reportData.reportPressureEnitty?.pressureRec?.size?:0
+        for (i in 0 until pressureRecSize){
+            if (i in 0..50 || i in 80 until qualityRec.size-1000){
+                qualityRec[i] = 2.0
+            }else{
+                qualityRec[i] = 0.0
+            }
+        }
+//        chart_session_pressure.setQualityRec(qualityRec.toList())
         chart_session_pressure.setData(
             reportData.reportPressureEnitty?.pressureRec,
             reportData.reportPressureEnitty?.pressureAvg,

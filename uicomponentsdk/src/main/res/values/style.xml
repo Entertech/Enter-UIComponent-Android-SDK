@@ -650,6 +650,7 @@
         <attr name="spc_fillGradientEndColor" format="color" />
         <attr name="spc_iconColor" format="color" />
         <attr name="spc_dateBgColor" format="color" />
+        <attr name="spc_badQualityColor" format="color" />
     </declare-styleable>
     <declare-styleable name="ReportAffectiveLineChartCard">
         <attr name="ralcc_isTitleIconShow" format="boolean" />
