@@ -821,13 +821,13 @@ class SessionCommonChart @JvmOverloads constructor(
             return null
         }
         var set: LineDataSet
-        if (chart.data != null && chart.data.dataSetCount > 0) {
-            set = chart.data.getDataSetByIndex(0) as LineDataSet
-            set.values = values
-            set.notifyDataSetChanged()
-            chart.data.notifyDataChanged()
-            chart.notifyDataSetChanged()
-        } else {
+//        if (chart.data != null && chart.data.dataSetCount > 0) {
+//            set = chart.data.getDataSetByIndex(0) as LineDataSet
+//            set.values = values
+//            set.notifyDataSetChanged()
+//            chart.data.notifyDataChanged()
+//            chart.notifyDataSetChanged()
+//        } else {
             // create a dataset and give it a type
             set = LineDataSet(values, "")
             set.setDrawIcons(false)
@@ -876,7 +876,7 @@ class SessionCommonChart @JvmOverloads constructor(
                 set.setDrawFilled(false)
                 set.lineWidth = mLineWidth
             }
-        }
+//        }
         return set
 
     }
