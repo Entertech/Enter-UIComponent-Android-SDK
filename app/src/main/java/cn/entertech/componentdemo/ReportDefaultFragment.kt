@@ -202,7 +202,13 @@ class ReportDefaultFragment : Fragment() {
                 qualityRec[i] = 0.0
             }
         }
-        chart_session_common.setQualityRec(qualityRec.toMutableList())
+        val qualityRecList = qualityRec.toMutableList()
+        qualityRecList.removeAt(0)
+        qualityRecList.removeAt(0)
+        qualityRecList.removeAt(0)
+        qualityRecList.removeAt(0)
+        qualityRecList.removeAt(0)
+        chart_session_common.setQualityRec(qualityRecList)
         chart_session_common.setData(
             reportData.reportHRDataEntity?.hrRec,
             1.5,
@@ -255,6 +261,18 @@ class ReportDefaultFragment : Fragment() {
             }
             coherenceData.add(Random().nextDouble() * 100)
         }
+        qualityFlags.add(2.0)
+        qualityFlags.add(2.0)
+        qualityFlags.add(2.0)
+        qualityFlags.add(2.0)
+        qualityFlags.add(2.0)
+        qualityFlags.add(2.0)
+        qualityFlags.add(2.0)
+        qualityFlags.add(2.0)
+        qualityFlags.add(2.0)
+        qualityFlags.add(2.0)
+        qualityFlags.add(2.0)
+        qualityFlags.add(2.0)
         report_coherence.setData(coherenceData, flags,qualityFlags)
 
         var alpha = listOf<Float>(70f,70f,70f,70f,70f,70f,70f)

@@ -10,6 +10,7 @@ import cn.entertech.uicomponentsdk.utils.dp
 import cn.entertech.uicomponentsdk.utils.formatData
 import cn.entertech.uicomponentsdk.utils.sampleData
 import kotlin.math.ceil
+import kotlin.math.min
 
 
 class ReportJournalCoherenceLineView @JvmOverloads constructor(
@@ -251,7 +252,10 @@ class ReportJournalCoherenceLineView @JvmOverloads constructor(
     ): ArrayList<ArrayList<Int>> {
         var lineDataList = ArrayList<ArrayList<Int>>()
         var tempList = ArrayList<Int>()
-        for (i in flags.indices) {
+        val flagsSize = flags.size
+        val qualityRecSize = qualityRec.size
+        val minSize = min(flagsSize,qualityRecSize)
+        for (i in 0 until minSize) {
             if (flags[i] == 1 && qualityRec[i] == 1.0) {
                 if (i == 0 || flags[i - 1] == 0 || qualityRec[i-1] == 0.0) {
                     tempList = ArrayList()
@@ -320,10 +324,30 @@ class ReportJournalCoherenceLineView @JvmOverloads constructor(
                 mData!!.map { 1.0 }
             }else{
                 drawByQuality = true
-                val qualitySampleRec = sampleData(qualityRec,sample)
+                var fixQualityRec = fillQualityDataBySourceData(mData!!,qualityRec)
+                val qualitySampleRec = sampleData(fixQualityRec,sample)
                 curveByQuality(qualitySampleRec)
             }
         }
         invalidate()
     }
+
+    fun fillQualityDataBySourceData(sourceData:List<Double>,qualityData:List<Double>):ArrayList<Double>{
+        var newQualityData = ArrayList<Double>()
+        val qualityRecSize = qualityData.size
+        val sourceDataSize = sourceData.size
+        if (qualityRecSize < sourceDataSize){
+            newQualityData.addAll(qualityData)
+            val deltaSize = sourceDataSize - qualityRecSize
+            for (i in 0 until  deltaSize){
+                newQualityData.add(2.0)
+            }
+        }else{
+            for (i in 0 until sourceDataSize){
+                newQualityData.add(qualityData[i])
+            }
+        }
+        return newQualityData
+    }
+
 }

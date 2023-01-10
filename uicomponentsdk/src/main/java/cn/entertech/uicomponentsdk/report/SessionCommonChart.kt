@@ -510,6 +510,24 @@ class SessionCommonChart @JvmOverloads constructor(
         this.mSourceQualityData = qualityRec
     }
 
+    fun fillQualityDataBySourceData(sourceData:List<Double>,qualityData:List<Double>):ArrayList<Double>{
+        var newQualityData = ArrayList<Double>()
+        val qualityRecSize = qualityData.size
+        val sourceDataSize = sourceData.size
+        if (qualityRecSize < sourceDataSize){
+            newQualityData.addAll(qualityData)
+            val deltaSize = sourceDataSize - qualityRecSize
+            for (i in 0 until  deltaSize){
+                newQualityData.add(2.0)
+            }
+        }else{
+            for (i in 0 until sourceDataSize){
+                newQualityData.add(qualityData[i])
+            }
+        }
+        return newQualityData
+    }
+
     @SuppressLint("SetTextI18n")
     fun setData(
         data: List<Double>?, dataAverage: Double? = null,
@@ -540,6 +558,7 @@ class SessionCommonChart @JvmOverloads constructor(
             mSourceQualityData = mSourceDataList!!.map { 2.0 }
         }else{
             drawByQuality = true
+            mSourceQualityData = fillQualityDataBySourceData(mSourceDataList!!,mSourceQualityData!!)
         }
         mSampleQualityData = sampleData(mSourceQualityData!!, sample)
         val qualityFlagRec = curveByQuality(mSampleQualityData!!)
