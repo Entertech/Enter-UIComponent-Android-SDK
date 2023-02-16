@@ -17,7 +17,7 @@ class PressureTrendChartFullScreenActivity : AppCompatActivity() {
         setContentView(R.layout.activity_pressure_trend_chart_full_screen)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
-        var lineData = intent.getSerializableExtra("lineData") as ArrayList<TrendPressureChart.LineSourceData>
+        var lineData = intent.getSerializableExtra("lineData") as ArrayList<TrendPressureChart.LineSourceData>?
         var lineWidth = intent.getFloatExtra("lineWidth",1.5f)
         var highlightLineColor = intent.getIntExtra("highlightLineColor",Color.parseColor("#11152E"))
         var highlightLineWidth = intent.getFloatExtra("highlightLineWidth",1.5f)

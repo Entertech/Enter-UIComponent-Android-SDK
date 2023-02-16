@@ -17,7 +17,7 @@ class CandleChartFullScreenActivity : AppCompatActivity() {
         setContentView(R.layout.activity_candle_chart_full_screen)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
-        var lineData = intent.getSerializableExtra("lineData") as ArrayList<TrendCommonCandleChart.CandleSourceData>
+        var lineData = intent.getSerializableExtra("lineData") as ArrayList<TrendCommonCandleChart.CandleSourceData>?
         var lineWidth = intent.getFloatExtra("lineWidth",1.5f)
         var highlightLineColor = intent.getIntExtra("highlightLineColor",Color.parseColor("#11152E"))
         var highlightLineWidth = intent.getFloatExtra("highlightLineWidth",1.5f)
