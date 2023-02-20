@@ -123,7 +123,7 @@ class ReportJournalFlowLineView @JvmOverloads constructor(
         onDrawLeftYBar(canvas)
         onDrawLine(canvas)
     }
-
+    var limitBottomY :Float = 0f
     private fun onDrawGridLine(canvas: Canvas) {
         val yOffset = (height - 2 * gridLineYPadding) / (GRID_LINE_COUNT - 1)
         for (i in 0 until GRID_LINE_COUNT) {
@@ -153,6 +153,7 @@ class ReportJournalFlowLineView @JvmOverloads constructor(
                     if (i == 7) {
                         limitAboveColor
                     } else {
+                        limitBottomY = gridLineYPadding + GRID_LINE_WIDTH / 2 + i * yOffset
                         limitBottomColor
                     }
                 gridLinePaint.color = lineColor
@@ -162,8 +163,8 @@ class ReportJournalFlowLineView @JvmOverloads constructor(
     }
 
     private fun onDrawScaleLine(canvas: Canvas) {
-        val offset = width / 8
-        for (i in 0..8) {
+        val offset = (width - 2 * SCALE_LINE_WIDTH) / 2
+        for (i in 0..3) {
             scaleLinePath.moveTo(SCALE_LINE_WIDTH / 2 + i * offset, height - SCALE_LINE_WIDTH)
             scaleLinePath.lineTo(SCALE_LINE_WIDTH / 2 + i * offset, height - SCALE_LINE_HEIGHT)
         }
@@ -208,6 +209,11 @@ class ReportJournalFlowLineView @JvmOverloads constructor(
     }
 
     private fun onDrawLine(canvas: Canvas) {
+        val sc = canvas.saveLayer(0f, 0f, width.toFloat(), height.toFloat(), linePaint)
+        val desBitmap = Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888)
+        val desCanvas = Canvas(desBitmap)
+        val srcBitmap = Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888)
+        val srcCanvas = Canvas(srcBitmap)
         if (mData.isNullOrEmpty() || mData!!.size < 2) {
             return
         }
@@ -228,7 +234,16 @@ class ReportJournalFlowLineView @JvmOverloads constructor(
                 linePath.lineTo(curX, curY.toFloat())
             }
         }
-        canvas.drawPath(linePath, linePaint)
+        linePaint.color = lineColor
+        desCanvas.drawPath(linePath, linePaint)
+        canvas.drawBitmap(desBitmap,0f,0f,linePaint)
+        linePaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_ATOP)
+        linePaint.color = flowColor
+        linePaint.style = Paint.Style.FILL
+        canvas.drawRect(RectF(0f,limitBottomY,width.toFloat(),height.toFloat()),linePaint)
+//        canvas.drawBitmap(srcBitmap,0f,0f,linePaint)
+        linePaint.xfermode = null
+        canvas.restoreToCount(sc)
     }
 
     fun setData(data: MutableList<Double>) {
