@@ -125,6 +125,7 @@ class ReportJournalFlowLineView @JvmOverloads constructor(
     }
     var limitBottomY :Float = 0f
     private fun onDrawGridLine(canvas: Canvas) {
+        val sc = canvas.saveLayer(0f, 0f, width.toFloat(), height.toFloat(), linePaint)
         val yOffset = (height - 2 * gridLineYPadding) / (GRID_LINE_COUNT - 1)
         for (i in 0 until GRID_LINE_COUNT) {
             gridLinePath.moveTo(
@@ -160,6 +161,7 @@ class ReportJournalFlowLineView @JvmOverloads constructor(
                 canvas.drawPath(limitGridLinePath, gridLinePaint)
             }
         }
+        canvas.restoreToCount(sc)
     }
 
     private fun onDrawScaleLine(canvas: Canvas) {
@@ -210,6 +212,7 @@ class ReportJournalFlowLineView @JvmOverloads constructor(
 
     private fun onDrawLine(canvas: Canvas) {
         val sc = canvas.saveLayer(0f, 0f, width.toFloat(), height.toFloat(), linePaint)
+        linePaint.style = Paint.Style.STROKE
         val desBitmap = Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888)
         val desCanvas = Canvas(desBitmap)
         val srcBitmap = Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888)
