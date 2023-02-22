@@ -248,6 +248,29 @@
                     app:rlcv_isShowInfoIcon="true"
                     app:rlcv_infoUrl="https://www.notion.so/Brainwave-Power-Graph-6f2a784b347d4d7d98b9fd0da89de454"
                     android:layout_height="250dp"/>
+
+
+            <cn.entertech.uicomponentsdk.realtime.RealtimeFlowLineChartView
+                    android:id="@+id/realtime_flow"
+                    app:rlcv_titleText="Flow"
+                    android:layout_marginTop="@dimen/activity_margin_half"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    android:layout_width="match_parent"
+                    app:rfcv_maxValue="100"
+                    app:rfcv_buffer="10"
+                    app:rfcv_titleText="Flow"
+                    app:rfcv_pointBgColor="#11152E"
+                    app:rfcv_textRectBgColor="#ffffff"
+                    app:rfcv_isDrawValueText="true"
+                    app:rfcv_screenPointCount="25"
+                    app:rfcv_lineColor="#FF6682"
+                    app:rfcv_lineLegendText="γ"
+                    app:rfcv_refreshTime="600"
+                    app:rfcv_isForPad="false"
+                    app:rfcv_isShowInfoIcon="true"
+                    app:rfcv_infoUrl="https://www.notion.so/Brainwave-Power-Graph-6f2a784b347d4d7d98b9fd0da89de454"
+                    android:layout_height="250dp"/>
             <TextView
                     android:layout_marginTop="32dp"
                     android:layout_marginLeft="@dimen/activity_margin"

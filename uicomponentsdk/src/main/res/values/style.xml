@@ -186,6 +186,32 @@
         <attr name="rlcv_isForPad" format="boolean" />
     </declare-styleable>
 
+    <declare-styleable name="RealtimeFlowLineChartView">
+        <attr name="rfcv_background" format="reference|color" />
+        <attr name="rfcv_mainColor" format="color" />
+        <attr name="rfcv_textColor" format="color" />
+        <attr name="rfcv_textFont" format="string" />
+        <attr name="rfcv_isShowInfoIcon" format="boolean" />
+        <attr name="rfcv_infoUrl" format="string" />
+        <attr name="rfcv_lineColor" format="string" />
+        <attr name="rfcv_lineLegendText" format="string" />
+        <attr name="rfcv_axisColor" format="color" />
+        <attr name="rfcv_gridLineColor" format="color" />
+        <attr name="rfcv_lineWidth" format="dimension" />
+        <attr name="rfcv_titleText" format="string" />
+        <attr name="rfcv_buffer" format="integer" />
+        <attr name="rfcv_maxValue" format="integer" />
+        <attr name="rfcv_refreshTime" format="integer" />
+        <attr name="rfcv_screenPointCount" format="integer" />
+        <attr name="rfcv_isDrawValueText" format="boolean" />
+        <attr name="rfcv_pointBgColor" format="color" />
+        <attr name="rfcv_textRectBgColor" format="color" />
+        <attr name="rfcv_isForPad" format="boolean" />
+        <attr name="rfcv_activeColor" format="color" />
+        <attr name="rfcv_neutralColor" format="color" />
+        <attr name="rfcv_flowColor" format="color" />
+    </declare-styleable>
+
 
     <declare-styleable name="RealtimeBrainwaveSpectrumView">
         <attr name="rbsv_background" format="reference|color" />

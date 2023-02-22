@@ -627,10 +627,6 @@ class SessionCommonChart @JvmOverloads constructor(
         if (mLineFlagData != null) {
             var secondLineData1 = processSecondLineDataByFirstLine(data, mLineFlagData)
             mSampleSecondData = sampleData(secondLineData1, sample)
-            if (lineFlagTotalTime != null) {
-                tv_value.text = "$lineFlagTotalTime"
-                tv_description.text = context.getString(R.string.chart_title_total)
-            }
         } else {
             var average = if (mIsDataAverageInt) {
                 "${ceil(mDataAverage).toInt()}"
@@ -640,6 +636,10 @@ class SessionCommonChart @JvmOverloads constructor(
             }
             tv_value.text = average
             tv_description.text = context.getString(R.string.chart_title_average)
+        }
+        if (lineFlagTotalTime != null) {
+            tv_value.text = "$lineFlagTotalTime"
+            tv_description.text = context.getString(R.string.chart_title_total)
         }
         if (mIsShowLevel) {
             when (mDataAverage) {
