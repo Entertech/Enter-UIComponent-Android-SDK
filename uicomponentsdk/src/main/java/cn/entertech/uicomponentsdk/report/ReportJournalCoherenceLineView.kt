@@ -108,10 +108,20 @@ class ReportJournalCoherenceLineView @JvmOverloads constructor(
         linePaint.strokeWidth = 1.5f.dp()
         linePaint.style = Paint.Style.STROKE
     }
-
+    private fun onDrawGridLine(canvas: Canvas) {
+        val sc = canvas.saveLayer(0f, 0f, width.toFloat(), height.toFloat(), linePaint)
+        val yOffset = (height - 2 * gridLineYPadding) / (GRID_LINE_COUNT - 1)
+        gridLinePaint.color = gridColor
+        for (i in 0 until GRID_LINE_COUNT) {
+            canvas.drawLine(
+                LEFT_BAR_WIDTH,
+                GRID_LINE_WIDTH / 2 + gridLineYPadding + i * yOffset,width.toFloat(), ReportJournalFlowLineView.GRID_LINE_WIDTH / 2 + gridLineYPadding + i * yOffset,gridLinePaint)
+        }
+        canvas.restoreToCount(sc)
+    }
     override fun onDraw(canvas: Canvas) {
-//        onDrawGridLine(canvas)
-        onDrawGripBitmap(canvas)
+        onDrawGridLine(canvas)
+//        onDrawGripBitmap(canvas)
         onDrawScaleLine(canvas)
         if (!mData.isNullOrEmpty() && mData!!.size > 2) {
             if (!drawByQuality){
@@ -172,23 +182,6 @@ class ReportJournalCoherenceLineView @JvmOverloads constructor(
         }
         canvas.restore()
     }
-
-    private fun onDrawGridLine(canvas: Canvas) {
-        val yOffset = (height - 2 * gridLineYPadding) / (GRID_LINE_COUNT - 1)
-        for (i in 0 until GRID_LINE_COUNT) {
-            gridLinePath.moveTo(
-                LEFT_BAR_WIDTH,
-                GRID_LINE_WIDTH / 2 + gridLineYPadding + i * yOffset
-            )
-            gridLinePath.lineTo(
-                width.toFloat(),
-                GRID_LINE_WIDTH / 2 + gridLineYPadding + i * yOffset
-            )
-        }
-        gridLinePaint.color = gridColor
-        canvas.drawPath(gridLinePath, gridLinePaint)
-    }
-
     private fun onDrawScaleLine(canvas: Canvas) {
         val offset = width / 2
         for (i in 0..2) {

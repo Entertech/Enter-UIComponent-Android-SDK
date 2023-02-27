@@ -127,29 +127,12 @@ class ReportJournalFlowLineView @JvmOverloads constructor(
     private fun onDrawGridLine(canvas: Canvas) {
         val sc = canvas.saveLayer(0f, 0f, width.toFloat(), height.toFloat(), linePaint)
         val yOffset = (height - 2 * gridLineYPadding) / (GRID_LINE_COUNT - 1)
-        for (i in 0 until GRID_LINE_COUNT) {
-            gridLinePath.moveTo(
-                LEFT_BAR_WIDTH,
-                GRID_LINE_WIDTH / 2 + gridLineYPadding + i * yOffset
-            )
-            gridLinePath.lineTo(
-                width.toFloat(),
-                GRID_LINE_WIDTH / 2 + gridLineYPadding + i * yOffset
-            )
-        }
         gridLinePaint.color = gridColor
-        canvas.drawPath(gridLinePath, gridLinePaint)
+        for (i in 0 until GRID_LINE_COUNT) {
+            canvas.drawLine(LEFT_BAR_WIDTH,GRID_LINE_WIDTH / 2 + gridLineYPadding + i * yOffset,width.toFloat(), GRID_LINE_WIDTH / 2 + gridLineYPadding + i * yOffset,gridLinePaint)
+        }
         for (i in 0 until GRID_LINE_COUNT) {
             if (i == 7 || i == 15) {
-                limitGridLinePath.reset()
-                limitGridLinePath.moveTo(
-                    LEFT_BAR_WIDTH,
-                    gridLineYPadding + GRID_LINE_WIDTH / 2 + i * yOffset
-                )
-                limitGridLinePath.lineTo(
-                    width.toFloat(),
-                    gridLineYPadding + GRID_LINE_WIDTH / 2 + i * yOffset
-                )
                 var lineColor =
                     if (i == 7) {
                         limitAboveColor
@@ -158,7 +141,7 @@ class ReportJournalFlowLineView @JvmOverloads constructor(
                         limitBottomColor
                     }
                 gridLinePaint.color = lineColor
-                canvas.drawPath(limitGridLinePath, gridLinePaint)
+                canvas.drawLine(LEFT_BAR_WIDTH,gridLineYPadding + GRID_LINE_WIDTH / 2 + i * yOffset, width.toFloat(),gridLineYPadding + GRID_LINE_WIDTH / 2 + i * yOffset,gridLinePaint)
             }
         }
         canvas.restoreToCount(sc)
